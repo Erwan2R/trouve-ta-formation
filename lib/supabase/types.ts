@@ -44,18 +44,21 @@ export type Database = {
           code: string
           nb_organismes_cache: number
           nom: string
+          page_publiee: boolean
           slug: string
         }
         Insert: {
           code: string
           nb_organismes_cache?: number
           nom: string
+          page_publiee?: boolean
           slug: string
         }
         Update: {
           code?: string
           nb_organismes_cache?: number
           nom?: string
+          page_publiee?: boolean
           slug?: string
         }
         Relationships: []
@@ -193,6 +196,8 @@ export type Database = {
           id: number
           libelle_court: string
           libelle_long: string
+          ordre: number
+          page_publiee: boolean
           slug: string
           statut: Database["public"]["Enums"]["statut_titre"]
         }
@@ -204,6 +209,8 @@ export type Database = {
           id?: never
           libelle_court: string
           libelle_long: string
+          ordre?: number
+          page_publiee?: boolean
           slug: string
           statut?: Database["public"]["Enums"]["statut_titre"]
         }
@@ -215,6 +222,8 @@ export type Database = {
           id?: never
           libelle_court?: string
           libelle_long?: string
+          ordre?: number
+          page_publiee?: boolean
           slug?: string
           statut?: Database["public"]["Enums"]["statut_titre"]
         }
