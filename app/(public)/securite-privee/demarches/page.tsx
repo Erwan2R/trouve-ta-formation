@@ -14,7 +14,7 @@ export const metadata = buildMetadata({ title: L.title, description: L.descripti
 
 /** Page de liste des démarches (pas de maquette : composée avec les motifs de la page démarche et de l'accueil). */
 export default async function ListeDemarches() {
-  const { demarches, listeVisible } = await getDemarches(verticale);
+  const { publiees, listeVisible } = await getDemarches(verticale);
   if (!listeVisible) notFound();
 
   return (
@@ -60,34 +60,21 @@ export default async function ListeDemarches() {
       <section className="py-[88px]">
         <div className="container-public flex flex-col gap-10">
           <ol className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,290px),1fr))] gap-3.5">
-            {demarches.map((d, i) => {
-              const carte = L.cartes[d.slug];
-              const interieur = (
-                <>
+            {/* Démarches publiées uniquement (décision Erwan 01/10/2026). */}
+            {publiees.map((d, i) => (
+              <li key={d.slug}>
+                <Link
+                  href={`${base}demarches/${d.slug}/`}
+                  className="flex h-full flex-col gap-3 rounded-[18px] border border-line bg-white p-[26px] text-ink-900 transition-[border-color,transform] hover:-translate-y-0.5 hover:border-ink-900 hover:text-ink-900"
+                >
                   <span className="font-mono text-[12.5px] text-brique-700">{String(i + 1).padStart(2, "0")}</span>
-                  <h2 className="text-xl font-bold tracking-[-0.015em]">{carte.titre}</h2>
+                  <h2 className="text-xl font-bold tracking-[-0.015em]">{L.cartes[d.slug].titre}</h2>
                   <p className="text-[14.5px] leading-[1.65] text-ink-500">
-                    <TexteContenu texte={carte.texte} />
+                    <TexteContenu texte={L.cartes[d.slug].texte} />
                   </p>
-                </>
-              );
-              const style =
-                "flex h-full flex-col gap-3 rounded-[18px] border border-line bg-white p-[26px] text-ink-900";
-              return (
-                <li key={d.slug}>
-                  {d.a_une_page ? (
-                    <Link
-                      href={`${base}demarches/${d.slug}/`}
-                      className={`${style} transition-[border-color,transform] hover:-translate-y-0.5 hover:border-ink-900 hover:text-ink-900`}
-                    >
-                      {interieur}
-                    </Link>
-                  ) : (
-                    <div className={style}>{interieur}</div>
-                  )}
-                </li>
-              );
-            })}
+                </Link>
+              </li>
+            ))}
           </ol>
 
           <div className="flex max-w-[74ch] flex-col gap-3 rounded-[22px] border border-line bg-white p-[clamp(24px,3vw,34px)]">

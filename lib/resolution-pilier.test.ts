@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resoudrePilier } from "./resolution-pilier";
+import { redirectionsArchivage, resoudrePilier } from "./resolution-pilier";
 
 const t = (id: number, slug: string, o: Partial<Parameters<typeof resoudrePilier>[1][number]> = {}) => ({
   id,
@@ -39,5 +39,30 @@ describe("resoudrePilier", () => {
   it("remplaçant sans page → pas de redirection vers une 404, la page archivée reste", () => {
     const ancien = t(1, "ancien", { statut: "archive", archive_le: "2027-01-01", remplace_par_id: 4 });
     expect(resoudrePilier("ancien", [ancien, sansPage])).toMatchObject({ type: "page", archive: { proche: null } });
+  });
+});
+
+describe("pas de chaîne de redirections", () => {
+  it("suit « remplacé par » jusqu'au titre actif final", () => {
+    const a = t(1, "a", { statut: "archive", archive_le: "2026-01-01", remplace_par_id: 2 });
+    const b = t(2, "b", { statut: "archive", archive_le: "2027-01-01", remplace_par_id: 3 });
+    const c = t(3, "c");
+    expect(resoudrePilier("a", [a, b, c])).toEqual({ type: "redirection", vers: c });
+    expect(redirectionsArchivage("securite-privee", [a, b, c])).toEqual([
+      { source: "/securite-privee/a/", destination: "/securite-privee/c/", statusCode: 301 },
+      { source: "/securite-privee/b/", destination: "/securite-privee/c/", statusCode: 301 },
+    ]);
+  });
+
+  it("boucle → aucune redirection", () => {
+    const a = t(1, "a", { statut: "archive", archive_le: "2026-01-01", remplace_par_id: 2 });
+    const b = t(2, "b", { statut: "archive", archive_le: "2026-01-01", remplace_par_id: 1 });
+    expect(redirectionsArchivage("securite-privee", [a, b])).toEqual([]);
+  });
+
+  it("le titre proche doit être actif", () => {
+    const archiveProche = t(3, "proche-archive", { statut: "archive", archive_le: "2026-01-01" });
+    const a = t(1, "a", { statut: "archive", archive_le: "2026-01-01", titre_proche_id: 3 });
+    expect(resoudrePilier("a", [a, archiveProche])).toMatchObject({ archive: { proche: null } });
   });
 });

@@ -1,7 +1,7 @@
 import { CONDITIONS_COMMUNES } from "./communs";
 import { macAps } from "./mac-aps";
 import { ssiap1 } from "./ssiap-1";
-import { sansMarqueur } from "@/contenu/marqueurs";
+import { sansMarqueur } from "../../marqueurs";
 import { contenuVerifie, type ContenuPilier } from "./types";
 
 /** Contenu rédigé, par slug du référentiel. Un titre absent d'ici n'a pas de page. */

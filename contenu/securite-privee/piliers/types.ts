@@ -1,6 +1,6 @@
 import type { QuestionFaq } from "@/components/public/Faq";
 
-import { sansMarqueur } from "@/contenu/marqueurs";
+import { sansMarqueur } from "../../marqueurs";
 
 type Section = { h3: string; texte: string };
 

@@ -9,15 +9,14 @@ import { getTousLesTitres } from "@/lib/supabase/queries/referentiel";
 // À ajouter : fiches (Sprint 5), géo (6).
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const titres = await getTousLesTitres();
-  const { demarches, listeVisible } = await getDemarches(VERTICALES["securite-privee"]);
-  const piliers = titres.filter((t) => resoudrePilier(t.slug, titres)?.type === "page");
+  const { publiees, listeVisible } = await getDemarches(VERTICALES["securite-privee"]);
+  // Pages publiées uniquement, quel que soit l'environnement (décision Erwan 01/10/2026).
+  const piliers = titres.filter((t) => t.page_publiee && resoudrePilier(t.slug, titres)?.type === "page");
   return [
     { url: absoluteUrl("/") },
     ...Object.keys(VERTICALES).map((v) => ({ url: absoluteUrl(`/${v}/`) })),
     ...piliers.map((t) => ({ url: absoluteUrl(`/securite-privee/${t.slug}/`) })),
     ...(listeVisible ? [{ url: absoluteUrl("/securite-privee/demarches/") }] : []),
-    ...demarches
-      .filter((d) => d.a_une_page)
-      .map((d) => ({ url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`) })),
+    ...publiees.map((d) => ({ url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`) })),
   ];
 }

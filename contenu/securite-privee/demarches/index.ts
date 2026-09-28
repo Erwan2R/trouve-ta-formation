@@ -1,4 +1,4 @@
-import { sansMarqueur } from "@/contenu/marqueurs";
+import { sansMarqueur } from "../../marqueurs";
 import { autorisationPrealable } from "./autorisation-prealable";
 import { carteProfessionnelle } from "./carte-professionnelle";
 import { LISTE_DEMARCHES } from "./liste";
@@ -23,7 +23,7 @@ export function demarcheVisible(d: DonneesDemarche, production: boolean): boolea
   return production ? d.page_publiee && d.verifie_le !== null && sansMarqueur(contenu) && sansMarqueur(d) : true;
 }
 
-/** La page de liste n'existe que si au moins une démarche est visible et que son propre texte est finalisé. */
-export function listeDemarchesVisible(visibles: number, production: boolean): boolean {
-  return visibles > 0 && (!production || sansMarqueur(LISTE_DEMARCHES));
+/** La page de liste n'existe que si au moins une démarche est publiée et que son propre texte est finalisé. */
+export function listeDemarchesVisible(publiees: number, production: boolean): boolean {
+  return publiees > 0 && (!production || sansMarqueur(LISTE_DEMARCHES));
 }
