@@ -42,6 +42,17 @@
   --default-transition-duration: 140ms;
 }
 
+/* Fond de rayons : réservé au hero de l’accueil (DESIGN_SYSTEM.md). */
+:root {
+  --hero-rays:
+    radial-gradient(62% 80% at 50% -12%, #ffffff 0%, rgba(255, 255, 255, 0) 72%),
+    repeating-conic-gradient(
+      from 178deg at 50% -18%,
+      rgba(11, 11, 11, 0.05) 0deg 0.55deg,
+      rgba(11, 11, 11, 0) 0.55deg 3deg
+    );
+}
+
 @layer base {
   body {
     background: var(--color-cream-100);

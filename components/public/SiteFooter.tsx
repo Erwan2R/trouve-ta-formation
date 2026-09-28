@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
-import { getDepartements, getTitresParCategorie } from "@/lib/supabase/queries/navigation";
+import { getDepartements, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
 
 const lien = "text-[14.5px] text-on-dark-strong hover:text-white";

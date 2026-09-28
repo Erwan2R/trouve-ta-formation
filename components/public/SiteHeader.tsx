@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
-import { getTitresParCategorie } from "@/lib/supabase/queries/navigation";
+import { getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
 
 const navLink =

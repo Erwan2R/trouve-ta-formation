@@ -189,6 +189,7 @@ export type Database = {
       }
       titres_referentiel: {
         Row: {
+          accroche: string | null
           categorie: string
           code_rncp: string | null
           created_at: string
@@ -202,6 +203,7 @@ export type Database = {
           statut: Database["public"]["Enums"]["statut_titre"]
         }
         Insert: {
+          accroche?: string | null
           categorie: string
           code_rncp?: string | null
           created_at?: string
@@ -215,6 +217,7 @@ export type Database = {
           statut?: Database["public"]["Enums"]["statut_titre"]
         }
         Update: {
+          accroche?: string | null
           categorie?: string
           code_rncp?: string | null
           created_at?: string
