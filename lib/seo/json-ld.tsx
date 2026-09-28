@@ -41,3 +41,14 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]): JsonL
     })),
   };
 }
+
+export function faqJsonLd(questions: { question: string; reponse: string }[]): JsonLdObject {
+  return {
+    "@type": "FAQPage",
+    mainEntity: questions.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: { "@type": "Answer", text: q.reponse },
+    })),
+  };
+}

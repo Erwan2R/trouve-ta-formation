@@ -44,6 +44,8 @@
 
 /* Fond de rayons : réservé au hero de l’accueil (DESIGN_SYSTEM.md). */
 :root {
+  /* Hauteur du header collant (desktop) : sommaire et colonne latérale des piliers se calent dessous. */
+  --header-h: 83px;
   --hero-rays:
     radial-gradient(62% 80% at 50% -12%, #ffffff 0%, rgba(255, 255, 255, 0) 72%),
     repeating-conic-gradient(

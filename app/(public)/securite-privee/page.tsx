@@ -11,7 +11,7 @@ import { Faq, type QuestionFaq } from "@/components/public/Faq";
 import { VERTICALES, type Verticale } from "@/lib/config/verticales";
 import { dateLongue } from "@/lib/format-date";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { getCompteurs } from "@/lib/supabase/queries/compteurs";
+import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
 import { getDepartements, getTitres, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
@@ -86,10 +86,7 @@ const FAQ: QuestionFaq[] = [
 export default async function AccueilSecuritePrivee() {
   const [titres, groupes, departements] = await Promise.all([getTitres(), getTitresParCategorie(), getDepartements()]);
 
-  // Compteurs : tout ou rien, seulement au-dessus du seuil de config (UX accueil §4).
-  const seuil = verticale.seuilCompteurs;
-  const bruts = seuil === null ? null : await getCompteurs();
-  const compteurs = bruts && seuil !== null && bruts.total >= seuil ? bruts : null;
+  const compteurs = await getCompteursAffiches(verticale.seuilCompteurs);
 
   const derniereMaj = titres.reduce((max, t) => (t.created_at > max ? t.created_at : max), "");
   const ligneChiffres = compteurs

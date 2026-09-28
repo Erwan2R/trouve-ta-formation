@@ -1,12 +1,17 @@
 import "server-only";
 import { cache } from "react";
+import { pilierVisible } from "@/contenu/securite-privee/piliers";
+import { EST_PRODUCTION } from "@/lib/env";
 import { supabasePublic } from "../client";
 import type { Tables } from "../types";
 
 export type Titre = Pick<
   Tables<"titres_referentiel">,
-  "slug" | "libelle_court" | "categorie" | "page_publiee" | "duree" | "accroche" | "created_at"
->;
+  "slug" | "libelle_court" | "libelle_long" | "categorie" | "page_publiee" | "duree" | "accroche" | "created_at"
+> & {
+  /** La page pilier est visible (et donc liable) dans cet environnement : seule source de vérité pour les liens. */
+  a_une_page: boolean;
+};
 export type Departement = Pick<Tables<"departements">, "code" | "slug" | "nom" | "page_publiee">;
 
 // cache() : header, footer et page partagent la même requête pendant un rendu.
@@ -14,10 +19,10 @@ export type Departement = Pick<Tables<"departements">, "code" | "slug" | "nom" |
 export const getTitres = cache(async (): Promise<Titre[]> => {
   const { data, error } = await supabasePublic()
     .from("titres_referentiel")
-    .select("slug, libelle_court, categorie, page_publiee, duree, accroche, created_at")
+    .select("slug, libelle_court, libelle_long, categorie, page_publiee, duree, accroche, created_at")
     .order("ordre");
   if (error) throw error;
-  return data;
+  return data.map((t) => ({ ...t, a_une_page: pilierVisible(t, EST_PRODUCTION) }));
 });
 
 /** Même liste, groupée par catégorie dans l'ordre d'apparition. */

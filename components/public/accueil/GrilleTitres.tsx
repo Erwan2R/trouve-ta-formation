@@ -59,7 +59,7 @@ export function GrilleTitres({
                   );
                   return (
                     <li key={t.slug} className="flex">
-                      {t.page_publiee ? (
+                      {t.a_une_page ? (
                         <Link
                           href={`${base}${t.slug}/`}
                           className={`${carte} w-full transition-[border-color,transform] hover:-translate-y-0.5 hover:border-ink-900 hover:text-ink-900`}

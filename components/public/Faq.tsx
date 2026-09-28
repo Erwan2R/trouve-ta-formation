@@ -1,4 +1,4 @@
-import { JsonLd } from "@/lib/seo/json-ld";
+import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 
 export type QuestionFaq = { question: string; reponse: string };
 
@@ -9,16 +9,7 @@ export type QuestionFaq = { question: string; reponse: string };
 export function Faq({ titre, questions }: { titre: string; questions: QuestionFaq[] }) {
   return (
     <section id="faq" aria-labelledby="faq-titre" className="border-b border-line bg-white py-[88px]">
-      <JsonLd
-        data={{
-          "@type": "FAQPage",
-          mainEntity: questions.map((q) => ({
-            "@type": "Question",
-            name: q.question,
-            acceptedAnswer: { "@type": "Answer", text: q.reponse },
-          })),
-        }}
-      />
+      <JsonLd data={faqJsonLd(questions)} />
       <div className="mx-auto max-w-[880px] px-7">
         <h2
           id="faq-titre"

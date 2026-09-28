@@ -33,7 +33,7 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
               const t = titres.get(slug);
               if (!t) return null;
               const label = libelle ?? t.libelle_court;
-              return t.page_publiee ? (
+              return t.a_une_page ? (
                 <Link key={slug} href={`${base}${slug}/`} className={lien}>
                   {label}
                 </Link>

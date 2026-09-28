@@ -36,7 +36,7 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
                     {g.categorie}
                   </span>
                   {g.titres.map((t) =>
-                    t.page_publiee ? (
+                    t.a_une_page ? (
                       <Link
                         key={t.slug}
                         href={`${base}${t.slug}/`}

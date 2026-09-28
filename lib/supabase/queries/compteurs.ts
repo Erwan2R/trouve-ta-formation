@@ -17,3 +17,12 @@ export async function getCompteurs(): Promise<{ total: number; parTitre: Map<str
   }
   return { total: organismes.count ?? 0, parTitre };
 }
+
+/** Compteurs à afficher : null tant que le seuil n'est pas fixé ou pas atteint (tout ou rien, UX accueil §4). */
+export async function getCompteursAffiches(
+  seuil: number | null,
+): Promise<{ total: number; parTitre: Map<string, number> } | null> {
+  if (seuil === null) return null;
+  const c = await getCompteurs();
+  return c.total >= seuil ? c : null;
+}

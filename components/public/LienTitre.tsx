@@ -11,7 +11,7 @@ export function LienTitre({
   base: string;
   children: React.ReactNode;
 }) {
-  if (!titre?.page_publiee) return <>{children}</>;
+  if (!titre?.a_une_page) return <>{children}</>;
   return (
     <Link href={`${base}${titre.slug}/`} className="border-b border-brique-200">
       {children}

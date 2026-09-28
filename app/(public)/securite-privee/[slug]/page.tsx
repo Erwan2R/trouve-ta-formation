@@ -1,0 +1,138 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ColonnePilier } from "@/components/public/pilier/ColonnePilier";
+import { CorpsPilier } from "@/components/public/pilier/CorpsPilier";
+import { EnTetePilier } from "@/components/public/pilier/EnTetePilier";
+import { SommairePilier } from "@/components/public/pilier/SommairePilier";
+import { PILIERS, h1Pilier } from "@/contenu/securite-privee/piliers";
+import { estSlugReserve } from "@/lib/config/slugs-reserves";
+import { VERTICALES, type Verticale } from "@/lib/config/verticales";
+import { buildMetadata } from "@/lib/seo/metadata";
+import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
+import { getDepartements, getTitres, type Titre } from "@/lib/supabase/queries/referentiel";
+
+const verticale: Verticale = VERTICALES["securite-privee"];
+const base = `/${verticale.slug}/`;
+
+type Props = { params: Promise<{ slug: string }> };
+
+/**
+ * Résolution de /securite-privee/[slug]/ (CLAUDE.md §6) : slug réservé → route dédiée (jamais ici) ;
+ * titre du référentiel → page pilier ; département/ville → page géographique (Sprint 6) ; sinon 404.
+ */
+async function resoudre(slug: string): Promise<{ titre: Titre } | null> {
+  if (estSlugReserve(slug)) return null;
+  const titre = (await getTitres()).find((t) => t.slug === slug);
+  if (titre?.a_une_page) return { titre };
+  return null;
+}
+
+export async function generateStaticParams() {
+  return (await getTitres()).filter((t) => t.a_une_page).map((t) => ({ slug: t.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const page = await resoudre((await params).slug);
+  if (!page) return {};
+  const { titre } = page;
+  const contenu = PILIERS[titre.slug];
+  const court = titre.libelle_court;
+  // Copy piliers §3 : gabarit A mène avec le programme, gabarit B avec le calendrier.
+  return buildMetadata(
+    contenu.gabarit === "A"
+      ? {
+          title: contenu.titleSeo ?? `Formation ${court} : programme, conditions et organismes`,
+          description: `Le ${titre.libelle_long} : programme, durée, conditions d'accès et financements. Les organismes qui le préparent en Île-de-France.`,
+          path: `${base}${titre.slug}/`,
+        }
+      : {
+          title: contenu.titleSeo ?? `${court} : quand le faire, durée et organismes`,
+          description: `Le ${court} est obligatoire pour renouveler votre carte professionnelle. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`,
+          path: `${base}${titre.slug}/`,
+        },
+  );
+}
+
+export default async function PagePilier({ params }: Props) {
+  const page = await resoudre((await params).slug);
+  if (!page) notFound();
+  const { titre } = page;
+  const contenu = PILIERS[titre.slug];
+
+  const [titres, departements, compteurs] = await Promise.all([
+    getTitres(),
+    getDepartements(),
+    getCompteursAffiches(verticale.seuilCompteurs),
+  ]);
+  const nbOrganismes = compteurs ? (compteurs.parTitre.get(titre.slug) ?? 0) : null;
+  const titresLies = contenu.titresLies.flatMap(({ slug, texte }) => {
+    const t = titres.find((x) => x.slug === slug);
+    return t?.a_une_page ? [{ titre: t, texte }] : [];
+  });
+  const deptsPublies = verticale.footerDepartements.flatMap((code) =>
+    departements.filter((d) => d.code === code && d.page_publiee),
+  );
+  const accroche =
+    contenu.gabarit === "A"
+      ? {
+          titre: "Ce titre ne correspond pas à votre situation ?",
+          texte: "Six questions suffisent pour identifier celui qui vous convient.",
+          cta: "Trouver mon titre",
+          href: `${base}formulaire/`,
+        }
+      : {
+          titre: "Vous ne savez pas quel stage correspond à votre carte ?",
+          texte: "Indiquez le titre que vous détenez, nous vous orientons vers le maintien correspondant.",
+          cta: "Vérifier mon cas",
+          href: `${base}formulaire/?depart=renouvellement`,
+        };
+
+  return (
+    <main>
+      {!titre.page_publiee && (
+        <p className="bg-brique-700 px-7 py-2 text-center font-mono text-xs tracking-[0.08em] text-white uppercase">
+          Aperçu — page non publiée, invisible en production
+        </p>
+      )}
+      <EnTetePilier
+        base={base}
+        nomVerticale={verticale.nom}
+        titre={titre}
+        contenu={contenu}
+        h1={h1Pilier(titre, contenu)}
+        nbOrganismes={nbOrganismes}
+      />
+      <SommairePilier gabarit={contenu.gabarit} />
+      <section className="bg-cream-100">
+        <div className="container-public flex flex-wrap items-start gap-[clamp(24px,3vw,44px)] pt-12 pb-14">
+          <CorpsPilier base={base} titre={titre} contenu={contenu} departements={deptsPublies} />
+          <ColonnePilier
+            base={base}
+            titre={titre}
+            gabarit={contenu.gabarit}
+            nbOrganismes={nbOrganismes}
+            titresLies={titresLies}
+          />
+        </div>
+      </section>
+      <section id="affinage" className="border-t border-line bg-white">
+        <div className="container-public flex flex-wrap items-center justify-between gap-6 py-14">
+          <div className="flex min-w-[min(100%,280px)] flex-[1_1_440px] flex-col gap-2.5">
+            <h2 className="text-[clamp(22px,2.4vw,30px)] leading-[1.15] font-bold tracking-[-0.025em]">
+              {accroche.titre}
+            </h2>
+            <p className="max-w-[60ch] text-[16.5px] leading-[1.65] text-ink-500">{accroche.texte}</p>
+          </div>
+          <Link
+            href={accroche.href}
+            rel="nofollow"
+            className="inline-flex flex-none items-center gap-2.5 rounded-full bg-ink-900 px-[26px] py-[17px] text-base font-bold text-white hover:bg-brique-700 hover:text-white"
+          >
+            {accroche.cta} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
