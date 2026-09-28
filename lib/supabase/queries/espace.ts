@@ -22,7 +22,7 @@ const SELECT = `contact_nom, contact_telephone,
  * Compte connecté et sa fiche, quel que soit son statut (RLS propriétaire). Redirige vers la connexion sans session.
  * Les offres sur un titre archivé sont incluses : « Mes formations » les signale (décision Erwan 01/10/2026).
  */
-export const getEspace = cache(async () => {
+async function lireEspace() {
   const sb = await supabaseServeur();
   const {
     data: { user },
@@ -44,7 +44,9 @@ export const getEspace = cache(async () => {
     .sort((a, b) => a.titre.ordre - b.titre.ordre);
   // Palier public : seules les offres sur un titre actif comptent (les autres ne sont jamais servies).
   const offresActives = offres.filter((o) => o.titre.statut === "actif");
-  const p: Palier = palier({ ...organisme, nbFormations: offresActives.length });
+  // Financements : ceux de la fiche et ceux des offres, comme sur le site public (getOrganismes).
+  const financements = [...new Set([...organisme.financements, ...offresActives.flatMap((o) => o.financements)])];
+  const p: Palier = palier({ ...organisme, financements, nbFormations: offresActives.length });
   return {
     user: { email: user.email ?? "", confirme: !!user.email_confirmed_at, nouvelEmail: user.new_email ?? null },
     compte,
@@ -53,9 +55,14 @@ export const getEspace = cache(async () => {
     siege: lieux.find((l) => l.est_siege) ?? null,
     offres,
     offresActives,
+    financements,
     palier: p,
     supabase: sb,
   };
-});
+}
 
-export type Espace = Awaited<ReturnType<typeof getEspace>>;
+export const getEspace = cache(lireEspace);
+/** Relecture après une écriture (sans le cache du rendu en cours). */
+export const getEspaceFrais = lireEspace;
+
+export type Espace = Awaited<ReturnType<typeof lireEspace>>;

@@ -14,8 +14,9 @@ export const ACTIONS: Record<Action, { titre: string; pourquoi: string; dest: st
   financements: {
     titre: "Renseignez les financements que vous acceptez",
     pourquoi: "CPF, France Travail, OPCO : les candidats filtrent souvent sur ce critère.",
-    dest: "Ma fiche",
-    href: "/ma-fiche/#pratique",
+    // Les financements se déclarent par formation (maquette Mes formations), pas dans Ma fiche.
+    dest: "Mes formations",
+    href: "/formations/",
     cta: "Renseigner",
   },
   presentation: {

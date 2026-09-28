@@ -20,8 +20,8 @@ const surtitre = "font-mono text-[10.5px] tracking-[0.12em] uppercase";
 
 /** Tableau de bord : état de la fiche et quoi faire pour la faire progresser (UX Dashboard). */
 export default async function Dashboard() {
-  const { organisme: o, siege, lieux, user, offresActives, palier: p } = await getEspace();
-  const donnees = { ...o, nbFormations: offresActives.length };
+  const { organisme: o, siege, lieux, user, offresActives, financements, palier: p } = await getEspace();
+  const donnees = { ...o, financements, nbFormations: offresActives.length };
   const actions = actionsRelance(donnees, p);
   const publiee = o.statut === "publie";
   const minimum = minimumPubliable(o, siege);

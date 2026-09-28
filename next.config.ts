@@ -6,7 +6,13 @@ import { redirectionsArchivage } from "./lib/resolution-pilier";
 const nextConfig: NextConfig = {
   // Toutes les URLs publiques des specs se terminent par « / ».
   trailingSlash: true,
-  images: { formats: ["image/webp"] },
+  images: {
+    formats: ["image/webp"],
+    // Logos déposés par les organismes (stockage Supabase, déjà convertis en WebP).
+    remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/logos/**" }],
+  },
+  // Logo de l'espace organisme : 2 Mo maximum (UX Ma fiche §3.2), plus l'enveloppe du formulaire.
+  experimental: { serverActions: { bodySizeLimit: "3mb" } },
   // Hors production (dev, preprod, local) : aucune page indexable, même si robots.txt est ignoré.
   async headers() {
     if (process.env.VERCEL_ENV === "production") return [];
@@ -22,7 +28,8 @@ const nextConfig: NextConfig = {
       `${url}/rest/v1/titres_referentiel?select=id,slug,statut,page_publiee,archive_le,remplace_par_id,titre_proche_id`,
       { headers: { apikey: cle } },
     );
-    if (!reponse.ok) throw new Error(`Lecture du référentiel impossible (${reponse.status}) : redirections non générées`);
+    if (!reponse.ok)
+      throw new Error(`Lecture du référentiel impossible (${reponse.status}) : redirections non générées`);
     const production = process.env.VERCEL_ENV === "production";
     const titres = (await reponse.json()).map((t: Parameters<typeof pilierVisible>[0]) => ({
       ...t,
