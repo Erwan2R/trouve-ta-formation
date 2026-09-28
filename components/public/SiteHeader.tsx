@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
+import type { Verticale } from "@/lib/config/verticales";
+import { URL_ESPACE_ORGANISME } from "@/lib/espace";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
@@ -69,7 +70,7 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
         </nav>
 
         <a
-          href={URL_ESPACE_ORGANISME}
+          href={`${URL_ESPACE_ORGANISME}/`}
           className="ml-auto flex-none rounded-full bg-ink-900 px-5 py-[11px] text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-brique-700 hover:text-white lg:ml-0"
         >
           Espace organisme

@@ -33,9 +33,28 @@ const ORGANISMES = [
         "Centre installé à Bobigny depuis 2014, spécialisé dans la formation initiale des agents de sécurité privée. Sessions de 12 stagiaires maximum, salle de mise en situation et plateau technique incendie sur place à Montreuil. La plupart de nos stagiaires viennent de Seine-Saint-Denis et du Val-d'Oise et sont accompagnés par France Travail. Nos formateurs sont tous en activité ou anciens professionnels du secteur, et le montage des dossiers de financement est fait avec vous au centre.",
     },
     lieux: [
-      { cle: "siege", est_siege: true, nom: "Siège", adresse: "14 rue de la Démonstration", code_postal: "93000", ville: "Bobigny" },
-      { cle: "sd", nom: "Centre Saint-Denis", adresse: "8 avenue de l'Exemple", code_postal: "93200", ville: "Saint-Denis" },
-      { cle: "mtr", nom: "Plateau technique Montreuil", adresse: "31 rue du Test", code_postal: "93100", ville: "Montreuil" },
+      {
+        cle: "siege",
+        est_siege: true,
+        nom: "Siège",
+        adresse: "14 rue de la Démonstration",
+        code_postal: "93000",
+        ville: "Bobigny",
+      },
+      {
+        cle: "sd",
+        nom: "Centre Saint-Denis",
+        adresse: "8 avenue de l'Exemple",
+        code_postal: "93200",
+        ville: "Saint-Denis",
+      },
+      {
+        cle: "mtr",
+        nom: "Plateau technique Montreuil",
+        adresse: "31 rue du Test",
+        code_postal: "93100",
+        ville: "Montreuil",
+      },
     ],
     offres: [
       {
@@ -82,7 +101,9 @@ const ORGANISMES = [
       financements: ["cpf", "france_travail"],
       presentation: "Organisme de démonstration centré sur la sécurité incendie, sessions tous les mois.",
     },
-    lieux: [{ cle: "siege", est_siege: true, adresse: "2 place de l'Essai", code_postal: "93200", ville: "Saint-Denis" }],
+    lieux: [
+      { cle: "siege", est_siege: true, adresse: "2 place de l'Essai", code_postal: "93200", ville: "Saint-Denis" },
+    ],
     offres: [
       { titre: "ssiap-1", prix_min: 650, prix_max: 720, duree_heures: 70, rythmes: ["temps_plein"] },
       { titre: "recyclage-ssiap-1", prix_min: 190, duree_heures: 14, rythmes: ["temps_plein", "week_end"] },
@@ -111,7 +132,9 @@ const ORGANISMES = [
       email_contact: "accueil@formation-demo.example",
       financements: ["france_travail"],
     },
-    lieux: [{ cle: "siege", est_siege: true, adresse: "40 rue Imaginaire", code_postal: "93300", ville: "Aubervilliers" }],
+    lieux: [
+      { cle: "siege", est_siege: true, adresse: "40 rue Imaginaire", code_postal: "93300", ville: "Aubervilliers" },
+    ],
     offres: [
       { titre: "tfp-aps", prix_min: 1350, duree_heures: 175, rythmes: ["temps_plein"] },
       { titre: "mac-aps", prix_min: 350, duree_heures: 31, rythmes: ["temps_plein", "week_end"] },
@@ -130,7 +153,9 @@ const ORGANISMES = [
       presentation:
         "Centre de démonstration spécialisé dans les formations cynophiles, avec chenil et terrain d'entraînement.",
     },
-    lieux: [{ cle: "siege", est_siege: true, adresse: "12 allée du Prototype", code_postal: "94000", ville: "Créteil" }],
+    lieux: [
+      { cle: "siege", est_siege: true, adresse: "12 allée du Prototype", code_postal: "94000", ville: "Créteil" },
+    ],
     offres: [
       { titre: "tfp-asc", prix_min: 2400, duree_heures: 210, rythmes: ["temps_plein"] },
       { titre: "mac-cyno", prix_min: 420, duree_heures: 35, rythmes: ["soir", "week_end"] },
@@ -154,7 +179,13 @@ const ORGANISMES = [
       presentation: "Petit centre de démonstration en Essonne, sessions de huit stagiaires.",
     },
     lieux: [
-      { cle: "siege", est_siege: true, adresse: "3 cours de l'Exemple", code_postal: "91000", ville: "Évry-Courcouronnes" },
+      {
+        cle: "siege",
+        est_siege: true,
+        adresse: "3 cours de l'Exemple",
+        code_postal: "91000",
+        ville: "Évry-Courcouronnes",
+      },
     ],
     offres: [{ titre: "tfp-aps", duree_heures: 175, rythmes: ["temps_plein"] }],
   },
@@ -164,7 +195,13 @@ const titres = new Map(ok(await db.from("titres_referentiel").select("id, slug")
 ok(await db.from("organismes").delete().eq("est_test", true));
 
 for (const { org, lieux, offres } of ORGANISMES) {
-  const { id } = ok(await db.from("organismes").insert({ ...commun, ...org }).select("id").single());
+  const { id } = ok(
+    await db
+      .from("organismes")
+      .insert({ ...commun, ...org })
+      .select("id")
+      .single(),
+  );
   const lieuxCrees = ok(
     await db
       .from("lieux")

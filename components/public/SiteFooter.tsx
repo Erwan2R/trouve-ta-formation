@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
+import type { Verticale } from "@/lib/config/verticales";
+import { URL_ESPACE_ORGANISME } from "@/lib/espace";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getDepartements, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
@@ -102,7 +103,7 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
             <Link href="/contact/" className={lien}>
               Contact
             </Link>
-            <a href={URL_ESPACE_ORGANISME} className={lien}>
+            <a href={`${URL_ESPACE_ORGANISME}/`} className={lien}>
               Espace organisme
             </a>
             <span className="mt-1 flex flex-wrap gap-2.5 text-[13px]">

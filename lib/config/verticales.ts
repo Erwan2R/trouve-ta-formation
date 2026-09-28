@@ -53,6 +53,3 @@ export const VERTICALES = {
 } as const satisfies Record<string, Verticale>;
 
 export type VerticaleSlug = keyof typeof VERTICALES;
-
-/** Espace organisme : sous-domaine dédié (Copy accueil §1). */
-export const URL_ESPACE_ORGANISME = "https://partenaires.trouve-ta-formation.fr/";

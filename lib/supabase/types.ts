@@ -39,6 +39,73 @@ export type Database = {
   }
   public: {
     Tables: {
+      comptes_organisme: {
+        Row: {
+          contact_nom: string | null
+          contact_telephone: string | null
+          created_at: string
+          id: string
+          organisme_id: string
+        }
+        Insert: {
+          contact_nom?: string | null
+          contact_telephone?: string | null
+          created_at?: string
+          id: string
+          organisme_id: string
+        }
+        Update: {
+          contact_nom?: string | null
+          contact_telephone?: string | null
+          created_at?: string
+          id?: string
+          organisme_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comptes_organisme_organisme_id_fkey"
+            columns: ["organisme_id"]
+            isOneToOne: true
+            referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      demandes_titre: {
+        Row: {
+          created_at: string
+          id: number
+          intitule: string
+          organisme_id: string
+          statut: Database["public"]["Enums"]["statut_demande"]
+          traitee_le: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          intitule: string
+          organisme_id: string
+          statut?: Database["public"]["Enums"]["statut_demande"]
+          traitee_le?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          intitule?: string
+          organisme_id?: string
+          statut?: Database["public"]["Enums"]["statut_demande"]
+          traitee_le?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demandes_titre_organisme_id_fkey"
+            columns: ["organisme_id"]
+            isOneToOne: false
+            referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       demarches: {
         Row: {
           cout: string | null
@@ -316,7 +383,9 @@ export type Database = {
           numero_agrement_cnaps: string | null
           numero_declaration_activite: string | null
           numero_qualiopi: string | null
+          palier_max: string
           presentation: string | null
+          publie_le: string | null
           qualiopi: boolean
           raison_sociale: string | null
           score_completude: number
@@ -343,7 +412,9 @@ export type Database = {
           numero_agrement_cnaps?: string | null
           numero_declaration_activite?: string | null
           numero_qualiopi?: string | null
+          palier_max?: string
           presentation?: string | null
+          publie_le?: string | null
           qualiopi?: boolean
           raison_sociale?: string | null
           score_completude?: number
@@ -370,7 +441,9 @@ export type Database = {
           numero_agrement_cnaps?: string | null
           numero_declaration_activite?: string | null
           numero_qualiopi?: string | null
+          palier_max?: string
           presentation?: string | null
+          publie_le?: string | null
           qualiopi?: boolean
           raison_sociale?: string | null
           score_completude?: number
@@ -536,8 +609,12 @@ export type Database = {
         Args: { p_combinaison: string }
         Returns: undefined
       }
+      maj_publication: { Args: never; Returns: string }
+      mon_organisme: { Args: never; Returns: string }
+      slug_organisme: { Args: { p_nom: string }; Returns: string }
     }
     Enums: {
+      statut_demande: "en_attente" | "acceptee" | "refusee"
       statut_organisme: "brouillon" | "publie" | "suspendu"
       statut_titre: "actif" | "archive"
     }
@@ -670,6 +747,7 @@ export const Constants = {
   },
   public: {
     Enums: {
+      statut_demande: ["en_attente", "acceptee", "refusee"],
       statut_organisme: ["brouillon", "publie", "suspendu"],
       statut_titre: ["actif", "archive"],
     },

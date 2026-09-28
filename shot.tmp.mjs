@@ -1,0 +1,17 @@
+import { chromium } from "playwright";
+import fs from "node:fs";
+const env = Object.fromEntries(fs.readFileSync(".env.local", "utf8").split(/\r?\n/).filter((l) => l.includes("=")).map((l) => [l.slice(0, l.indexOf("=")), l.slice(l.indexOf("=") + 1)]));
+const dir = "C:/Users/erwan/AppData/Local/Temp/claude/c--Trouve-ta-formation/deadaff0-73da-4cbb-95fb-d96c8c67bcbb/scratchpad/";
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
+const p = await ctx.newPage();
+const base = "http://partenaires.localhost:3000";
+await p.goto(base + "/connexion/");
+await p.fill("#email", env.E2E_ORGANISME_EMAIL);
+await p.fill("#mot_de_passe", env.E2E_ORGANISME_MOT_DE_PASSE);
+await p.click("button[type=submit]");
+await p.waitForURL("**/dashboard/", { timeout: 60000 });
+await p.waitForLoadState("networkidle");
+await p.screenshot({ path: dir + "e-dashboard.png", fullPage: true });
+await ctx.storageState({ path: dir + "session.json" });
+await b.close();
