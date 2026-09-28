@@ -74,21 +74,21 @@ export type Database = {
           code: string
           nb_organismes_cache: number
           nom: string
-          page_publiee: boolean
+          preposition: string
           slug: string
         }
         Insert: {
           code: string
           nb_organismes_cache?: number
           nom: string
-          page_publiee?: boolean
+          preposition?: string
           slug: string
         }
         Update: {
           code?: string
           nb_organismes_cache?: number
           nom?: string
-          page_publiee?: boolean
+          preposition?: string
           slug?: string
         }
         Relationships: []
@@ -359,6 +359,48 @@ export type Database = {
         }
         Relationships: []
       }
+      parametres: {
+        Row: {
+          cle: string
+          description: string | null
+          maj_le: string
+          valeur: Json
+        }
+        Insert: {
+          cle: string
+          description?: string | null
+          maj_le?: string
+          valeur: Json
+        }
+        Update: {
+          cle?: string
+          description?: string | null
+          maj_le?: string
+          valeur?: Json
+        }
+        Relationships: []
+      }
+      recherches_sans_resultat: {
+        Row: {
+          combinaison: string
+          compteur: number
+          derniere_le: string
+          premiere_le: string
+        }
+        Insert: {
+          combinaison: string
+          compteur?: number
+          derniere_le?: string
+          premiere_le?: string
+        }
+        Update: {
+          combinaison?: string
+          compteur?: number
+          derniere_le?: string
+          premiere_le?: string
+        }
+        Relationships: []
+      }
       titres_referentiel: {
         Row: {
           accroche: string | null
@@ -465,7 +507,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      enregistrer_recherche_sans_resultat: {
+        Args: { p_combinaison: string }
+        Returns: undefined
+      }
     }
     Enums: {
       statut_organisme: "brouillon" | "publie" | "suspendu"

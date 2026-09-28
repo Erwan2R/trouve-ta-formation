@@ -72,13 +72,40 @@ export function PucesFiltres(c: Contexte) {
   );
 }
 
-/** Liens « départements voisins » en gardant les autres filtres. */
-function voisins(c: Contexte) {
-  if (!c.filtres.dept) return [];
-  return (DEPARTEMENTS_VOISINS[c.filtres.dept] ?? []).slice(0, 3).flatMap((code) => {
-    const d = c.departements.find((x) => x.code === code);
-    return d ? [{ d, href: `${c.action}${versQuery({ ...c.filtres, dept: code, villes: [], page: 1 })}` }] : [];
-  });
+/**
+ * Départements voisins du filtre « Où » (décision Erwan 01/10/2026) : lien vers la page département si elle existe,
+ * libellé simple sinon ; si aucun voisin n'a de page, le bloc devient « Voir tous les organismes d'Île-de-France → ».
+ */
+function Voisins({ c, intro }: { c: Contexte; intro: string }) {
+  if (!c.filtres.dept) return null;
+  const voisins = (DEPARTEMENTS_VOISINS[c.filtres.dept] ?? []).flatMap((code) =>
+    c.departements.filter((d) => d.code === code),
+  );
+  if (!voisins.some((d) => d.a_une_page))
+    return (
+      <p className="text-[14.5px] leading-[1.7]">
+        <Link href={c.action} className="font-semibold">
+          Voir tous les organismes d&apos;Île-de-France →
+        </Link>
+      </p>
+    );
+  return (
+    <p className="text-[14.5px] leading-[1.7] text-ink-500">
+      {fr(intro)}{" "}
+      {voisins.map((d, i) => (
+        <span key={d.code}>
+          {i > 0 && " · "}
+          {d.a_une_page ? (
+            <Link href={`${c.base}${d.slug}/`}>
+              {d.nom} ({d.code})
+            </Link>
+          ) : (
+            `${d.nom} (${d.code})`
+          )}
+        </span>
+      ))}
+    </p>
+  );
 }
 
 /** Page pilier visible correspondant à un filtre « titre » unique (bande contextuelle, sorties de secours). */
@@ -90,7 +117,6 @@ export function titreDedie(c: Contexte): Titre | null {
 
 export function EtatZero({ tous, ...c }: Contexte & { tous: Organisme[] }) {
   const r = relachement(tous, c.filtres);
-  const alternatives = voisins(c);
   const dedie = titreDedie(c);
   return (
     <div className="flex flex-col gap-[18px] rounded-[20px] border border-line bg-white p-[clamp(22px,2.6vw,32px)]">
@@ -109,19 +135,7 @@ export function EtatZero({ tous, ...c }: Contexte & { tous: Organisme[] }) {
           </Link>
         </div>
       )}
-      {alternatives.length > 0 && (
-        <p className="text-[14.5px] leading-[1.7] text-ink-500">
-          Ou consultez les organismes dans les départements voisins{" "}:{" "}
-          {alternatives.map(({ d, href }, i) => (
-            <span key={d.code}>
-              {i > 0 && " · "}
-              <Link href={href}>
-                {d.nom} ({d.code})
-              </Link>
-            </span>
-          ))}
-        </p>
-      )}
+      <Voisins c={c} intro="Ou consultez les organismes des départements voisins :" />
       <div className="flex flex-wrap gap-2.5 border-t border-[#F0ECE6] pt-4">
         <Link href={c.action} className={bouton}>
           Tout effacer et voir tous les organismes
@@ -139,7 +153,6 @@ export function EtatZero({ tous, ...c }: Contexte & { tous: Organisme[] }) {
 /** Résultat unique : carte pleine largeur avec la présentation (Copy catalogue §8.3). */
 export function EtatUnique({ organisme: o, ...c }: Contexte & { organisme: Organisme }) {
   const financements = FINANCEMENTS_FILTRE.filter((f) => o.financements.includes(f));
-  const alternatives = voisins(c);
   return (
     <div className="flex flex-col gap-3.5">
       <p className="text-[14.5px] leading-[1.6] text-ink-500">
@@ -182,19 +195,7 @@ export function EtatUnique({ organisme: o, ...c }: Contexte & { organisme: Organ
           </span>
         )}
       </Link>
-      {alternatives.length > 0 && (
-        <p className="flex flex-wrap items-center gap-2.5 text-sm text-ink-500">
-          <span className="font-bold text-ink-900">Voir aussi</span>
-          {alternatives.map(({ d, href }, i) => (
-            <span key={d.code}>
-              {i > 0 && "· "}
-              <Link href={href}>
-                les organismes du {d.nom} ({d.code})
-              </Link>
-            </span>
-          ))}
-        </p>
-      )}
+      <Voisins c={c} intro="Voir aussi les départements voisins :" />
     </div>
   );
 }

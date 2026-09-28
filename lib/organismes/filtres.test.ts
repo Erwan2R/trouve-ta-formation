@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   aDesFiltres,
+  cleRecherche,
   facettes,
   filtrer,
   lireFiltres,
@@ -75,5 +76,22 @@ describe("relachement", () => {
 
   it("aucune suggestion si aucun retrait unique ne suffit", () => {
     expect(relachement(TOUS, lireFiltres({ q: "zzz", dept: "99" }))).toBeNull();
+  });
+});
+
+describe("cleRecherche", () => {
+  it("combinaison de filtres triée, sans texte libre ni ville", () => {
+    expect(cleRecherche(lireFiltres({ titre: ["tfp-aps", "ssiap-1"], dept: "93", ville: "Bobigny", tri: "alpha" }))).toBe(
+      "dept=93&titre=ssiap-1&titre=tfp-aps",
+    );
+  });
+
+  it("recherche par nom ou sans filtre : rien n'est enregistré", () => {
+    expect(cleRecherche(lireFiltres({ q: "martin", titre: "ssiap-1" }))).toBeNull();
+    expect(cleRecherche(lireFiltres({ tri: "alpha" }))).toBeNull();
+  });
+
+  it("valeur hors vocabulaire (injection) : rien n'est enregistré", () => {
+    expect(cleRecherche(lireFiltres({ titre: "<script>" }))).toBeNull();
   });
 });

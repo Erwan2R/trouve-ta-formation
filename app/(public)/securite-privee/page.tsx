@@ -97,9 +97,7 @@ export default async function AccueilSecuritePrivee() {
     ? `${compteurs.total} organismes référencés · ${titres.length} titres de formation · ${departements.length} départements franciliens`
     : `${titres.length} titres de formation couverts · ${departements.length} départements franciliens · Mise à jour le ${dateLongue(derniereMaj)}`;
 
-  const deptsPublies = verticale.footerDepartements.flatMap((code) =>
-    departements.filter((d) => d.code === code && d.page_publiee),
-  );
+  const deptsOrdonnes = verticale.footerDepartements.flatMap((code) => departements.filter((d) => d.code === code));
 
   const demarches = <Demarches verticale={verticale} />;
 
@@ -108,7 +106,7 @@ export default async function AccueilSecuritePrivee() {
       <Hero base={base} ligneChiffres={ligneChiffres} />
       <GrilleTitres base={base} groupes={groupes} compteurs={compteurs?.parTitre ?? null} />
       <AccrocheAffinage base={base} />
-      <EntreeGeo base={base} departements={deptsPublies} />
+      <EntreeGeo base={base} departements={deptsOrdonnes} compteurs={!!compteurs} />
       {/* Lancement : démarches remontées en position 6. Au-dessus du seuil : échantillon d'organismes (Sprint 5), puis démarches après « Comment ça marche ». */}
       {!compteurs && demarches}
       <CommentCaMarche />

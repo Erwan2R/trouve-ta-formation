@@ -9,12 +9,14 @@ import { Faq } from "@/components/public/Faq";
 import { TexteContenu } from "@/components/public/TexteContenu";
 import { CATALOGUE, CATALOGUE_VIDE, FAQ_CATALOGUE, GUIDE } from "@/contenu/securite-privee/catalogue";
 import { VERTICALES, type Verticale } from "@/lib/config/verticales";
-import { RANG_PALIER } from "@/lib/organismes/completude";
-import { aDesFiltres, filtrer, lireFiltres, puces, versQuery, type Filtres } from "@/lib/organismes/filtres";
+import { trier } from "@/lib/organismes/tri";
+import { EST_PRODUCTION } from "@/lib/env";
+import { aDesFiltres, cleRecherche, filtrer, lireFiltres, puces, versQuery } from "@/lib/organismes/filtres";
+import { supabasePublic } from "@/lib/supabase/client";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl, buildMetadata } from "@/lib/seo/metadata";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
-import { getOrganismes, type Organisme } from "@/lib/supabase/queries/organismes";
+import { getOrganismes } from "@/lib/supabase/queries/organismes";
 import { getDepartements, getTitres, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
 
@@ -27,27 +29,22 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const f = lireFiltres(await searchParams);
-  const compteurs = await getCompteursAffiches(verticale.seuilCompteurs);
+  const [compteurs, tous, departements] = await Promise.all([
+    getCompteursAffiches(verticale.seuilCompteurs),
+    getOrganismes(),
+    getDepartements(),
+  ]);
+  // Filtre « Où » sur un département qui a sa page : c'est elle qui porte la zone (canonical).
+  const deptPage = departements.find((d) => d.code === f.dept && d.a_une_page);
   return buildMetadata({
     title: CATALOGUE.title,
     description: compteurs ? CATALOGUE.description : CATALOGUE.descriptionLancement,
     // Filtre actif : noindex, follow + canonical vers la version nue. Pagination seule : auto-canonique.
     path: `${action}${f.page > 1 && !aDesFiltres(f) ? `?page=${f.page}` : ""}`,
-    noindex: aDesFiltres(f),
-    canonicalPath: aDesFiltres(f) ? action : undefined,
+    // Catalogue vide : noindex tant qu'aucun organisme n'est publié (décision Erwan 01/10/2026).
+    noindex: aDesFiltres(f) || tous.length === 0,
+    canonicalPath: deptPage ? `${base}${deptPage.slug}/` : aDesFiltres(f) ? action : undefined,
   });
-}
-
-/** Tri « Pertinence » = palier de complétude (jamais affiché sous ce nom), puis nom pour un ordre stable. */
-function trier(organismes: Organisme[], f: Filtres): Organisme[] {
-  const nom = (a: Organisme, b: Organisme) => a.nom.localeCompare(b.nom, "fr");
-  return [...organismes].sort((a, b) =>
-    f.tri === "alpha"
-      ? nom(a, b)
-      : f.tri === "ville"
-        ? (a.siege?.ville ?? "").localeCompare(b.siege?.ville ?? "", "fr") || nom(a, b)
-        : RANG_PALIER[b.palier] - RANG_PALIER[a.palier] || nom(a, b),
-  );
 }
 
 export default async function Catalogue({ searchParams }: Props) {
@@ -61,7 +58,7 @@ export default async function Catalogue({ searchParams }: Props) {
   ]);
   const titresParSlug = new Map(titres.map((t) => [t.slug, t]));
   const deptsOrdonnes = verticale.footerDepartements.flatMap((c) => departements.filter((d) => d.code === c));
-  const resultats = trier(filtrer(tous, f), f);
+  const resultats = trier(filtrer(tous, f), f.tri);
 
   // Sous le seuil : ni compteurs ni pagination (Copy catalogue §16) — tous les résultats sur une page.
   const pages = compteurs ? Math.max(1, Math.ceil(resultats.length / PAR_PAGE)) : 1;
@@ -72,14 +69,19 @@ export default async function Catalogue({ searchParams }: Props) {
     ? [...new Set(tous.flatMap((o) => o.lieux.filter((l) => l.departement === f.dept).map((l) => l.ville)))].sort()
     : [];
   const contexte = { action, base, filtres: f, departements, titres: titresParSlug };
-  const deptFiltre = departements.find((d) => d.code === f.dept && d.page_publiee);
+  const deptFiltre = departements.find((d) => d.code === f.dept && d.a_une_page);
   const dedie = titreDedie(contexte);
   const actifs = puces(f).length;
   const piliers = titres.filter((t) => t.a_une_page);
-  const deptsPublies = deptsOrdonnes.filter((d) => d.page_publiee);
   const n = resultats.length;
   // Aucun organisme inscrit : ni recherche ni filtres (toutes les options seraient vides), un état dédié.
   const vide = tous.length === 0;
+  // Recherche sans résultat : combinaison de filtres + compteur, jamais la recherche par nom (production seulement).
+  const cle = !vide && n === 0 ? cleRecherche(f) : null;
+  if (cle && EST_PRODUCTION)
+    await supabasePublic()
+      .rpc("enregistrer_recherche_sans_resultat", { p_combinaison: cle })
+      .then(({ error }) => error && console.error("Enregistrement recherche sans résultat :", error.message));
 
   const guide = (
     <section id="guide" className="border-t border-line py-20">
@@ -284,6 +286,12 @@ export default async function Catalogue({ searchParams }: Props) {
                 <Link href={`${base}#formations`} className="self-start text-[15px] font-semibold">
                   {CATALOGUE_VIDE.lien}
                 </Link>
+                <p className="mt-2 border-t border-[#F0ECE6] pt-4 text-[15px] text-ink-700">
+                  {fr(CATALOGUE_VIDE.b2b)}{" "}
+                  <Link href={`${base}referencer-mon-organisme/`} className="font-semibold">
+                    {CATALOGUE_VIDE.b2bLien}
+                  </Link>
+                </p>
               </div>
             ) : n === 0 ? (
               <EtatZero {...contexte} tous={tous} />
@@ -347,22 +355,24 @@ export default async function Catalogue({ searchParams }: Props) {
               </div>
             )}
 
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-[18px] rounded-[20px] border border-line bg-white p-[clamp(22px,2.6vw,30px)]">
-              <div className="flex flex-col gap-1.5">
-                <p className="text-[19px] font-bold tracking-[-0.015em]">
-                  Vous dirigez un organisme de formation{" "}?
-                </p>
-                <p className="text-[15px] leading-[1.6] text-ink-500">
-                  Le référencement est gratuit. Créez la fiche de votre centre et gérez-la vous-même.
-                </p>
+            {!vide && (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-[18px] rounded-[20px] border border-line bg-white p-[clamp(22px,2.6vw,30px)]">
+                <div className="flex flex-col gap-1.5">
+                  <p className="text-[19px] font-bold tracking-[-0.015em]">
+                    Vous dirigez un organisme de formation{" "}?
+                  </p>
+                  <p className="text-[15px] leading-[1.6] text-ink-500">
+                    Le référencement est gratuit. Créez la fiche de votre centre et gérez-la vous-même.
+                  </p>
+                </div>
+                <Link
+                  href={`${base}referencer-mon-organisme/`}
+                  className="rounded-full bg-ink-900 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brique-700 hover:text-white"
+                >
+                  Référencer mon organisme →
+                </Link>
               </div>
-              <Link
-                href={`${base}referencer-mon-organisme/`}
-                className="rounded-full bg-ink-900 px-6 py-3.5 text-[15px] font-semibold text-white hover:bg-brique-700 hover:text-white"
-              >
-                Référencer mon organisme →
-              </Link>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -399,30 +409,35 @@ export default async function Catalogue({ searchParams }: Props) {
         </section>
       )}
 
-      {deptsPublies.length > 0 && (
-        <section className="bg-white pb-[72px]">
-          <div className="container-public">
-            <h2 className="text-[clamp(26px,2.9vw,34px)] leading-[1.15] font-bold tracking-[-0.025em]">
-              Chercher par département
-            </h2>
-            <p className="mt-3 max-w-[64ch] text-base leading-[1.65] text-ink-500">
-              La formation se déroule en présentiel{" "}: la proximité du centre compte.
-            </p>
-            <ul className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-2.5">
-              {deptsPublies.map((d) => (
-                <li key={d.code}>
+      {/* Les 8 départements : cliquables seulement s'ils ont une page (décision Erwan 01/10/2026). */}
+      <section className="bg-white pb-[72px]">
+        <div className="container-public">
+          <h2 className="text-[clamp(26px,2.9vw,34px)] leading-[1.15] font-bold tracking-[-0.025em]">
+            Chercher par département
+          </h2>
+          <p className="mt-3 max-w-[64ch] text-base leading-[1.65] text-ink-500">
+            La formation se déroule en présentiel{" "}: la proximité du centre compte.
+          </p>
+          <ul className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-2.5">
+            {deptsOrdonnes.map((d) => (
+              <li key={d.code}>
+                {d.a_une_page ? (
                   <Link
                     href={`${base}${d.slug}/`}
                     className="flex rounded-[14px] border border-line bg-cream-100 px-[18px] py-[15px] text-[15px] font-semibold text-ink-900 hover:border-ink-900 hover:text-ink-900"
                   >
                     {d.nom} ({d.code})
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
+                ) : (
+                  <span className="flex rounded-[14px] border border-line px-[18px] py-[15px] text-[15px] font-semibold text-ink-300">
+                    {d.nom} ({d.code})
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       {compteurs && guide}
 

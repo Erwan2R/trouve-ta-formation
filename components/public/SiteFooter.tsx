@@ -58,7 +58,7 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
               const d = depts.get(code);
               if (!d) return null;
               const label = `${d.nom} (${d.code})`;
-              return d.page_publiee ? (
+              return d.a_une_page ? (
                 <Link key={code} href={`${base}${d.slug}/`} className={lien}>
                   {label}
                 </Link>

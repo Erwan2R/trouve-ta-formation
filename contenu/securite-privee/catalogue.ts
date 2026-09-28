@@ -20,15 +20,14 @@ export const CATALOGUE = {
     "Le référencement dans cet annuaire est gratuit et ne constitue ni une recommandation, ni un label. Les informations proviennent des organismes eux-mêmes, qui gèrent leur fiche. Vérifiez l'autorisation d'un centre avant de vous engager.",
 };
 
-/**
- * Catalogue entièrement vide (aucun organisme inscrit) — état de lancement absent des specs.
- * PROPOSITION à valider par Erwan : sobre, sans promesse de volume ni de rythme d'inscription.
- */
+/** Catalogue entièrement vide (aucun organisme inscrit) — texte validé par Erwan le 01/10/2026. */
 export const CATALOGUE_VIDE = {
-  titre: "Aucun organisme n'est encore référencé",
+  titre: "Aucun organisme n'est encore référencé.",
   texte:
-    "Les organismes de formation créent eux-mêmes leur fiche dans cet annuaire. En attendant les premières inscriptions, les pages consacrées à chaque titre de formation détaillent le programme, les conditions d'accès et les démarches à accomplir.",
+    "Les organismes de formation créent eux-mêmes leur fiche dans cet annuaire : aucune n'est publiée sans leur accord. En attendant les premières inscriptions, les pages consacrées à chaque formation détaillent le programme, les conditions d'accès et les démarches à accomplir.",
   lien: "Voir les formations →",
+  b2b: "Vous êtes un organisme de formation ?",
+  b2bLien: "Référencez-le gratuitement →",
 };
 
 export const GUIDE = {
