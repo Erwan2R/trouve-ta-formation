@@ -16,14 +16,16 @@ export function ColonnePilier({
   gabarit,
   nbOrganismes,
   titresLies,
+  demarchesVisibles,
 }: {
   base: string;
   titre: Titre;
   gabarit: "A" | "B";
   nbOrganismes: number | null;
   titresLies: { titre: Titre; texte: string }[];
+  demarchesVisibles: Set<string>;
 }) {
-  const demarches =
+  const toutes =
     gabarit === "A"
       ? [
           ["autorisation-prealable", "Autorisation préalable", "Avant la formation"],
@@ -33,6 +35,7 @@ export function ColonnePilier({
           ["renouvellement-carte-professionnelle", "Renouvellement de la carte", "Après le stage"],
           ["autorisation-prealable", "Autorisation préalable", "Si la carte est expirée"],
         ];
+  const demarches = toutes.filter(([slug]) => demarchesVisibles.has(slug));
   const verbe = gabarit === "A" ? "préparent" : "proposent";
 
   return (
@@ -72,15 +75,17 @@ export function ColonnePilier({
         </div>
       )}
 
-      <div className={encart}>
-        <h2 className={surtitre}>Les démarches à accomplir</h2>
-        {demarches.map(([slug, libelle, quand]) => (
-          <Link key={slug} href={`${base}demarches/${slug}/`} className={ligne}>
-            <span className="text-[15px] font-bold">{libelle}</span>
-            <span className="font-mono text-[11px] tracking-[0.08em] text-brique-700 uppercase">{quand}</span>
-          </Link>
-        ))}
-      </div>
+      {demarches.length > 0 && (
+        <div className={encart}>
+          <h2 className={surtitre}>Les démarches à accomplir</h2>
+          {demarches.map(([slug, libelle, quand]) => (
+            <Link key={slug} href={`${base}demarches/${slug}/`} className={ligne}>
+              <span className="text-[15px] font-bold">{libelle}</span>
+              <span className="font-mono text-[11px] tracking-[0.08em] text-brique-700 uppercase">{quand}</span>
+            </Link>
+          ))}
+        </div>
+      )}
     </aside>
   );
 }

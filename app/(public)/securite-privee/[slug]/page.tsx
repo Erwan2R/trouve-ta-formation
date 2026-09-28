@@ -10,6 +10,7 @@ import { estSlugReserve } from "@/lib/config/slugs-reserves";
 import { VERTICALES, type Verticale } from "@/lib/config/verticales";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
+import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { dateLongue } from "@/lib/format-date";
 import { resoudrePilier } from "@/lib/resolution-pilier";
 import { getDepartements, getTitres, getTousLesTitres } from "@/lib/supabase/queries/referentiel";
@@ -62,10 +63,11 @@ export default async function PagePilier({ params }: Props) {
   const { titre, archive } = page;
   const contenu = PILIERS[titre.slug];
 
-  const [titres, departements, compteurs] = await Promise.all([
+  const [titres, departements, compteurs, { visibles }] = await Promise.all([
     getTitres(),
     getDepartements(),
     getCompteursAffiches(verticale.seuilCompteurs),
+    getDemarches(verticale),
   ]);
   const nbOrganismes = compteurs ? (compteurs.parTitre.get(titre.slug) ?? 0) : null;
   const titresLies = contenu.titresLies.flatMap(({ slug, texte }) => {
@@ -122,13 +124,20 @@ export default async function PagePilier({ params }: Props) {
       <SommairePilier gabarit={contenu.gabarit} />
       <section className="bg-cream-100">
         <div className="container-public flex flex-wrap items-start gap-[clamp(24px,3vw,44px)] pt-12 pb-14">
-          <CorpsPilier base={base} titre={titre} contenu={contenu} departements={deptsPublies} />
+          <CorpsPilier
+            base={base}
+            titre={titre}
+            contenu={contenu}
+            departements={deptsPublies}
+            demarchesVisibles={visibles}
+          />
           <ColonnePilier
             base={base}
             titre={titre}
             gabarit={contenu.gabarit}
             nbOrganismes={nbOrganismes}
             titresLies={titresLies}
+            demarchesVisibles={visibles}
           />
         </div>
       </section>

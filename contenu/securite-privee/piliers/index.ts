@@ -1,7 +1,8 @@
 import { CONDITIONS_COMMUNES } from "./communs";
 import { macAps } from "./mac-aps";
 import { ssiap1 } from "./ssiap-1";
-import { A_VERIFIER, contenuVerifie, type ContenuPilier } from "./types";
+import { sansMarqueur } from "@/contenu/marqueurs";
+import { contenuVerifie, type ContenuPilier } from "./types";
 
 /** Contenu rédigé, par slug du référentiel. Un titre absent d'ici n'a pas de page. */
 export const PILIERS: Record<string, ContenuPilier> = {
@@ -9,7 +10,7 @@ export const PILIERS: Record<string, ContenuPilier> = {
   "mac-aps": macAps,
 };
 
-const communsVerifies = !JSON.stringify(CONDITIONS_COMMUNES).toLowerCase().includes(A_VERIFIER);
+const communsVerifies = sansMarqueur(CONDITIONS_COMMUNES);
 
 /**
  * Une page pilier est visible en production seulement si : publiée en base, contenu rédigé, aucun « à vérifier ».

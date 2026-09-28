@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
+import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getDepartements, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
 
@@ -18,7 +19,11 @@ function Colonne({ titre, children }: { titre: string; children: React.ReactNode
 
 /** Seul endroit où un lien inter-verticale est toléré (ligne « Voir tous les secteurs »). */
 export async function SiteFooter({ verticale }: { verticale: Verticale }) {
-  const [groupes, departements] = await Promise.all([getTitresParCategorie(), getDepartements()]);
+  const [groupes, departements, { demarches, listeVisible }] = await Promise.all([
+    getTitresParCategorie(),
+    getDepartements(),
+    getDemarches(verticale),
+  ]);
   const titres = new Map(groupes.flatMap((g) => g.titres).map((t) => [t.slug, t]));
   const depts = new Map(departements.map((d) => [d.code, d]));
   const base = `/${verticale.slug}/`;
@@ -66,14 +71,22 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
           </Colonne>
 
           <Colonne titre="Démarches CNAPS">
-            {verticale.demarches.map((d) => (
-              <Link key={d.slug} href={`${base}demarches/${d.slug}/`} className={lien}>
-                {d.libelle}
+            {demarches.map((d) =>
+              d.a_une_page ? (
+                <Link key={d.slug} href={`${base}demarches/${d.slug}/`} className={lien}>
+                  {d.libelle}
+                </Link>
+              ) : (
+                <span key={d.slug} className={inactif}>
+                  {d.libelle}
+                </span>
+              ),
+            )}
+            {listeVisible && (
+              <Link href={`${base}demarches/`} className={suite}>
+                Toutes les démarches →
               </Link>
-            ))}
-            <Link href={`${base}demarches/`} className={suite}>
-              Toutes les démarches →
-            </Link>
+            )}
           </Colonne>
 
           <Colonne titre="Trouve ta formation">

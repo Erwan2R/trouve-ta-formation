@@ -1,7 +1,6 @@
 import type { QuestionFaq } from "@/components/public/Faq";
 
-/** Marqueur de donnée non vérifiée : tant qu'il figure dans un contenu, la page ne s'affiche jamais en production. */
-export const A_VERIFIER = "[à vérifier]";
+import { sansMarqueur } from "@/contenu/marqueurs";
 
 type Section = { h3: string; texte: string };
 
@@ -39,5 +38,5 @@ export type ContenuPilier = {
 
 /** Aucun marqueur « à vérifier » et tous les volumes horaires du programme renseignés. */
 export function contenuVerifie(c: ContenuPilier): boolean {
-  return !JSON.stringify(c).toLowerCase().includes(A_VERIFIER) && c.programme.modules.every((m) => m.volume);
+  return sansMarqueur(c) && c.programme.modules.every((m) => m.volume);
 }

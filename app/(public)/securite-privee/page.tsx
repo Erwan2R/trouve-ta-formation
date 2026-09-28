@@ -12,6 +12,7 @@ import { VERTICALES, type Verticale } from "@/lib/config/verticales";
 import { dateLongue } from "@/lib/format-date";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
+import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getDepartements, getTitres, getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
@@ -86,7 +87,10 @@ const FAQ: QuestionFaq[] = [
 export default async function AccueilSecuritePrivee() {
   const [titres, groupes, departements] = await Promise.all([getTitres(), getTitresParCategorie(), getDepartements()]);
 
-  const compteurs = await getCompteursAffiches(verticale.seuilCompteurs);
+  const [compteurs, { visibles }] = await Promise.all([
+    getCompteursAffiches(verticale.seuilCompteurs),
+    getDemarches(verticale),
+  ]);
 
   const derniereMaj = titres.reduce((max, t) => (t.created_at > max ? t.created_at : max), "");
   const ligneChiffres = compteurs
@@ -110,7 +114,7 @@ export default async function AccueilSecuritePrivee() {
       <CommentCaMarche />
       {compteurs && demarches}
       <Reassurance />
-      <CorpsEditorial base={base} titres={new Map(titres.map((t) => [t.slug, t]))} />
+      <CorpsEditorial base={base} titres={new Map(titres.map((t) => [t.slug, t]))} demarchesVisibles={visibles} />
       <Faq titre="Questions fréquentes sur la formation en sécurité privée" questions={FAQ} />
       {/* Derniers articles (bloc 11) : Sprint 10, absent tant qu'aucun article n'est publié. */}
       <div className="pt-[88px]">

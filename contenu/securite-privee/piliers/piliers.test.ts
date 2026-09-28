@@ -12,10 +12,10 @@ describe("piliers", () => {
   });
 
   it("contenu vérifié : sans marqueur et avec tous les volumes horaires", () => {
-    const sansMarqueur: typeof ssiap1 = JSON.parse(JSON.stringify(ssiap1).replaceAll(" [à vérifier]", ""));
-    expect(contenuVerifie(sansMarqueur)).toBe(false); // volumes manquants
-    sansMarqueur.programme.modules.forEach((m) => (m.volume = "10 h"));
-    expect(contenuVerifie(sansMarqueur)).toBe(true);
+    const nettoye: typeof ssiap1 = JSON.parse(JSON.stringify(ssiap1).replaceAll(" [à vérifier]", ""));
+    expect(contenuVerifie(nettoye)).toBe(false); // volumes manquants
+    nettoye.programme.modules.forEach((m) => (m.volume = "10 h"));
+    expect(contenuVerifie(nettoye)).toBe(true);
   });
 
   it("hors production : brouillon prévisualisable", () => {

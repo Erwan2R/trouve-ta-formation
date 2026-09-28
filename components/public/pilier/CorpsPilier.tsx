@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { LienContenu } from "@/components/public/LienContenu";
 import { CONDITIONS_COMMUNES } from "@/contenu/securite-privee/piliers/communs";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
 import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 import type { Departement, Titre } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
-import { TexteContenu } from "./TexteContenu";
+import { TexteContenu } from "@/components/public/TexteContenu";
 
 const h2 = "scroll-mt-40 text-[clamp(25px,3vw,34px)] leading-[1.1] font-bold tracking-[-0.025em]";
 const h2Petit = "scroll-mt-40 text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-bold tracking-[-0.02em]";
@@ -64,11 +65,13 @@ export function CorpsPilier({
   titre,
   contenu,
   departements,
+  demarchesVisibles,
 }: {
   base: string;
   titre: Titre;
   contenu: ContenuPilier;
   departements: Departement[];
+  demarchesVisibles: Set<string>;
 }) {
   const court = titre.libelle_court;
   const conditions = [
@@ -76,8 +79,8 @@ export function CorpsPilier({
       ...contenu.conditions.premiere,
       lien:
         contenu.gabarit === "A"
-          ? { href: `${base}demarches/autorisation-prealable/`, libelle: "Voir comment faire la demande →" }
-          : { href: `${base}demarches/renouvellement-carte-professionnelle/`, libelle: "Voir le renouvellement →" },
+          ? { href: "demarches/autorisation-prealable/", libelle: "Voir comment faire la demande →" }
+          : { href: "demarches/renouvellement-carte-professionnelle/", libelle: "Voir le renouvellement →" },
     },
     ...CONDITIONS_COMMUNES,
     contenu.conditions.propres,
@@ -118,9 +121,12 @@ export function CorpsPilier({
                   {"lien" in c && c.lien && (
                     <>
                       {" "}
-                      <Link href={c.lien.href} className="font-bold">
-                        {c.lien.libelle}
-                      </Link>
+                      <LienContenu
+                        lien={c.lien}
+                        base={base}
+                        demarchesVisibles={demarchesVisibles}
+                        className="font-bold"
+                      />
                     </>
                   )}
                 </p>

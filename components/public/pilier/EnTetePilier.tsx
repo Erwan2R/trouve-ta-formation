@@ -1,7 +1,7 @@
 import { Breadcrumb } from "@/components/public/Breadcrumb";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
 import type { Titre } from "@/lib/supabase/queries/referentiel";
-import { TexteContenu } from "./TexteContenu";
+import { TexteContenu } from "@/components/public/TexteContenu";
 
 function Fait({ label, children, mono = false }: { label: string; children: React.ReactNode; mono?: boolean }) {
   return (

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { LienContenu } from "@/components/public/LienContenu";
 import { LienTitre } from "@/components/public/LienTitre";
 import type { Titre } from "@/lib/supabase/queries/referentiel";
 
@@ -20,7 +20,15 @@ const SOMMAIRE = [
  * Bloc 9 — comparaison entre titres, jamais un titre développé (anti-cannibalisation).
  * Emplacements photo de la maquette omis tant qu'aucune photo n'est fournie.
  */
-export function CorpsEditorial({ base, titres }: { base: string; titres: Map<string, Titre> }) {
+export function CorpsEditorial({
+  base,
+  titres,
+  demarchesVisibles,
+}: {
+  base: string;
+  titres: Map<string, Titre>;
+  demarchesVisibles: Set<string>;
+}) {
   return (
     <section className="border-t border-line bg-white py-[88px]">
       <div className="container-public flex flex-wrap items-start gap-14">
@@ -56,9 +64,13 @@ export function CorpsEditorial({ base, titres }: { base: string; titres: Map<str
             </p>
             <p className="border-l-2 border-brique-700 pl-5 text-[clamp(18px,1.9vw,21px)] leading-normal tracking-[-0.01em] text-ink-900">
               Le point commun à tous ces métiers : ils sont réglementés. Nul ne peut exercer sans{" "}
-              <Link href={`${base}demarches/carte-professionnelle/`} className={lien}>
-                carte professionnelle
-              </Link>
+              <LienContenu
+                lien={{ href: "demarches/carte-professionnelle/", libelle: "carte professionnelle" }}
+                base={base}
+                demarchesVisibles={demarchesVisibles}
+                className={lien}
+                enLigne
+              />
               , et nul n&apos;obtient de carte professionnelle sans un titre reconnu. La formation n&apos;est donc pas
               une option de confort mais une condition d&apos;accès.
             </p>
@@ -239,9 +251,13 @@ export function CorpsEditorial({ base, titres }: { base: string; titres: Map<str
             <p className={prose}>
               L&apos;enchaînement complet — autorisation préalable, formation, carte professionnelle, renouvellement —
               est détaillé dans nos{" "}
-              <Link href={`${base}demarches/`} className={lien}>
-                pages consacrées aux démarches CNAPS
-              </Link>
+              <LienContenu
+                lien={{ href: "demarches/", libelle: "pages consacrées aux démarches CNAPS" }}
+                base={base}
+                demarchesVisibles={demarchesVisibles}
+                className={lien}
+                enLigne
+              />
               .
             </p>
           </div>

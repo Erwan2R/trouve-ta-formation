@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { URL_ESPACE_ORGANISME, type Verticale } from "@/lib/config/verticales";
+import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
 
@@ -8,7 +9,7 @@ const navLink =
 
 // Méga-menu en <details> natif : tous les liens sont dans le HTML serveur, aucun JS (UX accueil §1).
 export async function SiteHeader({ verticale }: { verticale: Verticale }) {
-  const groupes = await getTitresParCategorie();
+  const [groupes, { listeVisible }] = await Promise.all([getTitresParCategorie(), getDemarches(verticale)]);
   const base = `/${verticale.slug}/`;
 
   return (
@@ -57,9 +58,11 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
           <Link href={`${base}organismes/`} className={navLink}>
             Organismes
           </Link>
-          <Link href={`${base}demarches/`} className={navLink}>
-            Démarches CNAPS
-          </Link>
+          {listeVisible && (
+            <Link href={`${base}demarches/`} className={navLink}>
+              Démarches CNAPS
+            </Link>
+          )}
           <Link href={`${base}blog/`} className={navLink}>
             Blog
           </Link>

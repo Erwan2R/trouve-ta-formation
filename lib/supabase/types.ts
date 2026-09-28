@@ -39,6 +39,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      demarches: {
+        Row: {
+          cout: string | null
+          delai_instruction: string | null
+          fenetre_depot: string | null
+          page_publiee: boolean
+          slug: string
+          validite: string | null
+          verifie_le: string | null
+        }
+        Insert: {
+          cout?: string | null
+          delai_instruction?: string | null
+          fenetre_depot?: string | null
+          page_publiee?: boolean
+          slug: string
+          validite?: string | null
+          verifie_le?: string | null
+        }
+        Update: {
+          cout?: string | null
+          delai_instruction?: string | null
+          fenetre_depot?: string | null
+          page_publiee?: boolean
+          slug?: string
+          validite?: string | null
+          verifie_le?: string | null
+        }
+        Relationships: []
+      }
       departements: {
         Row: {
           code: string
