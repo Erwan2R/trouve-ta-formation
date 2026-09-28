@@ -28,7 +28,7 @@ export type Titre = Pick<
   /** La page pilier est visible (et donc liable) dans cet environnement : seule source de vérité pour les liens. */
   a_une_page: boolean;
 };
-export type Departement = Pick<Tables<"departements">, "code" | "slug" | "nom" | "preposition"> & {
+export type Departement = Pick<Tables<"departements">, "code" | "slug" | "nom" | "forme_lieu" | "forme_de"> & {
   /** Organismes publiés ayant au moins un lieu dans le département (tous paliers). */
   nbOrganismes: number;
   /** La page département existe dans cet environnement (seuil + contenu) : seule source de vérité pour les liens. */
@@ -62,7 +62,7 @@ export async function getTitresParCategorie(): Promise<{ categorie: string; titr
 
 export const getDepartements = cache(async (): Promise<Departement[]> => {
   const [{ data, error }, organismes, seuil] = await Promise.all([
-    supabasePublic().from("departements").select("code, slug, nom, preposition"),
+    supabasePublic().from("departements").select("code, slug, nom, forme_lieu, forme_de"),
     getOrganismes(),
     getSeuilPageDepartement(),
   ]);
@@ -74,5 +74,3 @@ export const getDepartements = cache(async (): Promise<Departement[]> => {
   });
 });
 
-/** « en Seine-Saint-Denis », « à Paris », « dans les Hauts-de-Seine ». */
-export const dansDepartement = (d: Pick<Departement, "preposition" | "nom">) => `${d.preposition} ${d.nom}`;

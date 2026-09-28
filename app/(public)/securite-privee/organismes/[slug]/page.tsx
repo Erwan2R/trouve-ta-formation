@@ -12,7 +12,7 @@ import { autresOrganismes, faqFiche, metaFiche } from "@/lib/organismes/fiche";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl, buildMetadata } from "@/lib/seo/metadata";
 import { getOrganisme, getOrganismes } from "@/lib/supabase/queries/organismes";
-import { dansDepartement, getDepartements, getTitres } from "@/lib/supabase/queries/referentiel";
+import { getDepartements, getTitres } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
@@ -188,13 +188,13 @@ export default async function FicheOrganisme({ params }: Props) {
         <section className="border-t border-line bg-white">
           <div className="container-public py-14">
             <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3">
-              <h2 className={h2}>Autres organismes {dept ? dansDepartement(dept) : "en Île-de-France"}</h2>
+              <h2 className={h2}>Autres organismes {dept ? dept.forme_de : "d'Île-de-France"}</h2>
               {dept && (
                 <Link
                   href={dept.a_une_page ? `${base}${dept.slug}/` : `${base}organismes/?dept=${dept.code}`}
                   className="text-[14.5px] font-semibold"
                 >
-                  Voir tous les organismes {dansDepartement(dept)} →
+                  Voir tous les organismes {dept.forme_de} →
                 </Link>
               )}
             </div>

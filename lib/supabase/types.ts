@@ -72,23 +72,26 @@ export type Database = {
       departements: {
         Row: {
           code: string
+          forme_de: string
+          forme_lieu: string
           nb_organismes_cache: number
           nom: string
-          preposition: string
           slug: string
         }
         Insert: {
           code: string
+          forme_de: string
+          forme_lieu: string
           nb_organismes_cache?: number
           nom: string
-          preposition?: string
           slug: string
         }
         Update: {
           code?: string
+          forme_de?: string
+          forme_lieu?: string
           nb_organismes_cache?: number
           nom?: string
-          preposition?: string
           slug?: string
         }
         Relationships: []

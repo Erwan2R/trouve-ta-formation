@@ -20,12 +20,7 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo/metadata";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getOrganismes } from "@/lib/supabase/queries/organismes";
-import {
-  dansDepartement,
-  getDepartements,
-  getTitresParCategorie,
-  type Departement,
-} from "@/lib/supabase/queries/referentiel";
+import { getDepartements, getTitresParCategorie, type Departement } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
 
 const majuscule = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -42,7 +37,7 @@ const ligneLien =
 /** Métadonnées (Copy géo §2) : title avec préposition, description en cascade selon le seuil des compteurs. */
 export async function metadataDepartement(d: Departement): Promise<Metadata> {
   const compteurs = await getCompteursAffiches(verticale.seuilCompteurs);
-  const zone = `${dansDepartement(d)} (${d.code})`;
+  const zone = `${d.forme_lieu} (${d.code})`;
   const long = `Formation sécurité privée ${zone} : organismes et titres`;
   const contenu = DEPARTEMENTS[d.slug];
   return buildMetadata({
@@ -68,7 +63,7 @@ export async function PageDepartement({ departement: d }: { departement: Departe
     getCompteursAffiches(verticale.seuilCompteurs),
     getDemarches(verticale),
   ]);
-  const zone = dansDepartement(d);
+  const zone = d.forme_lieu;
   const parCode = new Map(departements.map((x) => [x.code, x]));
   const organismes = trier(organismesDuDepartement(tous, d.code), "pertinence");
   const titres = groupes.flatMap((g) => g.titres);
@@ -90,12 +85,10 @@ export async function PageDepartement({ departement: d }: { departement: Departe
 
   // Phrase de disponibilité du chapô, calculée depuis l'inventaire (jamais une absence écrite à la main).
   const absentsAvecVoisin = absents.filter((t) => dispo.get(t.slug)!.voisin).slice(0, 2);
-  const voisinsCites = [...new Set(absentsAvecVoisin.map((t) => dispo.get(t.slug)!.voisin!))]
-    .map((c) => parCode.get(c))
-    .filter((v): v is Departement => !!v);
+  // Formulation validée par Erwan (01/10/2026) : on parle des centres référencés, pas de tous les centres.
   const phraseAbsences =
     absentsAvecVoisin.length > 0
-      ? `${majuscule(listeFr(absentsAvecVoisin.map((t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`)))} ${absentsAvecVoisin.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun centre du département : les organismes les plus proches se trouvent ${listeFr(voisinsCites.map(dansDepartement))}.`
+      ? `${majuscule(listeFr(absentsAvecVoisin.map((t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`)))} ${absentsAvecVoisin.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun des centres référencés dans le département.`
       : null;
 
   const premierAbsent = absentsAvecVoisin[0];
@@ -124,7 +117,7 @@ export async function PageDepartement({ departement: d }: { departement: Departe
       ? [
           {
             question: `Peut-on préparer le ${premierAbsent.libelle_court} ${zone} ?`,
-            reponse: `Non, aucun organisme référencé ne le propose dans le département. Les centres les plus proches se trouvent ${dansDepartement(parCode.get(dispo.get(premierAbsent.slug)!.voisin!)!)}.`,
+            reponse: `Non, aucun organisme référencé ne le propose dans le département. Les centres référencés les plus proches se trouvent ${parCode.get(dispo.get(premierAbsent.slug)!.voisin!)!.forme_lieu}.`,
           },
         ]
       : []),
@@ -243,10 +236,11 @@ export async function PageDepartement({ departement: d }: { departement: Departe
                         key={t.slug}
                         className="flex flex-wrap items-baseline gap-x-5 gap-y-2 border-b border-[#DFD9D2] py-[15px]"
                       >
-                        {x.nombre > 0 && t.a_une_page ? (
+                        {/* Nom cliquable seulement si la page formation est publiée (titres archivés déjà exclus). */}
+                        {t.a_une_page ? (
                           <Link
                             href={`${base}${t.slug}/`}
-                            className="min-w-40 flex-[1_1_200px] text-[17.5px] font-bold tracking-[-0.015em] text-ink-900 hover:text-brique-700"
+                            className={`min-w-40 flex-[1_1_200px] text-[17.5px] font-bold tracking-[-0.015em] hover:text-brique-700 ${x.nombre > 0 ? "text-ink-900" : "text-[#635D58]"}`}
                           >
                             {t.libelle_court}
                           </Link>
@@ -267,19 +261,27 @@ export async function PageDepartement({ departement: d }: { departement: Departe
                         ) : (
                           <>
                             <span className="min-w-[110px] flex-none text-[14.5px] text-[#635D58]">
-                              Non proposé dans le département
+                              Non proposé par les centres référencés
                             </span>
-                            {/* Repli : voisin avec page, sinon page pilier ; jamais un lien vers une page absente. */}
-                            {voisin?.a_une_page ? (
+                            {/* Repli : page du département voisin si elle existe, sinon catalogue filtré sur ce titre
+                                (et ce voisin) ; sans voisin, catalogue filtré sur le titre s'il est proposé ailleurs. */}
+                            {voisin ? (
                               <Link
-                                href={`${base}${voisin.slug}/`}
+                                href={
+                                  voisin.a_une_page
+                                    ? `${base}${voisin.slug}/`
+                                    : `${base}organismes/?dept=${voisin.code}&titre=${t.slug}`
+                                }
                                 className="flex-[2_1_220px] text-[14.5px] font-semibold"
                               >
-                                Voir les organismes {dansDepartement(voisin)} →
+                                Voir les organismes {voisin.forme_de} →
                               </Link>
-                            ) : t.a_une_page ? (
-                              <Link href={`${base}${t.slug}/`} className="flex-[2_1_220px] text-[14.5px] font-semibold">
-                                Voir la page du {t.libelle_court} →
+                            ) : tous.some((o) => o.titres.includes(t.slug)) ? (
+                              <Link
+                                href={`${base}organismes/?titre=${t.slug}`}
+                                className="flex-[2_1_220px] text-[14.5px] font-semibold"
+                              >
+                                Voir les organismes qui préparent le {t.libelle_court} →
                               </Link>
                             ) : (
                               <span className="flex-[2_1_220px]" />
