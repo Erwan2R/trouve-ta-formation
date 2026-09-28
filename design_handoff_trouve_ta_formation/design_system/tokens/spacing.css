@@ -1,0 +1,24 @@
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --space-4: 13px;
+  --space-5: 14px;
+  --space-6: 18px;
+  --space-7: 22px;
+  --space-8: 26px;
+  --space-9: 32px;
+  --space-10: 40px;
+  --space-11: 56px;
+  --space-12: 72px;
+
+  /* Rythme de page */
+  --container: 1240px;
+  --container-narrow: 880px;
+  --container-hero: 900px;
+  --gutter: 28px;
+  --section-y: 88px;
+  --grid-gap: 14px;
+  --stack-gap: 32px;
+  --header-offset: 96px;
+}

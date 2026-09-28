@@ -1,0 +1,41 @@
+:root {
+  /* Échelle d'affichage — fluide, toujours en clamp() */
+  --type-h1: 700 clamp(32px, 4.4vw, 54px)/1.06 var(--font-sans);
+  --type-h1-tracking: -0.03em;
+  --type-h2: 700 clamp(28px, 3.2vw, 40px)/1.1 var(--font-sans);
+  --type-h2-tracking: -0.025em;
+  --type-h2-editorial: 700 clamp(26px, 2.9vw, 34px)/1.15 var(--font-sans);
+  --type-h2-editorial-tracking: -0.02em;
+  --type-h3: 700 18px/1.3 var(--font-sans);
+  --type-h3-tracking: -0.01em;
+
+  /* Titres de cartes */
+  --type-card-title: 700 18px/1.25 var(--font-sans);
+  --type-card-title-lg: 700 20px/1.25 var(--font-sans);
+  --type-card-title-tracking: -0.015em;
+
+  /* Texte courant */
+  --type-lead: 400 16.5px/1.65 var(--font-sans);
+  --type-prose: 400 17px/1.75 var(--font-sans);
+  --type-body: 400 15px/1.7 var(--font-sans);
+  --type-body-sm: 400 14.5px/1.65 var(--font-sans);
+  --type-caption: 400 13.5px/1.5 var(--font-sans);
+  --type-fine: 400 12.5px/1.5 var(--font-sans);
+
+  /* Interface */
+  --type-nav: 500 14px/1.4 var(--font-sans);
+  --type-button: 600 15px/1 var(--font-sans);
+  --type-button-sm: 600 14px/1 var(--font-sans);
+
+  /* Mono — étiquettes, numéros, compteurs */
+  --type-eyebrow: 400 11px/1 var(--font-mono);
+  --type-eyebrow-tracking: 0.14em;
+  --type-mono-badge: 400 11.5px/1 var(--font-mono);
+  --type-mono-num: 400 12.5px/1 var(--font-mono);
+  --type-mono-meta: 400 12.5px/1.5 var(--font-mono);
+
+  /* Mesures de lecture */
+  --measure-title: 22ch;
+  --measure-intro: 64ch;
+  --measure-step: 38ch;
+}

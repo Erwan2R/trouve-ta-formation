@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button { font-family: inherit; }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh">
+
+  <header data-screen-label="Header" style="background:rgba(247,245,241,0.88);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:12px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+    </div>
+  </header>
+
+  <section id="affinage" data-screen-label="Accueil — bloc 4" style="padding:clamp(48px,7vw,88px) 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="background:#0B0B0B;border-radius:26px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:40px;align-items:center">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Questionnaire</span>
+          <h2 style="margin:0;font-size:clamp(26px,2.8vw,36px);line-height:1.15;letter-spacing:-0.02em;font-weight:700;color:#FFFFFF">Vous ne savez pas quel titre correspond à votre situation ?</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#D0CAC5">Six questions suffisent pour identifier le titre adapté à votre profil et les organismes qui le préparent près de chez vous.</p>
+        </div>
+        <div style="background:#FFFFFF;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">Où en êtes-vous aujourd'hui ?</span>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button type="button" onClick="{{ startA }}" style="text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4;cursor:pointer;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A;background:#FAF0ED">Je ne travaille pas encore dans la sécurité privée<span style="flex:none;color:#A83B2A;font-size:15px">→</span></button>
+            <button type="button" onClick="{{ startB }}" style="text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4;cursor:pointer;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A;background:#FAF0ED">Je travaille dans la sécurité, ma carte arrive à échéance<span style="flex:none;color:#A83B2A;font-size:15px">→</span></button>
+            <button type="button" onClick="{{ startC }}" style="text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4;cursor:pointer;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A;background:#FAF0ED">Je travaille dans la sécurité, je veux évoluer<span style="flex:none;color:#A83B2A;font-size:15px">→</span></button>
+          </div>
+          <p style="margin:2px 0 0;font-size:12.5px;line-height:1.5;color:#7B746E">Sans inscription. Vos réponses ne sont transmises à aucun organisme.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Modale" onClick="{{ close }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:clamp(8px,3vw,32px)">
+      <div role="dialog" aria-modal="true" aria-label="Trouver la formation adaptée à votre situation" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:26px;width:100%;max-width:{{ modalW }};max-height:100%;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+
+        <div style="flex:none;padding:18px clamp(20px,3vw,32px) 16px;border-bottom:1px solid #E7E3DD;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em;line-height:1.35">Trouver la formation adaptée à votre situation</span>
+            <button type="button" aria-label="Fermer" onClick="{{ close }}" style="flex:none;width:40px;height:40px;border-radius:99px;border:1px solid #E7E3DD;background:#F7F5F1;color:#0B0B0B;font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color 140ms ease" style-hover="border-color:#0B0B0B">×</button>
+          </div>
+          <sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <span style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.06em;color:#45423E">
+                <span>{{ progLabel }}</span>
+                <sc-if value="{{ isRefine }}" hint-placeholder-val="{{ false }}"><span style="color:#C7C1BC">—</span><span style="color:#A83B2A;text-transform:uppercase;letter-spacing:0.12em;font-size:10.5px">Affinage</span></sc-if>
+              </span>
+              <span style="display:flex;gap:4px">
+                <sc-for list="{{ segments }}" as="sg" hint-placeholder-count="6">
+                  <span style="flex:1;height:4px;border-radius:99px;background:{{ sg.bg }};display:block;transition:background 140ms ease"></span>
+                </sc-for>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">{{ resultLabel }}</span>
+          </sc-if>
+        </div>
+
+        <div ref="{{ bodyRef }}" style="flex:1 1 auto;overflow-y:auto;padding:clamp(24px,3.5vw,40px) clamp(20px,3vw,32px)">
+
+          <sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ true }}">
+            <div data-screen-label="Question" style="display:flex;flex-direction:column;gap:18px">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <h2 style="margin:0;font-size:clamp(23px,3vw,30px);line-height:1.15;letter-spacing:-0.025em;font-weight:700;text-wrap:balance">{{ q.title }}</h2>
+                <sc-if value="{{ q.hasHelp }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:0;max-width:56ch;font-size:15.5px;line-height:1.6;color:#3C3A37">{{ q.help }}</p>
+                </sc-if>
+              </div>
+              <sc-for list="{{ q.groups }}" as="g" hint-placeholder-count="1">
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <sc-if value="{{ g.hasName }}" hint-placeholder-val="{{ false }}">
+                    <span style="padding-top:4px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">{{ g.name }}</span>
+                  </sc-if>
+                  <div style="display:grid;grid-template-columns:{{ g.cols }};gap:8px">
+                    <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="3">
+                      <button type="button" onClick="{{ o.pick }}" aria-pressed="{{ o.pressed }}" style="text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;background:{{ o.bg }};border:1.5px solid {{ o.border }};border-radius:14px;padding:14px 18px;cursor:pointer;color:#0B0B0B;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A;background:#FAF0ED">
+                        <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                          <span style="font-size:16px;line-height:1.4;font-weight:{{ o.weight }}">{{ o.label }}</span>
+                          <sc-if value="{{ o.hasSub }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;line-height:1.45;color:#6B6560">{{ o.sub }}</span></sc-if>
+                        </span>
+                        <sc-if value="{{ o.isArrow }}" hint-placeholder-val="{{ true }}"><span style="flex:none;color:#A83B2A;font-size:16px">→</span></sc-if>
+                        <sc-if value="{{ o.isBox }}" hint-placeholder-val="{{ false }}"><span style="flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid {{ o.boxBorder }};background:{{ o.box }};display:flex;align-items:center;justify-content:center;transition:background 140ms ease"><span style="width:8px;height:8px;border-radius:2px;background:#FFFFFF;display:block"></span></span></sc-if>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ q.hasMention }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:2px 0 0;padding-top:14px;border-top:1px solid #F0ECE6;max-width:60ch;font-size:14.5px;line-height:1.6;color:#4C4946">{{ q.mention }}</p>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Résultat" style="display:flex;flex-direction:column;gap:clamp(28px,3.5vw,40px)">
+
+              <sc-if value="{{ r.asa }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:14px;max-width:64ch">
+                  <h2 style="margin:0;font-size:clamp(23px,3vw,30px);line-height:1.15;letter-spacing:-0.025em;font-weight:700;text-wrap:balance">Le renouvellement d'une carte de sûreté aéroportuaire suit un parcours particulier.</h2>
+                  <p style="margin:0;font-size:16.5px;line-height:1.7;color:#3C3A37">Votre métier relève à la fois de la réglementation de la sécurité privée et de celle de la sûreté aérienne. Le maintien de vos compétences ne passe pas par un stage unique, et une partie est généralement organisée par votre employeur.</p>
+                  <p style="margin:0;font-size:16.5px;line-height:1.7;color:#3C3A37">Rapprochez-vous de votre employeur ou de votre centre de formation habituel, et consultez notre page sur le renouvellement de la carte professionnelle pour les délais de dépôt.</p>
+                  <a href="#demarche-renouvellement" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;margin-top:6px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:15px 24px;font-size:15.5px;font-weight:700;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">Voir la démarche de renouvellement<span>→</span></a>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ r.normal }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;gap:clamp(28px,3.5vw,40px)">
+
+                  <div data-screen-label="Titre recommandé" style="display:flex;flex-direction:column;gap:14px">
+                    <h2 style="margin:0;display:flex;flex-direction:column;gap:8px;font-weight:700">
+                      <span style="font-size:15px;line-height:1.3;letter-spacing:0;color:#6B6560;font-weight:600">Le titre à viser :</span>
+                      <span style="max-width:24ch;font-size:clamp(26px,3.6vw,40px);line-height:1.06;letter-spacing:-0.035em;text-wrap:balance">{{ r.long }}</span>
+                    </h2>
+                    <p style="margin:0;max-width:62ch;font-size:17px;line-height:1.7;color:#3C3A37;text-wrap:pretty"><strong style="color:#0B0B0B">{{ r.explStrong }}</strong> {{ r.expl }}</p>
+                    <a href="{{ r.href }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-size:15.5px;font-weight:700;color:#0B0B0B;border-bottom:1.5px solid #A83B2A;padding-bottom:3px" style-hover="color:#A83B2A"><span>Tout savoir sur le {{ r.short }}</span><span>→</span></a>
+                  </div>
+
+                  <sc-if value="{{ r.hasDem }}" hint-placeholder-val="{{ false }}">
+                    <div data-screen-label="Encart démarche" style="background:#0B0B0B;border-radius:20px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:10px">
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">À faire en premier</span>
+                      <span style="font-size:20px;line-height:1.25;letter-spacing:-0.02em;font-weight:700;color:#FFFFFF">{{ r.demTitle }}</span>
+                      <p style="margin:0;max-width:62ch;font-size:15.5px;line-height:1.65;color:#D0CAC5">{{ r.demText }}</p>
+                      <a href="{{ r.demHref }}" style="align-self:flex-start;margin-top:4px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:#E19D8B" style-hover="color:#FFFFFF">{{ r.demLink }}<span>→</span></a>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ r.hasOrgs }}" hint-placeholder-val="{{ true }}">
+                    <div data-screen-label="Organismes" style="display:flex;flex-direction:column;gap:14px">
+                      <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em">{{ r.countLabel }}</span>
+                      <sc-if value="{{ r.hasRelax }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-direction:column;gap:6px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:16px;padding:16px 18px">
+                          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Recherche élargie</span>
+                          <span style="font-size:15px;line-height:1.6;color:#0B0B0B">{{ r.relax }}</span>
+                        </div>
+                      </sc-if>
+                      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px">
+                        <sc-for list="{{ r.orgs }}" as="org" hint-placeholder-count="2">
+                          <li>
+                            <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B;transition:border-color 140ms ease, transform 140ms ease" style-hover="border-color:#0B0B0B;transform:translateY(-2px);color:#0B0B0B">
+                              <span style="display:flex;align-items:flex-start;gap:13px">
+                                <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">{{ org.ini }}</span>
+                                <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+                                  <span style="font-size:16px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">{{ org.name }}</span>
+                                  <span style="font-size:13.5px;color:#7B746E">{{ org.lieu }}</span>
+                                </span>
+                              </span>
+                              <span style="display:flex;flex-wrap:wrap;gap:6px">
+                                <sc-for list="{{ org.chips }}" as="c" hint-placeholder-count="3">
+                                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid {{ c.border }};border-radius:9px;padding:6px 11px;font-size:13px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>{{ c.label }}</span>
+                                </sc-for>
+                                <sc-if value="{{ org.hasMore }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;padding:6px 4px;font-size:13px;color:#7B746E">{{ org.more }}</span></sc-if>
+                              </span>
+                              <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12.5px;color:#4C4946">
+                                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                                <span>{{ org.fins }}</span>
+                              </span>
+                            </a>
+                          </li>
+                        </sc-for>
+                      </ol>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ r.level5 }}" hint-placeholder-val="{{ false }}">
+                    <div data-screen-label="Relâchement niveau 5" style="background:#F7F5F1;border:1px solid #E2DDD6;border-radius:20px;padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:12px">
+                      <span style="font-size:18px;line-height:1.35;font-weight:700;letter-spacing:-0.015em">{{ r.l5Title }}</span>
+                      <p style="margin:0;max-width:62ch;font-size:15.5px;line-height:1.65;color:#3C3A37">Notre annuaire se construit progressivement : cela ne veut pas dire qu'aucun centre ne le propose. Consultez la page du titre pour connaître le programme et les conditions d'accès, et regardez les titres proches ci-dessous.</p>
+                      <span style="display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:4px">
+                        <a href="{{ r.href }}" style="font-size:15px;font-weight:700;color:#0B0B0B;border-bottom:1.5px solid #A83B2A;padding-bottom:2px" style-hover="color:#A83B2A">Tout savoir sur le {{ r.short }} →</a>
+                        <a href="#demarches" style="font-size:15px;font-weight:700;color:#0B0B0B;border-bottom:1.5px solid #A83B2A;padding-bottom:2px" style-hover="color:#A83B2A">Voir les démarches à accomplir →</a>
+                      </span>
+                    </div>
+                  </sc-if>
+
+                  <div data-screen-label="Titres alternatifs" style="display:flex;flex-direction:column;gap:10px">
+                    <span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">Vous pourriez aussi envisager</span>
+                    <div style="display:flex;flex-direction:column;border-top:1px solid #E7E3DD">
+                      <sc-for list="{{ r.alts }}" as="al" hint-placeholder-count="1">
+                        <a href="{{ al.href }}" style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid #E7E3DD;color:#0B0B0B" style-hover="color:#A83B2A">
+                          <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15.5px;font-weight:700">{{ al.label }}</span><span style="font-size:14px;line-height:1.5;color:#4C4946">{{ al.line }}</span></span>
+                          <span style="flex:none;color:#A83B2A">→</span>
+                        </a>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <div data-screen-label="Actions" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px">
+                    <sc-if value="{{ r.canRefine }}" hint-placeholder-val="{{ true }}">
+                      <button type="button" onClick="{{ refine }}" style="display:inline-flex;align-items:center;gap:12px;background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:16px 24px;font-size:15.5px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A">Affiner mes résultats<span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:400;color:#D0CAC5">4 questions de plus</span></button>
+                    </sc-if>
+                    <button type="button" onClick="{{ modify }}" style="display:inline-flex;align-items:center;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:15px 22px;font-size:15px;font-weight:700;cursor:pointer;transition:border-color 140ms ease" style-hover="border-color:#0B0B0B">Modifier mes réponses</button>
+                  </div>
+
+                  <div data-screen-label="Encart conditions" style="border:1px solid #E7E3DD;border-radius:18px;padding:clamp(18px,2.5vw,24px);display:flex;flex-direction:column;gap:8px">
+                    <span style="font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-0.01em">Avant de vous inscrire, vérifiez que vous remplissez les conditions</span>
+                    <p style="margin:0;max-width:66ch;font-size:14.5px;line-height:1.65;color:#4C4946">La formation à la sécurité privée demande une autorisation du CNAPS, qui vérifie notamment votre casier judiciaire. Elle demande aussi un niveau de français correspondant au niveau B1, vérifié à l'entrée en formation.</p>
+                    <a href="#conditions" style="align-self:flex-start;font-size:14.5px;font-weight:700" style-hover="color:#0B0B0B">Voir toutes les conditions →</a>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ r.asa }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex">
+                  <button type="button" onClick="{{ modify }}" style="display:inline-flex;align-items:center;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:15px 22px;font-size:15px;font-weight:700;cursor:pointer;transition:border-color 140ms ease" style-hover="border-color:#0B0B0B">Modifier mes réponses</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ isQuestion }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:none;padding:14px clamp(20px,3vw,32px);border-top:1px solid #E7E3DD;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px">
+            <span style="display:flex">
+              <sc-if value="{{ canBack }}" hint-placeholder-val="{{ true }}">
+                <button type="button" onClick="{{ back }}" style="background:transparent;border:0;padding:12px 4px;font-size:15px;font-weight:700;color:#0B0B0B;cursor:pointer;border-bottom:1.5px solid transparent" style-hover="color:#A83B2A">Retour</button>
+              </sc-if>
+            </span>
+            <sc-if value="{{ needsContinue }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ cont }}" disabled="{{ contDisabled }}" style="display:inline-flex;align-items:center;gap:10px;background:{{ contBg }};color:{{ contColor }};border:0;border-radius:999px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;transition:background 140ms ease">{{ contLabel }}<span>→</span></button>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etatDepart&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Accueil&quot;,&quot;Question avec aide (A4)&quot;,&quot;Entrée sans autorisation&quot;,&quot;Rythme élargi&quot;,&quot;Carte expirée&quot;,&quot;Renouvellement ASA&quot;,&quot;Expérience insuffisante&quot;,&quot;Aucun organisme&quot;],&quot;default&quot;:&quot;Accueil&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;État de départ&quot;},&quot;seuilRelachement&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Zéro résultat&quot;,&quot;Moins de trois&quot;],&quot;default&quot;:&quot;Zéro résultat&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Seuil de relâchement automatique&quot;}}">
+const DEPTS = [
+  { c: '75', n: 'Paris', p: 'à Paris' }, { c: '77', n: 'Seine-et-Marne', p: 'en Seine-et-Marne' },
+  { c: '78', n: 'Yvelines', p: 'dans les Yvelines' }, { c: '91', n: 'Essonne', p: 'en Essonne' },
+  { c: '92', n: 'Hauts-de-Seine', p: 'dans les Hauts-de-Seine' }, { c: '93', n: 'Seine-Saint-Denis', p: 'en Seine-Saint-Denis' },
+  { c: '94', n: 'Val-de-Marne', p: 'dans le Val-de-Marne' }, { c: '95', n: "Val-d'Oise", p: "dans le Val-d'Oise" }
+];
+const NB = { '75': ['92','93','94'], '77': ['93','94','91','95'], '78': ['92','95','91'], '91': ['78','94','77','92'], '92': ['75','78','95','93','94'], '93': ['75','92','94','95','77'], '94': ['75','92','93','91','77'], '95': ['78','92','93','77'] };
+const T = {
+  'TFP APS': ['Agent de prévention et de sécurité (TFP APS)', 'TFP APS'],
+  'SSIAP 1': ['Agent de service de sécurité incendie (SSIAP 1)', 'SSIAP 1'],
+  'SSIAP 2': ["Chef d'équipe de sécurité incendie (SSIAP 2)", 'SSIAP 2'],
+  'SSIAP 3': ['Chef de service de sécurité incendie (SSIAP 3)', 'SSIAP 3'],
+  'TFP ASC': ['Agent de sécurité cynophile (TFP ASC)', 'TFP ASC'],
+  'TFP ASA': ['Agent de sûreté aéroportuaire (TFP ASA)', 'TFP ASA'],
+  'TFP A3P': ['Agent de protection physique des personnes (TFP A3P)', 'TFP A3P'],
+  'MAC APS': ["Maintien et actualisation des compétences d'agent de prévention et de sécurité (MAC APS)", 'MAC APS'],
+  'MAC cynophile': ["Maintien et actualisation des compétences d'agent cynophile (MAC cynophile)", 'MAC cynophile'],
+  'MAC A3P': ['Maintien et actualisation des compétences en protection physique des personnes (MAC A3P)', 'MAC A3P'],
+  'Recyclage SSIAP 1': ["Recyclage d'agent de service de sécurité incendie (SSIAP 1)", 'recyclage SSIAP 1'],
+  'Recyclage SSIAP 2': ["Recyclage de chef d'équipe de sécurité incendie (SSIAP 2)", 'recyclage SSIAP 2'],
+  'Recyclage SSIAP 3': ['Recyclage de chef de service de sécurité incendie (SSIAP 3)', 'recyclage SSIAP 3']
+};
+const ALT = {
+  'TFP APS': [['SSIAP 1', 'Pour travailler en sécurité incendie, dans les bâtiments recevant du public.']],
+  'SSIAP 1': [['TFP APS', 'Pour surveiller des sites, des magasins ou des événements.']],
+  'SSIAP 2': [['TFP APS', 'Pour ajouter la surveillance à votre profil.']],
+  'SSIAP 3': [['Recyclage SSIAP 2', 'Pour maintenir votre titre actuel.']],
+  'TFP ASC': [['TFP APS', "Le titre d'entrée du métier, plus court."]],
+  'TFP ASA': [['TFP APS', "Le titre d'entrée du métier, plus court."]],
+  'TFP A3P': [['TFP APS', "Le titre d'entrée du métier, plus court."]],
+  'MAC APS': [['SSIAP 1', 'Pour ajouter la sécurité incendie à votre titre actuel.']],
+  'MAC cynophile': [['MAC APS', 'Si vous exercez aussi comme agent de prévention et de sécurité.']],
+  'MAC A3P': [['MAC APS', 'Si vous exercez aussi comme agent de prévention et de sécurité.']],
+  'Recyclage SSIAP 1': [['SSIAP 2', "Pour encadrer une équipe, avec l'expérience demandée."]],
+  'Recyclage SSIAP 2': [['SSIAP 3', "Pour diriger un service, avec l'expérience demandée."]],
+  'Recyclage SSIAP 3': [['TFP APS', 'Pour ajouter la surveillance à votre profil.']]
+};
+const HELD = { 'TFP APS': 'MAC APS', 'TFP ASC': 'MAC cynophile', 'SSIAP 1': 'Recyclage SSIAP 1', 'SSIAP 2': 'Recyclage SSIAP 2', 'SSIAP 3': 'Recyclage SSIAP 3', 'TFP A3P': 'MAC A3P' };
+const SPEC = { chien: ['TFP ASC', 'le travail avec un chien'], aero: ['TFP ASA', 'le travail dans un aéroport'], perso: ['TFP A3P', 'la protection de personnes'] };
+const ORGS = [
+  { n: 'Académie Française de Sécurité', v: 'Bobigny', d: '93', t: ['TFP APS','SSIAP 1','SSIAP 2','MAC APS','Recyclage SSIAP 1'], r: ['plein','soir'], f: ['CPF','France Travail','OPCO'], pmr: true },
+  { n: 'Centre Sécuriform Île-de-France', v: 'Saint-Denis', d: '93', t: ['TFP APS','MAC APS','SSIAP 1'], r: ['plein','we'], f: ['CPF','France Travail'], pmr: false },
+  { n: 'Protectis Formation', v: 'Paris 11e', d: '75', t: ['TFP APS','SSIAP 1','SSIAP 2','SSIAP 3','Recyclage SSIAP 2','Recyclage SSIAP 3'], r: ['plein','soir'], f: ['CPF','OPCO'], pmr: true },
+  { n: 'Institut Vigie', v: 'Créteil', d: '94', t: ['TFP APS','MAC APS','TFP A3P'], r: ['plein'], f: ['CPF','France Travail','OPCO'], pmr: true },
+  { n: 'Cynotech 77', v: 'Meaux', d: '77', t: ['TFP ASC','MAC cynophile','TFP APS'], r: ['plein','we'], f: ['CPF','France Travail'], pmr: false },
+  { n: 'Sûreté Formation Roissy', v: 'Roissy-en-France', d: '95', t: ['TFP ASA','TFP APS'], r: ['plein'], f: ['CPF','France Travail','OPCO'], pmr: true },
+  { n: 'Horizon Sécurité', v: 'Nanterre', d: '92', t: ['SSIAP 1','Recyclage SSIAP 1','SSIAP 2','Recyclage SSIAP 2'], r: ['plein','soir'], f: ['CPF','OPCO'], pmr: true },
+  { n: 'Formapro Sécurité 91', v: 'Évry-Courcouronnes', d: '91', t: ['TFP APS','MAC APS','SSIAP 1'], r: ['plein','we'], f: ['CPF','France Travail'], pmr: false },
+  { n: 'Atlas Prévention', v: 'Versailles', d: '78', t: ['TFP APS','SSIAP 1','Recyclage SSIAP 1'], r: ['soir','we'], f: ['CPF','OPCO'], pmr: true },
+  { n: "Garde Sécurité Val-d'Oise", v: 'Cergy', d: '95', t: ['TFP APS','MAC APS'], r: ['plein','soir'], f: ['CPF','France Travail'], pmr: false }
+];
+const TITRES_GROUPS = [
+  { name: 'Agent de sécurité', opts: [{ v: 'TFP APS', label: 'TFP APS', sub: 'Agent de prévention et de sécurité' }] },
+  { name: 'Sécurité incendie', opts: [
+    { v: 'SSIAP 1', label: 'SSIAP 1', sub: 'Agent de sécurité incendie' },
+    { v: 'SSIAP 2', label: 'SSIAP 2', sub: "Chef d'équipe de sécurité incendie" },
+    { v: 'SSIAP 3', label: 'SSIAP 3', sub: 'Chef de service de sécurité incendie' }] },
+  { name: 'Spécialités', opts: [
+    { v: 'TFP ASC', label: 'TFP ASC', sub: 'Agent cynophile, avec un chien' },
+    { v: 'TFP ASA', label: 'TFP ASA', sub: 'Agent de sûreté dans un aéroport' },
+    { v: 'TFP A3P', label: 'TFP A3P', sub: 'Protection physique des personnes' }] }
+];
+const SPEC_OPTS = [{ v: 'chien', label: 'Travailler avec un chien' }, { v: 'aero', label: 'Travailler dans un aéroport' }, { v: 'perso', label: 'Protéger une personne' }];
+const Q = {
+  q1: { title: "Où en êtes-vous aujourd'hui ?", opts: [
+    { v: 'A', label: 'Je ne travaille pas encore dans la sécurité privée' },
+    { v: 'B', label: 'Je travaille dans la sécurité, ma carte arrive à échéance' },
+    { v: 'C', label: 'Je travaille dans la sécurité, je veux évoluer' }] },
+  a2: { title: 'Quel type de poste vous intéresse ?', opts: [
+    { v: 'surv', label: 'Surveiller des sites, des magasins, des événements' },
+    { v: 'inc', label: 'Assurer la sécurité incendie dans un bâtiment' },
+    { v: 'spec', label: 'Un métier spécialisé' }] },
+  a3: { title: 'Quelle spécialité vous intéresse ?', opts: SPEC_OPTS },
+  a4: { title: 'Avez-vous déjà demandé votre autorisation préalable au CNAPS ?',
+    help: "C'est l'autorisation du CNAPS qui permet d'entrer en formation. Elle se demande avant de s'inscrire.", opts: [
+    { v: 'oui', label: "Oui, je l'ai obtenue" }, { v: 'non', label: 'Non, pas encore' }, { v: 'nsp', label: 'Je ne sais pas ce que c\'est' }] },
+  b2: { title: 'Quel titre avez-vous obtenu ?', groups: TITRES_GROUPS },
+  b3: { title: 'Quand votre carte expire-t-elle ?', opts: [
+    { v: 'exp', label: 'Elle est déjà expirée' }, { v: 'lt3', label: 'Dans moins de 3 mois' },
+    { v: '3-12', label: 'Dans 3 à 12 mois' }, { v: 'gt12', label: "Dans plus d'un an" }] },
+  c2: { title: 'Quel titre avez-vous obtenu ?', groups: TITRES_GROUPS },
+  c3: { title: 'Depuis combien de temps travaillez-vous dans la sécurité ?', opts: [
+    { v: 'lt1', label: "Moins d'un an" }, { v: '1-3', label: 'Entre 1 et 3 ans' }, { v: 'gt3', label: 'Plus de 3 ans' }] },
+  c4: { title: 'Vers quoi voulez-vous aller ?', opts: [
+    { v: 'enc', label: 'Encadrer une équipe' }, { v: 'inc', label: 'Aller vers la sécurité incendie' }, { v: 'spec', label: 'Me spécialiser' }] },
+  c5: { title: 'Quelle spécialité vous intéresse ?', opts: SPEC_OPTS },
+  s1: { title: "Quelle est votre situation aujourd'hui ?", opts: [
+    { v: 'de', label: "Demandeur d'emploi" }, { v: 'sal', label: 'Salarié' }, { v: 'rec', label: 'En reconversion' },
+    { v: 'int', label: 'Intérimaire' }, { v: 'etu', label: 'Étudiant' }] },
+  s2: { title: 'Où cherchez-vous une formation ?', type: 'multi' },
+  s3: { title: 'Quel rythme vous conviendrait ?', mention: 'La formation se déroule en présentiel, souvent sur plusieurs semaines.', opts: [
+    { v: 'plein', label: 'Temps plein' }, { v: 'soir', label: 'Cours du soir' }, { v: 'we', label: 'Week-end' }, { v: 'any', label: 'Peu importe' }] },
+  o1: { title: 'Voulez-vous passer plusieurs titres ?',
+    mention: 'Beaucoup d\'agents passent le TFP APS et le SSIAP 1. Cela permet de travailler à la fois en surveillance et en sécurité incendie.', opts: [
+    { v: 'un', label: 'Un seul pour commencer' }, { v: 'deux', label: 'Deux titres pour être plus employable' }] },
+  o2: { title: 'Comment vous déplacez-vous ?', opts: [
+    { v: 'tc', label: 'En transports en commun' }, { v: 'vl', label: "J'ai un véhicule" }, { v: 'prox', label: 'Je cherche tout près de chez moi' }] },
+  o3: { title: 'Quand voulez-vous commencer ?', opts: [
+    { v: 'asap', label: 'Dès que possible' }, { v: '3m', label: 'Dans les 3 mois' }, { v: 'an', label: "Dans l'année" }, { v: 'info', label: 'Je me renseigne seulement' }] },
+  o4: { title: 'Avez-vous besoin d\'un accès adapté aux personnes à mobilité réduite ?', type: 'check' }
+};
+const REF = ['o1', 'o2', 'o3', 'o4'];
+const PRESETS = {
+  'Question avec aide (A4)': { ans: { q1: 'A', a2: 'surv' }, mode: 'init', idx: 2 },
+  'Entrée sans autorisation': { ans: { q1: 'A', a2: 'surv', a4: 'non', s1: 'de', s2: ['93'], s3: 'plein' }, mode: 'result' },
+  'Rythme élargi': { ans: { q1: 'A', a2: 'inc', a4: 'oui', s1: 'sal', s2: ['93'], s3: 'we' }, mode: 'result' },
+  'Carte expirée': { ans: { q1: 'B', b2: 'TFP APS', b3: 'exp', s1: 'sal', s2: ['75'], s3: 'any' }, mode: 'result' },
+  'Renouvellement ASA': { ans: { q1: 'B', b2: 'TFP ASA' }, mode: 'result' },
+  'Expérience insuffisante': { ans: { q1: 'C', c2: 'SSIAP 1', c3: 'lt1', c4: 'enc', s1: 'sal', s2: ['92'], s3: 'any' }, mode: 'result' },
+  'Aucun organisme': { ans: { q1: 'B', b2: 'TFP A3P', b3: '3-12', s1: 'de', s2: ['94'], s3: 'any' }, mode: 'result' }
+};
+const slug = s => '#titre-' + s.toLowerCase().replace(/\s+/g, '-');
+const joinPrep = codes => { const ps = codes.map(c => DEPTS.find(d => d.c === c).p); return ps.length === 1 ? ps[0] : ps.slice(0, -1).join(', ') + ' ou ' + ps[ps.length - 1]; };
+
+class Component extends DCLogic {
+  state = { open: false, mode: 'init', idx: 0, ans: {}, refined: false };
+  bodyRef = React.createRef();
+
+  componentDidMount() {
+    this.applyPreset();
+    this.onKey = e => { if (e.key === 'Escape' && this.state.open) this.setState({ open: false }); };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); document.body.style.overflow = ''; }
+  componentDidUpdate(pp) {
+    if (pp && pp.etatDepart !== this.props.etatDepart) this.applyPreset();
+    document.body.style.overflow = this.state.open ? 'hidden' : '';
+    const key = this.state.mode + ':' + this.state.idx;
+    if (key !== this._prevKey) { this._prevKey = key; if (this.bodyRef.current) this.bodyRef.current.scrollTop = 0; }
+  }
+  applyPreset() {
+    const p = PRESETS[this.props.etatDepart];
+    if (!p) { this.setState({ open: false }); return; }
+    this.setState({ open: true, mode: p.mode, idx: p.idx || 0, ans: { ...p.ans }, refined: false });
+  }
+
+  initSteps(a) {
+    const s = ['q1'];
+    if (a.q1 === 'A') { s.push('a2'); if (a.a2 === 'spec') s.push('a3'); s.push('a4'); }
+    else if (a.q1 === 'B') { s.push('b2'); if (a.b2 === 'TFP ASA') return s; s.push('b3'); }
+    else if (a.q1 === 'C') { s.push('c2', 'c3', 'c4'); if (a.c4 === 'spec') s.push('c5'); }
+    else return s.concat(['·', '·', '·', '·', '·']);
+    return s.concat(['s1', 's2', 's3']);
+  }
+  steps() { return this.state.mode === 'refine' ? REF : this.initSteps(this.state.ans); }
+
+  start(b) { this.setState(s => ({ open: true, mode: 'init', idx: 1, ans: { ...s.ans, q1: b } })); }
+  advance(ans) {
+    const { mode, idx } = this.state;
+    const steps = mode === 'refine' ? REF : this.initSteps(ans);
+    if (idx + 1 >= steps.length) this.setState({ ans, mode: 'result', idx: 0, refined: mode === 'refine' ? true : this.state.refined });
+    else this.setState({ ans, idx: idx + 1 });
+  }
+  pick(id, v) { this.advance({ ...this.state.ans, [id]: v }); }
+  toggleDept(v) {
+    let cur = this.state.ans.s2 || [];
+    if (v === 'any') cur = cur.includes('any') ? [] : ['any'];
+    else { cur = cur.filter(x => x !== 'any'); cur = cur.includes(v) ? cur.filter(x => x !== v) : cur.concat(v); }
+    this.setState({ ans: { ...this.state.ans, s2: cur } });
+  }
+  back() {
+    const { mode, idx } = this.state;
+    if (mode === 'refine' && idx === 0) this.setState({ mode: 'result' });
+    else if (idx > 0) this.setState({ idx: idx - 1 });
+  }
+
+  opt(o, selected, onPick, box) {
+    return {
+      label: o.label, sub: o.sub || '', hasSub: !!o.sub, pick: onPick, pressed: selected ? 'true' : 'false',
+      border: selected ? '#0B0B0B' : '#E7E3DD', bg: selected ? '#FFFFFF' : '#F7F5F1', weight: selected ? 700 : 500,
+      isArrow: !box, isBox: !!box, box: selected ? '#0B0B0B' : '#FFFFFF', boxBorder: selected ? '#0B0B0B' : '#C7C1BC'
+    };
+  }
+  question(id) {
+    const d = Q[id], a = this.state.ans;
+    let groups;
+    if (id === 's2') {
+      const sel = a.s2 || [];
+      groups = [
+        { name: '', hasName: false, cols: 'repeat(auto-fill,minmax(min(100%,220px),1fr))', opts: DEPTS.map(dp => this.opt({ label: dp.n + ' (' + dp.c + ')' }, sel.includes(dp.c), () => this.toggleDept(dp.c), true)) },
+        { name: '', hasName: false, cols: '1fr', opts: [this.opt({ label: 'Peu importe, je peux me déplacer' }, sel.includes('any'), () => this.toggleDept('any'), true)] }
+      ];
+    } else if (id === 'o4') {
+      groups = [{ name: '', hasName: false, cols: '1fr', opts: [this.opt({ label: "Oui, j'en ai besoin" }, !!a.o4, () => this.setState({ ans: { ...a, o4: !a.o4 } }), true)] }];
+    } else if (d.groups) {
+      groups = d.groups.map(g => ({ name: g.name, hasName: true, cols: 'repeat(auto-fill,minmax(min(100%,220px),1fr))', opts: g.opts.map(o => this.opt(o, a[id] === o.v, () => this.pick(id, o.v))) }));
+    } else {
+      groups = [{ name: '', hasName: false, cols: '1fr', opts: d.opts.map(o => this.opt(o, a[id] === o.v, () => this.pick(id, o.v))) }];
+    }
+    return { title: d.title, help: d.help || '', hasHelp: !!d.help, mention: d.mention || '', hasMention: !!d.mention, groups, type: d.type || 'single' };
+  }
+
+  result() {
+    const a = this.state.ans, refined = this.state.refined;
+    let rec = null, expl = '', strong = '', dem = null, alts = null;
+    if (a.q1 === 'A') {
+      if (a.a2 === 'surv') { rec = 'TFP APS'; expl = "Vous débutez dans le secteur et vous voulez surveiller des sites ou des magasins : le TFP APS est le titre d'entrée de ce métier. C'est aussi celui qui ouvre le plus grand nombre d'offres d'emploi."; }
+      else if (a.a2 === 'inc') { rec = 'SSIAP 1'; expl = "Vous débutez dans le secteur et vous visez la sécurité incendie : le SSIAP 1 est le titre d'entrée de cette filière. Il s'exerce en poste fixe, dans les bâtiments recevant du public."; }
+      else { const sp = SPEC[a.a3] || SPEC.chien; rec = sp[0]; expl = `Vous débutez et vous visez ${sp[1]} : le ${sp[0]} est le titre qui y donne accès. C'est une formation plus longue que celles d'entrée dans le métier, pour un marché plus étroit.`; }
+      if (a.a4 === 'non' || a.a4 === 'nsp') dem = {
+        title: 'Commencez par votre autorisation préalable',
+        text: (a.a4 === 'nsp' ? "C'est l'autorisation du CNAPS qui permet d'entrer en formation. " : '') + "Vous ne pouvez pas entrer en formation sans elle. Elle se demande en ligne auprès du CNAPS, et son instruction prend du temps. Faites cette démarche avant de contacter un organisme.",
+        link: 'Voir comment faire la demande', href: '#demarche-autorisation-prealable' };
+    } else if (a.q1 === 'B') {
+      if (a.b2 === 'TFP ASA') return { asa: true, normal: false };
+      rec = HELD[a.b2] || 'MAC APS';
+      expl = `Vous détenez le ${a.b2 || 'TFP APS'} et votre carte arrive à échéance : le ${T[rec][1]} est le stage qui vous permet de la renouveler.`;
+      if (a.b3 === 'exp') dem = { title: 'Votre carte est expirée', text: "Vous ne pouvez pas exercer tant qu'elle ne l'est plus. Inscrivez-vous à un stage dès que possible, puis déposez votre demande de renouvellement.", link: 'Voir la démarche de renouvellement', href: '#demarche-renouvellement' };
+    } else {
+      const held = a.c2 || 'TFP APS';
+      if (a.c4 === 'enc') {
+        const target = held === 'SSIAP 2' || held === 'SSIAP 3' ? 'SSIAP 3' : 'SSIAP 2';
+        if (a.c3 === 'lt1') {
+          rec = held.indexOf('SSIAP') === 0 ? 'TFP APS' : 'SSIAP 1';
+          strong = `Le ${target} demande une expérience professionnelle que vous n'avez pas encore.`;
+          expl = "C'est le titre à viser ensuite. En attendant, vous pouvez élargir vos compétences avec un titre complémentaire : beaucoup d'agents cumulent le TFP APS et le SSIAP 1, ce qui ouvre davantage de postes.";
+          alts = [[target, "Quand vous aurez l'expérience demandée."]];
+        } else { rec = target; expl = `Vous détenez le ${held} et vous voulez encadrer une équipe : le ${target} est le niveau suivant de cette filière.`; }
+      } else if (a.c4 === 'inc') { rec = 'SSIAP 1'; expl = "Vous travaillez déjà en surveillance et vous voulez aller vers la sécurité incendie : le SSIAP 1 est le titre d'entrée de cette filière. Le cumul avec votre titre actuel est fréquent et recherché par les employeurs."; }
+      else { const sp = SPEC[a.c5] || SPEC.chien; rec = sp[0]; expl = `Vous voulez vous spécialiser vers ${sp[1]} : le ${sp[0]} est le titre correspondant.`; }
+    }
+
+    const short = T[rec][1];
+    const dbl = refined && a.o1 === 'deux' && (rec === 'TFP APS' || rec === 'SSIAP 1');
+    const pmr = refined && !!a.o4;
+    const fin = a.s1 === 'de' ? 'France Travail' : a.s1 === 'sal' ? 'OPCO' : null;
+    const ry = a.s3 && a.s3 !== 'any' ? a.s3 : null;
+    const sel = (a.s2 || []).filter(x => x !== 'any');
+    const depts = sel.length ? sel : null;
+    const base = o => o.t.includes(rec) && (!dbl || (o.t.includes('TFP APS') && o.t.includes('SSIAP 1'))) && (!pmr || o.pmr);
+    const inD = (o, ds) => !ds || ds.includes(o.d);
+    const min = this.props.seuilRelachement === 'Moins de trois' ? 3 : 1;
+    const run = (useR, ds, useF) => ORGS.filter(o => base(o) && (!useF || !fin || o.f.includes(fin)) && (!useR || !ry || o.r.includes(ry)) && inD(o, ds));
+    let level = 1, list = run(true, depts, true);
+    const tryLvl = (n, l) => { if (list.length < min && l.length > list.length) { level = n; list = l; } };
+    if (ry) tryLvl(2, run(false, depts, true));
+    if (depts) tryLvl(3, run(false, [...new Set(depts.concat(...depts.map(d => NB[d])))], true));
+    tryLvl(4, run(false, null, false));
+    const level5 = ORGS.filter(base).length === 0;
+    if (depts) list = list.slice().sort((x, y) => (depts.includes(y.d) ? 1 : 0) - (depts.includes(x.d) ? 1 : 0));
+
+    const where = depts ? joinPrep(depts) : 'en Île-de-France';
+    const relax = level === 2 ? `Aucun centre ne propose ce rythme ${where}. Voici tous les organismes ${depts && depts.length > 1 ? 'de ces départements' : 'du département'} qui préparent au ${short}.`
+      : level === 3 ? `Aucun centre ne prépare au ${short} ${where}. Voici les organismes des départements voisins.`
+      : level === 4 ? `Le ${short} est rarement proposé en Île-de-France. Voici tous les organismes de la région qui le préparent.` : '';
+
+    const orgs = list.map(o => {
+      const ts = [rec].concat(o.t.filter(t => t !== rec));
+      return {
+        ini: o.n.split(/\s+/).filter(w => /^[A-ZÀ-Ý]/.test(w)).slice(0, 2).map(w => w[0]).join(''),
+        name: o.n, lieu: `${o.v} (${o.d})`,
+        chips: ts.slice(0, 3).map((t, i) => ({ label: t, border: i === 0 ? '#0B0B0B' : '#E7E3DD' })),
+        hasMore: ts.length > 3, more: `+${ts.length - 3} titre${ts.length - 3 > 1 ? 's' : ''}`,
+        fins: o.f.join(' · ')
+      };
+    });
+    const n = orgs.length;
+    return {
+      asa: false, normal: true, long: T[rec][0], short, href: slug(rec), expl, explStrong: strong,
+      hasDem: !!dem, demTitle: dem ? dem.title : '', demText: dem ? dem.text : '', demLink: dem ? dem.link : '', demHref: dem ? dem.href : '#',
+      hasOrgs: !level5 && n > 0, level5, l5Title: `Aucun organisme référencé ne prépare au ${short} en Île-de-France.`,
+      countLabel: n === 1 ? '1 organisme correspond à votre recherche' : `${n} organismes correspondent à votre recherche`,
+      hasRelax: !level5 && level > 1, relax, orgs,
+      alts: (alts || ALT[rec] || []).map(([k, line]) => ({ label: T[k][0], line, href: slug(k) })),
+      canRefine: !refined
+    };
+  }
+
+  renderVals() {
+    const { open, mode, idx, ans, refined } = this.state;
+    const isResult = mode === 'result';
+    const steps = this.steps();
+    const id = steps[Math.min(idx, steps.length - 1)];
+    const q = !isResult ? this.question(id) : { title: '', groups: [], hasHelp: false, hasMention: false, help: '', mention: '', type: 'single' };
+    const multi = q.type === 'multi', check = q.type === 'check';
+    const contDisabled = multi && !(ans.s2 && ans.s2.length);
+    const r = isResult ? this.result() : { asa: false, normal: false, orgs: [], alts: [] };
+    return {
+      open, isQuestion: !isResult, isResult, isRefine: mode === 'refine',
+      modalW: isResult ? '980px' : '720px',
+      progLabel: `Question ${idx + 1} sur ${steps.length}`,
+      segments: steps.map((_, i) => ({ bg: i < idx ? '#0B0B0B' : i === idx ? '#A83B2A' : '#E7E3DD' })),
+      resultLabel: refined ? 'Votre résultat affiné' : 'Votre résultat',
+      q, r, bodyRef: this.bodyRef,
+      canBack: mode === 'refine' || idx > 0,
+      needsContinue: multi || check, contDisabled,
+      contLabel: check ? 'Voir mes résultats' : 'Continuer',
+      contBg: contDisabled ? '#E7E3DD' : '#0B0B0B', contColor: contDisabled ? '#7B746E' : '#FFFFFF',
+      startA: () => this.start('A'), startB: () => this.start('B'), startC: () => this.start('C'),
+      close: () => this.setState({ open: false }),
+      stop: e => e.stopPropagation(),
+      back: () => this.back(),
+      cont: () => { if (!contDisabled) this.advance(this.state.ans); },
+      refine: () => this.setState({ mode: 'refine', idx: 0 }),
+      modify: () => { const s = this.initSteps(this.state.ans); this.setState({ mode: 'init', idx: s.length - 1 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

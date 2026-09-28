@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, textarea { font-family: inherit; }
+  html { scroll-behavior: smooth; }
+  input::placeholder, textarea::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation" style="position:sticky;top:14px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #E7E3DD;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:24px;width:auto;display:block" />
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;gap:2px">
+        <a href="Dashboard Organisme v2.dc.html" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Tableau de bord</a>
+        <a href="#ma-fiche" style="background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700" style-hover="color:#FFFFFF">Ma fiche</a>
+        <a href="#mes-formations" style="display:flex;align-items:center;gap:8px;color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Mes formations<span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#F2EFE9;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;color:#45423E">3</span></a>
+        <a href="#parametres" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Paramètres</a>
+      </nav>
+      <span style="flex:none;margin-left:auto;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #0B0B0B;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:99px;background:#E19D8B;display:block"></span>En ligne</span>
+        <span title="Sophie Martin · Administratrice" style="width:42px;height:42px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">SM</span>
+      </span>
+    </header>
+
+    <section id="ma-fiche" data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace organisme · Académie Française de Sécurité</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Ma fiche</h1>
+        <p style="margin:0;max-width:60ch;font-size:16px;line-height:1.6;color:#3C3A37">L'identité, les coordonnées et les lieux de votre organisme. Chaque section s'enregistre séparément.</p>
+      </div>
+      <a href="https://trouve-ta-formation.fr/organismes/afs-bobigny" style="display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:16px 24px;font-size:15px;font-weight:700;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">Voir ma fiche publique<span>→</span></a>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+
+      <aside data-screen-label="Sommaire" style="flex:1 1 220px;max-width:100%;position:sticky;top:96px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:16px 10px;display:flex;flex-direction:column;gap:2px">
+        <span style="padding:4px 12px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#8D8681">Sections</span>
+        <sc-for list="{{ sommaire }}" as="it" hint-placeholder-count="7">
+          <a href="{{ it.href }}" style="display:flex;align-items:center;gap:12px;border-radius:14px;padding:10px 12px;color:#0B0B0B;transition:background 140ms ease" style-hover="background:#F7F5F1;color:#0B0B0B">
+            <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">{{ it.num }}</span>
+            <span style="flex:1;font-size:14px;font-weight:600">{{ it.label }}</span>
+            <sc-if value="{{ it.dirty }}" hint-placeholder-val="{{ false }}"><span title="Modifications non enregistrées" style="flex:none;width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block"></span></sc-if>
+          </a>
+        </sc-for>
+      </aside>
+
+      <div style="flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:14px">
+
+        <section id="identite" data-screen-label="01 Identité" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">01</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Identité</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Les informations légales de votre organisme.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+            <label style="display:flex;flex-direction:column;gap:7px;grid-column:1 / -1"><span style="font-size:13.5px;font-weight:700">Raison sociale</span><input type="text" value="{{ v.raison }}" onChange="{{ on.raison }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <span style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><label for="siret" style="font-size:13.5px;font-weight:700">SIRET</label><button type="button" onClick="{{ prefill }}" disabled="{{ prefillDisabled }}" style="background:transparent;border:0;padding:0;font-size:13px;font-weight:700;color:{{ prefillColor }};cursor:pointer" style-hover="color:#0B0B0B">Pré-remplir depuis le SIRET</button></span>
+              <input id="siret" type="text" inputMode="numeric" placeholder="14 chiffres" value="{{ v.siret }}" onChange="{{ on.siret }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:0.04em;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+            </div>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Numéro de déclaration d'activité</span><input type="text" value="{{ v.nda }}" onChange="{{ on.nda }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:0.04em;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Année de création</span><input type="text" inputMode="numeric" value="{{ v.annee }}" onChange="{{ on.annee }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+          </div>
+
+          <sc-if value="{{ hasSirene }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Résultat SIRET" style="background:#F7F5F1;border:1px solid #E2DDD6;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+              <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px">
+                <span style="font-size:15px;font-weight:700">Données trouvées pour ce SIRET</span>
+                <button type="button" onClick="{{ closeSirene }}" style="background:transparent;border:0;padding:0;font-size:13px;font-weight:600;color:#6B6560;cursor:pointer" style-hover="color:#0B0B0B">Fermer</button>
+              </span>
+              <span style="font-size:13.5px;line-height:1.55;color:#4C4946">Vos champs ne sont remplacés que si vous le choisissez.</span>
+              <div style="display:flex;flex-direction:column;border-top:1px solid #E2DDD6">
+                <sc-for list="{{ sirene }}" as="sr" hint-placeholder-count="2">
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;padding:12px 0;border-bottom:1px solid #E2DDD6">
+                    <span style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:3px">
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">{{ sr.label }}</span>
+                      <span style="font-size:14.5px;font-weight:700">{{ sr.found }}</span>
+                      <span style="font-size:13px;color:#6B6560">{{ sr.current }}</span>
+                    </span>
+                    <sc-if value="{{ sr.canUse }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ sr.use }}" style="flex:none;background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:10px 15px;font-size:13px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A">Utiliser</button></sc-if>
+                    <sc-if value="{{ sr.same }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#45423E">Identique</span></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.identite.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.identite.dot }};display:block"></span>{{ s.identite.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.identite.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.identite.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.identite.save }}" disabled="{{ s.identite.disabled }}" style="background:{{ s.identite.btnBg }};color:{{ s.identite.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.identite.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="logo" data-screen-label="02 Logo" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">02</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Logo</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Il apparaît sur votre fiche et sur votre carte dans le catalogue.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:stretch">
+            <div style="flex:0 0 auto;display:flex;flex-direction:column;gap:10px;align-items:center">
+              <sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}">
+                <img src="{{ v.logo }}" alt="Logo actuel" style="width:148px;height:148px;border-radius:24px;border:1px solid #E7E3DD;background:#FFFFFF;object-fit:contain;display:block" />
+              </sc-if>
+              <sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}">
+                <span style="width:148px;height:148px;border-radius:24px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+                  <span style="width:54px;height:54px;border-radius:14px;background:#FFFFFF;border:1px solid #E7E3DD;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#45423E">AF</span>
+                  <span style="background:#FFFFFF;border-radius:999px;padding:3px 9px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#6B6560">Aucun logo</span>
+                </span>
+              </sc-if>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Aperçu</span>
+            </div>
+            <label onDragOver="{{ dragOver }}" onDragLeave="{{ dragLeave }}" onDrop="{{ drop }}" style="position:relative;flex:1 1 300px;min-width:0;border:1.5px dashed {{ dropBorder }};background:{{ dropBg }};border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;cursor:pointer;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A;background:#FAF0ED">
+              <input type="file" accept="image/png,image/jpeg" onChange="{{ pickFile }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none" />
+              <span style="font-size:16px;font-weight:700">{{ dropTitle }}</span>
+              <span style="display:inline-flex;align-items:center;gap:8px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700">Choisir un fichier</span>
+              <span style="font-size:13px;line-height:1.55;color:#6B6560">JPG ou PNG, 2 Mo maximum. Format carré recommandé.</span>
+              <sc-if value="{{ hasLogoError }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;color:#A83B2A">{{ logoError }}</span></sc-if>
+            </label>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:14px">
+              <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.logo.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.logo.dot }};display:block"></span>{{ s.logo.status }}</span>
+              <sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ removeLogo }}" style="background:transparent;border:0;padding:0;font-size:13px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Retirer le logo</button></sc-if>
+            </span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.logo.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.logo.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.logo.save }}" disabled="{{ s.logo.disabled }}" style="background:{{ s.logo.btnBg }};color:{{ s.logo.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.logo.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="agrement" data-screen-label="03 Agrément et certifications" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">03</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Agrément et certifications</h2>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:stretch">
+            <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:16px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Numéro d'agrément CNAPS</span><input type="text" placeholder="FOR-093-2029-00-00-00000000000" value="{{ v.cnaps }}" onChange="{{ on.cnaps }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;letter-spacing:0.02em;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <span style="font-size:13.5px;font-weight:700">Qualiopi</span>
+                <span style="align-self:flex-start;display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:4px">
+                  <button type="button" onClick="{{ qualiOui }}" style="border:0;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;background:{{ qOuiBg }};color:{{ qOuiColor }};transition:background 140ms ease">Certifié</button>
+                  <button type="button" onClick="{{ qualiNon }}" style="border:0;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;background:{{ qNonBg }};color:{{ qNonColor }};transition:background 140ms ease">Non certifié</button>
+                </span>
+              </div>
+              <sc-if value="{{ qualiopiOui }}" hint-placeholder-val="{{ true }}">
+                <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Numéro de certificat Qualiopi</span><input type="text" value="{{ v.qualiopiNum }}" onChange="{{ on.qualiopiNum }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+              </sc-if>
+            </div>
+            <div data-screen-label="Note agrément" style="flex:1 1 260px;min-width:0;background:#0B0B0B;border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Sur votre fiche publique</span>
+              <span style="font-size:16.5px;line-height:1.4;font-weight:700;color:#FFFFFF">L'agrément CNAPS est le signal de confiance le plus fort de votre fiche.</span>
+              <span style="font-size:14px;line-height:1.6;color:#D0CAC5">Tant qu'il n'est pas renseigné, votre fiche affiche « agrément non renseigné ». Vous pouvez le compléter ici à tout moment.</span>
+              <span style="margin-top:auto;padding-top:14px;border-top:1px solid #2A2626;display:flex;flex-wrap:wrap;gap:6px">
+                <sc-if value="{{ cnapsOk }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Agréé CNAPS</span></sc-if>
+                <sc-if value="{{ cnapsKo }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;border:1.5px dashed #8D8681;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:600;color:#D0CAC5">Agrément non renseigné</span></sc-if>
+                <sc-if value="{{ qualiopiOui }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:6px;background:#2A2626;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:#FFFFFF"><span style="width:5px;height:5px;border-radius:99px;background:#E19D8B;display:block"></span>Qualiopi</span></sc-if>
+              </span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.agrement.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.agrement.dot }};display:block"></span>{{ s.agrement.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.agrement.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.agrement.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.agrement.save }}" disabled="{{ s.agrement.disabled }}" style="background:{{ s.agrement.btnBg }};color:{{ s.agrement.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.agrement.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="coordonnees" data-screen-label="04 Coordonnées et siège" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">04</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Coordonnées et siège</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Ce que les candidats utilisent pour vous trouver et vous joindre.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px">
+            <label style="grid-column:span 6;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Adresse du siège</span><input type="text" value="{{ v.rue }}" onChange="{{ on.rue }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <label style="grid-column:span 2;min-width:0;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Code postal</span><input type="text" inputMode="numeric" value="{{ v.cp }}" onChange="{{ on.cp }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <label style="grid-column:span 4;min-width:0;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Ville</span><input type="text" value="{{ v.ville }}" onChange="{{ on.ville }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <label style="grid-column:span 3;min-width:0;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Téléphone</span><input type="tel" value="{{ v.tel }}" onChange="{{ on.tel }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <label style="grid-column:span 3;min-width:0;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Site web</span><input type="url" placeholder="https://" value="{{ v.site }}" onChange="{{ on.site }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+            <div style="grid-column:span 6;display:flex;flex-direction:column;gap:7px">
+              <label for="email-public" style="font-size:13.5px;font-weight:700">Email de contact public</label>
+              <input id="email-public" type="email" value="{{ v.emailPub }}" onChange="{{ on.emailPub }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+              <span style="font-size:13px;line-height:1.55;color:{{ emailHelpColor }}">{{ emailHelp }}</span>
+            </div>
+            <label style="grid-column:span 6;display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Horaires d'accueil</span><input type="text" placeholder="Du lundi au vendredi, de 9 h à 18 h" value="{{ v.horaires }}" onChange="{{ on.horaires }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.coord.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.coord.dot }};display:block"></span>{{ s.coord.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.coord.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.coord.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.coord.save }}" disabled="{{ s.coord.disabled }}" style="background:{{ s.coord.btnBg }};color:{{ s.coord.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.coord.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="lieux" data-screen-label="05 Lieux additionnels" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">05</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Lieux additionnels</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Les lieux où vous formez, en plus du siège. Vous pourrez y rattacher vos formations.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;border:1px solid #E7E3DD;border-radius:18px;padding:14px 18px">
+              <span style="flex:none;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase">Siège</span>
+              <span style="flex:1 1 240px;min-width:0;font-size:14.5px;color:#3C3A37">{{ siegeLigne }}</span>
+              <a href="#coordonnees" style="font-size:13px;font-weight:700">Modifier dans Coordonnées</a>
+            </div>
+            <sc-for list="{{ lieux }}" as="l" hint-placeholder-count="2">
+              <div style="background:#F7F5F1;border:1px solid {{ l.border }};border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;align-items:end">
+                  <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:700">Nom du lieu</span><input type="text" placeholder="Antenne Créteil" value="{{ l.nom }}" onChange="{{ l.onNom }}" style="font-size:14.5px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:12px;padding:12px 14px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+                  <label style="grid-column:span 2;min-width:0;display:flex;flex-direction:column;gap:7px"><span style="font-size:13px;font-weight:700">Adresse complète</span><input type="text" value="{{ l.adresse }}" onChange="{{ l.onAdresse }}" style="font-size:14.5px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:12px;padding:12px 14px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6560">{{ l.rattach }}</span>
+                  <sc-if value="{{ l.idle }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ l.askDelete }}" style="background:transparent;border:0;padding:4px 0;font-size:13px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Supprimer ce lieu</button></sc-if>
+                </div>
+                <sc-if value="{{ l.confirming }}" hint-placeholder-val="{{ false }}">
+                  <div data-screen-label="Confirmation suppression" style="background:#FFFFFF;border:1px solid #E2B6AC;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+                    <span style="font-size:14px;line-height:1.6;color:#0B0B0B">{{ l.warn }}</span>
+                    <span style="display:flex;flex-wrap:wrap;gap:8px">
+                      <button type="button" onClick="{{ l.confirmDelete }}" style="background:#A83B2A;color:#FFFFFF;border:0;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer" style-hover="background:#0B0B0B">Supprimer quand même</button>
+                      <button type="button" onClick="{{ l.cancelDelete }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Garder ce lieu</button>
+                    </span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{ monoSite }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1.5px dashed #C7C1BC;border-radius:18px;padding:18px;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);display:flex;justify-content:center">
+                <span style="background:#FFFFFF;border-radius:999px;padding:6px 14px;font-size:13.5px;color:#4C4946">Vous formez uniquement au siège pour l'instant.</span>
+              </div>
+            </sc-if>
+            <button type="button" onClick="{{ addLieu }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#F7F5F1"><span style="color:#A83B2A;font-size:16px;line-height:1">+</span>Ajouter un lieu</button>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.lieux.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.lieux.dot }};display:block"></span>{{ s.lieux.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.lieux.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.lieux.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.lieux.save }}" disabled="{{ s.lieux.disabled }}" style="background:{{ s.lieux.btnBg }};color:{{ s.lieux.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.lieux.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="pratique" data-screen-label="06 Informations pratiques" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">06</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Informations pratiques</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Des informations qui valent pour toute votre fiche, siège et lieux additionnels.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:24px 40px">
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <span style="font-size:13.5px;font-weight:700">Accès adapté aux personnes à mobilité réduite</span>
+              <span style="align-self:flex-start;display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:4px">
+                <button type="button" onClick="{{ pmrOui }}" style="border:0;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;background:{{ pOuiBg }};color:{{ pOuiColor }};transition:background 140ms ease">Oui</button>
+                <button type="button" onClick="{{ pmrNon }}" style="border:0;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;background:{{ pNonBg }};color:{{ pNonColor }};transition:background 140ms ease">Non</button>
+              </span>
+            </div>
+            <div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:9px">
+              <span style="font-size:13.5px;font-weight:700">Langues d'enseignement</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ langues }}" as="lg" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ lg.toggle }}" aria-pressed="{{ lg.pressed }}" style="display:inline-flex;align-items:center;gap:8px;border:1px solid {{ lg.border }};background:{{ lg.bg }};color:{{ lg.color }};border-radius:999px;padding:9px 15px;font-size:14px;font-weight:600;cursor:pointer;transition:background 140ms ease, border-color 140ms ease" style-hover="border-color:#0B0B0B"><span style="width:6px;height:6px;border-radius:99px;background:{{ lg.dot }};display:block"></span>{{ lg.label }}</button>
+                </sc-for>
+              </span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.pratique.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.pratique.dot }};display:block"></span>{{ s.pratique.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.pratique.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.pratique.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.pratique.save }}" disabled="{{ s.pratique.disabled }}" style="background:{{ s.pratique.btnBg }};color:{{ s.pratique.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.pratique.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+
+        <section id="presentation" data-screen-label="07 Présentation" style="scroll-margin-top:100px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">07</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Présentation</h2>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Quelques lignes sur votre centre, vos publics et votre façon de former.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <textarea rows="7" maxLength="{{ plafond }}" value="{{ v.presentation }}" onChange="{{ on.presentation }}" style="font-size:15.5px;line-height:1.65;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:16px 18px;outline:none;width:100%;resize:vertical;min-height:170px;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF"></textarea>
+            <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px">
+              <span style="font-size:13px;line-height:1.55;color:#6B6560">Si ce champ reste vide, le bloc Présentation n'apparaît pas sur votre fiche.</span>
+              <span style="display:flex;align-items:center;gap:10px">
+                <span style="width:120px;height:4px;border-radius:99px;background:#E7E3DD;display:block;overflow:hidden"><span style="width:{{ countPct }};height:100%;background:{{ countColor }};display:block;transition:width 140ms ease"></span></span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ countColor }}">{{ countLabel }}</span>
+              </span>
+            </span>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ s.presentation.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ s.presentation.dot }};display:block"></span>{{ s.presentation.status }}</span>
+            <span style="display:flex;gap:8px">
+              <sc-if value="{{ s.presentation.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ s.presentation.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+              <button type="button" onClick="{{ s.presentation.save }}" disabled="{{ s.presentation.disabled }}" style="background:{{ s.presentation.btnBg }};color:{{ s.presentation.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ s.presentation.cursor }};transition:background 140ms ease">Enregistrer</button>
+            </span>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lieux&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Multi-sites&quot;,&quot;Mono-site&quot;],&quot;default&quot;:&quot;Multi-sites&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Organisme&quot;},&quot;plafond&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;800&quot;,&quot;1500&quot;,&quot;2500&quot;],&quot;default&quot;:&quot;1500&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Plafond de la présentation (caractères)&quot;}}">
+const SECTIONS = [
+  ['identite', '01', 'Identité', ['raison', 'siret', 'nda', 'annee']],
+  ['logo', '02', 'Logo', ['logo']],
+  ['agrement', '03', 'Agrément et certifications', ['cnaps', 'qualiopi', 'qualiopiNum']],
+  ['coord', '04', 'Coordonnées et siège', ['rue', 'cp', 'ville', 'tel', 'emailPub', 'site', 'horaires'], 'coordonnees'],
+  ['lieux', '05', 'Lieux additionnels', ['lieux']],
+  ['pratique', '06', 'Informations pratiques', ['pmr', 'langues']],
+  ['presentation', '07', 'Présentation', ['presentation']]
+];
+const LANGUES = ['Français', 'Anglais', 'Arabe', 'Espagnol', 'Portugais', 'Roumain', 'Tamoul'];
+const ACCOUNT_EMAIL = 'contact@afs-formation.fr';
+const LIEUX = [
+  { id: 1, nom: 'Antenne Saint-Denis', adresse: '8 boulevard Anatole-France, 93200 Saint-Denis', formations: ['TFP APS', 'SSIAP 1'] },
+  { id: 2, nom: 'Antenne Montreuil', adresse: '41 rue de Paris, 93100 Montreuil', formations: [] }
+];
+const base = mono => ({
+  raison: 'Académie Française de Sécurité', siret: '', nda: '11 93 07412 93', annee: '2014',
+  logo: null, cnaps: '', qualiopi: 'oui', qualiopiNum: 'QUA-2023-04821',
+  rue: '14 rue de la République', cp: '93000', ville: 'Bobigny', tel: '01 48 30 00 00',
+  emailPub: 'accueil@afs-formation.fr', site: '', horaires: 'Du lundi au vendredi, de 9 h à 18 h',
+  lieux: mono ? [] : LIEUX.map(l => ({ ...l })), pmr: 'oui', langues: ['Français', 'Anglais'],
+  presentation: 'Centre installé à Bobigny depuis 2014, spécialisé dans la formation initiale des agents de sécurité privée. Sessions de 12 stagiaires maximum, formateurs issus du terrain, plateau technique incendie sur place.'
+});
+const clone = o => JSON.parse(JSON.stringify(o));
+const hhmm = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+
+class Component extends DCLogic {
+  state = { v: {}, saved: {}, savedAt: {}, confirmId: null, sirene: null, drag: false, logoError: '' };
+  nextId = 10;
+  componentDidMount() { this.load(); }
+  componentDidUpdate(pp) { if (pp && pp.lieux !== this.props.lieux) this.load(); }
+  load() { const d = base(this.props.lieux === 'Mono-site'); this.setState({ v: clone(d), saved: clone(d), savedAt: {}, confirmId: null, sirene: null, logoError: '' }); }
+
+  set(k, val) { this.setState(s => ({ v: { ...s.v, [k]: val } })); }
+  dirty(fields) { return fields.some(k => JSON.stringify(this.state.v[k]) !== JSON.stringify(this.state.saved[k])); }
+  save(key, fields) {
+    this.setState(s => {
+      const saved = { ...s.saved }; fields.forEach(k => { saved[k] = clone(s.v[k] === undefined ? null : s.v[k]); });
+      return { saved, savedAt: { ...s.savedAt, [key]: hhmm() }, confirmId: key === 'lieux' ? null : s.confirmId };
+    });
+  }
+  cancel(fields) { this.setState(s => { const v = { ...s.v }; fields.forEach(k => { v[k] = clone(s.saved[k]); }); return { v, confirmId: null }; }); }
+  readFile(file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg)$/.test(file.type)) { this.setState({ logoError: 'Ce format n\'est pas accepté. Choisissez un fichier JPG ou PNG.', drag: false }); return; }
+    if (file.size > 2 * 1024 * 1024) { this.setState({ logoError: 'Ce fichier dépasse 2 Mo.', drag: false }); return; }
+    const r = new FileReader();
+    r.onload = () => this.setState(s => ({ v: { ...s.v, logo: r.result }, logoError: '', drag: false }));
+    r.readAsDataURL(file);
+  }
+  setLieu(id, k, val) { this.setState(s => ({ v: { ...s.v, lieux: s.v.lieux.map(l => l.id === id ? { ...l, [k]: val } : l) } })); }
+  removeLieu(id) { this.setState(s => ({ v: { ...s.v, lieux: s.v.lieux.filter(l => l.id !== id) }, confirmId: null })); }
+
+  renderVals() {
+    const { v, savedAt, confirmId, sirene, drag, logoError } = this.state;
+    if (!v.lieux) return { v: {}, on: {}, s: {}, sommaire: [], lieux: [], langues: [], sirene: [] };
+    const plafond = parseInt(this.props.plafond || '1500', 10);
+    const on = {};
+    ['raison', 'nda', 'annee', 'cnaps', 'qualiopiNum', 'rue', 'cp', 'ville', 'tel', 'emailPub', 'site', 'horaires', 'presentation'].forEach(k => { on[k] = e => this.set(k, e.target.value); });
+    on.siret = e => this.set('siret', e.target.value.replace(/[^\d ]/g, ''));
+    const s = {};
+    SECTIONS.forEach(([key, , , fields]) => {
+      const d = this.dirty(fields);
+      s[key] = {
+        dirty: d, disabled: !d, save: () => this.save(key, fields), cancel: () => this.cancel(fields),
+        btnBg: d ? '#0B0B0B' : '#E7E3DD', btnColor: d ? '#FFFFFF' : '#7B746E', cursor: d ? 'pointer' : 'default',
+        status: d ? 'Modifications non enregistrées' : savedAt[key] ? `Enregistré à ${savedAt[key]}` : '',
+        statusColor: d ? '#A83B2A' : '#45423E', dot: d ? '#A83B2A' : savedAt[key] ? '#0B0B0B' : 'transparent'
+      };
+    });
+    const siretDigits = (v.siret || '').replace(/\D/g, '');
+    const found = { raison: 'ACADEMIE FRANCAISE DE SECURITE', rue: '14 RUE DE LA REPUBLIQUE', cp: '93000', ville: 'BOBIGNY' };
+    const norm = x => (x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim();
+    const sameAddr = norm(v.rue) === found.rue && norm(v.cp) === found.cp && norm(v.ville) === found.ville;
+    const sireneRows = sirene ? [
+      { label: 'Raison sociale', found: found.raison, current: v.raison ? `Actuellement : ${v.raison}` : 'Champ vide', same: norm(v.raison) === found.raison, canUse: norm(v.raison) !== found.raison, use: () => this.set('raison', found.raison) },
+      { label: 'Adresse du siège', found: `${found.rue}, ${found.cp} ${found.ville}`, current: `Actuellement : ${v.rue}, ${v.cp} ${v.ville}`, same: sameAddr, canUse: !sameAddr, use: () => this.setState(st => ({ v: { ...st.v, rue: found.rue, cp: found.cp, ville: found.ville } })) }
+    ] : [];
+    const len = (v.presentation || '').length;
+    const near = len > plafond * 0.9;
+    const emailSame = (v.emailPub || '').trim().toLowerCase() === ACCOUNT_EMAIL;
+    return {
+      v, on, s, plafond,
+      sommaire: SECTIONS.map(([key, num, label, fields, anchor]) => ({ num, label, href: '#' + (anchor || key), dirty: this.dirty(fields) })),
+      prefill: () => { if (siretDigits.length === 14) this.setState({ sirene: true }); },
+      prefillDisabled: siretDigits.length !== 14, prefillColor: siretDigits.length === 14 ? '#A83B2A' : '#A8A19B',
+      hasSirene: !!sirene, sirene: sireneRows, closeSirene: () => this.setState({ sirene: null }),
+      hasLogo: !!v.logo, noLogo: !v.logo,
+      dropTitle: drag ? 'Déposez le fichier ici' : v.logo ? 'Remplacer le logo' : 'Glissez votre logo ici',
+      dropBorder: drag ? '#A83B2A' : '#C7C1BC', dropBg: drag ? '#FAF0ED' : '#F7F5F1',
+      dragOver: e => { e.preventDefault(); if (!this.state.drag) this.setState({ drag: true }); },
+      dragLeave: () => this.setState({ drag: false }),
+      drop: e => { e.preventDefault(); this.readFile(e.dataTransfer.files[0]); },
+      pickFile: e => { this.readFile(e.target.files[0]); e.target.value = ''; },
+      removeLogo: () => this.set('logo', null),
+      hasLogoError: !!logoError, logoError,
+      qualiopiOui: v.qualiopi === 'oui',
+      qualiOui: () => this.set('qualiopi', 'oui'), qualiNon: () => this.set('qualiopi', 'non'),
+      qOuiBg: v.qualiopi === 'oui' ? '#0B0B0B' : 'transparent', qOuiColor: v.qualiopi === 'oui' ? '#FFFFFF' : '#3C3A37',
+      qNonBg: v.qualiopi === 'non' ? '#0B0B0B' : 'transparent', qNonColor: v.qualiopi === 'non' ? '#FFFFFF' : '#3C3A37',
+      cnapsOk: !!(v.cnaps || '').trim(), cnapsKo: !(v.cnaps || '').trim(),
+      emailHelp: emailSame
+        ? `Attention : c'est l'adresse de connexion à votre espace. Elle sera visible par tous sur votre fiche.`
+        : `Cette adresse est affichée sur votre fiche publique. Elle peut être différente de l'email de connexion à votre espace (${ACCOUNT_EMAIL}).`,
+      emailHelpColor: emailSame ? '#A83B2A' : '#6B6560',
+      siegeLigne: `${v.rue}, ${v.cp} ${v.ville}`,
+      lieux: v.lieux.map(l => {
+        const n = l.formations.length, conf = confirmId === l.id;
+        return {
+          nom: l.nom, adresse: l.adresse,
+          onNom: e => this.setLieu(l.id, 'nom', e.target.value), onAdresse: e => this.setLieu(l.id, 'adresse', e.target.value),
+          rattach: n === 0 ? 'Aucune formation rattachée' : `${n} formation${n > 1 ? 's' : ''} rattachée${n > 1 ? 's' : ''} : ${l.formations.join(' · ')}`,
+          idle: !conf, confirming: conf, border: conf ? '#E2B6AC' : '#E7E3DD',
+          askDelete: () => { if (n === 0) this.removeLieu(l.id); else this.setState({ confirmId: l.id }); },
+          confirmDelete: () => this.removeLieu(l.id), cancelDelete: () => this.setState({ confirmId: null }),
+          warn: `${n === 1 ? '1 formation est rattachée' : `${n} formations sont rattachées`} à ce lieu : ${l.formations.join(', ')}. Si vous le supprimez, ${n === 1 ? 'elle sera rattachée' : 'elles seront rattachées'} au siège.`
+        };
+      }),
+      monoSite: v.lieux.length === 0,
+      addLieu: () => this.setState(st => ({ v: { ...st.v, lieux: st.v.lieux.concat({ id: this.nextId++, nom: '', adresse: '', formations: [] }) } })),
+      pmrOui: () => this.set('pmr', 'oui'), pmrNon: () => this.set('pmr', 'non'),
+      pOuiBg: v.pmr === 'oui' ? '#0B0B0B' : 'transparent', pOuiColor: v.pmr === 'oui' ? '#FFFFFF' : '#3C3A37',
+      pNonBg: v.pmr === 'non' ? '#0B0B0B' : 'transparent', pNonColor: v.pmr === 'non' ? '#FFFFFF' : '#3C3A37',
+      langues: LANGUES.map(lg => {
+        const onL = v.langues.includes(lg);
+        return {
+          label: lg, pressed: onL ? 'true' : 'false',
+          toggle: () => this.set('langues', onL ? v.langues.filter(x => x !== lg) : v.langues.concat(lg)),
+          bg: onL ? '#0B0B0B' : '#FFFFFF', color: onL ? '#FFFFFF' : '#3C3A37', border: onL ? '#0B0B0B' : '#E2DDD6', dot: onL ? '#E19D8B' : '#C7C1BC'
+        };
+      }),
+      countLabel: `${len} / ${plafond}`, countPct: Math.min(100, (len / plafond) * 100) + '%', countColor: near ? '#A83B2A' : '#45423E'
+    };
+  }
+}
+</script>
+</body>
+</html>

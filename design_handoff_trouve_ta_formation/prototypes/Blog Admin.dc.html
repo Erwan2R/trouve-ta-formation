@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, select { font-family: inherit; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · /securite-privee/blog/</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Articles du blog</h1>
+      </div>
+      <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px">
+        <span style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:34px;letter-spacing:-0.04em">{{ nPub }}</span><span style="font-size:15px;font-weight:700">publiés</span></span>
+        <span style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:34px;letter-spacing:-0.04em;color:#7B746E">{{ nDraft }}</span><span style="font-size:15px;font-weight:700;color:#4C4946">brouillons</span></span>
+      </span>
+    </section>
+
+    <section data-screen-label="Filtres" style="position:sticky;top:84px;z-index:20;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:12px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;box-shadow:0 10px 24px -20px rgba(11,11,11,0.35)">
+      <label style="flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:999px;padding:0 18px">
+        <span style="flex:none;width:11px;height:11px;border:1.5px solid #8D8681;border-radius:99px;display:block"></span>
+        <input type="search" placeholder="Rechercher par titre" value="{{ q }}" onChange="{{ onQ }}" style="flex:1;min-width:0;font-size:14.5px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:12px 0" />
+      </label>
+      <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+        <sc-for list="{{ statutOpts }}" as="s" hint-placeholder-count="3">
+          <button type="button" onClick="{{ s.pick }}" style="border:0;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;background:{{ s.bg }};color:{{ s.color }};white-space:nowrap">{{ s.label }}</button>
+        </sc-for>
+      </span>
+      <select value="{{ cat }}" onChange="{{ onCat }}" style="font-size:13.5px;font-weight:600;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:11px 14px;outline:none">
+        <option value="">Toutes les catégories</option>
+        <option value="Réglementation">Réglementation</option>
+        <option value="Formations et titres">Formations et titres</option>
+        <option value="Financement">Financement</option>
+        <option value="Métier et carrière">Métier et carrière</option>
+      </select>
+      <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ reset }}" style="background:transparent;border:0;padding:8px 6px;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Réinitialiser</button></sc-if>
+      <a href="Editeur Article.dc.html#nouveau" style="margin-left:auto;display:inline-flex;align-items:center;gap:10px;background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:700;white-space:nowrap;transition:background 140ms ease" style-hover="background:#0B0B0B;color:#FFFFFF"><span style="font-size:18px;line-height:1;font-weight:500">+</span>Nouvel article</a>
+    </section>
+
+    <section data-screen-label="Liste des articles" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:10px">
+      <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:4px 6px">
+        <span style="font-size:15px;font-weight:700">{{ countLabel }}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">Tri : {{ sortLabel }}</span>
+      </span>
+      <div style="overflow-x:auto">
+        <table style="width:100%;min-width:860px;border-collapse:collapse;font-size:13.5px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Titre</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Catégorie</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Statut</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Auteur</th>
+              <th style="text-align:right;padding:10px 12px;border-bottom:1px solid #E7E3DD"><button type="button" onClick="{{ toggleSort }}" style="background:transparent;border:0;padding:0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#0B0B0B;cursor:pointer">Dernière modification {{ arrow }}</button></th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="10">
+              <tr style="transition:background 140ms ease" style-hover="background:#FBFAF7">
+                <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;max-width:520px">
+                  <a href="{{ r.href }}" style="font-size:15px;font-weight:700;line-height:1.35;color:#0B0B0B;text-wrap:pretty" style-hover="color:#A83B2A">{{ r.title }}</a>
+                </td>
+                <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;white-space:nowrap;color:#3C3A37">{{ r.cat }}</td>
+                <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6"><span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 11px 4px 9px;font-size:12.5px;font-weight:700;white-space:nowrap;background:{{ r.stBg }};color:{{ r.stColor }};border:1.5px {{ r.stStyle }} {{ r.stBorder }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ r.stDot }};display:block"></span>{{ r.statut }}</span></td>
+                <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;white-space:nowrap">{{ r.author }}</td>
+                <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12.5px;white-space:nowrap;color:#3C3A37">{{ r.date }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+        <div style="border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:28px;display:flex;justify-content:center">
+          <span style="background:#FFFFFF;border-radius:12px;padding:10px 14px;font-size:14px;color:#3C3A37">Aucun article ne correspond à ces critères.</span>
+        </div>
+      </sc-if>
+      <span style="font-size:12.5px;color:#6B6560;padding:6px 6px 0">Catégories provisoires : la liste définitive (4 au maximum) reste à arrêter.</span>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ARTICLES = [
+  ['a1', 'Comment obtenir sa carte professionnelle CNAPS', 'Réglementation', 'Publié', 'Claire Mounier', '2026-09-18T10:12'],
+  ['a2', 'TFP APS ou SSIAP 1 : lequel choisir pour débuter', 'Formations et titres', 'Publié', 'Claire Mounier', '2026-08-27T15:40'],
+  ['a3', "Financer sa formation d'agent de sécurité avec le CPF", 'Financement', 'Publié', 'Erwan', '2026-09-02T09:05'],
+  ['a4', 'Le MAC APS : quand et comment renouveler sa carte', 'Réglementation', 'Publié', 'Claire Mounier', '2026-07-30T11:20'],
+  ['a5', 'Autorisation préalable : délais et pièces à fournir', 'Réglementation', 'Publié', 'Claire Mounier', '2026-08-14T16:02'],
+  ['a6', 'Devenir agent cynophile en Île-de-France', 'Métier et carrière', 'Publié', 'Erwan', '2026-07-11T10:48'],
+  ['a7', "SSIAP 2 : conditions d'accès et expérience requise", 'Formations et titres', 'Publié', 'Claire Mounier', '2026-06-24T14:30'],
+  ['a8', 'Casier judiciaire et sécurité privée : ce qui bloque vraiment', 'Réglementation', 'Publié', 'Claire Mounier', '2026-09-09T08:55'],
+  ['a9', "Salaire d'un agent de sécurité débutant en 2026", 'Métier et carrière', 'Publié', 'Erwan', '2026-06-19T17:15'],
+  ['a10', 'Sûreté aéroportuaire : le parcours pour travailler à Roissy', 'Formations et titres', 'Publié', 'Erwan', '2026-06-05T12:00'],
+  ['a11', 'Carte professionnelle refusée : les recours possibles', 'Réglementation', 'Brouillon', 'Claire Mounier', '2026-09-22T17:40'],
+  ['a12', 'France Travail : faire financer son TFP APS', 'Financement', 'Brouillon', 'Erwan', '2026-09-21T11:10'],
+  ['a13', 'Agent de sécurité événementiel : missions et formation', 'Métier et carrière', 'Brouillon', 'Erwan', '2026-09-15T09:30'],
+  ['a14', 'H0B0 : l\'habilitation électrique pour les agents SSIAP', 'Formations et titres', 'Brouillon', 'Claire Mounier', '2026-08-30T18:22']
+];
+const MO = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const TODAY = new Date(2026, 8, 23);
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const fmt = iso => {
+  const d = new Date(iso), hm = iso.slice(11, 16).replace(':', ':');
+  const days = Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - TODAY) / 864e5);
+  if (days === 0) return `Aujourd'hui · ${hm}`;
+  if (days === -1) return `Hier · ${hm}`;
+  return `${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()}`;
+};
+
+class Component extends DCLogic {
+  state = { q: '', statut: '', cat: '', asc: false };
+  renderVals() {
+    const { q, statut, cat, asc } = this.state;
+    const nq = norm(q.trim());
+    const rows = ARTICLES
+      .filter(a => (!statut || a[3] === statut) && (!cat || a[2] === cat) && (!nq || norm(a[1]).includes(nq)))
+      .sort((a, b) => (asc ? 1 : -1) * (a[5] < b[5] ? -1 : a[5] > b[5] ? 1 : 0));
+    const nPub = ARTICLES.filter(a => a[3] === 'Publié').length;
+    return {
+      nPub, nDraft: ARTICLES.length - nPub,
+      q, onQ: e => this.setState({ q: e.target.value }),
+      cat, onCat: e => this.setState({ cat: e.target.value }),
+      statutOpts: [['', 'Tous'], ['Brouillon', 'Brouillons'], ['Publié', 'Publiés']].map(([k, label]) => ({
+        label, pick: () => this.setState({ statut: k }), bg: statut === k ? '#0B0B0B' : 'transparent', color: statut === k ? '#FFFFFF' : '#3C3A37'
+      })),
+      hasFilters: !!(q || statut || cat),
+      reset: () => this.setState({ q: '', statut: '', cat: '' }),
+      toggleSort: () => this.setState({ asc: !asc }),
+      arrow: asc ? '↑' : '↓',
+      sortLabel: asc ? 'modification la plus ancienne' : 'modification la plus récente',
+      countLabel: rows.length === ARTICLES.length ? `${rows.length} articles` : `${rows.length} sur ${ARTICLES.length} articles`,
+      noRows: rows.length === 0,
+      rows: rows.map(a => {
+        const pub = a[3] === 'Publié';
+        return {
+          href: 'Editeur Article.dc.html#' + a[0], title: a[1], cat: a[2], statut: a[3], author: a[4], date: fmt(a[5]),
+          stBg: pub ? '#FFFFFF' : '#F7F5F1', stColor: pub ? '#0B0B0B' : '#4C4946', stStyle: pub ? 'solid' : 'dashed',
+          stBorder: pub ? '#0B0B0B' : '#A39C96', stDot: pub ? '#A83B2A' : '#A39C96'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input { font-family: inherit; }
+  button:disabled { cursor: not-allowed !important; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 64px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-direction:column;gap:10px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · Compte administrateur unique</span>
+      <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Paramètres</h1>
+    </section>
+
+    <div style="max-width:880px;width:100%;display:flex;flex-direction:column;gap:14px">
+
+      <sc-if value="{{ mustSetup }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="background:#0B0B0B;color:#FFFFFF;border-radius:22px;padding:18px 22px;display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Sécurisation du compte à terminer</span>
+          <span style="font-size:15px;line-height:1.55;color:#E7E3DD;text-wrap:pretty">L'authentification à deux facteurs est obligatoire pour le compte administrateur. Configurez-la ci-dessous pour accéder au reste de l'espace admin.</span>
+        </div>
+      </sc-if>
+
+      <section data-screen-label="01 Connexion" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">01</span>
+          <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Connexion</h2>
+        </div>
+
+        <div data-screen-label="Email de connexion" style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+            <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Email de connexion</span>
+              <span style="font-size:16px;font-weight:700;overflow-wrap:anywhere">{{ email }}</span>
+            </span>
+            <sc-if value="{{ emailIdle }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ editEmail }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Modifier</button></sc-if>
+          </div>
+          <sc-if value="{{ emailEditing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F7F5F1;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Nouvel email de connexion</span><input type="email" value="{{ newEmail }}" onChange="{{ onNewEmail }}" placeholder="nom@trouve-ta-formation.fr" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              <sc-if value="{{ hasEmailErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;color:#A83B2A">{{ emailErr }}</span></sc-if>
+              <span style="font-size:13px;line-height:1.55;color:#4C4946">Un lien de confirmation sera envoyé à cette adresse. L'email actuel reste actif jusqu'à la confirmation, pour qu'une faute de frappe ne bloque jamais l'accès au compte.</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ sendEmail }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#A83B2A">Envoyer le lien de confirmation</button>
+                <button type="button" onClick="{{ cancelEmail }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ emailPending }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FAF0ED;border:1px solid #E2B6AC;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">En attente de confirmation</span>
+              <span style="font-size:14.5px;line-height:1.55">Un lien a été envoyé à <strong>{{ pendingEmail }}</strong>. Tant qu'il n'est pas confirmé, vous continuez à vous connecter avec {{ email }}.</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px 16px">
+                <button type="button" onClick="{{ resend }}" style="background:transparent;border:0;padding:0;font-size:13.5px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="color:#A83B2A">{{ resendLabel }}</button>
+                <button type="button" onClick="{{ cancelPending }}" style="background:transparent;border:0;padding:0;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Annuler le changement</button>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+
+        <div data-screen-label="Mot de passe" style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+            <span style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Mot de passe</span>
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px"><span style="font-size:16px;font-weight:700;letter-spacing:0.18em">••••••••••</span><span style="font-size:13px;color:#6B6560">{{ pwdDate }}</span></span>
+            </span>
+            <sc-if value="{{ pwdIdle }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ editPwd }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Modifier</button></sc-if>
+          </div>
+          <sc-if value="{{ pwdEditing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F7F5F1;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Mot de passe actuel</span><input type="password" value="{{ pw.cur }}" onChange="{{ onPwCur }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              <span style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+                <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Nouveau mot de passe</span><input type="password" value="{{ pw.next }}" onChange="{{ onPwNext }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+                <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Confirmer le nouveau mot de passe</span><input type="password" value="{{ pw.conf }}" onChange="{{ onPwConf }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              </span>
+              <span style="font-size:13px;line-height:1.55;color:{{ pwHintColor }}">{{ pwHint }}</span>
+              <span style="font-size:13px;line-height:1.55;color:#4C4946">Un email de notification sera envoyé à {{ email }} après le changement.</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ savePwd }}" disabled="{{ pwDisabled }}" style="background:{{ pwBg }};color:{{ pwColor }};border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer">Enregistrer le mot de passe</button>
+                <button type="button" onClick="{{ cancelPwd }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ pwdDone }}" hint-placeholder-val="{{ false }}">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;line-height:1.55;color:#0B0B0B"><span style="flex:none;width:7px;height:7px;border-radius:99px;background:#0B0B0B;display:block"></span>Mot de passe modifié. Un email de notification a été envoyé à {{ email }}.</span>
+          </sc-if>
+        </div>
+      </section>
+
+      <section data-screen-label="02 Authentification à deux facteurs" style="background:#FFFFFF;border:{{ tfaBorder }};border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">02</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Authentification à deux facteurs</h2>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:5px 12px 5px 10px;font-size:12.5px;font-weight:700;white-space:nowrap;border:1.5px {{ tfaBadgeStyle }} {{ tfaBadgeBorder }};color:{{ tfaBadgeColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ tfaBadgeDot }};display:block"></span>{{ tfaBadge }}</span>
+        </div>
+
+        <sc-if value="{{ tfaIdle }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Méthode</span>
+                <span style="font-size:16px;font-weight:700">Application d'authentification</span>
+                <span style="font-size:13px;color:#6B6560">{{ tfaSince }}</span>
+              </span>
+              <button type="button" onClick="{{ startReconf }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Changer d'appareil</button>
+            </div>
+            <div style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Codes de récupération</span>
+                <span style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:-0.03em;color:{{ codesColor }}">{{ codesLeft }}</span><span style="font-size:15px;font-weight:700">{{ codesLabel }}</span></span>
+                <span style="font-size:13px;color:#6B6560">{{ codesSince }}</span>
+              </span>
+              <button type="button" onClick="{{ startRegen }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Générer de nouveaux codes</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tfaSetup }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#F7F5F1;border-radius:20px;padding:clamp(16px,2.4vw,24px);display:flex;flex-direction:column;gap:18px">
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37;text-wrap:pretty">{{ setupIntro }}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:20px 28px;align-items:flex-start">
+              <div style="flex:none;display:flex;flex-direction:column;align-items:center;gap:8px">
+                <div style="width:176px;height:176px;border-radius:16px;border:1.5px dashed #C7C1BC;background-color:#FFFFFF;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);display:flex;align-items:center;justify-content:center">
+                  <span style="background:#FFFFFF;border-radius:8px;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6560">QR code</span>
+                </div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7B746E">Étape 1 · Scanner</span>
+              </div>
+              <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:14px">
+                <span style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font-size:13.5px;font-weight:700">Scannez ce code avec Google Authenticator, Authy ou une application équivalente.</span>
+                  <span style="font-size:13px;line-height:1.55;color:#6B6560">Impossible de scanner ? Saisissez cette clé dans l'application :</span>
+                  <span style="align-self:flex-start;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:12px;padding:9px 12px;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:0.08em;overflow-wrap:anywhere">JBSW Y3DP EHPK 3PXP K4RT</span>
+                </span>
+                <label style="display:flex;flex-direction:column;gap:7px">
+                  <span style="font-size:13.5px;font-weight:700">Étape 2 · Code à six chiffres affiché par l'application</span>
+                  <input type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="6" placeholder="000000" value="{{ otp }}" onChange="{{ onOtp }}" style="width:200px;max-width:100%;font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:0.3em;color:#0B0B0B;background:#FFFFFF;border:1.5px solid {{ otpBorder }};border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B" />
+                  <sc-if value="{{ hasOtpErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;color:#A83B2A">{{ otpErr }}</span></sc-if>
+                </label>
+                <span style="display:flex;flex-wrap:wrap;gap:8px">
+                  <button type="button" onClick="{{ verifyOtp }}" disabled="{{ otpDisabled }}" style="background:{{ otpBg }};color:{{ otpColor }};border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer">Vérifier et activer</button>
+                  <sc-if value="{{ canCancelSetup }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ cancelSetup }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+                </span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tfaRegen }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#F7F5F1;border-radius:20px;padding:clamp(16px,2.4vw,24px);display:flex;flex-direction:column;gap:14px">
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37;text-wrap:pretty">Les codes actuels seront invalidés dès la génération des nouveaux. Confirmez avec le code affiché par votre application.</span>
+            <input type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="6" placeholder="000000" value="{{ otp }}" onChange="{{ onOtp }}" style="width:200px;max-width:100%;font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:0.3em;color:#0B0B0B;background:#FFFFFF;border:1.5px solid {{ otpBorder }};border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B" />
+            <sc-if value="{{ hasOtpErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;color:#A83B2A">{{ otpErr }}</span></sc-if>
+            <span style="display:flex;flex-wrap:wrap;gap:8px">
+              <button type="button" onClick="{{ confirmRegen }}" disabled="{{ otpDisabled }}" style="background:{{ otpBg }};color:{{ otpColor }};border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer">Générer les codes</button>
+              <button type="button" onClick="{{ cancelSetup }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ tfaCodes }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1.5px solid #0B0B0B;border-radius:20px;padding:clamp(16px,2.4vw,24px);display:flex;flex-direction:column;gap:16px">
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Affichés une seule fois</span>
+              <span style="font-size:18px;font-weight:800;letter-spacing:-0.015em">Vos codes de récupération</span>
+              <span style="font-size:14px;line-height:1.6;color:#3C3A37;text-wrap:pretty">Conservez-les hors ligne (imprimés, ou dans un gestionnaire de mots de passe). Chaque code ne sert qu'une fois. C'est le seul moyen de retrouver l'accès si vous perdez l'appareil qui porte l'application : aucun autre compte ne peut rétablir le vôtre.</span>
+            </span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;background:#F7F5F1;border-radius:16px;padding:14px">
+              <sc-for list="{{ codes }}" as="c" hint-placeholder-count="10"><span style="background:#FFFFFF;border-radius:10px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:0.08em;text-align:center">{{ c }}</span></sc-for>
+            </div>
+            <span style="display:flex;flex-wrap:wrap;gap:8px">
+              <button type="button" onClick="{{ copyCodes }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">{{ copyLabel }}</button>
+              <button type="button" onClick="{{ downloadCodes }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Télécharger (.txt)</button>
+            </span>
+            <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.5;cursor:pointer">
+              <input type="checkbox" checked="{{ saved }}" onChange="{{ onSaved }}" style="margin:3px 0 0;width:17px;height:17px;accent-color:#0B0B0B;flex:none" />
+              <span>J'ai conservé ces codes hors ligne. Ils ne seront plus affichés.</span>
+            </label>
+            <button type="button" onClick="{{ closeCodes }}" disabled="{{ closeDisabled }}" style="align-self:flex-start;background:{{ closeBg }};color:{{ closeColor }};border:0;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer">Terminer</button>
+          </div>
+        </sc-if>
+
+        <span style="font-size:12.5px;line-height:1.5;color:#6B6560">Seule l'application d'authentification est proposée. Le 2FA ne peut pas être désactivé sur ce compte.</span>
+      </section>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;max-width:min(92vw,560px);background:#0B0B0B;color:#FFFFFF;border-radius:18px;padding:14px 18px;font-size:14px;line-height:1.45;box-shadow:0 18px 40px -18px rgba(11,11,11,0.6)">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etat2fa&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;active&quot;,&quot;a-configurer&quot;],&quot;default&quot;:&quot;active&quot;,&quot;tsType&quot;:&quot;'active' | 'a-configurer'&quot;,&quot;section&quot;:&quot;État du compte&quot;}}">
+const hhmm = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+const ALPH = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const genCodes = () => Array.from({ length: 10 }, () => {
+  const p = () => Array.from({ length: 4 }, () => ALPH[Math.floor(Math.random() * ALPH.length)]).join('');
+  return p() + '-' + p();
+});
+
+class Component extends DCLogic {
+  state = {
+    email: 'erwan@trouve-ta-formation.fr', emailMode: 'idle', newEmail: '', pendingEmail: '', emailErr: '', resent: false,
+    pwdMode: 'idle', pw: { cur: '', next: '', conf: '' }, pwdChanged: false,
+    tfaMode: null, tfaOn: null, otp: '', otpErr: '', codes: [], saved: false, copied: false,
+    codesLeft: 8, codesAt: '2 sept. 2026', tfaAt: '2 sept. 2026', toast: ''
+  };
+  componentWillUnmount() { clearTimeout(this.tt); }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 4200); }
+
+  renderVals() {
+    const st = this.state, p = this.props;
+    const tfaOn = st.tfaOn ?? (p.etat2fa !== 'a-configurer');
+    const mode = st.tfaMode ?? (tfaOn ? 'idle' : 'setup');
+    const pw = st.pw, minLen = 12;
+    const pwErr = !pw.cur ? 'Saisissez votre mot de passe actuel.'
+      : pw.next.length < minLen ? `Le nouveau mot de passe doit contenir au moins ${minLen} caractères.`
+      : pw.next === pw.cur ? "Le nouveau mot de passe doit être différent de l'actuel."
+      : pw.next !== pw.conf ? 'Les deux mots de passe ne correspondent pas.' : '';
+    const pwTouched = pw.cur || pw.next || pw.conf;
+    const setPw = k => e => this.setState({ pw: { ...this.state.pw, [k]: e.target.value } });
+    const otpOk = /^\d{6}$/.test(st.otp);
+    const checkOtp = () => {
+      if (st.otp === '000000') { this.setState({ otpErr: "Code incorrect. Vérifiez l'heure de votre appareil et réessayez." }); return false; }
+      return true;
+    };
+    const showCodes = () => this.setState({ tfaMode: 'codes', codes: genCodes(), saved: false, copied: false, otp: '', otpErr: '' });
+    const today = new Date(), todayFr = `${today.getDate()} ${['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'][today.getMonth()]} ${today.getFullYear()}`;
+    const low = st.codesLeft <= 3;
+
+    return {
+      email: st.email,
+      emailIdle: st.emailMode === 'idle', emailEditing: st.emailMode === 'edit', emailPending: st.emailMode === 'pending',
+      editEmail: () => this.setState({ emailMode: 'edit', newEmail: '', emailErr: '' }),
+      newEmail: st.newEmail, onNewEmail: e => this.setState({ newEmail: e.target.value, emailErr: '' }),
+      hasEmailErr: !!st.emailErr, emailErr: st.emailErr,
+      sendEmail: () => {
+        const v = st.newEmail.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return this.setState({ emailErr: 'Cette adresse email ne semble pas valide.' });
+        if (v.toLowerCase() === st.email) return this.setState({ emailErr: "C'est déjà votre email de connexion." });
+        this.setState({ emailMode: 'pending', pendingEmail: v, resent: false });
+      },
+      cancelEmail: () => this.setState({ emailMode: 'idle' }),
+      pendingEmail: st.pendingEmail,
+      resend: () => this.setState({ resent: true }), resendLabel: st.resent ? 'Lien renvoyé' : 'Renvoyer le lien',
+      cancelPending: () => this.setState({ emailMode: 'idle', pendingEmail: '' }),
+
+      pwdIdle: st.pwdMode === 'idle', pwdEditing: st.pwdMode === 'edit', pwdDone: st.pwdMode === 'idle' && st.pwdChanged,
+      pwdDate: st.pwdChanged ? `Modifié aujourd'hui à ${this.pwAt}` : 'Modifié le 2 sept. 2026',
+      editPwd: () => this.setState({ pwdMode: 'edit', pw: { cur: '', next: '', conf: '' }, pwdChanged: false }),
+      cancelPwd: () => this.setState({ pwdMode: 'idle' }),
+      pw, onPwCur: setPw('cur'), onPwNext: setPw('next'), onPwConf: setPw('conf'),
+      pwHint: pwTouched && pwErr ? pwErr : pwErr ? `Au moins ${minLen} caractères.` : 'Les deux mots de passe correspondent.',
+      pwHintColor: pwTouched && pwErr ? '#A83B2A' : '#6B6560',
+      pwDisabled: !!pwErr, pwBg: pwErr ? '#E7E3DD' : '#0B0B0B', pwColor: pwErr ? '#7B746E' : '#FFFFFF',
+      savePwd: () => { if (pwErr) return; this.pwAt = hhmm(); this.setState({ pwdMode: 'idle', pwdChanged: true }); },
+
+      mustSetup: !tfaOn,
+      tfaBorder: tfaOn ? '1px solid #E7E3DD' : '1.5px solid #A83B2A',
+      tfaBadge: tfaOn ? 'Activée' : 'À configurer',
+      tfaBadgeStyle: tfaOn ? 'solid' : 'dashed', tfaBadgeBorder: tfaOn ? '#0B0B0B' : '#A83B2A',
+      tfaBadgeColor: tfaOn ? '#0B0B0B' : '#A83B2A', tfaBadgeDot: tfaOn ? '#A83B2A' : 'transparent',
+      tfaIdle: mode === 'idle', tfaSetup: mode === 'setup', tfaRegen: mode === 'regen', tfaCodes: mode === 'codes',
+      tfaSince: `Activée le ${st.tfaAt}`,
+      codesLeft: st.codesLeft, codesLabel: st.codesLeft > 1 ? 'codes restants' : 'code restant', codesColor: low ? '#A83B2A' : '#0B0B0B',
+      codesSince: low ? `Générés le ${st.codesAt}. Pensez à en générer de nouveaux.` : `Générés le ${st.codesAt}. Ils ne peuvent plus être affichés.`,
+      setupIntro: tfaOn
+        ? "Configurez l'application sur votre nouvel appareil. L'ancienne configuration reste active jusqu'à la vérification du code."
+        : 'Deux étapes : scanner le QR code avec votre application, puis saisir le code qu\'elle affiche pour confirmer la configuration.',
+      canCancelSetup: tfaOn,
+      startReconf: () => this.setState({ tfaMode: 'setup', otp: '', otpErr: '' }),
+      startRegen: () => this.setState({ tfaMode: 'regen', otp: '', otpErr: '' }),
+      cancelSetup: () => this.setState({ tfaMode: 'idle', otp: '', otpErr: '' }),
+      otp: st.otp, onOtp: e => this.setState({ otp: e.target.value.replace(/\D/g, '').slice(0, 6), otpErr: '' }),
+      hasOtpErr: !!st.otpErr, otpErr: st.otpErr, otpBorder: st.otpErr ? '#A83B2A' : '#E7E3DD',
+      otpDisabled: !otpOk, otpBg: otpOk ? '#0B0B0B' : '#E7E3DD', otpColor: otpOk ? '#FFFFFF' : '#7B746E',
+      verifyOtp: () => { if (!otpOk || !checkOtp()) return; this.setState({ tfaOn: true, tfaAt: todayFr }); showCodes(); },
+      confirmRegen: () => { if (!otpOk || !checkOtp()) return; showCodes(); },
+
+      codes: st.codes,
+      copyLabel: st.copied ? 'Codes copiés' : 'Copier les codes',
+      copyCodes: () => { try { navigator.clipboard.writeText(st.codes.join('\n')); } catch (e) {} this.setState({ copied: true }); },
+      downloadCodes: () => {
+        const blob = new Blob(['Trouve ta formation — codes de récupération admin\n\n' + st.codes.join('\n') + '\n'], { type: 'text/plain' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'codes-recuperation-admin.txt'; a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      },
+      saved: st.saved, onSaved: e => this.setState({ saved: e.target.checked }),
+      closeDisabled: !st.saved, closeBg: st.saved ? '#0B0B0B' : '#E7E3DD', closeColor: st.saved ? '#FFFFFF' : '#7B746E',
+      closeCodes: () => {
+        if (!st.saved) return;
+        this.setState({ tfaMode: 'idle', codes: [], codesLeft: 10, codesAt: todayFr });
+        this.flash('Authentification à deux facteurs à jour. Les codes ne seront plus affichés.');
+      },
+      hasToast: !!st.toast, toast: st.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

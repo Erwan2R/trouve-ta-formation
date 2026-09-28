@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input { font-family: inherit; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <nav aria-label="Fil d'Ariane" style="padding:10px 12px 0;display:flex;align-items:center;gap:8px;font-size:13px;color:#7B746E">
+      <a href="Fichier Client.dc.html" style="font-weight:600;color:#45423E" style-hover="color:#0B0B0B">Fichier client</a><span style="color:#C7C1BC">›</span><span style="color:#0B0B0B;font-weight:600">Académie Française de Sécurité</span>
+    </nav>
+
+    <section data-screen-label="01 En-tête" style="background:#FFFFFF;border:1px solid {{ headBorder }};border-radius:28px;padding:clamp(20px,3vw,30px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px">
+      <div style="flex:1 1 420px;min-width:0;display:flex;align-items:center;gap:18px">
+        <span style="flex:none;width:64px;height:64px;border-radius:18px;background:#F2EFE9;border:1px solid #E7E3DD;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:17px;color:#45423E">AF</span>
+        <div style="min-width:0;display:flex;flex-direction:column;gap:8px">
+          <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+            <h1 style="margin:0;font-size:clamp(26px,3.2vw,40px);line-height:1.02;letter-spacing:-0.04em;font-weight:800">Académie Française de Sécurité</h1>
+            <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;background:{{ stBg }};color:{{ stColor }};border:1.5px solid {{ stBorder }}"><span style="width:6px;height:6px;border-radius:99px;background:{{ stDot }};display:block"></span>{{ stLabel }}</span>
+          </span>
+          <span style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:13.5px;color:#6B6560">
+            <span>Bobigny (93)</span><span style="color:#C7C1BC">·</span><span>Inscrit le 12 sept. 2026</span><span style="color:#C7C1BC">·</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">org_0142</span>
+            <a href="https://trouve-ta-formation.fr/organismes/afs-bobigny" style="font-weight:700" style-hover="color:#0B0B0B">Voir la fiche publique →</a>
+          </span>
+        </div>
+      </div>
+      <div data-screen-label="Actions de modération" style="flex:none;display:flex;flex-wrap:wrap;gap:8px">
+        <button type="button" onClick="{{ openRappel }}" style="display:inline-flex;align-items:center;gap:8px;background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#45423E">Envoyer un rappel</button>
+        <button type="button" onClick="{{ openSuspend }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#F7F5F1">{{ suspendLabel }}</button>
+        <button type="button" onClick="{{ openDelete }}" style="background:#FFFFFF;color:#A83B2A;border:1px solid #A83B2A;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#FAF0ED">Supprimer le compte</button>
+      </div>
+      <sc-if value="{{ suspended }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1 1 100%;background:#FAF0ED;border:1px solid #E2B6AC;border-radius:16px;padding:12px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:14px;line-height:1.5">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Compte suspendu</span>
+          <span>La fiche n'est plus visible sur le site public. {{ connexionPhrase }}</span>
+        </div>
+      </sc-if>
+    </section>
+
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+      <div style="flex:2 1 560px;min-width:0;display:flex;flex-direction:column;gap:14px">
+
+        <section data-screen-label="02 Score et indexation" style="background:#0B0B0B;color:#FFFFFF;border-radius:28px;padding:clamp(20px,3vw,28px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Palier de complétude</span>
+            <span style="font-size:clamp(40px,5vw,60px);line-height:0.95;letter-spacing:-0.05em;font-weight:800">{{ palier }}</span>
+          </div>
+          <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:12px">
+            <span style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">
+              <sc-for list="{{ paliers }}" as="p" hint-placeholder-count="3">
+                <span style="display:flex;flex-direction:column;gap:7px">
+                  <span style="height:10px;border-radius:99px;background:{{ p.bg }};display:block"></span>
+                  <span style="font-size:12.5px;font-weight:700;color:{{ p.color }}">{{ p.name }}</span>
+                </span>
+              </sc-for>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14px;color:#D0CAC5">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #2A2626;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#FFFFFF"><span style="width:6px;height:6px;border-radius:99px;background:#E19D8B;display:block"></span>{{ idxLabel }}</span>{{ idxPhrase }}
+            </span>
+          </div>
+        </section>
+
+        <section data-screen-label="03 Identité et coordonnées" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:18px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 style="margin:0;font-size:20px;letter-spacing:-0.02em;font-weight:800">Identité et coordonnées</h2><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Depuis Ma fiche</span></span>
+          <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));border-top:1px solid #F0ECE6">
+            <sc-for list="{{ identite }}" as="f" hint-placeholder-count="12">
+              <div style="display:flex;flex-direction:column;gap:4px;padding:13px 16px 13px 0;border-bottom:1px solid #F0ECE6">
+                <dt style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">{{ f.label }}</dt>
+                <sc-if value="{{ f.has }}" hint-placeholder-val="{{ true }}"><dd style="margin:0;font-size:14.5px;line-height:1.45;font-weight:600;overflow-wrap:anywhere">{{ f.value }}</dd></sc-if>
+                <sc-if value="{{ f.missing }}" hint-placeholder-val="{{ false }}"><dd style="margin:0;align-self:flex-start;border:1.5px dashed #C7C1BC;border-radius:8px;padding:2px 9px;font-size:12.5px;font-weight:600;color:#6B6560">Non renseigné</dd></sc-if>
+              </div>
+            </sc-for>
+          </dl>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Lieux additionnels</span>
+            <sc-for list="{{ lieux }}" as="l" hint-placeholder-count="2">
+              <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:11px 14px"><span style="font-size:14px;font-weight:700">{{ l.nom }}</span><span style="font-size:13.5px;color:#4C4946">{{ l.adresse }}</span></span>
+            </sc-for>
+          </div>
+        </section>
+
+        <section data-screen-label="04 Présentation" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 style="margin:0;font-size:20px;letter-spacing:-0.02em;font-weight:800">Présentation</h2><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">{{ presMeta }}</span></span>
+          <sc-if value="{{ hasPres }}" hint-placeholder-val="{{ true }}"><p style="margin:0;max-width:72ch;font-size:15.5px;line-height:1.7;color:#3C3A37">Centre installé à Bobigny depuis 2014, spécialisé dans la formation initiale des agents de sécurité privée. Sessions de 12 stagiaires maximum, formateurs issus du terrain, plateau technique incendie sur place.</p></sc-if>
+          <sc-if value="{{ noPres }}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;border:1.5px dashed #C7C1BC;border-radius:12px;padding:10px 14px;font-size:14px;color:#6B6560">L'organisme n'a pas rédigé de présentation. Le bloc n'apparaît pas sur sa fiche publique.</span></sc-if>
+        </section>
+
+        <section data-screen-label="05 Formations déclarées" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h2 style="margin:0;font-size:20px;letter-spacing:-0.02em;font-weight:800">{{ formTitle }}</h2><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Depuis Mes formations</span></span>
+          <sc-if value="{{ hasForm }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto">
+              <table style="width:100%;min-width:760px;border-collapse:collapse;font-size:13.5px">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:10px 12px 10px 0;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Titre</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">État</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Prix</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Durée</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Rythme</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Modalités</th>
+                    <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Lieux</th>
+                    <th style="text-align:left;padding:10px 0 10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Financements</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ offres }}" as="o" hint-placeholder-count="3">
+                    <tr>
+                      <td style="padding:14px 12px 14px 0;border-bottom:1px solid #F0ECE6;vertical-align:top"><a href="{{ o.href }}" style="font-size:15px;font-weight:800;color:#0B0B0B" style-hover="color:#A83B2A">{{ o.t }}</a></td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top"><span style="white-space:nowrap;display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;background:{{ o.stBg }};color:{{ o.stColor }};border:1.5px {{ o.stStyle }} {{ o.stBorder }}">{{ o.etat }}</span></td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top;font-family:'IBM Plex Mono',monospace;font-size:12.5px;white-space:nowrap;color:{{ o.prixColor }}">{{ o.prix }}</td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top;font-family:'IBM Plex Mono',monospace;font-size:12.5px;white-space:nowrap">{{ o.duree }}</td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top;color:{{ o.rythmeColor }}">{{ o.rythme }}</td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top">Présentiel</td>
+                      <td style="padding:14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top;color:#3C3A37">{{ o.lieux }}</td>
+                      <td style="padding:14px 0 14px 12px;border-bottom:1px solid #F0ECE6;vertical-align:top;color:{{ o.finColor }}">{{ o.fin }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </sc-if>
+          <sc-if value="{{ noForm }}" hint-placeholder-val="{{ false }}">
+            <div style="border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:26px;display:flex;justify-content:center">
+              <span style="max-width:60ch;background:#FFFFFF;border-radius:12px;padding:10px 14px;text-align:center;font-size:14px;line-height:1.6;color:#3C3A37"><strong style="color:#0B0B0B">Aucune formation déclarée.</strong> Cette fiche n'apparaît dans aucun filtre par titre du catalogue.</span>
+            </div>
+          </sc-if>
+        </section>
+      </div>
+
+      <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:14px;position:sticky;top:96px">
+        <section data-screen-label="06 Informations de compte" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(20px,3vw,26px);display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;flex-direction:column;gap:6px"><h2 style="margin:0;font-size:20px;letter-spacing:-0.02em;font-weight:800">Informations de compte</h2><span style="font-size:12.5px;line-height:1.5;color:#6B6560">Marquées « usage interne » côté organisme. Jamais affichées sur la fiche publique.</span></span>
+          <dl style="margin:0;display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+            <div style="padding:12px 0;border-bottom:1px solid #F0ECE6;display:flex;flex-direction:column;gap:3px"><dt style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Email de connexion</dt><dd style="margin:0;font-size:14.5px;font-weight:600"><a href="mailto:contact@afs-formation.fr" style="color:#0B0B0B" style-hover="color:#A83B2A">contact@afs-formation.fr</a></dd></div>
+            <div style="padding:12px 0;border-bottom:1px solid #F0ECE6;display:flex;flex-direction:column;gap:3px"><dt style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Contact principal</dt><dd style="margin:0;font-size:14.5px;font-weight:600">Sophie Martin</dd></div>
+            <div style="padding:12px 0;border-bottom:1px solid #F0ECE6;display:flex;flex-direction:column;gap:3px"><dt style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Téléphone direct</dt><dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:14px"><a href="tel:0612345678" style="color:#0B0B0B" style-hover="color:#A83B2A">06 12 34 56 78</a></dd></div>
+            <div style="padding:12px 0;display:flex;flex-direction:column;gap:3px"><dt style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Connexion au compte</dt><dd style="margin:0;font-size:14.5px;font-weight:600;color:{{ cnxColor }}">{{ cnxLabel }}</dd></div>
+          </dl>
+        </section>
+
+        <section data-screen-label="07 Historique" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(20px,3vw,26px);display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:20px;letter-spacing:-0.02em;font-weight:800">Historique</h2>
+          <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+            <sc-for list="{{ histo }}" as="h" hint-placeholder-count="3">
+              <li style="display:grid;grid-template-columns:14px minmax(0,1fr);gap:0 14px">
+                <span style="display:flex;flex-direction:column;align-items:center"><span style="flex:none;margin-top:5px;width:10px;height:10px;border-radius:99px;background:{{ h.dot }};display:block"></span><span style="flex:1;width:1px;background:{{ h.line }};display:block;margin:4px 0"></span></span>
+                <span style="display:flex;flex-direction:column;gap:2px;padding-bottom:16px">
+                  <span style="font-size:14px;font-weight:700;line-height:1.4">{{ h.label }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560">{{ h.date }}</span>
+                </span>
+              </li>
+            </sc-for>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:16px">
+      <div role="dialog" aria-modal="true" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:560px;max-height:100%;overflow-y:auto;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+
+        <sc-if value="{{ mRappel }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale rappel" style="display:flex;flex-direction:column;gap:16px">
+            <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Envoyer un rappel</span><span style="font-size:14px;line-height:1.55;color:#4C4946">Un email pré-rédigé part à l'adresse de connexion : contact@afs-formation.fr.</span></span>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ types }}" as="ty" hint-placeholder-count="4">
+                <button type="button" onClick="{{ ty.pick }}" style="text-align:left;display:flex;align-items:center;gap:14px;background:{{ ty.bg }};border:1.5px solid {{ ty.border }};border-radius:14px;padding:13px 16px;cursor:pointer;color:#0B0B0B" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:20px;height:20px;border-radius:99px;border:1.5px solid {{ ty.ring }};display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border-radius:99px;background:{{ ty.fill }};display:block"></span></span>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:14.5px;font-weight:700">{{ ty.label }}</span><span style="font-size:12.5px;color:#6B6560">{{ ty.last }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ sendRappel }}" disabled="{{ rappelDisabled }}" style="background:{{ rappelBg }};color:{{ rappelColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer">Envoyer</button>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mSuspend }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale suspension" style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">{{ suspendTitle }}</span>
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37">{{ suspendText }}</span>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ confirmSuspend }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#45423E">{{ suspendLabel }}</button>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mDelete }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale suppression" style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Action définitive</span>
+            <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Supprimer le compte et la fiche</span>
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37">Le compte, la fiche et ses 3 formations déclarées sont supprimés immédiatement. Cette action ne peut pas être annulée.</span>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:13.5px;line-height:1.5;font-weight:600">Saisissez le nom de l'organisme : <strong>Académie Française de Sécurité</strong></span><input type="text" value="{{ delInput }}" onChange="{{ onDel }}" autoComplete="off" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1.5px solid {{ delBorder }};border-radius:14px;padding:13px 15px;outline:none;width:100%" /></label>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ doDelete }}" disabled="{{ delDisabled }}" style="background:{{ delBg }};color:{{ delColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer">Supprimer définitivement</button>
+            </span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ deleted }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:110;background:#0B0B0B;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div style="max-width:520px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+        <h2 style="margin:0;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:-0.035em;font-weight:800;color:#FFFFFF">Compte supprimé</h2>
+        <p style="margin:0;font-size:15.5px;line-height:1.65;color:#D0CAC5">Académie Française de Sécurité a été retiré du site et de la base.</p>
+        <a href="Fichier Client.dc.html" style="margin-top:6px;display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:14px 22px;font-size:15px;font-weight:700" style-hover="background:#E19D8B;color:#0B0B0B">Retour au Fichier client<span>→</span></a>
+        <button type="button" onClick="{{ undoDelete }}" style="background:transparent;border:0;padding:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681;cursor:pointer" style-hover="color:#FFFFFF">Revenir au prototype</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:14px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:12px 12px 12px 20px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22);max-width:calc(100vw - 32px)">
+      <span style="width:8px;height:8px;border-radius:99px;background:#E19D8B;display:block;flex:none"></span>
+      <span style="font-size:14px;font-weight:600;line-height:1.4">{{ toast }}</span>
+      <button type="button" aria-label="Fermer" onClick="{{ closeToast }}" style="flex:none;width:30px;height:30px;border-radius:99px;border:0;background:#2A2626;color:#FFFFFF;font-size:15px;cursor:pointer">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;statut&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Actif&quot;,&quot;Suspendu&quot;],&quot;default&quot;:&quot;Actif&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Statut du compte&quot;},&quot;sansFormation&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Aucune formation déclarée&quot;},&quot;presentationVide&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Présentation vide&quot;},&quot;connexionSuspendu&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bloquée&quot;,&quot;Message de suspension&quot;],&quot;default&quot;:&quot;Bloquée&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Connexion d'un compte suspendu&quot;}}">
+const ORG = 'Académie Française de Sécurité';
+const TYPES = ["Rappel d'ajout de formation", 'Rappel de complétion de fiche'];
+const OFFRES = [
+  { t: 'TFP APS', prix: '1 490 €', duree: '175 h', rythme: 'Temps plein', lieux: 'Siège · Saint-Denis', fin: 'CPF · France Travail · OPCO' },
+  { t: 'SSIAP 1', prix: '650 – 720 €', duree: '70 h', rythme: 'Temps plein', lieux: 'Siège · Saint-Denis', fin: 'CPF' },
+  { t: 'MAC APS', prix: '', duree: '31 h', rythme: '', lieux: 'Siège', fin: '' }
+];
+const MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const today = () => { const d = new Date(); return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`; };
+
+class Component extends DCLogic {
+  state = { suspended: false, modal: null, type: null, delInput: '', deleted: false, toast: null, histo: [
+    { label: 'Rappel de complétion de fiche', date: '18 sept. 2026' },
+    { label: "Rappel d'ajout de formation", date: '14 sept. 2026' }
+  ] };
+  componentDidMount() { this.setState({ suspended: this.props.statut === 'Suspendu' }); }
+  componentDidUpdate(pp) {
+    if (pp && pp.statut !== this.props.statut) this.setState({ suspended: this.props.statut === 'Suspendu' });
+    document.body.style.overflow = this.state.modal ? 'hidden' : '';
+  }
+  componentWillUnmount() { clearTimeout(this.t); document.body.style.overflow = ''; }
+  flash(m) { clearTimeout(this.t); this.t = setTimeout(() => this.setState({ toast: null }), 3800); this.setState({ toast: m }); }
+
+  renderVals() {
+    const st = this.state, p = this.props;
+    const noForm = !!p.sansFormation, noPres = !!p.presentationVide;
+    const pal = noForm || (noPres && false) ? 0 : 1;
+    const NOMS = ['Basique', 'Correct', 'Optimal'];
+    const cnxBloquee = (p.connexionSuspendu || 'Bloquée') === 'Bloquée';
+    const delOk = st.delInput.trim() === ORG;
+    const lastOf = t => { const h = st.histo.find(x => x.label === t); return h ? `Dernier envoi : ${h.date}` : 'Jamais envoyé'; };
+    const v = s => ({ has: !!s, missing: !s });
+    return {
+      suspended: st.suspended,
+      headBorder: st.suspended ? '#E2B6AC' : '#E7E3DD',
+      stLabel: st.suspended ? 'Suspendu' : 'Actif',
+      stBg: st.suspended ? '#FAF0ED' : '#0B0B0B', stColor: st.suspended ? '#A83B2A' : '#FFFFFF',
+      stBorder: st.suspended ? '#A83B2A' : '#0B0B0B', stDot: st.suspended ? '#A83B2A' : '#E19D8B',
+      connexionPhrase: cnxBloquee ? "L'organisme ne peut plus se connecter à son espace." : "L'organisme peut se connecter et voit un message de suspension, sans pouvoir agir.",
+      suspendLabel: st.suspended ? 'Réactiver le compte' : 'Suspendre le compte',
+      suspendTitle: st.suspended ? 'Réactiver le compte ?' : 'Suspendre le compte ?',
+      suspendText: st.suspended ? 'La fiche sera republiée sur le site public avec son palier actuel.' : `Le compte est bloqué et la fiche est dépubliée du site public. ${cnxBloquee ? "L'organisme ne pourra plus se connecter." : "L'organisme pourra se connecter et verra un message de suspension."}`,
+      palier: NOMS[pal],
+      paliers: NOMS.map((name, i) => ({ name, bg: i < pal ? '#FFFFFF' : i === pal ? '#E19D8B' : '#2A2626', color: i <= pal ? '#FFFFFF' : '#8D8681' })),
+      idxLabel: st.suspended ? 'Dépubliée' : pal === 0 ? 'Non indexée' : 'Indexée',
+      idxPhrase: st.suspended ? 'Compte suspendu : la fiche n\'est visible nulle part.' : pal === 0 ? "La fiche n'apparaît pas dans les résultats de recherche." : 'La fiche apparaît dans les résultats de recherche.',
+      identite: [
+        { label: 'Raison sociale', value: ORG, ...v(1) },
+        { label: 'SIRET', value: '832 471 950 00018', ...v(1) },
+        { label: 'Déclaration d’activité', value: '11 93 07412 93', ...v(1) },
+        { label: 'Année de création', value: '2014', ...v(1) },
+        { label: 'Agrément CNAPS', value: '', ...v('') },
+        { label: 'Qualiopi', value: 'Certifié · QUA-2023-04821', ...v(1) },
+        { label: 'Siège', value: '14 rue de la République, 93000 Bobigny', ...v(1) },
+        { label: 'Téléphone public', value: '01 48 30 00 00', ...v(1) },
+        { label: 'Email public', value: 'accueil@afs-formation.fr', ...v(1) },
+        { label: 'Site web', value: '', ...v('') },
+        { label: 'Horaires', value: 'Du lundi au vendredi, de 9 h à 18 h', ...v(1) },
+        { label: 'Accessibilité PMR', value: 'Oui', ...v(1) },
+        { label: 'Langues', value: 'Français · Anglais', ...v(1) }
+      ],
+      lieux: [
+        { nom: 'Antenne Saint-Denis', adresse: '8 boulevard Anatole-France, 93200 Saint-Denis' },
+        { nom: 'Antenne Montreuil', adresse: '41 rue de Paris, 93100 Montreuil' }
+      ],
+      hasPres: !noPres, noPres, presMeta: noPres ? 'Vide' : '214 caractères',
+      hasForm: !noForm, noForm,
+      formTitle: noForm ? 'Formations déclarées' : `${OFFRES.length} formations déclarées`,
+      offres: OFFRES.map(o => {
+        const inc = !o.prix || !o.duree || !o.rythme;
+        return {
+          t: o.t, href: '#titre-' + o.t.toLowerCase().replace(/\s+/g, '-'),
+          etat: inc ? 'À compléter' : 'Complète', stBg: inc ? '#FFFFFF' : '#0B0B0B', stColor: inc ? '#A83B2A' : '#FFFFFF', stBorder: inc ? '#A83B2A' : '#0B0B0B', stStyle: inc ? 'dashed' : 'solid',
+          prix: o.prix || 'Non renseigné', prixColor: o.prix ? '#0B0B0B' : '#8D8681',
+          duree: o.duree || 'Non renseignée', rythme: o.rythme || 'Non renseigné', rythmeColor: o.rythme ? '#0B0B0B' : '#8D8681',
+          lieux: o.lieux, fin: o.fin || 'Non renseignés', finColor: o.fin ? '#3C3A37' : '#8D8681'
+        };
+      }),
+      cnxLabel: st.suspended ? (cnxBloquee ? 'Bloquée (compte suspendu)' : 'Message de suspension affiché') : 'Autorisée',
+      cnxColor: st.suspended ? '#A83B2A' : '#0B0B0B',
+      histo: st.histo.map(h => ({ ...h, dot: h.label.startsWith('Compte') ? '#A83B2A' : '#0B0B0B', line: '#E7E3DD' }))
+        .concat([{ label: 'Inscription', date: '12 sept. 2026', dot: '#C7C1BC', line: 'transparent' }]),
+
+      modalOpen: !!st.modal, mRappel: st.modal === 'rappel', mSuspend: st.modal === 'suspend', mDelete: st.modal === 'delete',
+      openRappel: () => this.setState({ modal: 'rappel', type: null }),
+      openSuspend: () => this.setState({ modal: 'suspend' }),
+      openDelete: () => this.setState({ modal: 'delete', delInput: '' }),
+      closeModal: () => this.setState({ modal: null }),
+      stop: e => e.stopPropagation(),
+      types: TYPES.map(t => { const on = st.type === t; return { label: t, last: lastOf(t), pick: () => this.setState({ type: t }), bg: on ? '#FFFFFF' : '#F7F5F1', border: on ? '#0B0B0B' : '#E7E3DD', ring: on ? '#0B0B0B' : '#C7C1BC', fill: on ? '#0B0B0B' : 'transparent' }; }),
+      rappelDisabled: !st.type, rappelBg: st.type ? '#0B0B0B' : '#E7E3DD', rappelColor: st.type ? '#FFFFFF' : '#7B746E',
+      sendRappel: () => { if (!st.type) return; this.setState(s => ({ modal: null, histo: [{ label: s.type, date: today() }].concat(s.histo) })); this.flash(`${st.type} envoyé.`); },
+      confirmSuspend: () => {
+        const next = !st.suspended;
+        this.setState(s => ({ modal: null, suspended: next, histo: [{ label: next ? 'Compte suspendu' : 'Compte réactivé', date: today() }].concat(s.histo) }));
+        this.flash(next ? 'Compte suspendu. La fiche est dépubliée.' : 'Compte réactivé. La fiche est republiée.');
+      },
+      delInput: st.delInput, onDel: e => this.setState({ delInput: e.target.value }),
+      delBorder: delOk ? '#A83B2A' : '#E2DDD6', delDisabled: !delOk, delBg: delOk ? '#A83B2A' : '#E7E3DD', delColor: delOk ? '#FFFFFF' : '#7B746E',
+      doDelete: () => { if (delOk) this.setState({ modal: null, deleted: true }); },
+      deleted: st.deleted, undoDelete: () => this.setState({ deleted: false, delInput: '' }),
+      hasToast: !!st.toast, toast: st.toast || '', closeToast: () => this.setState({ toast: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

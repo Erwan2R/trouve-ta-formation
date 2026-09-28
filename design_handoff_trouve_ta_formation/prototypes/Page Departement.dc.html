@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-padding-top: 130px; }
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  summary::-webkit-details-marker { display: none; }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh">
+
+  <header style="background:#FFFFFF;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px">
+      <a href="#" style="display:flex;align-items:center;gap:12px;color:#0B0B0B" style-hover="color:#0B0B0B">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+      </a>
+      <nav style="margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px">
+        <a href="#formations" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Les formations</a>
+        <a href="#organismes" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#F2EFE9;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="color:#0B0B0B">Organismes</a>
+        <a href="#demarches" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Démarches CNAPS</a>
+        <a href="#blog" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Blog</a>
+      </nav>
+      <a href="#espace-organisme" style="flex:none;white-space:nowrap;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Espace organisme</a>
+    </div>
+  </header>
+
+  <section data-screen-label="En-tête département" style="background:#F2EFE9;border-bottom:1px solid #E2DDD6">
+    <div style="max-width:1240px;margin:0 auto;padding:18px 28px 36px">
+      <nav aria-label="Fil d'Ariane" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#7B746E">
+        <a href="#silo" style="color:#7B746E" style-hover="color:#0B0B0B">Sécurité privée</a>
+        <span>›</span>
+        <span style="color:#45423E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Seine-Saint-Denis (93)</span>
+      </nav>
+
+      <div style="margin-top:28px;display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,48px);align-items:flex-start">
+        <div style="flex:1 1 480px;min-width:290px;display:flex;flex-direction:column;gap:13px">
+          <h1 style="margin:0;font-size:clamp(30px,4vw,50px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;text-wrap:balance">Formation sécurité privée en Seine-Saint-Denis (93)</h1>
+          <p style="margin:0;max-width:62ch;font-size:18px;line-height:1.6;color:#3C3A37;text-wrap:pretty">Les organismes qui préparent aux titres de la sécurité privée dans le département, avec les titres qu'ils dispensent et les villes où ils sont implantés.</p>
+          <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding-top:6px">
+              <span style="display:inline-flex;align-items:baseline;gap:8px;font-size:15.5px;font-weight:600;color:#3C3A37"><span style="font-size:21px;font-weight:700;letter-spacing:-0.02em;color:#0B0B0B">11</span>organismes</span>
+              <span style="color:#C7C1BC">·</span>
+              <span style="display:inline-flex;align-items:baseline;gap:8px;font-size:15.5px;font-weight:600;color:#3C3A37"><span style="font-size:21px;font-weight:700;letter-spacing:-0.02em;color:#0B0B0B">5</span>villes</span>
+              <span style="color:#C7C1BC">·</span>
+              <span style="display:inline-flex;align-items:baseline;gap:8px;font-size:15.5px;font-weight:600;color:#3C3A37"><span style="font-size:21px;font-weight:700;letter-spacing:-0.02em;color:#0B0B0B">8</span>titres disponibles</span>
+            </div>
+          </sc-if>
+        </div>
+
+        <div data-screen-label="Chapô" style="flex:1 1 340px;min-width:280px;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <p style="margin:0;font-size:16px;line-height:1.7;color:#3C3A37;text-wrap:pretty">La Seine-Saint-Denis est l'un des premiers bassins de recrutement de la sécurité privée en Île-de-France : grands équipements, zones d'activité de la Plaine, aéroport du Bourget et une partie de la plateforme de Roissy. Les organismes référencés y préparent principalement au TFP APS et au SSIAP 1, avec une offre concentrée sur Bobigny, Saint-Denis et Montreuil.</p>
+          <p style="margin:0;font-size:16px;line-height:1.7;color:#3C3A37;text-wrap:pretty">Le SSIAP 3 et le TFP ASA ne sont proposés par aucun centre du département : les organismes les plus proches se trouvent dans le Val-d'Oise et à Paris.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav data-screen-label="Sommaire" aria-label="Sur cette page" style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:11px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;margin-right:6px">Sur cette page</span>
+      <a href="#titres" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Les titres préparés</a>
+      <a href="#organismes-dept" style="font-size:13.5px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:8px 14px" style-hover="background:#A83B2A;border-color:#A83B2A;color:#FFFFFF">Les organismes</a>
+      <a href="#villes" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Où sont les centres</a>
+      <a href="#se-former" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Se former dans le 93</a>
+      <a href="#faq" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Questions fréquentes</a>
+    </div>
+  </nav>
+
+  <section id="titres" data-screen-label="Titres préparés" style="background:#F7F5F1">
+    <div style="max-width:1240px;margin:0 auto;padding:48px 28px 0">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px">
+        <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les titres préparés en Seine-Saint-Denis</h2>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">8 titres sur 13 disponibles localement</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E;font-weight:500">Surveillance humaine</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-tfp-aps" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">TFP APS</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">9 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Bobigny, Saint-Denis, Aubervilliers</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-mac-aps" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">MAC APS</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">7 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Bobigny, Montreuil</span>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E;font-weight:500">Sécurité incendie</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-ssiap-1" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 1</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">6 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Saint-Denis, Montreuil</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-ssiap-2" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 2</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">3 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Montreuil, Pantin</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <span style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#635D58">SSIAP 3</span>
+              <span style="flex:none;min-width:110px;font-size:14.5px;color:#635D58">Non proposé dans le département</span>
+              <a href="#geo-75" style="flex:2 1 220px;font-size:14.5px;font-weight:600">Voir les organismes à Paris →</a>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-recyclage-ssiap-1" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">Recyclage SSIAP 1</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">5 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Bobigny, Saint-Denis</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-recyclage-ssiap-2" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">Recyclage SSIAP 2</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">2 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Montreuil</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <span style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#635D58">Recyclage SSIAP 3</span>
+              <span style="flex:none;min-width:110px;font-size:14.5px;color:#635D58">Non proposé dans le département</span>
+              <a href="#geo-75" style="flex:2 1 220px;font-size:14.5px;font-weight:600">Voir les organismes à Paris →</a>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E;font-weight:500">Cynophile</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-tfp-asc" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">TFP ASC</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">2 organismes</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Aubervilliers</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <span style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#635D58">MAC cynophile</span>
+              <span style="flex:none;min-width:110px;font-size:14.5px;color:#635D58">Non proposé dans le département</span>
+              <a href="#geo-77" style="flex:2 1 220px;font-size:14.5px;font-weight:600">Voir les organismes en Seine-et-Marne →</a>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E;font-weight:500">Sûreté aéroportuaire</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <span style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#635D58">TFP ASA</span>
+              <span style="flex:none;min-width:110px;font-size:14.5px;color:#635D58">Non proposé dans le département</span>
+              <a href="#geo-95" style="flex:2 1 220px;font-size:14.5px;font-weight:600">Voir les organismes dans le Val-d'Oise →</a>
+            </li>
+          </ul>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3 style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E;font-weight:500">Protection des personnes</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <a href="#pilier-tfp-a3p" style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#0B0B0B" style-hover="color:#A83B2A">TFP A3P</a>
+              <span style="flex:none;min-width:110px;font-size:15px;font-weight:600;color:#3C3A37">1 organisme</span>
+              <span style="flex:2 1 220px;font-size:14.5px;color:#7B746E">Pantin</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px">
+              <span style="flex:1 1 200px;min-width:160px;font-size:17.5px;font-weight:700;letter-spacing:-0.015em;color:#635D58">MAC A3P</span>
+              <span style="flex:none;min-width:110px;font-size:14.5px;color:#635D58">Non proposé dans le département</span>
+              <a href="#geo-75" style="flex:2 1 220px;font-size:14.5px;font-weight:600">Voir les organismes à Paris →</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="organismes-dept" data-screen-label="Organismes du département" style="background:#FFFFFF;border-top:1px solid #E7E3DD;border-bottom:1px solid #E7E3DD;margin-top:52px">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 28px">
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:22px">
+        <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les organismes de formation en Seine-Saint-Denis</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#4C4946">Tous les organismes disposant d'au moins un lieu de formation dans le département.</p>
+      </div>
+
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">AF</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Académie Française de Sécurité</span>
+                <span style="font-size:13.5px;color:#7B746E">Bobigny (93) · et 2 autres lieux</span>
+              </span>
+              <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+              <span style="display:inline-flex;align-items:center;border-radius:9px;padding:6px 4px;font-size:13px;color:#7B746E">+3 titres</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">CS</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Centre Sécuriform Île-de-France</span>
+                <span style="font-size:13.5px;color:#7B746E">Saint-Denis (93)</span>
+              </span>
+              <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">IP</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Institut Prévention Est Parisien</span>
+                <span style="font-size:13.5px;color:#7B746E">Montreuil (93)</span>
+              </span>
+              <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+              <span style="display:inline-flex;align-items:center;border-radius:9px;padding:6px 4px;font-size:13px;color:#7B746E">+2 titres</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">FS</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Formasûr Aubervilliers</span>
+                <span style="font-size:13.5px;color:#7B746E">Aubervilliers (93)</span>
+              </span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP ASC</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>France Travail</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">PP</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Pôle Prévention Pantin</span>
+                <span style="font-size:13.5px;color:#7B746E">Pantin (93)</span>
+              </span>
+              <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP A3P</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">EP</span>
+              <span style="flex:1 1 150px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">École Parisienne de Sûreté</span>
+                <span style="font-size:13.5px;color:#7B746E">Saint-Denis (93) · siège à Paris</span>
+              </span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>MAC APS</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span>
+            </span>
+          </a>
+        </li>
+      </ol>
+
+      <nav aria-label="Pagination" style="margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px">
+        <span style="font-size:14px;font-weight:600;color:#6B6560;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 18px">Précédent</span>
+        <a href="#page-1" aria-current="page" style="min-width:40px;text-align:center;font-size:14px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:10px 14px" style-hover="color:#FFFFFF">1</a>
+        <a href="#page-2" style="min-width:40px;text-align:center;font-size:14px;font-weight:600;color:#45423E;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">2</a>
+        <a href="#page-2" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:10px 18px" style-hover="border-color:#0B0B0B">Suivant</a>
+        <span style="width:100%;text-align:center;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7B746E">Page 1 sur 2</span>
+      </nav>
+    </div>
+  </section>
+
+  <section data-screen-label="Villes, se former, maillages" style="background:#F7F5F1">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 28px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px);align-items:flex-start">
+
+      <div style="flex:999 1 560px;min-width:300px;display:flex;flex-direction:column;gap:46px">
+
+        <div id="villes" style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Où se trouvent les centres</h2>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:74ch">
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+              <span style="font-size:16.5px;font-weight:600">Bobigny</span>
+              <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E">6</span></sc-if>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+              <span style="font-size:16.5px;font-weight:600">Saint-Denis</span>
+              <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E">4</span></sc-if>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+              <span style="font-size:16.5px;font-weight:600">Montreuil</span>
+              <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E">3</span></sc-if>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+              <span style="font-size:16.5px;font-weight:600">Aubervilliers</span>
+              <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E">2</span></sc-if>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+              <span style="font-size:16.5px;font-weight:600">Pantin</span>
+              <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E">1</span></sc-if>
+            </li>
+          </ul>
+        </div>
+
+        <div id="se-former" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Se former à la sécurité privée en Seine-Saint-Denis</h2>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">Le bassin d'emploi</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Le département concentre plusieurs des plus gros employeurs franciliens du secteur : le tertiaire de la Plaine Saint-Denis, les grands équipements sportifs et culturels, les centres commerciaux du nord-est parisien, les zones logistiques et l'aéroport du Bourget. Une partie de la plateforme de Roissy relève également du 93.</p>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Conséquence sur les titres à viser : la demande porte massivement sur la surveillance humaine, donc sur le TFP APS, avec une part croissante de postes cumulant surveillance et sécurité incendie. Un profil titulaire du TFP APS et du SSIAP 1 accède à un nombre de postes nettement plus large, en particulier sur les sites tertiaires et commerciaux qui internalisent leur poste de sécurité.</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">Accéder aux centres de formation</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">L'offre est concentrée sur trois villes bien desservies : Bobigny, Saint-Denis et Montreuil, toutes sur le réseau métro ou tramway et accessibles depuis Paris en une trentaine de minutes. Les centres d'Aubervilliers et de Pantin sont sur la ligne 7 et la ligne 5. Pour une formation initiale suivie sur plusieurs semaines consécutives, en présentiel, ce temps de trajet quotidien compte autant que le tarif dans le choix d'un centre.</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">Ce qui distingue la Seine-Saint-Denis</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">C'est le département où l'offre de formation initiale est la plus dense d'Île-de-France après Paris, et celui où l'accompagnement par France Travail est le plus fréquent : la majorité des centres référencés ici acceptent ce financement et montent le dossier avec le candidat. En revanche, les niveaux d'encadrement — SSIAP 3, recyclage SSIAP 3 — ne s'y préparent pas : ils se concentrent à Paris et dans les Hauts-de-Seine, où le marché des immeubles de grande hauteur les rend nécessaires.</p>
+          </div>
+        </div>
+
+        <div id="faq" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Questions fréquentes</h2>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:80ch">
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Combien d'organismes de formation à la sécurité privée y a-t-il en Seine-Saint-Denis ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">11 organismes référencés disposent d'au moins un lieu de formation dans le département, répartis principalement sur Bobigny, Saint-Denis et Montreuil.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Quelles formations peut-on suivre en Seine-Saint-Denis ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">En surveillance humaine, le TFP APS et le MAC APS. En sécurité incendie, le SSIAP 1, le SSIAP 2 et leurs recyclages. En spécialité, le TFP ASC à Aubervilliers et le TFP A3P à Pantin.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Peut-on préparer le SSIAP 3 en Seine-Saint-Denis ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non, aucun organisme référencé ne le propose dans le département. Les centres les plus proches se trouvent à Paris et dans les Hauts-de-Seine.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Faut-il se former dans son département de résidence ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Votre carte professionnelle est valable sur tout le territoire national, quel que soit le lieu de votre formation. Le seul critère est pratique : la formation se déroule en présentiel, souvent sur plusieurs semaines.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Comment se rendre dans les centres de formation en Seine-Saint-Denis ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Les trois villes qui concentrent l'offre — Bobigny, Saint-Denis et Montreuil — sont desservies par le métro et le tramway, à une trentaine de minutes de Paris. Les centres d'Aubervilliers et de Pantin sont sur les lignes 7 et 5.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Les démarches CNAPS sont-elles différentes selon le département ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Les procédures sont identiques dans toute l'Île-de-France et se déposent sur le même portail.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <aside data-screen-label="Colonne latérale" style="flex:1 1 300px;min-width:270px;position:sticky;top:76px;display:flex;flex-direction:column;gap:12px">
+        <sc-if value="{{ voisinsPublies }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Se former dans un département voisin</span>
+            <span style="font-size:15px;line-height:1.65;color:#3C3A37">Les trajets entre départements franciliens sont courants : élargir sa recherche multiplie souvent l'offre disponible.</span>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <a href="#geo-75" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Paris (75)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7B746E">14</span></sc-if></a>
+              <a href="#geo-95" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Val-d'Oise (95)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7B746E">4</span></sc-if></a>
+              <a href="#geo-94" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Val-de-Marne (94)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7B746E">6</span></sc-if></a>
+              <a href="#geo-77" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Seine-et-Marne (77)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#7B746E">3</span></sc-if></a>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ voisinsRepli }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Élargir sa recherche</span>
+            <span style="font-size:15px;line-height:1.65;color:#3C3A37">Les trajets entre départements franciliens sont courants : élargir sa recherche multiplie souvent l'offre disponible.</span>
+            <a href="#organismes" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700" style-hover="background:#A83B2A;color:#FFFFFF">Voir tous les organismes d'Île-de-France<span>→</span></a>
+          </div>
+        </sc-if>
+
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Les démarches à accomplir</span>
+          <span style="font-size:15px;line-height:1.65;color:#3C3A37">Les démarches CNAPS sont identiques dans toute l'Île-de-France.</span>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <a href="#demarche-autorisation-prealable" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Autorisation préalable<span style="color:#A83B2A">→</span></a>
+            <a href="#demarche-carte-professionnelle" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Carte professionnelle<span style="color:#A83B2A">→</span></a>
+            <a href="#demarche-renouvellement" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A">Renouvellement de la carte<span style="color:#A83B2A">→</span></a>
+          </div>
+        </div>
+
+        <div style="background:#0B0B0B;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Vous hésitez</span>
+          <span style="font-size:18px;font-weight:700;line-height:1.35;letter-spacing:-0.02em;color:#FFFFFF">Vous ne savez pas quel titre viser ?</span>
+          <span style="font-size:15px;line-height:1.65;color:#D0CAC5">Six questions sur votre projet, et nous vous indiquons le titre adapté et les centres du département qui le préparent.</span>
+          <a href="#affinage" style="display:flex;align-items:center;justify-content:center;background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700" style-hover="background:#E19D8B;color:#0B0B0B">Trouver mon titre</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#0B0B0B;color:#D0CAC5;padding:72px 0 32px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:30px;width:auto;display:block;filter:brightness(0) invert(1)" />
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Formations les plus recherchées</span>
+          <a href="#pilier-tfp-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">TFP APS</a>
+          <a href="#pilier-mac-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">MAC APS</a>
+          <a href="#pilier-ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 1</a>
+          <a href="#pilier-recyclage-ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Recyclage SSIAP 1</a>
+          <a href="#pilier-ssiap-2" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 2</a>
+          <a href="#pilier-tfp-asc" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Agent cynophile</a>
+          <a href="#formations" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les formations →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Se former par département</span>
+          <a href="#geo-75" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Paris (75)</a>
+          <a href="#geo-93" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-Saint-Denis (93)</a>
+          <a href="#geo-92" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Hauts-de-Seine (92)</a>
+          <a href="#geo-94" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-de-Marne (94)</a>
+          <span style="font-size:14.5px;color:#A39C96">Essonne (91)</span>
+          <span style="font-size:14.5px;color:#A39C96">Yvelines (78)</span>
+          <a href="#geo-95" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-d'Oise (95)</a>
+          <a href="#geo-77" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-et-Marne (77)</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Démarches CNAPS</span>
+          <a href="#demarche-autorisation-prealable" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Autorisation préalable</a>
+          <a href="#demarche-carte-professionnelle" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Carte professionnelle</a>
+          <a href="#demarche-renouvellement" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Renouvellement de la carte</a>
+          <a href="#demarches" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les démarches →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Trouve ta formation</span>
+          <a href="#a-propos" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">À propos</a>
+          <a href="#methode" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Notre méthode de référencement</a>
+          <a href="#blog" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Blog</a>
+          <a href="#contact" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#espace-organisme" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Espace organisme</a>
+          <span style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:13px">
+            <a href="#mentions" style="color:#8D8681">Mentions légales</a>
+            <a href="#confidentialite" style="color:#8D8681">Politique de confidentialité</a>
+            <a href="#cookies" style="color:#8D8681">Gestion des cookies</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin:48px 0 0;padding-top:24px;border-top:1px solid #2A2626;font-size:14px;line-height:1.6;color:#8D8681">Trouve ta formation référence aussi des organismes dans d'autres secteurs. <a href="#secteurs" style="color:#E5E0DB;font-weight:600">Voir tous les secteurs →</a></p>
+      <p style="margin:16px 0 0;font-size:12.5px;line-height:1.6;color:#7B746E">© 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.</p>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;compteurs&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Règle de seuil&quot;,&quot;label&quot;:&quot;Afficher les compteurs&quot;},&quot;voisinsPublies&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Règle de seuil&quot;,&quot;label&quot;:&quot;Départements voisins publiés (off = repli catalogue)&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const voisins = this.props.voisinsPublies ?? true;
+    return {
+      compteurs: this.props.compteurs ?? true,
+      voisinsPublies: voisins,
+      voisinsRepli: !voisins
+    };
+  }
+}
+</script>
+</body>
+</html>

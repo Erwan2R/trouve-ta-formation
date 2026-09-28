@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, select { font-family: inherit; }
+  button:disabled { cursor: not-allowed !important; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 64px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="display:flex;align-items:center;gap:8px;background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Référentiel des titres<sc-if value="{{ hasPending }}" hint-placeholder-val="{{ true }}"><span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;min-width:20px;padding:2px 6px;font-family:'IBM Plex Mono',monospace;font-size:11px;text-align:center">{{ nPending }}</span></sc-if></a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · Liste fermée</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Référentiel des titres</h1>
+      </div>
+      <span style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px">
+        <span style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:34px;letter-spacing:-0.04em">{{ nTitres }}</span><span style="font-size:15px;font-weight:700">titres</span></span>
+        <span style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:34px;letter-spacing:-0.04em;color:#7B746E">5</span><span style="font-size:15px;font-weight:700;color:#4C4946">catégories</span></span>
+      </span>
+    </section>
+
+    <section data-screen-label="Onglets" style="position:sticky;top:84px;z-index:20;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:10px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;box-shadow:0 10px 24px -20px rgba(11,11,11,0.35)">
+      <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+        <button type="button" onClick="{{ goListe }}" style="border:0;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;background:{{ tabListeBg }};color:{{ tabListeColor }}">Liste des titres</button>
+        <button type="button" onClick="{{ goDemandes }}" style="display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:10px 12px 10px 16px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;background:{{ tabDemBg }};color:{{ tabDemColor }}">Demandes en attente<span style="background:{{ badgeBg }};color:#FFFFFF;border-radius:999px;min-width:22px;padding:3px 7px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;text-align:center">{{ nPending }}</span></button>
+      </span>
+      <sc-if value="{{ isListe }}" hint-placeholder-val="{{ true }}">
+        <label style="flex:1 1 240px;min-width:0;display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:999px;padding:0 18px">
+          <span style="flex:none;width:11px;height:11px;border:1.5px solid #8D8681;border-radius:99px;display:block"></span>
+          <input type="search" placeholder="Rechercher un titre, un slug" value="{{ q }}" onChange="{{ onQ }}" style="flex:1;min-width:0;font-size:14.5px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:12px 0" />
+        </label>
+        <button type="button" onClick="{{ openAdd }}" style="margin-left:auto;display:inline-flex;align-items:center;gap:10px;background:#A83B2A;color:#FFFFFF;border:0;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:700;white-space:nowrap;cursor:pointer;transition:background 140ms ease" style-hover="background:#0B0B0B"><span style="font-size:18px;line-height:1;font-weight:500">+</span>Ajouter un titre</button>
+      </sc-if>
+    </section>
+
+    <sc-if value="{{ isListe }}" hint-placeholder-val="{{ true }}">
+
+      <sc-if value="{{ adding }}" hint-placeholder-val="{{ false }}">
+        <section data-screen-label="Ajouter un titre" style="background:#FFFFFF;border:1.5px solid #0B0B0B;border-radius:28px;padding:clamp(18px,2.4vw,28px);display:flex;flex-direction:column;gap:18px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px">
+            <h2 style="margin:0;font-size:22px;letter-spacing:-0.02em;font-weight:800">Nouveau titre</h2>
+            <span style="font-size:13px;color:#6B6560">Le titre sera disponible immédiatement dans Mes formations.</span>
+          </span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px">
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:13px;font-weight:700">Intitulé</span>
+              <input type="text" placeholder="Libellé court, acronyme officiel" value="{{ addCourt }}" onChange="{{ onAddCourt }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:12px 14px;outline:none;background:#FFFFFF;color:#0B0B0B" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:7px">
+              <span style="font-size:13px;font-weight:700">Catégorie de rattachement</span>
+              <select value="{{ addCat }}" onChange="{{ onAddCat }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:12px 14px;outline:none;background:#FFFFFF;color:#0B0B0B">
+                <option value="">Choisir une catégorie</option>
+                <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5"><option value="{{ c }}">{{ c }}</option></sc-for>
+              </select>
+            </label>
+          </div>
+          <span style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;color:#4C4946">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">URL page pilier</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0B0B0B">{{ addPath }}</span>
+            <sc-if value="{{ addSlugBad }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#A83B2A">Slug déjà pris ou réservé.</span></sc-if>
+          </span>
+          <sc-if value="{{ addHasSimilar }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#F7F5F1;border-radius:14px;padding:12px 14px;font-size:13.5px">
+              <span style="font-weight:700">Titres proches déjà au référentiel :</span>
+              <sc-for list="{{ addSimilar }}" as="s" hint-placeholder-count="1"><span style="background:#FFFFFF;border:1px solid #D6D0C9;border-radius:999px;padding:3px 10px;font-weight:700">{{ s }}</span></sc-for>
+            </div>
+          </sc-if>
+          <span style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px">
+            <button type="button" onClick="{{ closeAdd }}" style="background:transparent;border:1px solid #D6D0C9;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+            <button type="button" onClick="{{ saveAdd }}" disabled="{{ addDisabled }}" style="border:0;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;background:{{ addBtnBg }};color:#FFFFFF">Ajouter au référentiel</button>
+          </span>
+        </section>
+      </sc-if>
+
+      <section data-screen-label="Liste des titres" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:22px">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+          <div style="display:flex;flex-direction:column">
+            <span style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:6px 8px 10px;border-bottom:1px solid #0B0B0B">
+              <span style="display:flex;align-items:baseline;gap:12px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">{{ g.num }}</span>
+                <h2 style="margin:0;font-size:18px;letter-spacing:-0.015em;font-weight:800">{{ g.name }}</h2>
+              </span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">{{ g.countLabel }}</span>
+            </span>
+            <sc-for list="{{ g.rows }}" as="t" hint-placeholder-count="2">
+              <div style="border-bottom:1px solid #F0ECE6">
+                <sc-if value="{{ t.viewing }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;padding:14px 8px;transition:background 140ms ease" style-hover="background:#FBFAF7">
+                    <span style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:3px">
+                      <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+                        <span style="font-size:16px;font-weight:800;letter-spacing:-0.01em">{{ t.court }}</span>
+                        <sc-if value="{{ t.isNew }}" hint-placeholder-val="{{ false }}"><span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:2px 8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase">Nouveau</span></sc-if>
+                      </span>
+                      <span style="font-size:13px;line-height:1.45;color:#6B6560;text-wrap:pretty">{{ t.long }}</span>
+                    </span>
+                    <span style="flex:0 1 190px;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#4C4946;overflow-wrap:anywhere">{{ t.path }}</span>
+                    <span style="flex:0 0 120px;display:flex;align-items:baseline;justify-content:flex-end;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:18px;letter-spacing:-0.03em">{{ t.n }}</span><span style="font-size:12.5px;color:#6B6560">{{ t.nLabel }}</span></span>
+                    <button type="button" onClick="{{ t.onEdit }}" style="flex:none;background:transparent;border:1px solid #D6D0C9;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer;transition:border-color 140ms ease" style-hover="border-color:#0B0B0B">Modifier</button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ t.editing }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin:10px 0;background:#F7F5F1;border:1.5px solid #0B0B0B;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px">
+                      <label style="display:flex;flex-direction:column;gap:7px">
+                        <span style="font-size:13px;font-weight:700">Intitulé</span>
+                        <input type="text" value="{{ t.dCourt }}" onChange="{{ t.onDCourt }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:11px 14px;outline:none;background:#FFFFFF;color:#0B0B0B" />
+                      </label>
+                      <label style="display:flex;flex-direction:column;gap:7px">
+                        <span style="font-size:13px;font-weight:700">Catégorie de rattachement</span>
+                        <select value="{{ t.dCat }}" onChange="{{ t.onDCat }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:11px 14px;outline:none;background:#FFFFFF;color:#0B0B0B">
+                          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5"><option value="{{ c }}">{{ c }}</option></sc-for>
+                        </select>
+                      </label>
+                    </div>
+                    <span style="font-size:13px;color:#4C4946">Slug conservé : <span style="font-family:'IBM Plex Mono',monospace;color:#0B0B0B">{{ t.path }}</span></span>
+                    <sc-if value="{{ t.changed }}" hint-placeholder-val="{{ false }}">
+                      <p style="margin:0;background:#FFFFFF;border-radius:14px;padding:12px 14px;font-size:13.5px;line-height:1.55;color:#0B0B0B;text-wrap:pretty"><strong>{{ t.impact }}</strong> La modification s'applique immédiatement, ainsi que sur la page pilier publique.</p>
+                    </sc-if>
+                    <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px">
+                      <span style="margin-right:auto;font-size:12.5px;color:#6B6560">Un titre ne peut pas être supprimé.</span>
+                      <button type="button" onClick="{{ cancelEdit }}" style="background:transparent;border:1px solid #D6D0C9;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+                      <button type="button" onClick="{{ saveEdit }}" disabled="{{ t.cantSave }}" style="border:0;border-radius:999px;padding:10px 18px;font-size:13.5px;font-weight:700;cursor:pointer;background:{{ t.saveBg }};color:#FFFFFF">Enregistrer</button>
+                    </span>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noGroups }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:28px;display:flex;justify-content:center">
+            <span style="background:#FFFFFF;border-radius:12px;padding:10px 14px;font-size:14px;color:#3C3A37">Aucun titre ne correspond à cette recherche.</span>
+          </div>
+        </sc-if>
+        <span style="font-size:12.5px;line-height:1.5;color:#6B6560;padding:0 8px">Le contenu réglementaire des pages piliers ne se gère pas depuis cette page (point ouvert, V2).</span>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isDemandes }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Demandes en attente" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:12px">
+        <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:4px 6px">
+          <span style="font-size:15px;font-weight:700">{{ pendingLabel }}</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">Tri : la plus ancienne d'abord</span>
+        </span>
+        <sc-for list="{{ reqs }}" as="r" hint-placeholder-count="4">
+          <article style="border:1px solid {{ r.border }};border-radius:22px;padding:clamp(16px,2vw,22px);display:flex;flex-direction:column;gap:16px;background:#FFFFFF">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px">
+              <span style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:6px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Intitulé saisi par l'organisme</span>
+                <span style="font-size:clamp(19px,2vw,23px);font-weight:800;letter-spacing:-0.02em;line-height:1.2">« {{ r.titre }} »</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:13.5px;color:#4C4946">
+                  <a href="Fiche Client.dc.html" style="font-weight:700;color:#0B0B0B" style-hover="color:#A83B2A">{{ r.org }}</a>
+                  <span style="color:#A39C96">·</span>
+                  <span>Demandé le {{ r.date }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:{{ r.ageColor }}">{{ r.age }}</span>
+                </span>
+              </span>
+              <sc-if value="{{ r.closed }}" hint-placeholder-val="{{ true }}">
+                <span style="display:flex;gap:8px">
+                  <button type="button" onClick="{{ r.onAccept }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A">Accepter</button>
+                  <button type="button" onClick="{{ r.onRefuse }}" style="background:transparent;color:#0B0B0B;border:1px solid #D6D0C9;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Refuser</button>
+                </span>
+              </sc-if>
+            </div>
+            <sc-if value="{{ r.hasSimilar }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#F7F5F1;border-radius:14px;padding:10px 14px;font-size:13.5px">
+                <span style="font-weight:700">Titres proches déjà au référentiel :</span>
+                <sc-for list="{{ r.similar }}" as="s" hint-placeholder-count="1"><span style="background:#FFFFFF;border:1px solid #D6D0C9;border-radius:999px;padding:3px 10px;font-weight:700">{{ s }}</span></sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ r.accepting }}" hint-placeholder-val="{{ false }}">
+              <div style="border-top:1px solid #E7E3DD;padding-top:18px;display:flex;flex-direction:column;gap:16px">
+                <span style="font-size:16px;font-weight:800">Relire avant validation</span>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px">
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:13px;font-weight:700">Intitulé retenu</span>
+                    <input type="text" value="{{ dCourt }}" onChange="{{ onDCourt }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:11px 14px;outline:none;background:#FFFFFF;color:#0B0B0B" />
+                    <span style="font-size:12.5px;color:#6B6560">Corrigez l'orthographe et normalisez l'intitulé si besoin.</span>
+                  </label>
+                  <label style="display:flex;flex-direction:column;gap:7px">
+                    <span style="font-size:13px;font-weight:700">Catégorie de rattachement</span>
+                    <select value="{{ dCat }}" onChange="{{ onDCat }}" style="font-size:15px;border:1px solid #D6D0C9;border-radius:14px;padding:11px 14px;outline:none;background:#FFFFFF;color:#0B0B0B">
+                      <option value="">Choisir une catégorie</option>
+                      <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5"><option value="{{ c }}">{{ c }}</option></sc-for>
+                    </select>
+                  </label>
+                </div>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">URL page pilier</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">{{ dPath }}</span>
+                  <sc-if value="{{ dSlugBad }}" hint-placeholder-val="{{ false }}"><span style="font-weight:700;color:#A83B2A">Slug déjà pris ou réservé.</span></sc-if>
+                </span>
+                <ul style="margin:0;padding:14px 16px 14px 34px;background:#F7F5F1;border-radius:14px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.5;color:#3C3A37">
+                  <li>Le titre devient disponible dans Mes formations pour tous les organismes.</li>
+                  <li>Aucune offre n'est rattachée automatiquement : {{ r.org }} devra cocher le titre depuis Mes formations.</li>
+                  <li>Email d'acceptation envoyé à <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0B0B0B">{{ r.email }}</span></li>
+                </ul>
+                <span style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px">
+                  <button type="button" onClick="{{ cancelReq }}" style="background:transparent;border:1px solid #D6D0C9;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+                  <button type="button" onClick="{{ confirmAccept }}" disabled="{{ acceptDisabled }}" style="border:0;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;background:{{ acceptBg }};color:#FFFFFF">Créer le titre et envoyer l'email</button>
+                </span>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ r.refusing }}" hint-placeholder-val="{{ false }}">
+              <div style="border-top:1px solid #E7E3DD;padding-top:18px;display:flex;flex-wrap:wrap;align-items:center;gap:14px">
+                <p style="flex:1 1 360px;margin:0;font-size:14px;line-height:1.55;color:#3C3A37;text-wrap:pretty">La demande sera classée refusée et aucun titre ne sera créé. Email de refus envoyé à <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#0B0B0B">{{ r.email }}</span></p>
+                <span style="display:flex;flex-wrap:wrap;gap:10px">
+                  <button type="button" onClick="{{ cancelReq }}" style="background:transparent;border:1px solid #D6D0C9;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+                  <button type="button" onClick="{{ confirmRefuse }}" style="border:0;border-radius:999px;padding:11px 20px;font-size:14px;font-weight:700;cursor:pointer;background:#A83B2A;color:#FFFFFF" style-hover="background:#0B0B0B">Refuser et envoyer l'email</button>
+                </span>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+        <sc-if value="{{ noPending }}" hint-placeholder-val="{{ false }}">
+          <div style="border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:36px;display:flex;justify-content:center">
+            <span style="background:#FFFFFF;border-radius:12px;padding:10px 14px;font-size:14px;color:#3C3A37">Aucune demande en attente.</span>
+          </div>
+        </sc-if>
+      </section>
+
+      <sc-if value="{{ showHisto }}" hint-placeholder-val="{{ false }}">
+        <section data-screen-label="Demandes traitées" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:4px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 6px 10px">
+            <span style="font-size:15px;font-weight:700">Demandes traitées</span>
+            <span style="font-size:12.5px;color:#6B6560">Historique à confirmer (point ouvert)</span>
+          </span>
+          <sc-for list="{{ histo }}" as="h" hint-placeholder-count="2">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:12px 6px;border-top:1px solid #F0ECE6;font-size:13.5px">
+              <span style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:2px">
+                <span style="font-weight:700">« {{ h.titre }} »</span>
+                <span style="color:#6B6560">{{ h.org }}</span>
+              </span>
+              <span style="flex:1 1 200px;min-width:0;color:#3C3A37">{{ h.detail }}</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 11px 4px 9px;font-size:12.5px;font-weight:700;white-space:nowrap;border:1.5px solid {{ h.border }};color:{{ h.color }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ h.dot }};display:block"></span>{{ h.statut }}</span>
+              <span style="flex:0 0 96px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6B6560">{{ h.date }}</span>
+            </div>
+          </sc-for>
+        </section>
+      </sc-if>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;max-width:min(92vw,560px);background:#0B0B0B;color:#FFFFFF;border-radius:18px;padding:14px 18px;font-size:14px;line-height:1.45;box-shadow:0 18px 40px -18px rgba(11,11,11,0.6)">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;demandes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;},&quot;historique&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Point ouvert&quot;}}">
+const CATS = ['Surveillance humaine', 'Sécurité incendie', 'Cynophile', 'Sûreté aéroportuaire', 'Protection des personnes'];
+const TITRES = [
+  ['TFP APS', 'Titre à finalité professionnelle Agent de prévention et de sécurité', 'tfp-aps', 0, 38],
+  ['MAC APS', 'Maintien et actualisation des compétences — Agent de prévention et de sécurité', 'mac-aps', 0, 29],
+  ['SSIAP 1', 'SSIAP 1 — Agent de service de sécurité incendie', 'ssiap-1', 1, 31],
+  ['SSIAP 2', "SSIAP 2 — Chef d'équipe de service de sécurité incendie", 'ssiap-2', 1, 18],
+  ['SSIAP 3', 'SSIAP 3 — Chef de service de sécurité incendie', 'ssiap-3', 1, 9],
+  ['Recyclage SSIAP 1', 'Recyclage SSIAP 1', 'recyclage-ssiap-1', 1, 22],
+  ['Recyclage SSIAP 2', 'Recyclage SSIAP 2', 'recyclage-ssiap-2', 1, 12],
+  ['Recyclage SSIAP 3', 'Recyclage SSIAP 3', 'recyclage-ssiap-3', 1, 6],
+  ['TFP ASC', 'Titre à finalité professionnelle Agent de sécurité cynophile', 'tfp-asc', 2, 5],
+  ['MAC cynophile', 'Maintien et actualisation des compétences — Agent de sécurité cynophile', 'mac-cyno', 2, 4],
+  ['TFP ASA', 'Titre à finalité professionnelle Agent de sûreté aéroportuaire', 'tfp-asa', 3, 7],
+  ['TFP A3P', 'Titre à finalité professionnelle Agent de protection physique des personnes', 'tfp-a3p', 4, 8],
+  ['MAC A3P', 'Maintien et actualisation des compétences — Agent de protection physique des personnes', 'mac-a3p', 4, 6]
+].map((t, i) => ({ id: 't' + i, court: t[0], long: t[1], slug: t[2], cat: CATS[t[3]], n: t[4] }));
+// même source que la file du Dashboard admin
+const ATTENTE = [
+  { id: 'd1', titre: 'Agent de sûreté magasin', org: 'Formapro Sécurité 91', jours: 9 },
+  { id: 'd2', titre: 'Habilitation électrique H0B0', org: 'Horizon Sécurité', jours: 6 },
+  { id: 'd3', titre: 'SST — Sauveteur secouriste du travail', org: 'Atlas Prévention', jours: 4 },
+  { id: 'd4', titre: 'Opérateur de vidéoprotection', org: 'Institut Vigie', jours: 2 },
+  { id: 'd5', titre: 'Agent de sécurité événementielle', org: 'Centre Sécuriform Île-de-France', jours: 1 },
+  { id: 'd6', titre: 'Chef de poste sécurité', org: 'Protectis Formation', jours: 1 },
+  { id: 'd7', titre: 'Palpation de sécurité', org: "Garde Sécurité Val-d'Oise", jours: 0 }
+];
+const HISTO_SEED = [
+  { titre: 'Agent de sécurité privée', org: 'Vigilance Formation 93', statut: 'Refusée', detail: 'Doublon de TFP APS', date: '11 sept. 2026' },
+  { titre: 'MAC agent protection rapprochée', org: 'Protectis Formation', statut: 'Acceptée', detail: 'Créé sous « MAC A3P »', date: '2 sept. 2026' }
+];
+const RESERVED = ['organismes', 'demarches', 'blog', 'recherche', 'formulaire'];
+const STOP = new Set(['agent', 'agents', 'securite', 'formation', 'titre', 'finalite', 'professionnelle', 'tfp', 'service', 'chef', 'des', 'les', 'aux', 'pour']);
+const MO = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const TODAY = new Date(2026, 8, 24);
+const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const slugify = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const toks = s => norm(s).split(/[^a-z0-9]+/).filter(w => w.length > 2 && !STOP.has(w));
+const dateFr = d => `${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()}`;
+const emailOf = org => 'contact@' + slugify(org).replace(/-/g, '') + '.fr';
+
+class Component extends DCLogic {
+  state = { tab: 'liste', titles: TITRES, q: '', editId: null, dCourt: '', dCat: '', adding: false, aCourt: '', aCat: '', decisions: {}, openReq: null, rCourt: '', rCat: '', toast: '', done: [] };
+
+  componentDidMount() {
+    this.syncHash = () => { if (location.hash === '#demandes') this.setState({ tab: 'demandes' }); };
+    this.syncHash();
+    window.addEventListener('hashchange', this.syncHash);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this.syncHash); clearTimeout(this.tt); }
+
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 4200); }
+  similar(label, exceptId) {
+    const w = new Set(toks(label)), n = norm(label).trim();
+    if (!n) return [];
+    return this.state.titles.filter(t => t.id !== exceptId && (norm(t.court) === n || toks(t.court + ' ' + t.long).some(x => w.has(x)))).map(t => t.court).slice(0, 4);
+  }
+  slugBad(slug) { return !slug || RESERVED.includes(slug) || this.state.titles.some(t => t.slug === slug); }
+  dupCourt(label, exceptId) { const n = norm(label).trim(); return this.state.titles.some(t => t.id !== exceptId && norm(t.court).trim() === n); }
+
+  renderVals() {
+    const s = this.state, p = this.props;
+    const nDem = Math.max(0, Math.min(p.demandes ?? 4, ATTENTE.length));
+    const pending = ATTENTE.slice(0, nDem).filter(r => !s.decisions[r.id]).sort((a, b) => b.jours - a.jours);
+    const nq = norm(s.q.trim());
+    const groups = CATS.map((c, i) => {
+      const rows = s.titles.filter(t => t.cat === c && (!nq || norm(t.court + ' ' + t.long + ' ' + t.slug).includes(nq)));
+      return {
+        num: String(i + 1).padStart(2, '0'), name: c,
+        countLabel: rows.length + (rows.length > 1 ? ' titres' : ' titre'),
+        rows: rows.map(t => {
+          const editing = s.editId === t.id;
+          const changed = editing && (s.dCourt.trim() !== t.court || s.dCat !== t.cat);
+          const cantSave = !changed || !s.dCourt.trim() || this.dupCourt(s.dCourt, t.id);
+          return {
+            court: t.court, long: t.long || 'Libellé long à rédiger avec la page pilier', path: `/securite-privee/${t.slug}/`,
+            n: t.n, nLabel: t.n > 1 ? 'organismes' : 'organisme', isNew: !!t.isNew,
+            viewing: !editing, editing,
+            onEdit: () => this.setState({ editId: t.id, dCourt: t.court, dCat: t.cat, adding: false }),
+            dCourt: s.dCourt, dCat: s.dCat,
+            onDCourt: e => this.setState({ dCourt: e.target.value }),
+            onDCat: e => this.setState({ dCat: e.target.value }),
+            changed,
+            impact: t.n === 0 ? 'Aucune offre déclarée sur ce titre.' : `Répercuté sur les offres de ${t.n} organisme${t.n > 1 ? 's' : ''}.`,
+            cantSave, saveBg: cantSave ? '#C7C1BC' : '#0B0B0B'
+          };
+        })
+      };
+    }).filter(g => g.rows.length);
+
+    const aSlug = slugify(s.aCourt), aBad = !!s.aCourt.trim() && this.slugBad(aSlug);
+    const aSim = this.similar(s.aCourt);
+    const addDisabled = !s.aCourt.trim() || !s.aCat || aBad || this.dupCourt(s.aCourt);
+
+    const rSlug = slugify(s.rCourt), rBad = !!s.rCourt.trim() && this.slugBad(rSlug);
+    const acceptDisabled = !s.rCourt.trim() || !s.rCat || rBad || this.dupCourt(s.rCourt);
+
+    const histo = [...s.done, ...HISTO_SEED].map(h => {
+      const ok = h.statut === 'Acceptée';
+      return { ...h, border: ok ? '#0B0B0B' : '#A39C96', color: ok ? '#0B0B0B' : '#4C4946', dot: ok ? '#A83B2A' : '#A39C96' };
+    });
+
+    const decide = (r, statut, detail) => {
+      const decisions = { ...s.decisions, [r.id]: statut };
+      const done = [{ titre: r.titre, org: r.org, statut, detail, date: dateFr(TODAY) }, ...s.done];
+      return { decisions, done, openReq: null };
+    };
+
+    return {
+      cats: CATS,
+      nTitres: s.titles.length,
+      nPending: pending.length, hasPending: pending.length > 0, noPending: pending.length === 0,
+      badgeBg: pending.length ? '#A83B2A' : '#A39C96',
+      pendingLabel: pending.length === 0 ? 'Aucune demande' : pending.length === 1 ? '1 demande à arbitrer' : `${pending.length} demandes à arbitrer`,
+      isListe: s.tab === 'liste', isDemandes: s.tab === 'demandes',
+      tabListeBg: s.tab === 'liste' ? '#0B0B0B' : 'transparent', tabListeColor: s.tab === 'liste' ? '#FFFFFF' : '#3C3A37',
+      tabDemBg: s.tab === 'demandes' ? '#0B0B0B' : 'transparent', tabDemColor: s.tab === 'demandes' ? '#FFFFFF' : '#3C3A37',
+      goListe: () => { history.replaceState(null, '', '#liste'); this.setState({ tab: 'liste' }); },
+      goDemandes: () => { history.replaceState(null, '', '#demandes'); this.setState({ tab: 'demandes' }); },
+
+      q: s.q, onQ: e => this.setState({ q: e.target.value }),
+      groups, noGroups: groups.length === 0,
+      cancelEdit: () => this.setState({ editId: null }),
+      saveEdit: () => {
+        const t = s.titles.find(x => x.id === s.editId); if (!t) return;
+        const court = s.dCourt.trim();
+        this.setState({ titles: s.titles.map(x => x.id === t.id ? { ...x, court, cat: s.dCat } : x), editId: null });
+        this.flash(`« ${court} » mis à jour${t.n ? ` sur les offres de ${t.n} organisme${t.n > 1 ? 's' : ''}` : ''} et sur la page pilier.`);
+      },
+
+      adding: s.adding,
+      openAdd: () => this.setState({ adding: true, editId: null, aCourt: '', aCat: '' }),
+      closeAdd: () => this.setState({ adding: false }),
+      addCourt: s.aCourt, onAddCourt: e => this.setState({ aCourt: e.target.value }),
+      addCat: s.aCat, onAddCat: e => this.setState({ aCat: e.target.value }),
+      addPath: `/securite-privee/${aSlug || '…'}/`, addSlugBad: aBad,
+      addSimilar: aSim, addHasSimilar: aSim.length > 0,
+      addDisabled, addBtnBg: addDisabled ? '#C7C1BC' : '#A83B2A',
+      saveAdd: () => {
+        const court = s.aCourt.trim();
+        this.setState({ titles: [...s.titles, { id: 'n' + Date.now(), court, long: '', slug: aSlug, cat: s.aCat, n: 0, isNew: true }], adding: false });
+        this.flash(`« ${court} » ajouté au référentiel, catégorie ${s.aCat}.`);
+      },
+
+      reqs: pending.map(r => {
+        const open = s.openReq && s.openReq.id === r.id;
+        const sim = this.similar(r.titre);
+        const d = new Date(TODAY); d.setDate(d.getDate() - r.jours);
+        return {
+          titre: r.titre, org: r.org, email: emailOf(r.org), date: dateFr(d),
+          age: r.jours === 0 ? "aujourd'hui" : r.jours === 1 ? 'il y a 1 jour' : `il y a ${r.jours} jours`,
+          ageColor: r.jours >= 7 ? '#A83B2A' : '#7B746E',
+          border: open ? '#0B0B0B' : '#E7E3DD',
+          similar: sim, hasSimilar: sim.length > 0,
+          closed: !open, accepting: open && s.openReq.mode === 'accept', refusing: open && s.openReq.mode === 'refuse',
+          onAccept: () => this.setState({ openReq: { id: r.id, mode: 'accept' }, rCourt: r.titre, rCat: '' }),
+          onRefuse: () => this.setState({ openReq: { id: r.id, mode: 'refuse' } })
+        };
+      }),
+      dCourt: s.rCourt, onDCourt: e => this.setState({ rCourt: e.target.value }),
+      dCat: s.rCat, onDCat: e => this.setState({ rCat: e.target.value }),
+      dPath: `/securite-privee/${rSlug || '…'}/`, dSlugBad: rBad,
+      acceptDisabled, acceptBg: acceptDisabled ? '#C7C1BC' : '#0B0B0B',
+      cancelReq: () => this.setState({ openReq: null }),
+      confirmAccept: () => {
+        const r = ATTENTE.find(x => x.id === s.openReq.id), court = s.rCourt.trim();
+        const detail = norm(court) === norm(r.titre) ? `Créé en ${s.rCat}` : `Créé sous « ${court} »`;
+        this.setState({ ...decide(r, 'Acceptée', detail), titles: [...s.titles, { id: 'n' + Date.now(), court, long: '', slug: rSlug, cat: s.rCat, n: 0, isNew: true }] });
+        this.flash(`« ${court} » créé dans ${s.rCat}. Email d'acceptation envoyé à ${r.org}.`);
+      },
+      confirmRefuse: () => {
+        const r = ATTENTE.find(x => x.id === s.openReq.id);
+        this.setState(decide(r, 'Refusée', 'Aucun titre créé'));
+        this.flash(`Demande refusée. Email envoyé à ${r.org}.`);
+      },
+
+      showHisto: !!p.historique, histo,
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, select, textarea { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #8D8681; }
+  [contenteditable] { outline: none; }
+  [contenteditable] a { text-decoration: underline; text-underline-offset: 3px; }
+  [data-ph]:empty:before { content: attr(data-ph); color: #A39C96; pointer-events: none; }
+  button:disabled { cursor: not-allowed; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 64px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <div data-screen-label="Barre de publication" style="position:sticky;top:84px;z-index:25;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:7px 7px 7px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;box-shadow:0 10px 24px -20px rgba(11,11,11,0.35)">
+      <a href="Blog Admin.dc.html" style="font-size:13.5px;font-weight:700;color:#0B0B0B;white-space:nowrap" style-hover="color:#A83B2A">← Articles</a>
+      <span style="width:1px;height:22px;background:#E7E3DD;display:block"></span>
+      <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 11px 4px 9px;font-size:12.5px;font-weight:700;white-space:nowrap;background:{{ stBg }};color:{{ stColor }};border:1.5px {{ stStyle }} {{ stBorder }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ stDot }};display:block"></span>{{ statut }}</span>
+      <span style="flex:1 1 160px;min-width:0;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ titleShort }}</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E;white-space:nowrap">{{ savedLabel }}</span>
+      <sc-if value="{{ canUnpublish }}" hint-placeholder-val="{{ false }}">
+        <button type="button" onClick="{{ unpublish }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 16px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="border-color:#0B0B0B">Repasser en brouillon</button>
+      </sc-if>
+      <sc-if value="{{ isDraft }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ saveDraft }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 16px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="border-color:#0B0B0B">Enregistrer en brouillon</button>
+      </sc-if>
+      <button type="button" onClick="{{ primary }}" disabled="{{ primaryDis }}" title="{{ primaryTitle }}" style="background:{{ primaryBg }};color:#FFFFFF;border:0;border-radius:999px;padding:12px 20px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background 140ms ease">{{ primaryLabel }}</button>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:14px">
+      <main style="flex:1 1 640px;min-width:0;display:flex;flex-direction:column;gap:14px">
+
+        <section data-screen-label="Métadonnées" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.6vw,30px);display:flex;flex-direction:column;gap:20px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Métadonnées</span>
+
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:13px;font-weight:700">Titre de l'article <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;color:#7B746E">H1</span></span>
+            <textarea rows="1" value="{{ title }}" onChange="{{ onTitle }}" placeholder="Titre affiché en tête de l'article" style="width:100%;resize:none;field-sizing:content;min-height:52px;font-size:clamp(24px,2.6vw,32px);line-height:1.15;letter-spacing:-0.035em;font-weight:800;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:16px;padding:12px 16px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF"></textarea>
+          </label>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px 20px">
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px">
+                <span style="font-size:13px;font-weight:700">Titre SEO <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500;color:#7B746E">&lt;title&gt;</span></span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ seoCountColor }}">{{ seoCount }} / 60</span>
+              </span>
+              <input type="text" value="{{ seoTitle }}" onChange="{{ onSeo }}" style="width:100%;font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#6B6560">
+                <sc-if value="{{ seoSynced }}" hint-placeholder-val="{{ true }}"><span>Repris du H1 tant que vous ne le modifiez pas.</span></sc-if>
+                <sc-if value="{{ seoDiverged }}" hint-placeholder-val="{{ false }}"><span>Distinct du H1.</span><button type="button" onClick="{{ resetSeo }}" style="background:transparent;border:0;padding:0;font-size:12.5px;font-weight:700;color:#A83B2A;cursor:pointer">Reprendre le H1</button></sc-if>
+              </span>
+            </label>
+
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px">
+                <span style="font-size:13px;font-weight:700">Slug</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:{{ slugModeColor }}">{{ slugMode }}</span>
+              </span>
+              <span style="display:flex;align-items:center;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:0 0 0 14px;overflow:hidden">
+                <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7B746E">/blog/</span>
+                <input type="text" value="{{ slug }}" onChange="{{ onSlug }}" style="flex:1;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0B0B0B;background:transparent;border:0;padding:13px 14px 13px 2px;outline:none" />
+              </span>
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#6B6560">
+                <sc-if value="{{ slugAuto }}" hint-placeholder-val="{{ true }}"><span>Généré depuis le titre.</span></sc-if>
+                <sc-if value="{{ slugManual }}" hint-placeholder-val="{{ false }}"><span>Modifié à la main.</span><button type="button" onClick="{{ regenSlug }}" style="background:transparent;border:0;padding:0;font-size:12.5px;font-weight:700;color:#A83B2A;cursor:pointer">Regénérer depuis le titre</button></sc-if>
+              </span>
+            </label>
+          </div>
+
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px">
+              <span style="font-size:13px;font-weight:700">Meta description</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ descCountColor }}">{{ descCount }} / 155</span>
+            </span>
+            <textarea rows="2" maxlength="155" value="{{ desc }}" onChange="{{ onDesc }}" placeholder="Résumé affiché sous le titre dans les résultats de recherche" style="width:100%;resize:none;font-size:15px;line-height:1.5;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF"></textarea>
+          </label>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:18px 20px">
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:700">Catégorie</span>
+              <select value="{{ cat }}" onChange="{{ onCat }}" style="font-size:15px;font-weight:600;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none">
+                <option value="">Choisir une catégorie</option>
+                <option value="Réglementation">Réglementation</option>
+                <option value="Formations et titres">Formations et titres</option>
+                <option value="Financement">Financement</option>
+                <option value="Métier et carrière">Métier et carrière</option>
+              </select>
+            </label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:13px;font-weight:700">Auteur</span>
+              <sc-if value="{{ multiAuthors }}" hint-placeholder-val="{{ true }}">
+                <select value="{{ authorId }}" onChange="{{ onAuthor }}" style="font-size:15px;font-weight:600;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none">
+                  <option value="claire">Claire Mounier</option>
+                  <option value="erwan">Erwan</option>
+                </select>
+              </sc-if>
+              <sc-if value="{{ singleAuthor }}" hint-placeholder-val="{{ false }}">
+                <span style="display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:15px;font-weight:600;background:#F7F5F1;border:1px dashed #C7C1BC;border-radius:14px;padding:12px 14px">{{ authorName }}<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#7B746E">Profil unique</span></span>
+              </sc-if>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:13px;font-weight:700">Image de couverture</span>
+            <sc-if value="{{ hasCover }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:16px;padding:10px">
+                <sc-if value="{{ coverHasSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ coverSrc }}" alt="{{ coverAlt }}" style="flex:none;width:128px;height:72px;object-fit:cover;border-radius:10px;display:block" /></sc-if>
+                <sc-if value="{{ coverNoSrc }}" hint-placeholder-val="{{ true }}"><span style="flex:none;width:128px;height:72px;border-radius:10px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);display:block"></span></sc-if>
+                <span style="flex:1 1 200px;min-width:0;display:flex;flex-direction:column;gap:4px">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;word-break:break-all">{{ coverFile }}</span>
+                  <span style="font-size:13px;color:#4C4946;line-height:1.45"><span style="font-weight:700;color:#0B0B0B">Alt :</span> {{ coverAlt }}</span>
+                </span>
+                <button type="button" onClick="{{ editCover }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Remplacer</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noCover }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ editCover }}" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:88px;border-radius:16px;border:1.5px dashed #C7C1BC;background:#F7F5F1;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">+ Ajouter une image de couverture</button>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 24px;padding-top:4px">
+            <button type="button" onClick="{{ toggleRegl }}" aria-pressed="{{ regl }}" style="display:inline-flex;align-items:center;gap:10px;background:transparent;border:0;padding:6px 0;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer;text-align:left"><span style="flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid {{ reglBox }};background:{{ reglFill }};display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:13px;line-height:1">{{ reglTick }}</span>Article réglementaire</button>
+            <sc-if value="{{ regl }}" hint-placeholder-val="{{ false }}">
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:12.5px;font-weight:700">Date de vérification</span>
+                <input type="date" value="{{ verif }}" onChange="{{ onVerif }}" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:12px;padding:10px 12px;outline:none" />
+              </label>
+            </sc-if>
+          </div>
+
+          <div data-screen-label="Champs automatiques" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:1px;background:#E7E3DD;border:1px solid #E7E3DD;border-radius:16px;overflow:hidden">
+            <span style="background:#FBFAF7;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Publication</span><span style="font-size:14px;font-weight:700">{{ pubLabel }}</span></span>
+            <span style="background:#FBFAF7;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Mise à jour</span><span style="font-size:14px;font-weight:700">{{ updLabel }}</span></span>
+            <span style="background:#FBFAF7;padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Temps de lecture</span><span style="font-size:14px;font-weight:700">{{ readTime }}</span></span>
+          </div>
+          <span style="font-size:12.5px;color:#6B6560;margin-top:-10px">Dates et temps de lecture sont renseignés automatiquement.</span>
+        </section>
+
+        <section data-screen-label="Corps de l'article" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:0 0 clamp(20px,2.6vw,30px);display:flex;flex-direction:column">
+          <div data-screen-label="Barre d'outils" style="position:sticky;top:152px;z-index:15;background:#FFFFFF;border-bottom:1px solid #F0ECE6;border-radius:26px 26px 0 0;padding:10px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:4px">
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ addP }}" title="Paragraphe" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13.5px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">¶</button>
+            <sc-for list="{{ hBtns }}" as="h" hint-placeholder-count="3">
+              <button type="button" onMouseDown="{{ keep }}" onClick="{{ h.add }}" disabled="{{ h.dis }}" title="{{ h.tip }}" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:800;color:{{ h.color }};cursor:pointer" style-hover="background:#F2EFE9">{{ h.label }}</button>
+            </sc-for>
+            <span style="width:1px;height:22px;background:#E7E3DD;margin:0 6px;display:block"></span>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ bold }}" title="Gras" style="border:0;background:transparent;border-radius:10px;padding:8px 11px;font-size:14px;font-weight:800;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">B</button>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ openLink }}" title="Lien interne ou externe" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer;text-decoration:underline;text-underline-offset:3px" style-hover="background:#F2EFE9">Lien</button>
+            <span style="width:1px;height:22px;background:#E7E3DD;margin:0 6px;display:block"></span>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ addUl }}" title="Liste à puces" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">• Liste</button>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ addOl }}" title="Liste numérotée" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">1. Liste</button>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ addTable }}" title="Tableau" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">Tableau</button>
+            <button type="button" onMouseDown="{{ keep }}" onClick="{{ addImg }}" title="Image" style="border:0;background:transparent;border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">Image</button>
+            <span style="position:relative">
+              <button type="button" onMouseDown="{{ keep }}" onClick="{{ toggleCoMenu }}" style="border:0;background:{{ coMenuBg }};border-radius:10px;padding:8px 10px;font-size:13px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="background:#F2EFE9">Call-out ▾</button>
+              <sc-if value="{{ coMenu }}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;top:calc(100% + 6px);left:0;z-index:5;width:250px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:16px;padding:6px;display:flex;flex-direction:column;box-shadow:0 18px 40px -20px rgba(11,11,11,0.3)">
+                  <sc-for list="{{ coTypes }}" as="c" hint-placeholder-count="3">
+                    <button type="button" onMouseDown="{{ keep }}" onClick="{{ c.add }}" style="text-align:left;display:flex;flex-direction:column;gap:2px;background:transparent;border:0;border-radius:11px;padding:10px 12px;cursor:pointer" style-hover="background:#F7F5F1">
+                      <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#0B0B0B"><span style="width:10px;height:10px;border-radius:3px;background:{{ c.swatch }};border:1px {{ c.swStyle }} {{ c.swBorder }};display:block"></span>{{ c.label }}</span>
+                      <span style="font-size:12px;color:#6B6560;padding-left:18px">{{ c.use }}</span>
+                    </button>
+                  </sc-for>
+                </span>
+              </sc-if>
+            </span>
+            <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560;padding:0 6px;white-space:nowrap">{{ words }} mots</span>
+          </div>
+
+          <div ref="{{ bodyRef }}" onInput="{{ onBodyInput }}" onKeyDown="{{ onKey }}" style="padding:18px clamp(8px,2vw,24px) 8px 0;display:flex;flex-direction:column;gap:2px;max-width:860px">
+            <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="10">
+              <div onFocus="{{ b.focus }}" onClick="{{ b.focus }}" style="display:grid;grid-template-columns:56px minmax(0,1fr) 34px;gap:4px;border-radius:14px;padding:3px 0;background:{{ b.rowBg }};transition:background 120ms ease">
+                <span style="padding-top:{{ b.gutterPad }};padding-right:10px;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:{{ b.gutterColor }};user-select:none">{{ b.tag }}</span>
+                <div style="min-width:0">
+                  <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
+                    <div ref="{{ b.ref }}" contentEditable="true" data-count="1" data-ph="Écrivez, ou insérez un bloc depuis la barre d'outils" style="font-size:17px;line-height:1.7;color:#23211F;padding:4px 0;min-height:1.7em"></div>
+                  </sc-if>
+                  <sc-if value="{{ b.isH2 }}" hint-placeholder-val="{{ false }}">
+                    <h2 ref="{{ b.ref }}" contentEditable="true" data-toc="2" data-count="1" data-ph="Intertitre H2" style="margin:18px 0 4px;font-size:27px;line-height:1.2;letter-spacing:-0.03em;font-weight:800"></h2>
+                  </sc-if>
+                  <sc-if value="{{ b.isH3 }}" hint-placeholder-val="{{ false }}">
+                    <h3 ref="{{ b.ref }}" contentEditable="true" data-toc="3" data-count="1" data-ph="Intertitre H3" style="margin:12px 0 2px;font-size:20px;line-height:1.25;letter-spacing:-0.02em;font-weight:800"></h3>
+                  </sc-if>
+                  <sc-if value="{{ b.isH4 }}" hint-placeholder-val="{{ false }}">
+                    <h4 ref="{{ b.ref }}" contentEditable="true" data-count="1" data-ph="Intertitre H4" style="margin:8px 0 0;font-size:17px;line-height:1.3;font-weight:800"></h4>
+                  </sc-if>
+                  <sc-if value="{{ b.isList }}" hint-placeholder-val="{{ false }}">
+                    <div ref="{{ b.ref }}" contentEditable="true" data-count="1" style="font-size:17px;line-height:1.7;color:#23211F"></div>
+                  </sc-if>
+                  <sc-if value="{{ b.isTable }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:8px;padding:8px 0">
+                      <div style="overflow-x:auto"><div ref="{{ b.ref }}" contentEditable="true" data-count="1"></div></div>
+                      <sc-if value="{{ b.isSel }}" hint-placeholder-val="{{ false }}">
+                        <span style="display:flex;flex-wrap:wrap;gap:6px">
+                          <button type="button" onClick="{{ b.addRow }}" style="background:#F7F5F1;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">+ Ligne</button>
+                          <button type="button" onClick="{{ b.addCol }}" style="background:#F7F5F1;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">+ Colonne</button>
+                          <button type="button" onClick="{{ b.delRow }}" style="background:#FFFFFF;color:#4C4946;border:1px solid #E2DDD6;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">− Ligne</button>
+                          <button type="button" onClick="{{ b.delCol }}" style="background:#FFFFFF;color:#4C4946;border:1px solid #E2DDD6;border-radius:999px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">− Colonne</button>
+                        </span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ b.isImg }}" hint-placeholder-val="{{ false }}">
+                    <figure style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
+                      <sc-if value="{{ b.hasSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ b.src }}" alt="{{ b.alt }}" style="width:100%;max-height:420px;object-fit:cover;border-radius:16px;display:block" /></sc-if>
+                      <sc-if value="{{ b.noSrc }}" hint-placeholder-val="{{ true }}"><div style="aspect-ratio:16/8;border-radius:16px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);display:flex;align-items:center;justify-content:center"><span style="background:#FFFFFF;border-radius:10px;padding:8px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#3C3A37">{{ b.file }}</span></div></sc-if>
+                      <sc-if value="{{ b.hasCaption }}" hint-placeholder-val="{{ false }}"><figcaption style="font-size:14px;line-height:1.5;color:#4C4946">{{ b.caption }}</figcaption></sc-if>
+                      <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;background:#F7F5F1;border-radius:12px;padding:9px 12px">
+                        <span style="display:flex;flex-direction:column;gap:2px;min-width:0;font-size:12.5px;color:#4C4946"><span style="font-family:'IBM Plex Mono',monospace;color:#0B0B0B;word-break:break-all">{{ b.file }}</span><span><span style="font-weight:700;color:#0B0B0B">Alt :</span> {{ b.alt }}</span></span>
+                        <button type="button" onClick="{{ b.edit }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Modifier</button>
+                      </span>
+                    </figure>
+                  </sc-if>
+                  <sc-if value="{{ b.isCallout }}" hint-placeholder-val="{{ false }}">
+                    <div style="margin:10px 0;border-radius:18px;padding:16px 18px;background:{{ b.coBg }};border:1.5px {{ b.coStyle }} {{ b.coBorder }};display:flex;flex-direction:column;gap:8px">
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:{{ b.coLabelColor }};user-select:none">{{ b.coLabel }}</span>
+                      <div ref="{{ b.ref }}" contentEditable="true" data-count="1" data-ph="Texte du call-out" style="font-size:16px;line-height:1.6;font-weight:{{ b.coWeight }};color:{{ b.coColor }}"></div>
+                      <sc-if value="{{ b.isRenvoi }}" hint-placeholder-val="{{ false }}">
+                        <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;border-top:1px solid #E2DDD6;padding-top:10px">
+                          <sc-if value="{{ b.hasPage }}" hint-placeholder-val="{{ false }}"><span style="display:flex;flex-direction:column;gap:1px;font-size:13.5px;font-weight:700">{{ b.pageTitle }}<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;color:#6B6560">{{ b.pageUrl }}</span></span></sc-if>
+                          <button type="button" onClick="{{ b.pickPage }}" style="margin-left:auto;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">{{ b.pageBtn }}</button>
+                        </span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+                <span style="display:flex;flex-direction:column;align-items:center;gap:2px;padding-top:4px">
+                  <sc-if value="{{ b.isSel }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ b.up }}" disabled="{{ b.upDis }}" title="Monter" style="width:28px;height:26px;border:0;border-radius:8px;background:transparent;color:{{ b.upColor }};font-size:13px;cursor:pointer" style-hover="background:#F2EFE9">↑</button>
+                    <button type="button" onClick="{{ b.down }}" disabled="{{ b.downDis }}" title="Descendre" style="width:28px;height:26px;border:0;border-radius:8px;background:transparent;color:{{ b.downColor }};font-size:13px;cursor:pointer" style-hover="background:#F2EFE9">↓</button>
+                    <button type="button" onClick="{{ b.del }}" title="Supprimer le bloc" style="width:28px;height:26px;border:0;border-radius:8px;background:transparent;color:#A83B2A;font-size:13px;cursor:pointer" style-hover="background:#FBEFEB">✕</button>
+                  </sc-if>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section data-screen-label="Fin d'article" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.6vw,30px);display:flex;flex-direction:column;gap:22px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Fin d'article · ordre fixe</span>
+            <span style="font-size:12.5px;color:#6B6560">Affichés après le corps, dans cet ordre.</span>
+          </span>
+
+          <sc-for list="{{ endLists }}" as="l" hint-placeholder-count="2">
+            <div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px">
+              <span style="width:30px;height:30px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">{{ l.n }}</span>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px">
+                  <span style="font-size:16px;font-weight:800;letter-spacing:-0.015em">{{ l.title }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ l.countColor }}">{{ l.countLabel }}</span>
+                </span>
+                <sc-for list="{{ l.items }}" as="it" hint-placeholder-count="3">
+                  <span style="display:flex;align-items:center;gap:8px">
+                    <span style="flex:none;width:22px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A;text-align:right">{{ it.n }}</span>
+                    <input type="text" value="{{ it.v }}" onChange="{{ it.on }}" placeholder="{{ it.ph }}" style="flex:1;min-width:0;font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:12px;padding:11px 13px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+                    <button type="button" onClick="{{ it.del }}" title="Retirer" style="flex:none;width:32px;height:32px;border:0;border-radius:9px;background:transparent;color:#8D8681;cursor:pointer" style-hover="background:#F2EFE9;color:#A83B2A">✕</button>
+                  </span>
+                </sc-for>
+                <button type="button" onClick="{{ l.add }}" style="align-self:flex-start;margin-left:30px;background:transparent;border:0;padding:4px 0;font-size:13px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">+ Ajouter un point</button>
+              </div>
+            </div>
+          </sc-for>
+
+          <div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px">
+            <span style="width:30px;height:30px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px">
+                <span style="font-size:16px;font-weight:800;letter-spacing:-0.015em">Bloc auteur</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#7B746E">Repris du profil auteur</span>
+              </span>
+              <span style="display:flex;align-items:center;gap:14px;background:#F7F5F1;border:1px dashed #C7C1BC;border-radius:16px;padding:14px">
+                <span style="flex:none;width:52px;height:52px;border-radius:99px;background:#E7E3DD;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#45423E">{{ authorIni }}</span>
+                <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:800">{{ authorName }}</span><span style="font-size:13.5px;color:#4C4946">{{ authorQual }}</span></span>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section data-screen-label="Conversion" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.6vw,30px);display:flex;flex-direction:column;gap:18px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Conversion · avant les articles liés</span>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;flex-direction:column;gap:3px"><span style="font-size:16px;font-weight:800;letter-spacing:-0.015em">Accroche formation contextuelle</span><span style="font-size:13px;color:#6B6560">Une page formation ou démarche liée au sujet exact de l'article.</span></span>
+            <sc-if value="{{ hasAccroche }}" hint-placeholder-val="{{ true }}">
+              <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:16px;padding:14px 16px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#A83B2A">{{ accrocheKind }}</span>
+                <span style="flex:1 1 220px;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700">{{ accrocheTitle }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560">{{ accrocheUrl }}</span></span>
+                <button type="button" onClick="{{ pickAccroche }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Changer</button>
+              </span>
+            </sc-if>
+            <sc-if value="{{ noAccroche }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ pickAccroche }}" style="display:flex;align-items:center;justify-content:center;min-height:64px;border-radius:16px;border:1.5px dashed #C7C1BC;background:#F7F5F1;font-size:14px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="border-color:#0B0B0B">+ Choisir la page formation ou démarche</button>
+            </sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px">
+              <span style="font-size:16px;font-weight:800;letter-spacing:-0.015em">Orientation vers le formulaire d'affinage</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#7B746E">Automatique · non modifiable</span>
+            </span>
+            <div style="position:relative;border-radius:20px;padding:22px;background:#0B0B0B;color:#FFFFFF;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px">
+              <span style="font-size:19px;font-weight:800;letter-spacing:-0.02em;max-width:420px">Vous cherchez la formation qui vous correspond ?</span>
+              <a href="Formulaire Affinage.dc.html" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;white-space:nowrap" style-hover="background:#E19D8B;color:#0B0B0B">Quelle formation pour moi ?</a>
+            </div>
+            <span style="font-size:12.5px;line-height:1.5;color:#6B6560">Identique sur tous les articles publiés. Texte provisoire, formulation finale à arrêter.</span>
+          </div>
+        </section>
+
+        <section data-screen-label="Articles liés" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.6vw,30px);display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px">
+            <span style="display:flex;flex-direction:column;gap:3px"><span style="font-size:16px;font-weight:800;letter-spacing:-0.015em">Articles liés</span><span style="font-size:13px;color:#6B6560">{{ relatedHint }}</span></span>
+            <sc-if value="{{ relatedDiverged }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ resetRelated }}" style="background:transparent;border:0;padding:0;font-size:13px;font-weight:700;color:#A83B2A;cursor:pointer">Reprendre les suggestions</button></sc-if>
+          </span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">
+            <sc-for list="{{ related }}" as="r" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:10px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:18px;padding:14px">
+                <span style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">{{ r.cat }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:{{ r.tagColor }}">{{ r.tag }}</span>
+                </span>
+                <span style="flex:1;font-size:15px;font-weight:700;line-height:1.35;text-wrap:pretty">{{ r.title }}</span>
+                <button type="button" onClick="{{ r.swap }}" style="align-self:flex-start;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Remplacer</button>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </main>
+
+      <aside data-screen-label="Repères" style="flex:0 1 300px;min-width:260px;position:sticky;top:152px;display:flex;flex-direction:column;gap:12px">
+        <section style="background:#0B0B0B;color:#FFFFFF;border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Longueur du corps</span>
+          <span style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'IBM Plex Mono',monospace;font-size:44px;line-height:0.9;letter-spacing:-0.05em">{{ words }}</span><span style="font-size:14px;color:#D0CAC5">mots · {{ readTime }}</span></span>
+          <span style="position:relative;height:8px;border-radius:99px;background:#2A2626;display:block;overflow:hidden"><span style="width:{{ wordPct }};height:100%;background:{{ wordBar }};display:block;border-radius:99px"></span></span>
+          <span style="font-size:13px;line-height:1.5;color:#D0CAC5">{{ tocStatus }}</span>
+        </section>
+
+        <section style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:18px 20px;display:flex;flex-direction:column;gap:10px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><span style="font-size:15px;font-weight:800">Table des matières</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#7B746E">Auto</span></span>
+          <sc-if value="{{ hasToc }}" hint-placeholder-val="{{ true }}">
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ toc }}" as="t" hint-placeholder-count="5">
+                <li style="padding-left:{{ t.indent }};font-size:{{ t.size }};font-weight:{{ t.weight }};line-height:1.35;color:{{ t.color }}">{{ t.t }}</li>
+              </sc-for>
+            </ol>
+          </sc-if>
+          <sc-if value="{{ noToc }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#6B6560">Générée à partir des H2 et H3 du corps.</span></sc-if>
+          <sc-if value="{{ hasJumps }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size:12.5px;line-height:1.45;color:#A83B2A;background:#FBEFEB;border-radius:10px;padding:8px 10px">Saut de niveau : un {{ jumpLabel }} suit un titre de niveau trop haut. Déplacez-le ou ajoutez l'intertitre manquant.</span>
+          </sc-if>
+        </section>
+
+        <section style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:18px 20px;display:flex;flex-direction:column;gap:8px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><span style="font-size:15px;font-weight:800">Call-outs</span><span style="font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:-0.03em;color:{{ coCountColor }}">{{ coCount }}</span></span>
+          <span style="font-size:13px;line-height:1.5;color:{{ coNoteColor }}">{{ coNote }}</span>
+        </section>
+      </aside>
+    </div>
+  </div>
+
+  <sc-if value="{{ pickOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:16px">
+      <div role="dialog" aria-modal="true" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:560px;max-height:100%;overflow-y:auto;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">{{ pickTitle }}</span><span style="font-size:14px;line-height:1.55;color:#4C4946">{{ pickSub }}</span></span>
+        <sc-if value="{{ pickTabs }}" hint-placeholder-val="{{ false }}">
+          <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px;align-self:flex-start">
+            <button type="button" onClick="{{ tabInt }}" style="border:0;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;background:{{ tabIntBg }};color:{{ tabIntColor }}">Lien interne</button>
+            <button type="button" onClick="{{ tabExt }}" style="border:0;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;background:{{ tabExtBg }};color:{{ tabExtColor }}">Lien externe</button>
+          </span>
+        </sc-if>
+        <sc-if value="{{ pickInternal }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <label style="display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:999px;padding:0 18px">
+              <span style="flex:none;width:11px;height:11px;border:1.5px solid #8D8681;border-radius:99px;display:block"></span>
+              <input type="search" placeholder="Rechercher une page" value="{{ pickQ }}" onChange="{{ onPickQ }}" style="flex:1;min-width:0;font-size:14.5px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:12px 0" />
+            </label>
+            <div style="display:flex;flex-direction:column;gap:4px;max-height:320px;overflow-y:auto">
+              <sc-for list="{{ targets }}" as="t" hint-placeholder-count="6">
+                <button type="button" onClick="{{ t.pick }}" style="text-align:left;display:flex;align-items:center;gap:12px;background:{{ t.bg }};border:1.5px solid {{ t.border }};border-radius:14px;padding:11px 14px;cursor:pointer" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:74px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#A83B2A">{{ t.kind }}</span>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px"><span style="font-size:14px;font-weight:700;color:#0B0B0B">{{ t.t }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6560;word-break:break-all">{{ t.url }}</span></span>
+                </button>
+              </sc-for>
+              <sc-if value="{{ noTargets }}" hint-placeholder-val="{{ false }}"><span style="font-size:13.5px;color:#6B6560;padding:10px 4px">Aucune page ne correspond.</span></sc-if>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ pickExternal }}" hint-placeholder-val="{{ false }}">
+          <label style="display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:13px;font-weight:700">URL de destination</span>
+            <input type="url" placeholder="https://" value="{{ pickUrl }}" onChange="{{ onPickUrl }}" style="width:100%;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+            <span style="font-size:12.5px;color:#6B6560">Pour les sources externes. Les pages du site passent par l'onglet Lien interne.</span>
+          </label>
+        </sc-if>
+        <span style="display:flex;justify-content:flex-end;gap:8px">
+          <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+          <button type="button" onClick="{{ confirmPick }}" disabled="{{ pickDis }}" style="background:{{ pickBtnBg }};color:#FFFFFF;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer">{{ pickBtn }}</button>
+        </span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ imgOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:16px">
+      <div role="dialog" aria-modal="true" onClick="{{ stop }}" data-screen-label="Modale image" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:560px;max-height:100%;overflow-y:auto;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">{{ imgTitle }}</span>
+        <label style="position:relative;display:flex;align-items:center;justify-content:center;min-height:150px;border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);overflow:hidden;cursor:pointer">
+          <sc-if value="{{ imgHasSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ imgSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" /></sc-if>
+          <span style="position:relative;background:#FFFFFF;border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:700">{{ imgPickLabel }}</span>
+          <input type="file" accept="image/*" onChange="{{ onImgFile }}" style="position:absolute;inset:0;opacity:0;cursor:pointer" />
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:700">Nom de fichier</span>
+          <input type="text" value="{{ imgFile }}" onChange="{{ onImgName }}" placeholder="carte-professionnelle-cnaps.webp" style="width:100%;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+          <span style="font-size:12.5px;color:#6B6560">Minuscules, chiffres et tirets. Converti automatiquement à la saisie.</span>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:700">Texte alternatif <span style="color:#A83B2A">· obligatoire</span></span>
+          <textarea rows="2" value="{{ imgAlt }}" onChange="{{ onImgAlt }}" placeholder="Décrivez ce que montre l'image" style="width:100%;resize:none;font-size:15px;line-height:1.5;color:#0B0B0B;background:#F7F5F1;border:1.5px solid {{ imgAltBorder }};border-radius:14px;padding:12px 14px;outline:none"></textarea>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13px;font-weight:700">Légende visible <span style="font-weight:500;color:#7B746E">· facultative</span></span>
+          <input type="text" value="{{ imgCaption }}" onChange="{{ onImgCaption }}" placeholder="Affichée sous l'image" style="width:100%;font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:14px;padding:12px 14px;outline:none" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+        </label>
+        <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px 12px">
+          <sc-if value="{{ imgBlocked }}" hint-placeholder-val="{{ true }}"><span style="margin-right:auto;font-size:12.5px;font-weight:600;color:#A83B2A">{{ imgBlockReason }}</span></sc-if>
+          <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+          <button type="button" onClick="{{ confirmImg }}" disabled="{{ imgBlocked }}" style="background:{{ imgBtnBg }};color:#FFFFFF;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer">{{ imgBtn }}</button>
+        </span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ pubOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:16px">
+      <div role="dialog" aria-modal="true" onClick="{{ stop }}" data-screen-label="Modale publication" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:480px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Publier l'article ?</span><span style="font-size:14px;line-height:1.55;color:#4C4946">Il part en ligne immédiatement sur le blog public. La date de publication est enregistrée automatiquement.</span></span>
+        <span style="font-size:15px;font-weight:700;line-height:1.4;background:#F7F5F1;border-radius:14px;padding:12px 14px">{{ title }}</span>
+        <span style="display:flex;justify-content:flex-end;gap:8px">
+          <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+          <button type="button" onClick="{{ publish }}" style="background:#A83B2A;color:#FFFFFF;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#0B0B0B">Publier maintenant</button>
+        </span>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:600;box-shadow:0 18px 40px -20px rgba(11,11,11,0.5)">{{ toast }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;depublication&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Points ouverts&quot;},&quot;auteurs&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Plusieurs profils&quot;,&quot;Profil unique&quot;],&quot;default&quot;:&quot;Plusieurs profils&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Points ouverts&quot;}}">
+const ARTICLES = [
+  ['a1', 'Comment obtenir sa carte professionnelle CNAPS', 'Réglementation', 'Publié', 'claire', '2026-09-18T10:12', '2026-06-02T09:00'],
+  ['a2', 'TFP APS ou SSIAP 1 : lequel choisir pour débuter', 'Formations et titres', 'Publié', 'claire', '2026-08-27T15:40', '2026-06-04T09:00'],
+  ['a3', "Financer sa formation d'agent de sécurité avec le CPF", 'Financement', 'Publié', 'erwan', '2026-09-02T09:05', '2026-06-09T09:00'],
+  ['a4', 'Le MAC APS : quand et comment renouveler sa carte', 'Réglementation', 'Publié', 'claire', '2026-07-30T11:20', '2026-06-12T09:00'],
+  ['a5', 'Autorisation préalable : délais et pièces à fournir', 'Réglementation', 'Publié', 'claire', '2026-08-14T16:02', '2026-06-16T09:00'],
+  ['a6', 'Devenir agent cynophile en Île-de-France', 'Métier et carrière', 'Publié', 'erwan', '2026-07-11T10:48', '2026-06-18T09:00'],
+  ['a7', "SSIAP 2 : conditions d'accès et expérience requise", 'Formations et titres', 'Publié', 'claire', '2026-06-24T14:30', '2026-06-23T09:00'],
+  ['a8', 'Casier judiciaire et sécurité privée : ce qui bloque vraiment', 'Réglementation', 'Publié', 'claire', '2026-09-09T08:55', '2026-06-25T09:00'],
+  ['a9', "Salaire d'un agent de sécurité débutant en 2026", 'Métier et carrière', 'Publié', 'erwan', '2026-06-19T17:15', '2026-06-19T17:15'],
+  ['a10', 'Sûreté aéroportuaire : le parcours pour travailler à Roissy', 'Formations et titres', 'Publié', 'erwan', '2026-06-05T12:00', '2026-06-05T12:00'],
+  ['a11', 'Carte professionnelle refusée : les recours possibles', 'Réglementation', 'Brouillon', 'claire', '2026-09-22T17:40', null],
+  ['a12', 'France Travail : faire financer son TFP APS', 'Financement', 'Brouillon', 'erwan', '2026-09-21T11:10', null],
+  ['a13', 'Agent de sécurité événementiel : missions et formation', 'Métier et carrière', 'Brouillon', 'erwan', '2026-09-15T09:30', null],
+  ['a14', "H0B0 : l'habilitation électrique pour les agents SSIAP", 'Formations et titres', 'Brouillon', 'claire', '2026-08-30T18:22', null]
+].map(([id, t, cat, st, au, mod, pub]) => ({ id, t, cat, st, au, mod, pub }));
+const AUTHORS = [
+  { id: 'claire', name: 'Claire Mounier', qual: 'Ancienne formatrice APS, 12 ans en centre de formation', ini: 'CM' },
+  { id: 'erwan', name: 'Erwan', qual: 'Fondateur de Trouve ta formation', ini: 'ER' }
+];
+const PAGES = [
+  { kind: 'Formation', t: 'TFP APS · Agent de prévention et de sécurité', url: '/securite-privee/tfp-aps/' },
+  { kind: 'Formation', t: 'SSIAP 1 · Agent de sécurité incendie', url: '/securite-privee/ssiap-1/' },
+  { kind: 'Formation', t: "SSIAP 2 · Chef d'équipe de sécurité incendie", url: '/securite-privee/ssiap-2/' },
+  { kind: 'Formation', t: 'Agent cynophile de sécurité', url: '/securite-privee/agent-cynophile/' },
+  { kind: 'Formation', t: 'Sûreté aéroportuaire', url: '/securite-privee/surete-aeroportuaire/' },
+  { kind: 'Formation', t: 'MAC APS · Maintien et actualisation des compétences', url: '/securite-privee/mac-aps/' },
+  { kind: 'Démarche', t: 'Autorisation préalable', url: '/securite-privee/demarches/autorisation-prealable/' },
+  { kind: 'Démarche', t: 'Carte professionnelle', url: '/securite-privee/demarches/carte-professionnelle/' },
+  { kind: 'Démarche', t: 'Renouvellement de la carte professionnelle', url: '/securite-privee/demarches/renouvellement-carte-professionnelle/' }
+];
+const CO = {
+  vigilance: { label: 'Point de vigilance', short: 'Vigil.', use: 'Une erreur fréquente, un piège réglementaire', bg: '#FBEFEB', border: '#E2B6AC', style: 'solid', lc: '#A83B2A', color: '#23211F', w: 500, sw: '#FBEFEB', swb: '#A83B2A', sws: 'solid' },
+  chiffre: { label: 'Chiffre clé', short: 'Chiffre', use: 'Une donnée à isoler visuellement', bg: '#0B0B0B', border: '#0B0B0B', style: 'solid', lc: '#E19D8B', color: '#FFFFFF', w: 700, sw: '#0B0B0B', swb: '#0B0B0B', sws: 'solid' },
+  renvoi: { label: 'Renvoi contextuel', short: 'Renvoi', use: 'Lien vers la page formation ou démarche', bg: '#F7F5F1', border: '#8D8681', style: 'dashed', lc: '#4C4946', color: '#23211F', w: 500, sw: '#F7F5F1', swb: '#8D8681', sws: 'dashed' }
+};
+const LVL = { h2: 2, h3: 3, h4: 4 };
+const TAG = { p: '¶', h2: 'H2', h3: 'H3', h4: 'H4', ul: 'Liste', ol: '1.2.3', table: 'Tabl.', img: 'Image' };
+const GP = { p: '12px', h2: '30px', h3: '20px', h4: '13px', ul: '12px', ol: '12px', table: '18px', img: '18px', callout: '28px' };
+const MO = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const TH = 'text-align:left;padding:10px 12px;border:1px solid #E2DDD6;background:#F7F5F1;font-size:14px;font-weight:700;min-width:120px';
+const TD = 'padding:10px 12px;border:1px solid #E2DDD6;font-size:15px;line-height:1.5;vertical-align:top';
+const UL = 'margin:4px 0;padding-left:22px;display:flex;flex-direction:column;gap:4px';
+const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const fmtD = iso => { const d = new Date(iso); return `${d.getDate()} ${MO[d.getMonth()]} ${d.getFullYear()}`; };
+const nowIso = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; };
+const blogUrl = a => `/securite-privee/blog/${slugify(a.t)}/`;
+const table = rows => `<table style="border-collapse:collapse;width:100%"><thead><tr>${rows[0].map(c => `<th style="${TH}">${c}</th>`).join('')}</tr></thead><tbody>${rows.slice(1).map(r => `<tr>${r.map(c => `<td style="${TD}">${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+const list = (tag, items) => `<${tag} style="${UL}">${items.map(i => `<li>${i}</li>`).join('')}</${tag}>`;
+let N = 0;
+const nid = () => 'b' + (++N);
+const DEF = { p: '', h2: '', h3: '', h4: '', ul: list('ul', ['']), ol: list('ol', ['']), table: table([['Colonne 1', 'Colonne 2', 'Colonne 3'], ['', '', ''], ['', '', '']]), callout: '' };
+
+function sample() {
+  const B = (type, html, x) => ({ id: nid(), type, html, ...x });
+  return [
+    B('p', "La carte professionnelle est l'autorisation délivrée par le CNAPS qui permet d'exercer une activité de sécurité privée. Sans elle, aucun employeur ne peut vous faire travailler comme agent, même en période d'essai."),
+    B('h2', 'Qui doit demander la carte professionnelle ?'),
+    B('p', 'Toute personne qui exerce une activité de surveillance humaine, de gardiennage, de sûreté aéroportuaire ou de protection physique des personnes. La carte est <b>nominative</b> et liée à une ou plusieurs activités précises.'),
+    B('h2', 'Les conditions à remplir'),
+    B('h3', 'Aptitude professionnelle'),
+    B('p', 'Vous devez justifier d\'une formation certifiante correspondant à l\'activité visée, par exemple le <a href="/securite-privee/tfp-aps/" data-link="interne">TFP APS</a> pour la surveillance humaine.'),
+    B('h3', 'Moralité'),
+    B('p', 'Le CNAPS consulte le bulletin n° 2 du casier judiciaire. Certaines condamnations rendent la demande irrecevable.'),
+    B('callout', "Une formation suivie sans autorisation préalable ne permet pas d'obtenir la carte. Vérifiez que l'organisme vous l'a demandée avant l'entrée en formation.", { kind: 'vigilance' }),
+    B('h2', 'Les étapes de la demande'),
+    B('ol', list('ol', ['Réunir les pièces justificatives', 'Déposer la demande en ligne auprès du CNAPS', "Suivre l'instruction du dossier", 'Recevoir la carte et son numéro'])),
+    B('callout', "5 ans : durée de validité de la carte professionnelle, renouvelable après un stage de maintien et d'actualisation des compétences.", { kind: 'chiffre' }),
+    B('h2', 'Pièces à fournir'),
+    B('table', table([['Pièce', 'Précision'], ["Pièce d'identité", 'En cours de validité'], ['Justificatif de domicile', 'De moins de 3 mois'], ['Attestation de formation', "Délivrée par l'organisme"], ["Photo d'identité", 'Format numérique']])),
+    B('img', '', { file: 'carte-professionnelle-cnaps.webp', alt: "Exemple de carte professionnelle d'agent de sécurité délivrée par le CNAPS", caption: 'La carte mentionne les activités autorisées.', src: '' }),
+    B('callout', 'Pour préparer le dossier pas à pas, consultez la démarche détaillée.', { kind: 'renvoi', page: '/securite-privee/demarches/carte-professionnelle/' })
+  ];
+}
+
+class Component extends DCLogic {
+  els = {};
+  state = { ...this.load(), sel: null, modal: null, pick: null, img: null, coMenu: false, toast: '', saved: null, words: 0, toc: [] };
+
+  load() {
+    const h = decodeURIComponent((typeof location !== 'undefined' ? location.hash : '').slice(1));
+    if (h === 'nouveau') return { id: null, title: '', seoTitle: '', seoManual: false, desc: '', slug: '', slugManual: false, cat: '', author: 'claire', cover: null, regl: false, verif: '', statut: 'Brouillon', pub: null, upd: null, blocks: [{ id: nid(), type: 'p', html: '' }], synth: ['', '', ''], retenir: ['', '', ''], accroche: '', related: this.suggest('', null) };
+    const a = ARTICLES.find(x => x.id === h) || ARTICLES[0];
+    const base = { id: a.id, title: a.t, seoTitle: a.t, seoManual: false, desc: '', slug: slugify(a.t), slugManual: false, cat: a.cat, author: a.au, cover: null, regl: false, verif: '', statut: a.st, pub: a.pub, upd: a.st === 'Publié' && a.mod !== a.pub ? a.mod : null, synth: ['', '', ''], retenir: ['', '', ''], accroche: '', related: this.suggest(a.cat, a.id) };
+    if (a.id !== 'a1') return { ...base, blocks: [{ id: nid(), type: 'p', html: '<i style="color:#8D8681">Corps non repris dans la maquette : voir l\'article « Comment obtenir sa carte professionnelle CNAPS ».</i>' }] };
+    return {
+      ...base,
+      seoTitle: 'Carte professionnelle CNAPS : conditions et démarches', seoManual: true,
+      desc: 'Conditions, pièces à fournir et étapes : comment obtenir la carte professionnelle CNAPS pour travailler dans la sécurité privée.',
+      slug: 'carte-professionnelle-cnaps', slugManual: true,
+      cover: { file: 'agent-securite-carte-professionnelle.webp', alt: "Agent de sécurité présentant sa carte professionnelle à l'entrée d'un site", caption: '', src: '' },
+      regl: true, verif: '2026-09-01',
+      blocks: sample(),
+      synth: ['La carte est délivrée par le CNAPS et obligatoire pour exercer.', 'Elle exige une formation certifiante et un casier compatible.', 'Elle est valable 5 ans, renouvelable après un MAC.'],
+      retenir: ["Vérifiez l'autorisation préalable avant d'entrer en formation.", 'Réunissez les pièces avant de déposer la demande.', "Anticipez le renouvellement plusieurs mois avant l'échéance."],
+      accroche: '/securite-privee/tfp-aps/'
+    };
+  }
+  suggest(cat, self) {
+    const pub = ARTICLES.filter(a => a.st === 'Publié' && a.id !== self);
+    const same = pub.filter(a => a.cat === cat), rest = pub.filter(a => a.cat !== cat);
+    return [...same, ...rest].slice(0, 3).map(a => a.id);
+  }
+
+  componentDidMount() {
+    this._hash = () => { this.els = {}; this._k = null; this.setState({ ...this.load(), sel: null, modal: null, saved: null }); window.scrollTo(0, 0); };
+    window.addEventListener('hashchange', this._hash);
+    setTimeout(this.recount, 0);
+  }
+  componentWillUnmount() { window.removeEventListener('hashchange', this._hash); clearTimeout(this._tt); }
+  componentDidUpdate() {
+    if (this._focus && this.els[this._focus]) {
+      const el = this.els[this._focus]; this._focus = null; el.focus();
+      const r = document.createRange(); r.selectNodeContents(el); r.collapse(!this._focusStart ? false : true);
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); this._focusStart = false;
+    }
+    this.recount();
+  }
+
+  bind(el, b) {
+    if (!el) return;
+    this.els[b.id] = el;
+    if (el.dataset.bid !== b.id) { el.innerHTML = b.html || ''; el.dataset.bid = b.id; }
+  }
+  recount = () => {
+    const el = this.bodyEl; if (!el) return;
+    const txt = [...el.querySelectorAll('[data-count]')].map(n => n.innerText).join(' ');
+    const words = (txt.match(/[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu) || []).length;
+    const toc = [...el.querySelectorAll('[data-toc]')].map(n => ({ lvl: n.dataset.toc, t: n.innerText.trim() })).filter(x => x.t);
+    const k = words + '|' + JSON.stringify(toc);
+    if (k !== this._k) { this._k = k; this.setState({ words, toc }); }
+  };
+  sync() {
+    return this.state.blocks.map(b => { const el = this.els[b.id]; return el && el.dataset.bid === b.id ? { ...b, html: el.innerHTML } : b; });
+  }
+  flash(toast) { clearTimeout(this._tt); this.setState({ toast }); this._tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  select(id) { if (this.state.sel !== id || this.state.coMenu) this.setState({ sel: id, coMenu: false }); }
+  insert(type, extra, afterId, html) {
+    const blocks = this.sync();
+    const ref = afterId || this.state.sel;
+    const i = blocks.findIndex(b => b.id === ref);
+    const b = { id: nid(), type, html: html != null ? html : DEF[type] || '', ...extra };
+    blocks.splice(i < 0 ? blocks.length : i + 1, 0, b);
+    if (type !== 'img') { this._focus = b.id; this._focusStart = html != null; }
+    this.setState({ blocks, sel: b.id, coMenu: false });
+    return b.id;
+  }
+  move(id, d) {
+    const blocks = this.sync(), i = blocks.findIndex(b => b.id === id), j = i + d;
+    if (j < 0 || j >= blocks.length) return;
+    [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+    this.setState({ blocks });
+  }
+  remove(id) {
+    let blocks = this.sync(); const i = blocks.findIndex(b => b.id === id);
+    blocks = blocks.filter(b => b.id !== id);
+    if (!blocks.length) blocks = [{ id: nid(), type: 'p', html: '' }];
+    const prev = blocks[Math.max(0, i - 1)];
+    this.setState({ blocks, sel: prev.id });
+    return prev;
+  }
+  onKey = e => {
+    const el = e.target.closest && e.target.closest('[data-bid]'); if (!el) return;
+    const b = this.state.blocks.find(x => x.id === el.dataset.bid); if (!b) return;
+    const textual = b.type === 'p' || !!LVL[b.type];
+    if (e.key === 'Enter' && !e.shiftKey && textual) {
+      e.preventDefault();
+      const s = window.getSelection(); let html = '';
+      if (s.rangeCount && el.contains(s.anchorNode)) {
+        const r = document.createRange(); r.selectNodeContents(el);
+        const cur = s.getRangeAt(0); r.setStart(cur.endContainer, cur.endOffset);
+        const tmp = document.createElement('div'); tmp.appendChild(r.extractContents()); html = tmp.innerHTML;
+        if (!tmp.innerText.trim()) html = '';
+      }
+      this.insert('p', {}, b.id, html);
+    } else if (e.key === 'Backspace' && textual && !el.innerText.trim() && this.state.blocks.length > 1) {
+      e.preventDefault();
+      const prev = this.remove(b.id);
+      if (prev && prev.type !== 'img' && prev.type !== 'table') this._focus = prev.id;
+    }
+  };
+  tbl(id, op) {
+    const w = this.els[id]; const t = w && w.querySelector('table'); if (!t) return;
+    const body = t.tBodies[0], rows = [...t.rows], cols = rows[0] ? rows[0].cells.length : 0;
+    if (op === 'addRow') { const r = body.insertRow(); for (let i = 0; i < cols; i++) r.insertCell().setAttribute('style', TD); }
+    if (op === 'delRow' && body.rows.length > 1) body.deleteRow(-1);
+    if (op === 'addCol') rows.forEach((r, ri) => { const head = ri === 0 && r.parentElement.tagName === 'THEAD'; const c = document.createElement(head ? 'th' : 'td'); c.setAttribute('style', head ? TH : TD); if (head) c.textContent = 'Colonne ' + (cols + 1); r.appendChild(c); });
+    if (op === 'delCol' && cols > 1) rows.forEach(r => r.deleteCell(-1));
+    this.recount();
+  }
+  openPick(mode, extra) {
+    this.setState({ modal: 'pick', pick: { mode, tab: 'int', q: '', choice: null, url: '', ...extra } });
+  }
+  openImg(target) {
+    let cur = null;
+    if (target === 'cover') cur = this.state.cover;
+    else if (target) cur = this.state.blocks.find(b => b.id === target);
+    this.setState({ modal: 'img', coMenu: false, img: { target, file: cur ? cur.file : '', alt: cur ? cur.alt : '', caption: cur ? cur.caption : '', src: cur ? cur.src : '', touched: false } });
+  }
+  confirmPick = () => {
+    const p = this.state.pick; if (!p) return;
+    if (p.mode === 'link') {
+      const url = p.tab === 'ext' ? p.url.trim() : p.choice && p.choice.url; if (!url || !this._range) return;
+      const host = this._range.startContainer.parentElement && this._range.startContainer.parentElement.closest('[contenteditable]');
+      if (host) host.focus();
+      const s = window.getSelection(); s.removeAllRanges(); s.addRange(this._range);
+      document.execCommand('createLink', false, url);
+      const n = s.anchorNode; const a = n && (n.nodeType === 1 ? n : n.parentElement).closest('a');
+      if (a) { a.dataset.link = p.tab === 'ext' ? 'externe' : 'interne'; if (p.tab === 'ext') { a.target = '_blank'; a.rel = 'noopener'; } }
+      this._range = null;
+      this.setState({ modal: null, pick: null });
+      this.flash(p.tab === 'ext' ? 'Lien externe ajouté' : 'Lien interne ajouté');
+      return;
+    }
+    if (!p.choice) return;
+    if (p.mode === 'accroche') this.setState({ accroche: p.choice.url, modal: null, pick: null });
+    if (p.mode === 'renvoi') this.setState({ blocks: this.sync().map(b => b.id === p.blockId ? { ...b, page: p.choice.url } : b), modal: null, pick: null });
+    if (p.mode === 'related') this.setState(s => ({ related: s.related.map((r, i) => i === p.idx ? p.choice.id : r), modal: null, pick: null }));
+  };
+  confirmImg = () => {
+    const m = this.state.img; if (!m || !m.file || !m.alt.trim()) return;
+    const data = { file: m.file, alt: m.alt.trim(), caption: m.caption.trim(), src: m.src };
+    if (m.target === 'cover') this.setState({ cover: data, modal: null, img: null });
+    else if (m.target) this.setState({ blocks: this.sync().map(b => b.id === m.target ? { ...b, ...data } : b), modal: null, img: null });
+    else { this.insert('img', data); this.setState({ modal: null, img: null }); }
+  };
+  setList(key, fn) { this.setState(s => ({ [key]: fn(s[key].slice()) })); }
+
+  renderVals() {
+    const s = this.state;
+    const single = (this.props.auteurs ?? 'Plusieurs profils') === 'Profil unique';
+    const depub = !!(this.props.depublication ?? false);
+    const author = single ? AUTHORS[1] : (AUTHORS.find(a => a.id === s.author) || AUTHORS[0]);
+    const pub = s.statut === 'Publié';
+
+    let prev = 1, prevAt = 1; const flags = {}, jumps = [];
+    const selIdx = s.blocks.findIndex(b => b.id === s.sel), upto = selIdx < 0 ? s.blocks.length - 1 : selIdx;
+    s.blocks.forEach((b, i) => { const L = LVL[b.type]; if (L) { if (L > prev + 1) { flags[b.id] = 1; jumps.push(b.type.toUpperCase()); } prev = L; } if (i === upto) prevAt = prev; });
+
+    const coCount = s.blocks.filter(b => b.type === 'callout').length;
+    const readMin = Math.max(1, Math.round(s.words / 230));
+    const p = s.pick, m = s.img;
+
+    let targets = [];
+    if (p) {
+      const published = ARTICLES.filter(a => a.st === 'Publié' && a.id !== s.id);
+      if (p.mode === 'link') targets = [...PAGES, ...published.map(a => ({ kind: 'Article', t: a.t, url: blogUrl(a), id: a.id }))];
+      else if (p.mode === 'related') targets = published.filter(a => !s.related.includes(a.id)).map(a => ({ kind: a.cat === s.cat ? 'Même cat.' : 'Article', t: a.t, url: blogUrl(a), id: a.id }));
+      else targets = PAGES;
+      const q = norm(p.q.trim());
+      if (q) targets = targets.filter(t => norm(t.t + ' ' + t.url).includes(q));
+    }
+    const pickReady = p && (p.mode === 'link' && p.tab === 'ext' ? /^https?:\/\/.+\..+/.test(p.url.trim()) : !!p.choice);
+    const imgReason = !m ? '' : !m.file ? 'Ajoutez un fichier image.' : !m.alt.trim() ? 'Le texte alternatif est obligatoire pour insérer l\'image.' : '';
+    const acc = PAGES.find(x => x.url === s.accroche);
+    const sugg = this.suggest(s.cat, s.id);
+    const wordPct = Math.min(100, (s.words / 1000) * 100);
+
+    const hBtn = (L, label) => {
+      const ok = L <= prevAt + 1;
+      return { label, dis: !ok, color: ok ? '#0B0B0B' : '#C7C1BC', tip: ok ? `Intertitre ${label}` : `Posez d'abord un ${'H' + (L - 1)} avant ce point`, add: () => ok && this.insert('h' + L) };
+    };
+    const endList = (key, n, title, min, max, ph) => {
+      const arr = s[key], filled = arr.filter(x => x.trim()).length, ok = filled >= min && filled <= max;
+      return {
+        n, title, countLabel: `${filled} · recommandé ${min === max ? min : min + ' à ' + max}`, countColor: ok ? '#6B6560' : '#A83B2A',
+        items: arr.map((v, i) => ({ n: String(i + 1).padStart(2, '0'), v, ph, on: e => { const val = e.target.value; this.setList(key, a => { a[i] = val; return a; }); }, del: () => this.setList(key, a => { a.splice(i, 1); return a; }) })),
+        add: () => this.setList(key, a => [...a, ''])
+      };
+    };
+
+    return {
+      statut: s.statut,
+      stBg: pub ? '#FFFFFF' : '#F7F5F1', stColor: pub ? '#0B0B0B' : '#4C4946', stStyle: pub ? 'solid' : 'dashed', stBorder: pub ? '#0B0B0B' : '#A39C96', stDot: pub ? '#A83B2A' : '#A39C96',
+      titleShort: s.title || 'Nouvel article',
+      savedLabel: s.saved ? `Enregistré à ${s.saved}` : '',
+      isDraft: !pub, canUnpublish: pub && depub,
+      primaryLabel: pub ? 'Mettre à jour' : 'Publier',
+      primaryDis: !s.title.trim(), primaryTitle: s.title.trim() ? '' : 'Ajoutez un titre pour publier',
+      primaryBg: s.title.trim() ? '#A83B2A' : '#C7C1BC',
+      primary: () => {
+        if (!s.title.trim()) return;
+        if (!pub) return this.setState({ modal: 'pub' });
+        const t = nowIso(); this.setState({ blocks: this.sync(), upd: t, saved: t.slice(11) }); this.flash('Article mis à jour en ligne');
+      },
+      saveDraft: () => { const t = nowIso(); this.setState({ blocks: this.sync(), saved: t.slice(11) }); this.flash('Brouillon enregistré'); },
+      publish: () => { const t = nowIso(); this.setState({ blocks: this.sync(), statut: 'Publié', pub: t, upd: null, saved: t.slice(11), modal: null }); this.flash('Article publié'); },
+      unpublish: () => { this.setState({ blocks: this.sync(), statut: 'Brouillon' }); this.flash('Article repassé en brouillon'); },
+
+      title: s.title,
+      onTitle: e => { const v = e.target.value.replace(/\n/g, ' '); this.setState(st => ({ title: v, seoTitle: st.seoManual ? st.seoTitle : v, slug: st.slugManual ? st.slug : slugify(v) })); },
+      seoTitle: s.seoTitle, seoCount: s.seoTitle.length, seoCountColor: s.seoTitle.length > 60 ? '#A83B2A' : '#7B746E',
+      onSeo: e => this.setState({ seoTitle: e.target.value, seoManual: true }),
+      seoSynced: !s.seoManual, seoDiverged: s.seoManual,
+      resetSeo: () => this.setState(st => ({ seoTitle: st.title, seoManual: false })),
+      slug: s.slug, slugAuto: !s.slugManual, slugManual: s.slugManual,
+      slugMode: s.slugManual ? 'Manuel' : 'Auto', slugModeColor: s.slugManual ? '#A83B2A' : '#7B746E',
+      onSlug: e => this.setState({ slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'), slugManual: true }),
+      regenSlug: () => this.setState(st => ({ slug: slugify(st.title), slugManual: false })),
+      desc: s.desc, descCount: s.desc.length, descCountColor: s.desc.length >= 140 ? '#A83B2A' : '#7B746E',
+      onDesc: e => this.setState({ desc: e.target.value.replace(/\n/g, ' ').slice(0, 155) }),
+      cat: s.cat, onCat: e => this.setState({ cat: e.target.value }),
+      multiAuthors: !single, singleAuthor: single,
+      authorId: s.author, onAuthor: e => this.setState({ author: e.target.value }),
+      authorName: author.name, authorQual: author.qual, authorIni: author.ini,
+      hasCover: !!s.cover, noCover: !s.cover,
+      coverHasSrc: !!(s.cover && s.cover.src), coverNoSrc: !(s.cover && s.cover.src),
+      coverSrc: s.cover ? s.cover.src : '', coverFile: s.cover ? s.cover.file : '', coverAlt: s.cover ? s.cover.alt : '',
+      editCover: () => this.openImg('cover'),
+      regl: s.regl, reglBox: s.regl ? '#A83B2A' : '#A39C96', reglFill: s.regl ? '#A83B2A' : '#FFFFFF', reglTick: s.regl ? '✓' : '',
+      toggleRegl: () => this.setState({ regl: !s.regl }),
+      verif: s.verif, onVerif: e => this.setState({ verif: e.target.value }),
+      pubLabel: s.pub ? fmtD(s.pub) : 'Au premier passage en Publié',
+      updLabel: pub ? (s.upd ? fmtD(s.upd) : 'Aucune depuis la publication') : 'Après publication',
+      readTime: `${readMin} min`,
+
+      keep: e => e.preventDefault(),
+      hBtns: [hBtn(2, 'H2'), hBtn(3, 'H3'), hBtn(4, 'H4')],
+      addP: () => this.insert('p'), addUl: () => this.insert('ul'), addOl: () => this.insert('ol'), addTable: () => this.insert('table'),
+      addImg: () => this.openImg(null),
+      bold: () => document.execCommand('bold'),
+      openLink: () => {
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed || !this.bodyEl || !this.bodyEl.contains(sel.anchorNode)) return this.flash("Sélectionnez d'abord le texte à transformer en lien");
+        this._range = sel.getRangeAt(0).cloneRange();
+        this.openPick('link');
+      },
+      coMenu: s.coMenu, coMenuBg: s.coMenu ? '#F2EFE9' : 'transparent',
+      toggleCoMenu: () => this.setState({ coMenu: !s.coMenu }),
+      coTypes: Object.entries(CO).map(([k, c]) => ({ label: c.label, use: c.use, swatch: c.sw, swBorder: c.swb, swStyle: c.sws, add: () => this.insert('callout', { kind: k, page: '' }) })),
+      words: s.words.toLocaleString('fr-FR'),
+      bodyRef: el => { this.bodyEl = el; },
+      onBodyInput: () => this.recount(),
+      onKey: this.onKey,
+      blocks: s.blocks.map((b, i) => {
+        const sel = b.id === s.sel, co = b.type === 'callout' ? CO[b.kind] : null, pg = co && PAGES.find(x => x.url === b.page);
+        return {
+          ref: el => this.bind(el, b), focus: () => this.select(b.id), isSel: sel,
+          isP: b.type === 'p', isH2: b.type === 'h2', isH3: b.type === 'h3', isH4: b.type === 'h4',
+          isList: b.type === 'ul' || b.type === 'ol', isTable: b.type === 'table', isImg: b.type === 'img', isCallout: !!co,
+          tag: flags[b.id] ? b.type.toUpperCase() + ' !' : co ? co.short : TAG[b.type],
+          gutterColor: flags[b.id] ? '#A83B2A' : sel ? '#0B0B0B' : '#A39C96', gutterPad: GP[b.type],
+          rowBg: sel ? '#FBFAF7' : 'transparent',
+          up: () => this.move(b.id, -1), down: () => this.move(b.id, 1), del: () => this.remove(b.id),
+          upDis: i === 0, downDis: i === s.blocks.length - 1, upColor: i === 0 ? '#D0CAC5' : '#0B0B0B', downColor: i === s.blocks.length - 1 ? '#D0CAC5' : '#0B0B0B',
+          addRow: () => this.tbl(b.id, 'addRow'), addCol: () => this.tbl(b.id, 'addCol'), delRow: () => this.tbl(b.id, 'delRow'), delCol: () => this.tbl(b.id, 'delCol'),
+          hasSrc: !!b.src, noSrc: !b.src, src: b.src || '', file: b.file || '', alt: b.alt || '', caption: b.caption || '', hasCaption: !!b.caption,
+          edit: () => this.openImg(b.id),
+          coLabel: co ? co.label : '', coBg: co ? co.bg : '', coBorder: co ? co.border : '', coStyle: co ? co.style : 'solid', coLabelColor: co ? co.lc : '', coColor: co ? co.color : '', coWeight: co ? co.w : 400,
+          isRenvoi: !!co && b.kind === 'renvoi', hasPage: !!pg, pageTitle: pg ? pg.t : '', pageUrl: pg ? pg.url : '',
+          pageBtn: pg ? 'Changer la page' : 'Choisir la page liée',
+          pickPage: () => this.openPick('renvoi', { blockId: b.id })
+        };
+      }),
+
+      endLists: [endList('synth', 1, 'Encadré de synthèse', 3, 4, 'Un fait clé'), endList('retenir', 2, 'À retenir', 3, 3, 'Un point de clôture')],
+
+      hasAccroche: !!acc, noAccroche: !acc,
+      accrocheKind: acc ? acc.kind : '', accrocheTitle: acc ? acc.t : '', accrocheUrl: acc ? acc.url : '',
+      pickAccroche: () => this.openPick('accroche'),
+
+      relatedHint: s.cat ? `Suggérés dans la catégorie ${s.cat}, modifiables.` : 'Choisissez une catégorie pour affiner les suggestions.',
+      relatedDiverged: sugg.join() !== s.related.join(),
+      resetRelated: () => this.setState({ related: sugg }),
+      related: s.related.map((id, i) => {
+        const a = ARTICLES.find(x => x.id === id), isS = sugg.includes(id);
+        return { title: a.t, cat: a.cat, tag: isS ? 'Suggéré' : 'Choix manuel', tagColor: isS ? '#7B746E' : '#A83B2A', swap: () => this.openPick('related', { idx: i }) };
+      }),
+
+      wordPct: wordPct + '%', wordBar: s.words >= 1000 ? '#E19D8B' : '#FFFFFF',
+      tocStatus: s.words >= 1000 ? 'Au-delà de 1 000 mots : la table des matières s\'affiche sur la page publique.' : `Table des matières masquée sur la page publique. Elle apparaît au-delà de 1 000 mots (encore ${(1000 - s.words).toLocaleString('fr-FR')}).`,
+      hasToc: s.toc.length > 0, noToc: s.toc.length === 0,
+      toc: s.toc.map(t => ({ t: t.t, indent: t.lvl === '3' ? '14px' : '0', size: t.lvl === '3' ? '13px' : '14px', weight: t.lvl === '3' ? 500 : 700, color: t.lvl === '3' ? '#4C4946' : '#0B0B0B' })),
+      hasJumps: jumps.length > 0, jumpLabel: jumps[0] || '',
+      coCount, coCountColor: coCount > 3 ? '#A83B2A' : '#0B0B0B',
+      coNote: coCount > 3 ? `Au-delà des 2 à 3 recommandés par article. L'insertion reste possible.` : coCount === 0 ? 'Recommandé : 2 à 3 par article.' : `Dans la recommandation de 2 à 3 par article.`,
+      coNoteColor: coCount > 3 ? '#A83B2A' : '#6B6560',
+
+      closeModal: () => { this.setState({ modal: null, pick: null, img: null }); },
+      stop: e => e.stopPropagation(),
+      pickOpen: s.modal === 'pick' && !!p,
+      pickTitle: !p ? '' : p.mode === 'link' ? 'Insérer un lien' : p.mode === 'related' ? 'Remplacer un article lié' : p.mode === 'accroche' ? 'Accroche formation contextuelle' : 'Page du renvoi contextuel',
+      pickSub: !p ? '' : p.mode === 'link' ? 'Les pages du site se choisissent dans la liste, pour éviter tout lien interne cassé.' : p.mode === 'related' ? 'Parmi les articles publiés du blog.' : 'Une page formation ou démarche précise, liée au sujet de l\'article.',
+      pickTabs: !!p && p.mode === 'link',
+      tabInt: () => this.setState({ pick: { ...p, tab: 'int' } }), tabExt: () => this.setState({ pick: { ...p, tab: 'ext' } }),
+      tabIntBg: p && p.tab === 'int' ? '#0B0B0B' : 'transparent', tabIntColor: p && p.tab === 'int' ? '#FFFFFF' : '#3C3A37',
+      tabExtBg: p && p.tab === 'ext' ? '#0B0B0B' : 'transparent', tabExtColor: p && p.tab === 'ext' ? '#FFFFFF' : '#3C3A37',
+      pickInternal: !!p && !(p.mode === 'link' && p.tab === 'ext'), pickExternal: !!p && p.mode === 'link' && p.tab === 'ext',
+      pickQ: p ? p.q : '', onPickQ: e => this.setState({ pick: { ...p, q: e.target.value } }),
+      pickUrl: p ? p.url : '', onPickUrl: e => this.setState({ pick: { ...p, url: e.target.value } }),
+      targets: targets.slice(0, 30).map(t => {
+        const on = p && p.choice && p.choice.url === t.url;
+        return { kind: t.kind, t: t.t, url: t.url, bg: on ? '#FBEFEB' : '#FFFFFF', border: on ? '#A83B2A' : '#E7E3DD', pick: () => this.setState({ pick: { ...p, choice: t } }) };
+      }),
+      noTargets: targets.length === 0,
+      pickDis: !pickReady, pickBtnBg: pickReady ? '#A83B2A' : '#C7C1BC',
+      pickBtn: p && p.mode === 'link' ? 'Insérer le lien' : 'Valider',
+      confirmPick: this.confirmPick,
+
+      imgOpen: s.modal === 'img' && !!m,
+      imgTitle: !m ? '' : m.target === 'cover' ? 'Image de couverture' : m.target ? "Modifier l'image" : 'Insérer une image',
+      imgHasSrc: !!(m && m.src), imgSrc: m ? m.src : '',
+      imgPickLabel: m && (m.src || m.file) ? 'Remplacer le fichier' : 'Déposer ou choisir une image',
+      onImgFile: e => {
+        const f = e.target.files && e.target.files[0]; if (!f) return;
+        const dot = f.name.lastIndexOf('.'), ext = dot > 0 ? f.name.slice(dot + 1).toLowerCase() : 'jpg';
+        this.setState({ img: { ...m, src: URL.createObjectURL(f), file: `${slugify(dot > 0 ? f.name.slice(0, dot) : f.name) || 'image'}.${ext}` } });
+      },
+      imgFile: m ? m.file : '', onImgName: e => this.setState({ img: { ...m, file: e.target.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9.-]+/g, '-') } }),
+      imgAlt: m ? m.alt : '', onImgAlt: e => this.setState({ img: { ...m, alt: e.target.value, touched: true } }),
+      imgAltBorder: m && m.touched && !m.alt.trim() ? '#A83B2A' : '#E2DDD6',
+      imgCaption: m ? m.caption : '', onImgCaption: e => this.setState({ img: { ...m, caption: e.target.value } }),
+      imgBlocked: !!imgReason, imgBlockReason: imgReason, imgBtnBg: imgReason ? '#C7C1BC' : '#A83B2A',
+      imgBtn: m && m.target ? 'Enregistrer' : "Insérer l'image",
+      confirmImg: this.confirmImg,
+
+      pubOpen: s.modal === 'pub',
+      hasToast: !!s.toast, toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, select { font-family: inherit; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation" style="position:sticky;top:14px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #E7E3DD;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:24px;width:auto;display:block" />
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;gap:2px">
+        <a href="Dashboard Organisme v2.dc.html" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Tableau de bord</a>
+        <a href="Ma Fiche.dc.html" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Ma fiche</a>
+        <a href="#mes-formations" style="display:flex;align-items:center;gap:8px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700" style-hover="color:#FFFFFF">Mes formations<span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#2A2626;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;color:#FFFFFF">{{ n }}</span></a>
+        <a href="#parametres" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Paramètres</a>
+      </nav>
+      <span style="flex:none;margin-left:auto;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #0B0B0B;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:99px;background:#E19D8B;display:block"></span>En ligne</span>
+        <span title="Sophie Martin · Administratrice" style="width:42px;height:42px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">SM</span>
+      </span>
+    </header>
+
+    <section id="mes-formations" data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace organisme · Académie Française de Sécurité</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Mes formations</h1>
+        <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+          <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">{{ countLabel }}</span>
+          <sc-if value="{{ hasOffers }}" hint-placeholder-val="{{ true }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560">{{ splitLabel }}</span></sc-if>
+        </span>
+      </div>
+      <button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:16px 24px;font-size:15px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A"><span style="font-size:18px;line-height:1;color:#E19D8B">+</span>Ajouter une formation</button>
+    </section>
+
+    <sc-if value="{{ hasOffers }}" hint-placeholder-val="{{ true }}">
+      <ol data-screen-label="Grille de formations" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px">
+        <sc-for list="{{ offers }}" as="o" hint-placeholder-count="3">
+          <li style="display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:1px solid {{ o.border }};border-radius:26px;padding:24px;transition:border-color 140ms ease">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">{{ o.cat }}</span>
+              <sc-if value="{{ o.complete }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:7px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:99px;background:#E19D8B;display:block"></span>Complète</span></sc-if>
+              <sc-if value="{{ o.incomplete }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:7px;border:1.5px dashed #A83B2A;color:#A83B2A;border-radius:999px;padding:4px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase">À compléter</span></sc-if>
+            </span>
+            <a href="{{ o.href }}" style="display:flex;flex-direction:column;gap:4px;color:#0B0B0B" style-hover="color:#A83B2A">
+              <span style="font-size:26px;line-height:1.05;letter-spacing:-0.035em;font-weight:800">{{ o.short }}</span>
+              <span style="font-size:13.5px;line-height:1.45;color:#6B6560">{{ o.long }} →</span>
+            </a>
+            <div style="display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+              <sc-for list="{{ o.rows }}" as="r" hint-placeholder-count="3">
+                <span style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">{{ r.label }}</span>
+                  <sc-if value="{{ r.has }}" hint-placeholder-val="{{ true }}"><span style="font-size:14.5px;font-weight:700;text-align:right">{{ r.value }}</span></sc-if>
+                  <sc-if value="{{ r.missing }}" hint-placeholder-val="{{ false }}"><span style="border:1.5px dashed #C7C1BC;border-radius:8px;padding:3px 9px;font-size:12.5px;font-weight:600;color:#6B6560">{{ r.empty }}</span></sc-if>
+                </span>
+              </sc-for>
+            </div>
+            <sc-if value="{{ o.showLieux }}" hint-placeholder-val="{{ true }}">
+              <span style="display:flex;flex-wrap:wrap;gap:6px">
+                <sc-for list="{{ o.lieux }}" as="lc" hint-placeholder-count="2">
+                  <span style="display:inline-flex;align-items:center;gap:7px;background:#F2EFE9;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#3C3A37"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>{{ lc }}</span>
+                </sc-for>
+              </span>
+            </sc-if>
+            <sc-if value="{{ o.idle }}" hint-placeholder-val="{{ true }}">
+              <span style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px">
+                <button type="button" onClick="{{ o.edit }}" style="display:inline-flex;align-items:center;gap:8px;background:{{ o.btnBg }};color:{{ o.btnColor }};border:1px solid {{ o.btnBorder }};border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease, border-color 140ms ease" style-hover="border-color:#0B0B0B">{{ o.editLabel }}<span>→</span></button>
+                <button type="button" onClick="{{ o.askRemove }}" style="background:transparent;border:0;padding:6px 2px;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Retirer</button>
+              </span>
+            </sc-if>
+            <sc-if value="{{ o.confirming }}" hint-placeholder-val="{{ false }}">
+              <div data-screen-label="Confirmation retrait" style="margin-top:auto;background:#FAF0ED;border:1px solid #E2B6AC;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px">
+                <span style="font-size:14.5px;font-weight:700">Retirer le {{ o.short }} de votre fiche ?</span>
+                <sc-if value="{{ o.isLast }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:13.5px;line-height:1.55;color:#0B0B0B">C'est votre dernière formation. Si vous la retirez, votre fiche sort de tous les filtres par titre du catalogue. <button type="button" onClick="{{ openAdd }}" style="background:transparent;border:0;padding:0;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer;text-decoration:underline;text-decoration-color:#E2B6AC;text-underline-offset:3px">Ajouter une autre formation</button></span>
+                </sc-if>
+                <span style="display:flex;flex-wrap:wrap;gap:8px">
+                  <button type="button" onClick="{{ o.remove }}" style="background:#A83B2A;color:#FFFFFF;border:0;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer" style-hover="background:#0B0B0B">Retirer</button>
+                  <button type="button" onClick="{{ o.cancelRemove }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+                </span>
+              </div>
+            </sc-if>
+          </li>
+        </sc-for>
+      </ol>
+    </sc-if>
+
+    <sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="État vide" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(18px,3vw,28px)">
+        <div style="border-radius:22px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:clamp(32px,6vw,72px) clamp(20px,4vw,48px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+          <span style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:6px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Aucune formation déclarée</span>
+          <h2 style="margin:0;max-width:22ch;font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-0.035em;font-weight:800;text-wrap:balance">Votre fiche n'apparaît dans aucun filtre par titre</h2>
+          <p style="margin:0;max-width:58ch;background:#FFFFFF;border-radius:14px;padding:10px 14px;font-size:15.5px;line-height:1.65;color:#3C3A37">Les candidats ne peuvent la trouver qu'en parcourant le catalogue sans filtre, ou en cherchant le nom de votre organisme.</p>
+          <button type="button" onClick="{{ openAdd }}" style="margin-top:6px;display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:18px 28px;font-size:16px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A"><span style="font-size:18px;line-height:1;color:#E19D8B">+</span>Ajouter une formation</button>
+        </div>
+      </section>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Modale d'ajout" onClick="{{ closeAdd }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:clamp(8px,3vw,32px)">
+      <div role="dialog" aria-modal="true" aria-label="Ajouter une formation" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:720px;max-height:100%;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <div style="flex:none;padding:22px clamp(20px,3vw,30px) 18px;border-bottom:1px solid #E7E3DD;display:flex;flex-direction:column;gap:16px">
+          <span style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Ajouter une formation</span>
+            <button type="button" aria-label="Fermer" onClick="{{ closeAdd }}" style="flex:none;width:40px;height:40px;border-radius:99px;border:1px solid #E7E3DD;background:#F7F5F1;color:#0B0B0B;font-size:20px;line-height:1;cursor:pointer" style-hover="border-color:#0B0B0B">×</button>
+          </span>
+          <label style="display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:999px;padding:0 18px">
+            <span style="flex:none;width:11px;height:11px;border:1.5px solid #8D8681;border-radius:99px;display:block"></span>
+            <input type="search" placeholder="Rechercher un titre" value="{{ q }}" onChange="{{ onQ }}" style="flex:1;min-width:0;font-size:15px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:14px 0" />
+          </label>
+        </div>
+        <div style="flex:1 1 auto;overflow-y:auto;padding:8px clamp(20px,3vw,30px) 20px;display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:6px;padding-top:14px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">{{ g.name }}</span>
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+                <button type="button" onClick="{{ it.toggle }}" disabled="{{ it.disabled }}" style="text-align:left;display:flex;align-items:center;gap:14px;background:{{ it.bg }};border:1.5px solid {{ it.border }};border-radius:14px;padding:12px 16px;cursor:{{ it.cursor }};color:#0B0B0B;transition:border-color 140ms ease, background 140ms ease" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:22px;height:22px;border-radius:7px;border:1.5px solid {{ it.boxBorder }};background:{{ it.box }};display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:2px;background:#FFFFFF;display:block"></span></span>
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:15px;font-weight:700;color:{{ it.color }}">{{ it.short }}</span>
+                    <span style="font-size:12.5px;line-height:1.45;color:#6B6560">{{ it.long }}</span>
+                  </span>
+                  <sc-if value="{{ it.disabled }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#6B6560">Déjà ajouté</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noResult }}" hint-placeholder-val="{{ false }}">
+            <span style="padding:28px 0 8px;text-align:center;font-size:14.5px;color:#4C4946">Aucun titre ne correspond à « {{ q }} ».</span>
+          </sc-if>
+          <a href="#demande-titre" style="align-self:flex-start;margin-top:14px;font-size:14px;font-weight:600;color:#3C3A37" style-hover="color:#0B0B0B">Votre titre n'est pas dans la liste ? <span style="font-weight:700;color:#A83B2A">Faire une demande →</span></a>
+        </div>
+        <div style="flex:none;padding:14px clamp(20px,3vw,30px);border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+          <span style="font-size:13px;line-height:1.5;color:#6B6560">Vous compléterez prix, durée et rythme ensuite.</span>
+          <button type="button" onClick="{{ addSel }}" disabled="{{ addDisabled }}" style="display:inline-flex;align-items:center;gap:10px;background:{{ addBg }};color:{{ addColor }};border:0;border-radius:999px;padding:14px 22px;font-size:15px;font-weight:700;cursor:pointer;transition:background 140ms ease">Ajouter la sélection<sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}"><span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#E19D8B;color:#0B0B0B;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px">{{ selCount }}</span></sc-if></button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ editOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Panneau détail" onClick="{{ closeEdit }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;justify-content:flex-end;padding:12px">
+      <div role="dialog" aria-modal="true" aria-label="Détail de la formation" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:26px;width:100%;max-width:540px;height:100%;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <div style="flex:none;padding:22px 26px 20px;border-bottom:1px solid #E7E3DD;display:flex;flex-direction:column;gap:12px">
+          <span style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">{{ ed.cat }}</span>
+            <button type="button" aria-label="Fermer" onClick="{{ closeEdit }}" style="flex:none;width:40px;height:40px;border-radius:99px;border:1px solid #E7E3DD;background:#F7F5F1;color:#0B0B0B;font-size:20px;line-height:1;cursor:pointer" style-hover="border-color:#0B0B0B">×</button>
+          </span>
+          <span style="display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:32px;line-height:1;letter-spacing:-0.04em;font-weight:800">{{ ed.short }}</span>
+            <span style="font-size:14px;line-height:1.45;color:#4C4946">{{ ed.long }}</span>
+          </span>
+          <span style="font-size:13px;line-height:1.55;color:#6B6560">L'intitulé, la durée réglementaire et le programme figurent sur la <a href="{{ ed.href }}" style="font-weight:700">page du titre</a>. Vous renseignez ici ce qui vous est propre.</span>
+        </div>
+
+        <div style="flex:1 1 auto;overflow-y:auto;padding:22px 26px;display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-size:14px;font-weight:700">Prix</span>
+              <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+                <button type="button" onClick="{{ modeUnique }}" style="border:0;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ uBg }};color:{{ uColor }}">Prix unique</button>
+                <button type="button" onClick="{{ modeFourchette }}" style="border:0;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;background:{{ fBg }};color:{{ fColor }}">Fourchette</button>
+              </span>
+            </span>
+            <sc-if value="{{ isUnique }}" hint-placeholder-val="{{ true }}">
+              <label style="display:flex;align-items:center;gap:10px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:0 16px"><input type="text" inputMode="numeric" placeholder="1 490" value="{{ d.prix }}" onChange="{{ onPrix }}" style="flex:1;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:13px 0" /><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#6B6560">€ TTC</span></label>
+            </sc-if>
+            <sc-if value="{{ isFourchette }}" hint-placeholder-val="{{ false }}">
+              <span style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px">
+                <label style="display:flex;align-items:center;gap:8px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:0 14px"><span style="font-size:12px;color:#7B746E">de</span><input type="text" inputMode="numeric" value="{{ d.prixMin }}" onChange="{{ onPrixMin }}" style="flex:1;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:13px 0" /><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#6B6560">€</span></label>
+                <span style="color:#C7C1BC">·</span>
+                <label style="display:flex;align-items:center;gap:8px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:0 14px"><span style="font-size:12px;color:#7B746E">à</span><input type="text" inputMode="numeric" value="{{ d.prixMax }}" onChange="{{ onPrixMax }}" style="flex:1;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:13px 0" /><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#6B6560">€</span></label>
+              </span>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:14px;font-weight:700">Durée réelle</span>
+            <span style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+              <input type="text" inputMode="numeric" placeholder="175" value="{{ d.duree }}" onChange="{{ onDuree }}" style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 16px;outline:none;min-width:0" style-focus="border-color:#0B0B0B;background:#FFFFFF" />
+              <select value="{{ d.unite }}" onChange="{{ onUnite }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 14px;outline:none;min-width:0">
+                <option value="heures">heures</option>
+                <option value="jours">jours</option>
+                <option value="semaines">semaines</option>
+              </select>
+            </span>
+            <span style="font-size:12.5px;color:#6B6560">{{ ed.reglementaire }}</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:14px;font-weight:700">Rythme</span>
+            <span style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ rythmes }}" as="ry" hint-placeholder-count="5">
+                <button type="button" onClick="{{ ry.pick }}" style="border:1px solid {{ ry.border }};background:{{ ry.bg }};color:{{ ry.color }};border-radius:999px;padding:9px 15px;font-size:14px;font-weight:600;cursor:pointer;transition:background 140ms ease" style-hover="border-color:#0B0B0B">{{ ry.label }}</button>
+              </sc-for>
+            </span>
+          </div>
+
+          <sc-if value="{{ multiSite }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font-size:14px;font-weight:700">Lieux de rattachement</span>
+              <sc-for list="{{ lieuxOpts }}" as="lo" hint-placeholder-count="3">
+                <button type="button" onClick="{{ lo.toggle }}" style="text-align:left;display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1.5px solid {{ lo.border }};border-radius:14px;padding:12px 14px;cursor:pointer;color:#0B0B0B" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid {{ lo.boxBorder }};background:{{ lo.box }};display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border-radius:2px;background:#FFFFFF;display:block"></span></span>
+                  <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:14.5px;font-weight:700">{{ lo.nom }}</span><span style="font-size:12.5px;color:#6B6560">{{ lo.adresse }}</span></span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:14px;font-weight:700">Financements acceptés</span>
+            <span style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:8px">
+              <sc-for list="{{ fins }}" as="fi" hint-placeholder-count="4">
+                <button type="button" onClick="{{ fi.toggle }}" style="text-align:left;display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1.5px solid {{ fi.border }};border-radius:14px;padding:12px 14px;cursor:pointer;color:#0B0B0B;font-size:14px;font-weight:600" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid {{ fi.boxBorder }};background:{{ fi.box }};display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border-radius:2px;background:#FFFFFF;display:block"></span></span>{{ fi.label }}
+                </button>
+              </sc-for>
+            </span>
+          </div>
+        </div>
+
+        <div style="flex:none;padding:16px 26px;border-top:1px solid #E7E3DD;display:flex;flex-direction:column;gap:12px">
+          <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:13px;line-height:1.5;color:#4C4946">
+            <span style="display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;background:{{ stBg }};color:{{ stColor }};border:1.5px {{ stStyle }} {{ stBorder }}">{{ stLabel }}</span>{{ stHint }}
+          </span>
+          <span style="display:flex;justify-content:flex-end;gap:8px">
+            <button type="button" onClick="{{ closeEdit }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+            <button type="button" onClick="{{ saveEdit }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A">Enregistrer</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:14px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:12px 12px 12px 20px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22);max-width:calc(100vw - 32px)">
+      <span style="width:8px;height:8px;border-radius:99px;background:#E19D8B;display:block;flex:none"></span>
+      <span style="font-size:14px;font-weight:600;line-height:1.4">{{ toast }}</span>
+      <button type="button" aria-label="Fermer" onClick="{{ closeToast }}" style="flex:none;width:30px;height:30px;border-radius:99px;border:0;background:#2A2626;color:#FFFFFF;font-size:15px;cursor:pointer">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Trois formations&quot;,&quot;Aucune formation&quot;],&quot;default&quot;:&quot;Trois formations&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Point de départ&quot;},&quot;lieux&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Multi-sites&quot;,&quot;Mono-site&quot;],&quot;default&quot;:&quot;Multi-sites&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Organisme&quot;},&quot;synonymes&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Recherche par synonymes&quot;}}">
+const REF = [
+  { name: 'Agent de sécurité', items: [
+    ['TFP APS', 'Agent de prévention et de sécurité', '~175 h', 'agent de sécurité surveillance gardiennage'],
+    ['MAC APS', "Maintien et actualisation des compétences d'agent de prévention et de sécurité", '~31 h', 'agent de sécurité renouvellement carte'],
+    ['CQP APS', 'Certificat de qualification professionnelle d’agent de prévention et de sécurité', '~175 h', 'agent de sécurité surveillance']] },
+  { name: 'Sécurité incendie (SSIAP)', items: [
+    ['SSIAP 1', 'Agent de service de sécurité incendie', '~70 h', 'incendie erp'],
+    ['SSIAP 2', "Chef d'équipe de sécurité incendie", '~85 h', 'incendie chef équipe encadrement'],
+    ['SSIAP 3', 'Chef de service de sécurité incendie', '~216 h', 'incendie chef service encadrement'],
+    ['Recyclage SSIAP 1', "Recyclage d'agent de service de sécurité incendie", '~14 h', 'incendie renouvellement'],
+    ['Recyclage SSIAP 2', "Recyclage de chef d'équipe de sécurité incendie", '~14 h', 'incendie renouvellement']] },
+  { name: 'Sécurité cynophile', items: [
+    ['TFP ASC', 'Agent de sécurité cynophile', '~161 h', 'chien maître-chien'],
+    ['MAC cynophile', "Maintien et actualisation des compétences d'agent cynophile", '~24 h', 'chien renouvellement']] },
+  { name: 'Sûreté aéroportuaire', items: [['TFP ASA', 'Agent de sûreté aéroportuaire', '~[X] h', 'aéroport avion']] },
+  { name: 'Protection rapprochée', items: [
+    ['TFP A3P', 'Agent de protection physique des personnes', '~[X] h', 'garde du corps protection'],
+    ['MAC A3P', 'Maintien et actualisation des compétences en protection physique des personnes', '~34 h', 'garde du corps renouvellement']] }
+];
+const INFO = {}; REF.forEach(g => g.items.forEach(([s, l, reg, syn]) => { INFO[s] = { cat: g.name, long: l, reg, syn }; }));
+const RYTHMES = ['Temps plein', 'Temps partiel', 'Soir et week-end', 'Week-end', 'Alternance'];
+const FINS = ['CPF', 'France Travail', 'OPCO', 'Plan de développement des compétences'];
+const LIEUX = [
+  { id: 'siege', nom: 'Siège · Bobigny', adresse: '14 rue de la République, 93000 Bobigny' },
+  { id: 'sd', nom: 'Antenne Saint-Denis', adresse: '8 boulevard Anatole-France, 93200 Saint-Denis' },
+  { id: 'mt', nom: 'Antenne Montreuil', adresse: '41 rue de Paris, 93100 Montreuil' }
+];
+const SEED = () => [
+  { id: 1, t: 'TFP APS', mode: 'unique', prix: '1490', prixMin: '', prixMax: '', duree: '175', unite: 'heures', rythme: 'Temps plein', lieux: ['siege', 'sd'], fin: ['CPF', 'France Travail', 'OPCO'] },
+  { id: 2, t: 'SSIAP 1', mode: 'fourchette', prix: '', prixMin: '650', prixMax: '720', duree: '70', unite: 'heures', rythme: 'Temps plein', lieux: ['siege', 'sd'], fin: ['CPF'] },
+  { id: 3, t: 'MAC APS', mode: 'unique', prix: '', prixMin: '', prixMax: '', duree: '31', unite: 'heures', rythme: '', lieux: ['siege'], fin: [] }
+];
+const fmt = x => Number(String(x).replace(/\D/g, '')).toLocaleString('fr-FR');
+const hasPrix = o => o.mode === 'unique' ? !!String(o.prix).trim() : !!(String(o.prixMin).trim() || String(o.prixMax).trim());
+const missing = o => { const m = []; if (!hasPrix(o)) m.push('prix'); if (!String(o.duree).trim()) m.push('durée'); if (!o.rythme) m.push('rythme'); return m; };
+const slug = s => '#titre-' + s.toLowerCase().replace(/\s+/g, '-');
+const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+class Component extends DCLogic {
+  state = { offers: [], add: null, edit: null, confirmId: null, toast: null };
+  nextId = 10;
+  componentDidMount() { this.load(); }
+  componentDidUpdate(pp) {
+    if (pp && pp.etat !== this.props.etat) this.load();
+    document.body.style.overflow = (this.state.add || this.state.edit) ? 'hidden' : '';
+  }
+  componentWillUnmount() { clearTimeout(this.t); document.body.style.overflow = ''; }
+  load() { this.setState({ offers: this.props.etat === 'Aucune formation' ? [] : SEED(), add: null, edit: null, confirmId: null, toast: null }); }
+  flash(msg) { clearTimeout(this.t); this.t = setTimeout(() => this.setState({ toast: null }), 3800); this.setState({ toast: msg }); }
+  mono() { return this.props.lieux === 'Mono-site'; }
+
+  addSelection() {
+    const sel = this.state.add.sel;
+    if (!sel.length) return;
+    const fresh = sel.map(t => ({ id: this.nextId++, t, mode: 'unique', prix: '', prixMin: '', prixMax: '', duree: '', unite: 'heures', rythme: '', lieux: ['siege'], fin: [] }));
+    this.setState(s => ({ offers: s.offers.concat(fresh), add: null, confirmId: null }));
+    this.flash(sel.length === 1 ? `${sel[0]} ajouté à votre fiche.` : `${sel.length} formations ajoutées à votre fiche.`);
+  }
+  setD(k, v) { this.setState(s => ({ edit: { ...s.edit, d: { ...s.edit.d, [k]: v } } })); }
+  toggleD(k, v) { const arr = this.state.edit.d[k]; this.setD(k, arr.includes(v) ? arr.filter(x => x !== v) : arr.concat(v)); }
+  saveEdit() {
+    const d = this.state.edit.d;
+    const wasIncomplete = missing(this.state.offers.find(o => o.id === d.id)).length > 0;
+    this.setState(s => ({ offers: s.offers.map(o => o.id === d.id ? { ...d } : o), edit: null }));
+    this.flash(wasIncomplete && missing(d).length === 0 ? `${d.t} est maintenant complète.` : 'Formation enregistrée.');
+  }
+  remove(id) {
+    const o = this.state.offers.find(x => x.id === id);
+    const last = this.state.offers.length === 1;
+    this.setState(s => ({ offers: s.offers.filter(x => x.id !== id), confirmId: null }));
+    this.flash(last ? `${o.t} retiré. Votre fiche n'apparaît plus dans les filtres par titre.` : `${o.t} retiré de votre fiche.`);
+  }
+
+  renderVals() {
+    const { offers, add, edit, confirmId, toast } = this.state;
+    const mono = this.mono();
+    const n = offers.length;
+    const nComplete = offers.filter(o => missing(o).length === 0).length;
+    const declared = offers.map(o => o.t);
+    const q = add ? add.q : '';
+    const syn = this.props.synonymes !== false;
+    const nq = norm(q.trim());
+    const groups = add ? REF.map(g => ({
+      name: g.name,
+      items: g.items.filter(([s, l, , sy]) => !nq || norm(s + ' ' + l).includes(nq) || (syn && norm(sy).includes(nq))).map(([s, l]) => {
+        const dis = declared.includes(s), on = dis || add.sel.includes(s);
+        return {
+          short: s, long: l, disabled: dis,
+          toggle: () => { if (dis) return; this.setState(st => ({ add: { ...st.add, sel: st.add.sel.includes(s) ? st.add.sel.filter(x => x !== s) : st.add.sel.concat(s) } })); },
+          bg: dis ? '#F7F5F1' : on ? '#FFFFFF' : '#FFFFFF', border: dis ? '#F0ECE6' : on ? '#0B0B0B' : '#E7E3DD',
+          box: dis ? '#C7C1BC' : on ? '#0B0B0B' : '#FFFFFF', boxBorder: dis ? '#C7C1BC' : on ? '#0B0B0B' : '#C7C1BC',
+          color: dis ? '#6B6560' : '#0B0B0B', cursor: dis ? 'default' : 'pointer'
+        };
+      })
+    })).filter(g => g.items.length) : [];
+    const selCount = add ? add.sel.length : 0;
+    const d = edit ? edit.d : null;
+    const dm = d ? missing(d) : [];
+    const info = d ? INFO[d.t] : null;
+    return {
+      n, hasOffers: n > 0, empty: n === 0,
+      countLabel: n === 0 ? 'Aucune formation déclarée sur votre fiche' : n === 1 ? '1 formation déclarée sur votre fiche' : `${n} formations déclarées sur votre fiche`,
+      splitLabel: `${nComplete} complète${nComplete > 1 ? 's' : ''} · ${n - nComplete} à compléter`,
+      offers: offers.map(o => {
+        const m = missing(o), inc = m.length > 0, conf = confirmId === o.id, i = INFO[o.t];
+        const prixV = o.mode === 'unique' ? (o.prix ? `${fmt(o.prix)} €` : '') : (o.prixMin || o.prixMax ? `${o.prixMin ? fmt(o.prixMin) : '…'} – ${o.prixMax ? fmt(o.prixMax) : '…'} €` : '');
+        const durV = o.duree ? `${o.duree} ${o.unite === 'heures' ? 'h' : o.unite}` : '';
+        return {
+          cat: i.cat, short: o.t, long: i.long, href: slug(o.t), complete: !inc, incomplete: inc,
+          border: conf ? '#E2B6AC' : inc ? '#E2DDD6' : '#E7E3DD',
+          rows: [
+            { label: 'Prix', value: prixV, has: !!prixV, missing: !prixV, empty: 'Non renseigné' },
+            { label: 'Durée réelle', value: durV, has: !!durV, missing: !durV, empty: 'Non renseignée' },
+            { label: 'Rythme', value: o.rythme, has: !!o.rythme, missing: !o.rythme, empty: 'Non renseigné' }
+          ],
+          showLieux: !mono, lieux: LIEUX.filter(l => o.lieux.includes(l.id)).map(l => l.nom),
+          idle: !conf, confirming: conf, isLast: n === 1,
+          editLabel: inc ? 'Compléter' : 'Modifier',
+          btnBg: inc ? '#0B0B0B' : '#FFFFFF', btnColor: inc ? '#FFFFFF' : '#0B0B0B', btnBorder: inc ? '#0B0B0B' : '#E2DDD6',
+          edit: () => this.setState({ edit: { d: JSON.parse(JSON.stringify(o)) }, confirmId: null }),
+          askRemove: () => this.setState({ confirmId: o.id }),
+          cancelRemove: () => this.setState({ confirmId: null }),
+          remove: () => this.remove(o.id)
+        };
+      }),
+      openAdd: () => this.setState({ add: { q: '', sel: [] }, confirmId: null }),
+      closeAdd: () => this.setState({ add: null }),
+      stop: e => e.stopPropagation(),
+      addOpen: !!add, q, onQ: e => this.setState({ add: { ...this.state.add, q: e.target.value } }),
+      groups, noResult: !!add && groups.length === 0,
+      addSel: () => this.addSelection(), addDisabled: selCount === 0, hasSel: selCount > 0, selCount,
+      addBg: selCount ? '#0B0B0B' : '#E7E3DD', addColor: selCount ? '#FFFFFF' : '#7B746E',
+      editOpen: !!edit,
+      closeEdit: () => this.setState({ edit: null }),
+      saveEdit: () => this.saveEdit(),
+      ed: d ? { cat: info.cat, short: d.t, long: info.long, href: slug(d.t), reglementaire: `Durée réglementaire indicative : ${info.reg}. Indiquez la durée réelle de votre formation.` } : { cat: '', short: '', long: '', href: '#', reglementaire: '' },
+      d: d || {},
+      isUnique: !d || d.mode === 'unique', isFourchette: !!d && d.mode === 'fourchette',
+      modeUnique: () => this.setD('mode', 'unique'), modeFourchette: () => this.setD('mode', 'fourchette'),
+      uBg: d && d.mode === 'unique' ? '#0B0B0B' : 'transparent', uColor: d && d.mode === 'unique' ? '#FFFFFF' : '#3C3A37',
+      fBg: d && d.mode === 'fourchette' ? '#0B0B0B' : 'transparent', fColor: d && d.mode === 'fourchette' ? '#FFFFFF' : '#3C3A37',
+      onPrix: e => this.setD('prix', e.target.value.replace(/[^\d ]/g, '')),
+      onPrixMin: e => this.setD('prixMin', e.target.value.replace(/[^\d ]/g, '')),
+      onPrixMax: e => this.setD('prixMax', e.target.value.replace(/[^\d ]/g, '')),
+      onDuree: e => this.setD('duree', e.target.value.replace(/[^\d]/g, '')),
+      onUnite: e => this.setD('unite', e.target.value),
+      rythmes: RYTHMES.map(r => { const on = d && d.rythme === r; return { label: r, pick: () => this.setD('rythme', on ? '' : r), bg: on ? '#0B0B0B' : '#FFFFFF', color: on ? '#FFFFFF' : '#3C3A37', border: on ? '#0B0B0B' : '#E2DDD6' }; }),
+      multiSite: !mono,
+      lieuxOpts: LIEUX.map(l => { const on = d && d.lieux.includes(l.id); return { nom: l.nom, adresse: l.adresse, toggle: () => this.toggleD('lieux', l.id), border: on ? '#0B0B0B' : '#E7E3DD', box: on ? '#0B0B0B' : '#FFFFFF', boxBorder: on ? '#0B0B0B' : '#C7C1BC' }; }),
+      fins: FINS.map(f => { const on = d && d.fin.includes(f); return { label: f, toggle: () => this.toggleD('fin', f), border: on ? '#0B0B0B' : '#E7E3DD', box: on ? '#0B0B0B' : '#FFFFFF', boxBorder: on ? '#0B0B0B' : '#C7C1BC' }; }),
+      stLabel: dm.length ? 'À compléter' : 'Complète',
+      stHint: dm.length ? `Il manque : ${dm.join(', ')}.` : 'Prix, durée réelle et rythme sont renseignés.',
+      stBg: dm.length ? '#FFFFFF' : '#0B0B0B', stColor: dm.length ? '#A83B2A' : '#FFFFFF', stBorder: dm.length ? '#A83B2A' : '#0B0B0B', stStyle: dm.length ? 'dashed' : 'solid',
+      hasToast: !!toast, toast: toast || '', closeToast: () => this.setState({ toast: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

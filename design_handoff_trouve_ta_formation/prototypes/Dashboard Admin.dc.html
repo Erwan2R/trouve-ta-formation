@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="#dashboard" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="display:flex;align-items:center;gap:8px;color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres<sc-if value="{{ hasDemandes }}" hint-placeholder-val="{{ true }}"><span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#E19D8B;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;color:#0B0B0B">{{ demandes }}</span></sc-if></a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · Sécurité privée</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Ce qui a besoin de vous</h1>
+      </div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560">Chiffres calculés au chargement · {{ heure }}</span>
+    </section>
+
+    <section data-screen-label="01 Vue d'ensemble" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,56px);align-items:center">
+      <div style="flex:0 1 auto;display:flex;flex-direction:column;gap:6px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Organismes inscrits</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(64px,8vw,104px);line-height:0.9;letter-spacing:-0.05em;color:#0B0B0B">{{ total }}</span>
+      </div>
+      <div style="flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Répartition par palier</span>
+        <span style="display:flex;height:56px;border-radius:16px;overflow:hidden;gap:4px">
+          <span style="flex:{{ basique }} 1 0;min-width:4px;border-radius:12px;border:1px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:block"></span>
+          <span style="flex:{{ correct }} 1 0;min-width:4px;border-radius:12px;background:#0B0B0B;display:block"></span>
+          <span style="flex:{{ optimal }} 1 0;min-width:4px;border-radius:12px;background:#A83B2A;display:block"></span>
+        </span>
+        <span style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+          <span style="display:flex;flex-direction:column;gap:3px"><span style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700"><span style="width:9px;height:9px;border-radius:3px;border:1px dashed #8D8681;background:#F2EFE9;display:block"></span>Basique</span><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:-0.03em">{{ basique }}</span></span>
+          <span style="display:flex;flex-direction:column;gap:3px"><span style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700"><span style="width:9px;height:9px;border-radius:3px;background:#0B0B0B;display:block"></span>Correct</span><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:-0.03em">{{ correct }}</span></span>
+          <span style="display:flex;flex-direction:column;gap:3px"><span style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700"><span style="width:9px;height:9px;border-radius:3px;background:#A83B2A;display:block"></span>Optimal</span><span style="font-family:'IBM Plex Mono',monospace;font-size:22px;letter-spacing:-0.03em">{{ optimal }}</span></span>
+        </span>
+      </div>
+    </section>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px">
+
+      <section data-screen-label="02 Demandes de titres" style="grid-column:1 / -1;background:#0B0B0B;color:#FFFFFF;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,48px);align-items:stretch">
+        <div style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:14px">
+          <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">02 · À arbitrer</span>
+            <sc-if value="{{ alerteDemandes }}" hint-placeholder-val="{{ false }}"><span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase">Au-dessus du seuil</span></sc-if>
+          </span>
+          <span style="display:flex;align-items:flex-end;gap:16px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(64px,8vw,104px);line-height:0.85;letter-spacing:-0.05em">{{ demandes }}</span>
+            <span style="padding-bottom:6px;max-width:16ch;font-size:17px;line-height:1.3;font-weight:700">{{ demandesLabel }}</span>
+          </span>
+          <p style="margin:0;max-width:48ch;font-size:14.5px;line-height:1.6;color:#D0CAC5">Des organismes attendent votre réponse pour déclarer un titre absent du référentiel.</p>
+          <a href="Referentiel Titres.dc.html#demandes" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:15px 22px;font-size:15px;font-weight:700;transition:background 140ms ease" style-hover="background:#E19D8B;color:#0B0B0B">Arbitrer les demandes<span>→</span></a>
+        </div>
+        <sc-if value="{{ hasDemandes }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1.3 1 380px;min-width:0;display:flex;flex-direction:column;gap:8px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#8D8681">Les plus anciennes</span>
+            <sc-for list="{{ attente }}" as="a" hint-placeholder-count="3">
+              <a href="Referentiel Titres.dc.html#demandes" style="display:flex;align-items:center;justify-content:space-between;gap:14px;background:#1A1818;border:1px solid #2A2626;border-radius:16px;padding:14px 16px;color:#FFFFFF;transition:border-color 140ms ease" style-hover="border-color:#8D8681;color:#FFFFFF">
+                <span style="min-width:0;display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:15px;font-weight:700">{{ a.titre }}</span>
+                  <span style="font-size:13px;color:#D0CAC5">{{ a.org }}</span>
+                </span>
+                <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:{{ a.color }}">{{ a.age }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noDemandes }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1.3 1 380px;min-width:0;border:1.5px dashed #2A2626;border-radius:18px;display:flex;align-items:center;justify-content:center;padding:28px">
+            <span style="font-size:15px;color:#D0CAC5">Aucune demande en attente.</span>
+          </div>
+        </sc-if>
+      </section>
+
+      <section data-screen-label="03 Fiches en noindex" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:14px">
+        <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">03 · Alerte SEO</span>
+          <sc-if value="{{ alerteNoindex }}" hint-placeholder-val="{{ false }}"><span style="border:1.5px solid #A83B2A;color:#A83B2A;border-radius:999px;padding:3px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase">Au-dessus du seuil</span></sc-if>
+        </span>
+        <span style="display:flex;align-items:flex-end;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(52px,6vw,76px);line-height:0.85;letter-spacing:-0.05em">{{ basique }}</span>
+          <span style="padding-bottom:4px;font-size:16px;line-height:1.3;font-weight:700">fiches en noindex</span>
+        </span>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Restées au palier Basique, elles ne sont pas indexées par les moteurs de recherche.</p>
+        <span style="font-size:13px;line-height:1.55;color:#6B6560">Signal à surveiller : vous ne pouvez pas compléter une fiche à la place de l'organisme. Un contact hors plateforme reste possible au cas par cas.</span>
+        <a href="Fichier Client.dc.html" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:13px 20px;font-size:14.5px;font-weight:700;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">Voir les fiches au palier Basique<span>→</span></a>
+      </section>
+
+      <section data-screen-label="04 Fiches sans formation" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:14px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">04 · Alerte visibilité</span>
+        <span style="display:flex;align-items:flex-end;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(52px,6vw,76px);line-height:0.85;letter-spacing:-0.05em">{{ sansFormation }}</span>
+          <span style="padding-bottom:4px;font-size:16px;line-height:1.3;font-weight:700">fiches sans formation déclarée</span>
+        </span>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Elles n'apparaissent dans aucun filtre par titre du catalogue.</p>
+        <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:6px 12px;font-size:12.5px;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#8D8681;display:block"></span>{{ recoupLabel }}</span>
+        <a href="Fichier Client.dc.html" style="margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:13px 20px;font-size:14.5px;font-weight:700;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">Voir les fiches sans formation<span>→</span></a>
+      </section>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;demandes&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:7,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Demandes de titres en attente&quot;},&quot;basique&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:17,&quot;min&quot;:0,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Fiches au palier Basique&quot;},&quot;correct&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:22,&quot;min&quot;:0,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Fiches au palier Correct&quot;},&quot;optimal&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:9,&quot;min&quot;:0,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Fiches au palier Optimal&quot;},&quot;sansFormation&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:12,&quot;min&quot;:0,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Fiches sans formation&quot;},&quot;recoupement&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:10,&quot;min&quot;:0,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Données&quot;,&quot;label&quot;:&quot;Sans formation et en noindex&quot;},&quot;seuilAlerte&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:5,&quot;min&quot;:1,&quot;max&quot;:50,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Seuil d'alerte (demandes)&quot;}}">
+const ATTENTE = [
+  { titre: 'Agent de sûreté magasin', org: 'Formapro Sécurité 91', jours: 9 },
+  { titre: 'Habilitation électrique H0B0', org: 'Horizon Sécurité', jours: 6 },
+  { titre: 'SST — Sauveteur secouriste du travail', org: 'Atlas Prévention', jours: 4 },
+  { titre: 'Opérateur de vidéoprotection', org: 'Institut Vigie', jours: 2 },
+  { titre: 'Agent de sécurité événementielle', org: 'Centre Sécuriform Île-de-France', jours: 1 },
+  { titre: 'Chef de poste sécurité', org: 'Protectis Formation', jours: 1 },
+  { titre: 'Palpation de sécurité', org: 'Garde Sécurité Val-d\'Oise', jours: 0 }
+];
+class Component extends DCLogic {
+  componentDidMount() { const d = new Date(); this.heure = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); this.forceUpdate(); }
+  renderVals() {
+    const p = this.props;
+    const basique = p.basique ?? 17, correct = p.correct ?? 22, optimal = p.optimal ?? 9;
+    const demandes = Math.max(0, Math.min(p.demandes ?? 4, ATTENTE.length));
+    const sansFormation = p.sansFormation ?? 12;
+    const seuil = p.seuilAlerte ?? 5;
+    const recoup = Math.min(sansFormation, basique, p.recoupement ?? 10);
+    return {
+      heure: this.heure || '',
+      total: basique + correct + optimal, basique, correct, optimal,
+      demandes, hasDemandes: demandes > 0, noDemandes: demandes === 0,
+      demandesLabel: demandes === 1 ? 'demande de titre en attente' : 'demandes de titres en attente',
+      alerteDemandes: demandes >= seuil, alerteNoindex: basique >= seuil * 3,
+      attente: ATTENTE.slice(0, demandes).slice(0, 3).map(a => ({
+        titre: a.titre, org: a.org,
+        age: a.jours === 0 ? "aujourd'hui" : a.jours === 1 ? 'depuis 1 jour' : `depuis ${a.jours} jours`,
+        color: a.jours >= 7 ? '#E19D8B' : '#8D8681'
+      })),
+      sansFormation,
+      recoupLabel: `Dont ${recoup} également en noindex`
+    };
+  }
+}
+</script>
+</body>
+</html>

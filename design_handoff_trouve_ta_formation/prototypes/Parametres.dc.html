@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input { font-family: inherit; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation" style="position:sticky;top:14px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #E7E3DD;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:24px;width:auto;display:block" />
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;gap:2px">
+        <a href="Dashboard Organisme v2.dc.html" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Tableau de bord</a>
+        <a href="Ma Fiche.dc.html" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Ma fiche</a>
+        <a href="Mes Formations.dc.html" style="display:flex;align-items:center;gap:8px;color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Mes formations<span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#F2EFE9;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;color:#45423E">3</span></a>
+        <a href="#parametres" style="background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700" style-hover="color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span style="flex:none;margin-left:auto;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #0B0B0B;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:99px;background:#E19D8B;display:block"></span>En ligne</span>
+        <span title="Sophie Martin · Administratrice" style="width:42px;height:42px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">SM</span>
+      </span>
+    </header>
+
+    <section id="parametres" data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-direction:column;gap:10px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace organisme · Académie Française de Sécurité</span>
+      <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Paramètres</h1>
+      <p style="margin:0;max-width:60ch;font-size:16px;line-height:1.6;color:#3C3A37">La gestion de votre compte. Rien sur cette page n'apparaît sur votre fiche publique.</p>
+    </section>
+
+    <div style="max-width:880px;width:100%;display:flex;flex-direction:column;gap:14px">
+
+      <section data-screen-label="01 Connexion" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">01</span>
+          <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Connexion</h2>
+        </div>
+
+        <div data-screen-label="Email de connexion" style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+            <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Email de connexion</span>
+              <span style="font-size:16px;font-weight:700;overflow-wrap:anywhere">{{ email }}</span>
+            </span>
+            <sc-if value="{{ emailIdle }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ editEmail }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Modifier</button></sc-if>
+          </div>
+          <span style="font-size:13px;line-height:1.55;color:#6B6560">Votre identifiant, jamais affiché publiquement. L'email de contact visible sur votre fiche se gère dans <a href="Ma Fiche.dc.html#coordonnees" style="font-weight:700">Ma fiche</a>.</span>
+          <sc-if value="{{ emailEditing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F7F5F1;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Nouvel email de connexion</span><input type="email" value="{{ newEmail }}" onChange="{{ onNewEmail }}" placeholder="nom@organisme.fr" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              <sc-if value="{{ hasEmailErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;font-weight:700;color:#A83B2A">{{ emailErr }}</span></sc-if>
+              <span style="font-size:13px;line-height:1.55;color:#4C4946">Nous enverrons un lien de confirmation à cette adresse. Votre email actuel reste actif jusqu'à la confirmation.</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ sendEmail }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#A83B2A">Envoyer le lien de confirmation</button>
+                <button type="button" onClick="{{ cancelEmail }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ emailPending }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#FAF0ED;border:1px solid #E2B6AC;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">En attente de confirmation</span>
+              <span style="font-size:14.5px;line-height:1.55">Un lien a été envoyé à <strong>{{ pendingEmail }}</strong>. Tant qu'il n'est pas confirmé, vous continuez à vous connecter avec {{ email }}.</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px 16px">
+                <button type="button" onClick="{{ resend }}" style="background:transparent;border:0;padding:0;font-size:13.5px;font-weight:700;color:#0B0B0B;cursor:pointer" style-hover="color:#A83B2A">{{ resendLabel }}</button>
+                <button type="button" onClick="{{ cancelPending }}" style="background:transparent;border:0;padding:0;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Annuler le changement</button>
+              </span>
+            </div>
+          </sc-if>
+        </div>
+
+        <div data-screen-label="Mot de passe" style="border:1px solid #E7E3DD;border-radius:20px;padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px">
+            <span style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Mot de passe</span>
+              <span style="display:flex;align-items:center;gap:12px"><span style="font-size:16px;font-weight:700;letter-spacing:0.18em">••••••••••</span><span style="font-size:13px;color:#6B6560">{{ pwdDate }}</span></span>
+            </span>
+            <sc-if value="{{ pwdIdle }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ editPwd }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Modifier</button></sc-if>
+          </div>
+          <sc-if value="{{ pwdEditing }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F7F5F1;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Mot de passe actuel</span><input type="password" value="{{ pw.cur }}" onChange="{{ onPwCur }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              <span style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+                <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Nouveau mot de passe</span><input type="password" value="{{ pw.next }}" onChange="{{ onPwNext }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+                <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Confirmer le nouveau mot de passe</span><input type="password" value="{{ pw.conf }}" onChange="{{ onPwConf }}" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%" style-focus="border-color:#0B0B0B" /></label>
+              </span>
+              <span style="font-size:13px;line-height:1.55;color:{{ pwHintColor }}">{{ pwHint }}</span>
+              <span style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ savePwd }}" disabled="{{ pwDisabled }}" style="background:{{ pwBg }};color:{{ pwColor }};border:0;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer">Enregistrer le mot de passe</button>
+                <button type="button" onClick="{{ cancelPwd }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              </span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ pwdDone }}" hint-placeholder-val="{{ false }}">
+            <span style="display:flex;align-items:center;gap:8px;font-size:13.5px;line-height:1.55;color:#0B0B0B"><span style="flex:none;width:7px;height:7px;border-radius:99px;background:#0B0B0B;display:block"></span>Mot de passe modifié. Un email de confirmation a été envoyé à {{ email }}.</span>
+          </sc-if>
+        </div>
+      </section>
+
+      <section data-screen-label="02 Informations du compte" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 16px">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A">02</span>
+            <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Informations du compte</h2>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:7px;border:1.5px dashed #8D8681;border-radius:999px;padding:5px 12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#45423E">Usage interne, jamais public</span>
+        </div>
+        <p style="margin:-6px 0 0;max-width:62ch;font-size:14.5px;line-height:1.6;color:#4C4946">Ces coordonnées nous servent à vous joindre directement si besoin, par exemple pour une vérification d'agrément. Elles ne remplacent pas celles de votre fiche.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Nom du contact principal</span><input type="text" value="{{ info.nom }}" onChange="{{ onNom }}" style="font-size:15px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+          <label style="display:flex;flex-direction:column;gap:7px"><span style="font-size:13.5px;font-weight:700">Téléphone direct</span><input type="tel" value="{{ info.tel }}" onChange="{{ onTel }}" style="font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:13px 15px;outline:none;width:100%;transition:border-color 140ms ease, background 140ms ease" style-focus="border-color:#0B0B0B;background:#FFFFFF" /></label>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid #F0ECE6">
+          <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:{{ inf.statusColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ inf.dot }};display:block"></span>{{ inf.status }}</span>
+          <span style="display:flex;gap:8px">
+            <sc-if value="{{ inf.dirty }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ inf.cancel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button></sc-if>
+            <button type="button" onClick="{{ inf.save }}" disabled="{{ inf.disabled }}" style="background:{{ inf.btnBg }};color:{{ inf.btnColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:{{ inf.cursor }};transition:background 140ms ease">Enregistrer</button>
+          </span>
+        </div>
+      </section>
+
+      <section data-screen-label="03 Zone dangereuse" style="background:#FFFFFF;border:1.5px solid #A83B2A;border-radius:28px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">03 · Zone dangereuse</span>
+          <h2 style="margin:0;font-size:24px;line-height:1.15;letter-spacing:-0.025em;font-weight:800">Supprimer le compte</h2>
+        </div>
+        <p style="margin:0;max-width:62ch;font-size:15px;line-height:1.65;color:#3C3A37">La suppression est immédiate et définitive. Elle ne peut pas être annulée.</p>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+          <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #F0ECE6;font-size:14.5px;line-height:1.55"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A;padding-top:3px">01</span>Votre fiche est retirée du catalogue, de la page d'accueil et des pages formation.</li>
+          <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #F0ECE6;font-size:14.5px;line-height:1.55"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A;padding-top:3px">02</span>Vos 3 formations déclarées sont supprimées avec le compte.</li>
+          <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #F0ECE6;font-size:14.5px;line-height:1.55"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A;padding-top:3px">03</span>Toutes vos données sont effacées au même moment.</li>
+        </ul>
+        <label style="display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:13.5px;line-height:1.5;font-weight:600">Pour confirmer, saisissez le nom de votre organisme : <strong>Académie Française de Sécurité</strong></span>
+          <input type="text" value="{{ delInput }}" onChange="{{ onDel }}" autoComplete="off" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1.5px solid {{ delBorder }};border-radius:14px;padding:13px 15px;outline:none;width:100%" />
+        </label>
+        <button type="button" onClick="{{ doDelete }}" disabled="{{ delDisabled }}" style="align-self:flex-start;background:{{ delBg }};color:{{ delColor }};border:0;border-radius:999px;padding:15px 22px;font-size:14.5px;font-weight:700;cursor:{{ delCursor }};transition:background 140ms ease">Supprimer définitivement le compte</button>
+      </section>
+    </div>
+  </div>
+
+  <sc-if value="{{ deleted }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Compte supprimé" style="position:fixed;inset:0;z-index:100;background:#0B0B0B;display:flex;align-items:center;justify-content:center;padding:24px">
+      <div style="max-width:560px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:26px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <h2 style="margin:12px 0 0;font-size:clamp(28px,4vw,44px);line-height:1.05;letter-spacing:-0.035em;font-weight:800;color:#FFFFFF">Votre compte a été supprimé</h2>
+        <p style="margin:0;font-size:16px;line-height:1.65;color:#D0CAC5">Votre fiche n'est plus visible sur le site et vos données ont été effacées.</p>
+        <a href="https://trouve-ta-formation.fr" style="margin-top:8px;display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:15px 24px;font-size:15px;font-weight:700" style-hover="background:#E19D8B;color:#0B0B0B">Retour au site<span>→</span></a>
+        <button type="button" onClick="{{ undoDemo }}" style="background:transparent;border:0;padding:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681;cursor:pointer" style-hover="color:#FFFFFF">Revenir au prototype</button>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const ORG = 'Académie Française de Sécurité';
+const INFO0 = { nom: 'Sophie Martin', tel: '06 12 34 56 78' };
+const hhmm = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+
+class Component extends DCLogic {
+  state = {
+    email: 'contact@afs-formation.fr', emailMode: 'idle', newEmail: '', pendingEmail: '', emailErr: '', resent: false,
+    pwdMode: 'idle', pw: { cur: '', next: '', conf: '' }, pwdChanged: false,
+    info: { ...INFO0 }, infoSaved: { ...INFO0 }, infoAt: '',
+    delInput: '', deleted: false
+  };
+
+  renderVals() {
+    const st = this.state;
+    const pw = st.pw;
+    const pwErr = !pw.cur ? 'Saisissez votre mot de passe actuel.'
+      : pw.next.length < 10 ? 'Le nouveau mot de passe doit contenir au moins 10 caractères.'
+      : pw.next !== pw.conf ? 'Les deux mots de passe ne correspondent pas.' : '';
+    const pwTouched = pw.cur || pw.next || pw.conf;
+    const infDirty = st.info.nom !== st.infoSaved.nom || st.info.tel !== st.infoSaved.tel;
+    const delOk = st.delInput.trim() === ORG;
+    const setPw = k => e => this.setState({ pw: { ...this.state.pw, [k]: e.target.value } });
+    return {
+      email: st.email,
+      emailIdle: st.emailMode === 'idle', emailEditing: st.emailMode === 'edit', emailPending: st.emailMode === 'pending',
+      editEmail: () => this.setState({ emailMode: 'edit', newEmail: '', emailErr: '' }),
+      newEmail: st.newEmail, onNewEmail: e => this.setState({ newEmail: e.target.value, emailErr: '' }),
+      hasEmailErr: !!st.emailErr, emailErr: st.emailErr,
+      sendEmail: () => {
+        const v = st.newEmail.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return this.setState({ emailErr: 'Cette adresse email ne semble pas valide.' });
+        if (v.toLowerCase() === st.email) return this.setState({ emailErr: "C'est déjà votre email de connexion." });
+        this.setState({ emailMode: 'pending', pendingEmail: v, resent: false });
+      },
+      cancelEmail: () => this.setState({ emailMode: 'idle' }),
+      pendingEmail: st.pendingEmail,
+      resend: () => this.setState({ resent: true }), resendLabel: st.resent ? 'Lien renvoyé' : 'Renvoyer le lien',
+      cancelPending: () => this.setState({ emailMode: 'idle', pendingEmail: '' }),
+
+      pwdIdle: st.pwdMode === 'idle', pwdEditing: st.pwdMode === 'edit', pwdDone: st.pwdMode === 'idle' && st.pwdChanged,
+      pwdDate: st.pwdChanged ? `Modifié aujourd'hui à ${this.pwAt}` : 'Modifié le 12 sept. 2026',
+      editPwd: () => this.setState({ pwdMode: 'edit', pw: { cur: '', next: '', conf: '' }, pwdChanged: false }),
+      cancelPwd: () => this.setState({ pwdMode: 'idle' }),
+      pw, onPwCur: setPw('cur'), onPwNext: setPw('next'), onPwConf: setPw('conf'),
+      pwHint: pwTouched && pwErr ? pwErr : pwErr ? 'Au moins 10 caractères.' : 'Les deux mots de passe correspondent.',
+      pwHintColor: pwTouched && pwErr ? '#A83B2A' : '#6B6560',
+      pwDisabled: !!pwErr, pwBg: pwErr ? '#E7E3DD' : '#0B0B0B', pwColor: pwErr ? '#7B746E' : '#FFFFFF',
+      savePwd: () => { if (pwErr) return; this.pwAt = hhmm(); this.setState({ pwdMode: 'idle', pwdChanged: true }); },
+
+      info: st.info,
+      onNom: e => this.setState({ info: { ...this.state.info, nom: e.target.value } }),
+      onTel: e => this.setState({ info: { ...this.state.info, tel: e.target.value } }),
+      inf: {
+        dirty: infDirty, disabled: !infDirty,
+        save: () => this.setState({ infoSaved: { ...this.state.info }, infoAt: hhmm() }),
+        cancel: () => this.setState({ info: { ...this.state.infoSaved } }),
+        btnBg: infDirty ? '#0B0B0B' : '#E7E3DD', btnColor: infDirty ? '#FFFFFF' : '#7B746E', cursor: infDirty ? 'pointer' : 'default',
+        status: infDirty ? 'Modifications non enregistrées' : st.infoAt ? `Enregistré à ${st.infoAt}` : '',
+        statusColor: infDirty ? '#A83B2A' : '#45423E', dot: infDirty ? '#A83B2A' : st.infoAt ? '#0B0B0B' : 'transparent'
+      },
+
+      delInput: st.delInput, onDel: e => this.setState({ delInput: e.target.value }),
+      delBorder: delOk ? '#A83B2A' : '#E2DDD6',
+      delDisabled: !delOk, delBg: delOk ? '#A83B2A' : '#E7E3DD', delColor: delOk ? '#FFFFFF' : '#7B746E', delCursor: delOk ? 'pointer' : 'default',
+      doDelete: () => { if (delOk) this.setState({ deleted: true }); },
+      deleted: st.deleted, undoDemo: () => this.setState({ deleted: false, delInput: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>

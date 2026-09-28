@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button { font-family: inherit; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="Fichier Client.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="#analytics" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · Tracking interne, sans cookie</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Analytics</h1>
+      </div>
+      <span data-screen-label="Période" style="display:flex;gap:3px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:4px">
+        <sc-for list="{{ periods }}" as="p" hint-placeholder-count="4">
+          <button type="button" onClick="{{ p.pick }}" style="border:0;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;background:{{ p.bg }};color:{{ p.color }};white-space:nowrap;transition:background 140ms ease">{{ p.label }}</button>
+        </sc-for>
+      </span>
+    </section>
+
+    <div data-screen-label="Onglets" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #E2DDD6;padding:0 6px">
+      <span style="display:flex;gap:4px">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <button type="button" onClick="{{ t.pick }}" style="background:transparent;border:0;border-bottom:2px solid {{ t.line }};margin-bottom:-1px;padding:12px 14px;font-size:15px;font-weight:700;color:{{ t.color }};cursor:pointer">{{ t.label }}</button>
+        </sc-for>
+      </span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6B6560">{{ periodLabel }}</span>
+    </div>
+
+    <sc-if value="{{ tGeneral }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Onglet Général" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px">
+        <sc-for list="{{ generalCards }}" as="c" hint-placeholder-count="4">
+          <section style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:14px">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px 16px">
+              <span style="display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:15px;font-weight:700">{{ c.title }}</span>
+                <span style="font-size:12.5px;color:#6B6560">{{ c.sub }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:26px;letter-spacing:-0.04em;color:{{ c.deltaColor }}">{{ c.delta }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">{{ c.range }}</span>
+              </span>
+            </span>
+            <sc-if value="{{ c.hasLegend }}" hint-placeholder-val="{{ false }}">
+              <span style="display:flex;flex-wrap:wrap;gap:6px 16px">
+                <sc-for list="{{ c.legend }}" as="lg" hint-placeholder-count="3">
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600"><span style="width:10px;height:10px;border-radius:3px;background:{{ lg.bg }};border:1px {{ lg.style }} {{ lg.border }};display:block"></span>{{ lg.name }}</span>
+                </sc-for>
+              </span>
+            </sc-if>
+            {{ c.chart }}
+            <sc-if value="{{ c.hasNote }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:12.5px;line-height:1.5;color:#6B6560;padding-top:10px;border-top:1px solid #F0ECE6">{{ c.note }}</span>
+            </sc-if>
+          </section>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tBlog }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Onglet Blog" style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+        <section style="flex:1 1 360px;min-width:0;background:#0B0B0B;color:#FFFFFF;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Vues totales du blog</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:clamp(48px,6vw,72px);line-height:0.9;letter-spacing:-0.05em">{{ blogTotal }}</span>
+          <span style="font-size:13px;color:#D0CAC5">{{ periodLabel }}</span>
+          {{ blogChart }}
+        </section>
+        <section style="flex:1.6 1 520px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:10px">
+          <span style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:800;letter-spacing:-0.02em">Articles les plus vus</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Top 10</span></span>
+          <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+            <sc-for list="{{ articles }}" as="a" hint-placeholder-count="10">
+              <li>
+                <a href="{{ a.href }}" style="display:grid;grid-template-columns:28px minmax(0,1fr) minmax(70px,140px) 64px;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid #F0ECE6;color:#0B0B0B;border-radius:10px;transition:background 140ms ease" style-hover="background:#F7F5F1;color:#0B0B0B">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A">{{ a.rank }}</span>
+                  <span style="font-size:14px;font-weight:600;line-height:1.35">{{ a.title }}</span>
+                  <span style="height:8px;border-radius:99px;background:#F2EFE9;display:block;overflow:hidden"><span style="width:{{ a.pct }};height:100%;background:{{ a.barBg }};display:block;border-radius:99px"></span></span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right">{{ a.views }}</span>
+                </a>
+              </li>
+            </sc-for>
+          </ol>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ tOrgs }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Onglet Organismes" style="display:flex;flex-direction:column;gap:14px">
+        <section data-screen-label="Répartition CTA" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:16px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px"><span style="font-size:17px;font-weight:800;letter-spacing:-0.02em">Clics par type de CTA</span><span style="font-size:12.5px;color:#6B6560">Tous organismes confondus · {{ ctaTotal }} clics</span></span>
+          <span style="display:flex;height:44px;gap:4px">
+            <sc-for list="{{ ctaSplit }}" as="s" hint-placeholder-count="3">
+              <span style="flex:{{ s.n }} 1 0;min-width:4px;border-radius:12px;background:{{ s.bg }};border:1px {{ s.style }} {{ s.border }};display:block"></span>
+            </sc-for>
+          </span>
+          <span style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px">
+            <sc-for list="{{ ctaSplit }}" as="s" hint-placeholder-count="3">
+              <span style="display:flex;flex-direction:column;gap:4px">
+                <span style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700"><span style="width:10px;height:10px;border-radius:3px;background:{{ s.bg }};border:1px {{ s.style }} {{ s.border }};display:block"></span>{{ s.label }}</span>
+                <span style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'IBM Plex Mono',monospace;font-size:28px;letter-spacing:-0.04em">{{ s.value }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6B6560">{{ s.pctLabel }}</span></span>
+              </span>
+            </sc-for>
+          </span>
+          <span style="font-size:12.5px;line-height:1.5;color:#6B6560">Le lien principal est celui que l'organisme configure librement. Seul le clic est compté, quelle que soit la destination.</span>
+        </section>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px">
+          <section style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:800;letter-spacing:-0.02em">Fiches les plus visitées</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Top 10</span></span>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+              <sc-for list="{{ topVues }}" as="o" hint-placeholder-count="10">
+                <li>
+                  <a href="Fiche Client.dc.html" style="display:grid;grid-template-columns:28px minmax(0,1fr) minmax(60px,110px) 56px;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid #F0ECE6;color:#0B0B0B;border-radius:10px;transition:background 140ms ease" style-hover="background:#F7F5F1;color:#0B0B0B">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A">{{ o.rank }}</span>
+                    <span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700">{{ o.name }}</span><span style="font-size:12px;color:#7B746E">{{ o.lieu }}</span></span>
+                    <span style="height:8px;border-radius:99px;background:#F2EFE9;display:block;overflow:hidden"><span style="width:{{ o.pct }};height:100%;background:#0B0B0B;display:block;border-radius:99px"></span></span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right">{{ o.views }}</span>
+                  </a>
+                </li>
+              </sc-for>
+            </ol>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:26px;padding:clamp(20px,2.5vw,26px);display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:baseline;justify-content:space-between;gap:10px"><span style="font-size:17px;font-weight:800;letter-spacing:-0.02em">Clics CTA par organisme</span><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Top 10</span></span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px 14px">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600"><span style="width:9px;height:9px;border-radius:3px;background:#0B0B0B;display:block"></span>Téléphone</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600"><span style="width:9px;height:9px;border-radius:3px;background:#A83B2A;display:block"></span>Email</span>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600"><span style="width:9px;height:9px;border-radius:3px;border:1px dashed #8D8681;background:#F2EFE9;display:block"></span>Lien principal</span>
+            </span>
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #F0ECE6">
+              <sc-for list="{{ topCta }}" as="o" hint-placeholder-count="10">
+                <li>
+                  <a href="Fiche Client.dc.html" title="{{ o.detail }}" style="display:grid;grid-template-columns:28px minmax(0,1fr) minmax(80px,150px) 44px;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid #F0ECE6;color:#0B0B0B;border-radius:10px;transition:background 140ms ease" style-hover="background:#F7F5F1;color:#0B0B0B">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A">{{ o.rank }}</span>
+                    <span style="display:flex;flex-direction:column;gap:1px;min-width:0"><span style="font-size:14px;font-weight:700">{{ o.name }}</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">{{ o.detail }}</span></span>
+                    <span style="display:flex;height:10px;gap:2px;width:{{ o.pct }}">
+                      <span style="flex:{{ o.tel }} 1 0;background:#0B0B0B;border-radius:99px;display:block"></span>
+                      <span style="flex:{{ o.mail }} 1 0;background:#A83B2A;border-radius:99px;display:block"></span>
+                      <span style="flex:{{ o.lien }} 1 0;background:#F2EFE9;border:1px dashed #8D8681;border-radius:99px;display:block"></span>
+                    </span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:right">{{ o.total }}</span>
+                  </a>
+                </li>
+              </sc-for>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const PERIODS = [['7', '7 jours', '7 derniers jours'], ['30', '30 jours', '30 derniers jours'], ['90', '90 jours', '90 derniers jours'], ['all', 'Tout', "Depuis l'ouverture · 26 mai 2026"]];
+const FACT = { '7': 0.24, '30': 1, '90': 2.7, all: 3.6 };
+const ARTICLES = [
+  ['Comment obtenir sa carte professionnelle CNAPS', 1840], ['TFP APS ou SSIAP 1 : lequel choisir pour débuter', 1510],
+  ["Financer sa formation d'agent de sécurité avec le CPF", 1320], ['Le MAC APS : quand et comment renouveler sa carte', 980],
+  ['Autorisation préalable : délais et pièces à fournir', 910], ['Devenir agent cynophile en Île-de-France', 640],
+  ["SSIAP 2 : conditions d'accès et expérience requise", 590], ['Casier judiciaire et sécurité privée : ce qui bloque vraiment', 520],
+  ["Salaire d'un agent de sécurité débutant en 2026", 470], ['Sûreté aéroportuaire : le parcours pour travailler à Roissy', 310]
+];
+const ORGS = [
+  ['Protectis Formation', 'Paris 11e (75)', 1260, 88, 41, 57], ['Académie Française de Sécurité', 'Bobigny (93)', 1140, 74, 36, 29],
+  ['Horizon Sécurité', 'Nanterre (92)', 980, 52, 33, 40], ['Atlas Prévention', 'Versailles (78)', 870, 47, 22, 31],
+  ['Centre Sécuriform Île-de-France', 'Saint-Denis (93)', 760, 61, 18, 12], ['Institut Vigie', 'Créteil (94)', 690, 38, 21, 19],
+  ['Ligne de Garde', 'Massy (91)', 610, 29, 17, 24], ['Sûreté Formation Roissy', 'Roissy-en-France (95)', 540, 33, 12, 9],
+  ['Bastion Formation', 'Boulogne-Billancourt (92)', 470, 21, 14, 11], ['Formapro Sécurité 91', 'Évry-Courcouronnes (91)', 390, 26, 6, 4]
+];
+const MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const END = new Date(2026, 8, 23);
+const fr = n => Math.round(n).toLocaleString('fr-FR');
+const rnd = s => () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+const niceMax = v => { const p = Math.pow(10, Math.floor(Math.log10(Math.max(v, 1)))); return Math.ceil(v / p) * p; };
+
+class Component extends DCLogic {
+  state = { tab: 'general', period: '30', hover: null };
+
+  labels(period) {
+    const n = period === '7' ? 7 : period === '30' ? 30 : period === '90' ? 13 : 18;
+    const step = period === '7' || period === '30' ? 1 : 7;
+    const out = [];
+    for (let i = n - 1; i >= 0; i--) { const d = new Date(END); d.setDate(d.getDate() - i * step); out.push(`${d.getDate()} ${MONTHS[d.getMonth()]}`); }
+    return out;
+  }
+  series(n, from, to, seed, noise) {
+    const r = rnd(seed), out = [];
+    for (let i = 0; i < n; i++) { const t = n === 1 ? 1 : i / (n - 1); out.push(Math.max(0, from + (to - from) * Math.pow(t, 0.9) + (r() - 0.5) * noise)); }
+    out[n - 1] = to; return out;
+  }
+  chart(id, series, labels, opt) {
+    const e = React.createElement, W = 600, H = opt.h || 180, n = labels.length;
+    const stacked = !!opt.stacked, dark = !!opt.dark;
+    let max = 0;
+    for (let i = 0; i < n; i++) { if (stacked) max = Math.max(max, series.reduce((s, x) => s + x.values[i], 0)); else series.forEach(x => { max = Math.max(max, x.values[i]); }); }
+    max = niceMax(max * 1.08);
+    const X = i => n === 1 ? 0 : (i * W) / (n - 1), Y = v => H - (v / max) * H;
+    const kids = [e('defs', { key: 'd' }, e('pattern', { id: 'h-' + id, width: 8, height: 8, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' },
+      e('rect', { width: 8, height: 8, fill: '#F7F5F1' }), e('rect', { width: 4, height: 8, fill: '#E7E3DD' })))];
+    [0.25, 0.5, 0.75].forEach((g, k) => kids.push(e('line', { key: 'g' + k, x1: 0, x2: W, y1: H * g, y2: H * g, stroke: dark ? '#2A2626' : '#F0ECE6', strokeWidth: 1, vectorEffect: 'non-scaling-stroke' })));
+    if (stacked) {
+      const cum = new Array(n).fill(0);
+      series.forEach((s, si) => {
+        const top = s.values.map((v, i) => cum[i] + v);
+        const d = 'M' + top.map((v, i) => `${X(i)},${Y(v)}`).join(' L') + ' L' + cum.map((v, i) => `${X(n - 1 - i)},${Y(cum[n - 1 - i])}`).join(' L') + ' Z';
+        kids.push(e('path', { key: 's' + si, d, fill: s.fill === 'hatch' ? `url(#h-${id})` : s.fill, stroke: '#FFFFFF', strokeWidth: 1, vectorEffect: 'non-scaling-stroke' }));
+        top.forEach((v, i) => { cum[i] = v; });
+      });
+    } else {
+      series.forEach((s, si) => {
+        const pts = s.values.map((v, i) => `${X(i)},${Y(v)}`).join(' L');
+        if (si === 0) kids.push(e('path', { key: 'a' + si, d: `M0,${H} L${pts} L${W},${H} Z`, fill: dark ? '#1A1818' : '#F7F5F1' }));
+        kids.push(e('path', { key: 'l' + si, d: 'M' + pts, fill: 'none', stroke: s.stroke, strokeWidth: 2.25, strokeLinejoin: 'round', vectorEffect: 'non-scaling-stroke' }));
+      });
+    }
+    const hv = this.state.hover && this.state.hover.id === id ? this.state.hover.i : null;
+    if (hv != null) kids.push(e('line', { key: 'hv', x1: X(hv), x2: X(hv), y1: 0, y2: H, stroke: dark ? '#E19D8B' : '#A83B2A', strokeWidth: 1.5, strokeDasharray: '4 4', vectorEffect: 'non-scaling-stroke' }));
+    const onMove = ev => {
+      const r = ev.currentTarget.getBoundingClientRect();
+      const i = Math.max(0, Math.min(n - 1, Math.round(((ev.clientX - r.left) / r.width) * (n - 1))));
+      if (!this.state.hover || this.state.hover.id !== id || this.state.hover.i !== i) this.setState({ hover: { id, i } });
+    };
+    const svg = e('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none', width: '100%', height: H, style: { display: 'block', overflow: 'visible' }, onMouseMove: onMove, onMouseLeave: () => this.setState({ hover: null }) }, kids);
+    const tip = hv != null ? e('div', { style: { position: 'absolute', top: 6, left: `${(hv / Math.max(1, n - 1)) * 100}%`, transform: `translateX(${hv > n * 0.7 ? '-105%' : hv < n * 0.3 ? '5%' : '-50%'})`, background: '#0B0B0B', color: '#FFFFFF', borderRadius: 12, padding: '9px 12px', pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: 4, minWidth: 130, border: dark ? '1px solid #2A2626' : 'none', zIndex: 2 } },
+      e('span', { style: { fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#E19D8B' } }, labels[hv]),
+      ...series.map((s, k) => e('span', { key: k, style: { display: 'flex', justifyContent: 'space-between', gap: 14, fontSize: 12.5 } }, e('span', { style: { color: '#D0CAC5' } }, s.name), e('span', { style: { fontFamily: "'IBM Plex Mono',monospace" } }, fr(s.values[hv])))))
+      : null;
+    const axis = e('div', { style: { display: 'flex', justifyContent: 'space-between', marginTop: 8, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10.5, color: dark ? '#8D8681' : '#7B746E' } },
+      e('span', null, labels[0]), e('span', null, labels[Math.floor((n - 1) / 2)]), e('span', null, labels[n - 1]));
+    const ymax = e('span', { style: { position: 'absolute', top: -2, left: 0, fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: dark ? '#8D8681' : '#8D8681', background: dark ? '#0B0B0B' : '#FFFFFF', paddingRight: 6 } }, fr(max));
+    return e('div', { style: { position: 'relative', cursor: 'crosshair' } }, ymax, svg, tip, axis);
+  }
+
+  renderVals() {
+    const { tab, period } = this.state;
+    const f = FACT[period];
+    const L = this.labels(period), n = L.length;
+    const start = period === 'all' ? 0 : period === '90' ? 6 : period === '30' ? 31 : 44;
+    const orgs = this.series(n, start, 48, 11, 1.2).map(Math.round);
+    const basique = orgs.map((o, i) => Math.round(o * (0.62 - 0.27 * (i / Math.max(1, n - 1)))));
+    const optimal = orgs.map((o, i) => Math.round(o * (0.04 + 0.15 * (i / Math.max(1, n - 1)))));
+    const correct = orgs.map((o, i) => Math.max(0, o - basique[i] - optimal[i]));
+    const formStart = period === 'all' ? 0 : period === '90' ? 11 : period === '30' ? 64 : 97;
+    const forms = this.series(n, formStart, 112, 23, 3).map(Math.round);
+    const trafDaily = period === '7' || period === '30';
+    const traf = this.series(n, trafDaily ? 520 : 1400, trafDaily ? 980 : 6900, 37, trafDaily ? 180 : 700).map(Math.round);
+    const blog = this.series(n, trafDaily ? 180 : 500, trafDaily ? 360 : 2500, 53, trafDaily ? 70 : 260).map(Math.round);
+    const sum = a => a.reduce((s, x) => s + x, 0);
+    const d = (a, b) => (b - a >= 0 ? '+' : '') + fr(b - a);
+    const periodLabel = PERIODS.find(p => p[0] === period)[2];
+    const artMax = ARTICLES[0][1] * f;
+    const vMax = ORGS[0][2] * f;
+    const ctaOrgs = ORGS.map(o => ({ o, t: o[3] + o[4] + o[5] })).sort((a, b) => b.t - a.t);
+    const cMax = ctaOrgs[0].t * f;
+    const tot = [0, 0, 0]; ORGS.forEach(o => { tot[0] += o[3]; tot[1] += o[4]; tot[2] += o[5]; });
+    const ctaTot = (tot[0] + tot[1] + tot[2]) * f;
+    return {
+      periods: PERIODS.map(([k, label]) => ({ label, pick: () => this.setState({ period: k, hover: null }), bg: period === k ? '#0B0B0B' : 'transparent', color: period === k ? '#FFFFFF' : '#3C3A37' })),
+      periodLabel,
+      tabs: [['general', 'Général'], ['blog', 'Blog'], ['orgs', 'Organismes']].map(([k, label]) => ({ label, pick: () => this.setState({ tab: k, hover: null }), line: tab === k ? '#0B0B0B' : 'transparent', color: tab === k ? '#0B0B0B' : '#7B746E' })),
+      tGeneral: tab === 'general', tBlog: tab === 'blog', tOrgs: tab === 'orgs',
+      generalCards: tab !== 'general' ? [] : [
+        { title: 'Organismes inscrits', sub: 'Évolution du nombre de comptes', delta: d(orgs[0], orgs[n - 1]), deltaColor: '#0B0B0B', range: `de ${orgs[0]} à ${orgs[n - 1]}`, hasLegend: false, legend: [], hasNote: false, note: '',
+          chart: this.chart('orgs', [{ name: 'Organismes', values: orgs, stroke: '#0B0B0B' }], L, {}) },
+        { title: 'Répartition par palier', sub: 'Évolution empilée', delta: `${Math.round((optimal[n - 1] / Math.max(1, orgs[n - 1])) * 100)} %`, deltaColor: '#A83B2A', range: 'au palier Optimal en fin de période', hasLegend: true,
+          legend: [{ name: 'Basique', bg: '#F2EFE9', style: 'dashed', border: '#8D8681' }, { name: 'Correct', bg: '#0B0B0B', style: 'solid', border: '#0B0B0B' }, { name: 'Optimal', bg: '#A83B2A', style: 'solid', border: '#A83B2A' }],
+          hasNote: false, note: '',
+          chart: this.chart('paliers', [{ name: 'Basique', values: basique, fill: 'hatch' }, { name: 'Correct', values: correct, fill: '#0B0B0B' }, { name: 'Optimal', values: optimal, fill: '#A83B2A' }], L, { stacked: true }) },
+        { title: 'Formations publiées', sub: 'Offres déclarées par les organismes', delta: d(forms[0], forms[n - 1]), deltaColor: '#0B0B0B', range: `de ${forms[0]} à ${forms[n - 1]}`, hasLegend: false, legend: [], hasNote: false, note: '',
+          chart: this.chart('forms', [{ name: 'Formations', values: forms, stroke: '#0B0B0B' }], L, {}) },
+        { title: "Trafic sur l'annuaire", sub: `Vues de page, toutes pages · ${trafDaily ? 'par jour' : 'par semaine'}`, delta: fr(sum(traf)), deltaColor: '#0B0B0B', range: 'vues sur la période', hasLegend: false, legend: [], hasNote: true,
+          note: 'Trafic global, distinct de l\'activité des organismes et des articles. Sources et mots-clés : voir Search Console.',
+          chart: this.chart('traf', [{ name: 'Vues', values: traf, stroke: '#A83B2A' }], L, {}) }
+      ],
+      blogTotal: fr(sum(blog)),
+      blogChart: tab === 'blog' ? this.chart('blog', [{ name: 'Vues', values: blog, stroke: '#E19D8B' }], L, { dark: true, h: 150 }) : null,
+      articles: ARTICLES.map(([t, v], i) => ({ rank: String(i + 1).padStart(2, '0'), title: t, views: fr(v * f), pct: `${(v * f / artMax) * 100}%`, barBg: i === 0 ? '#A83B2A' : '#0B0B0B', href: 'Editeur Article.dc.html#a' + (i + 1) })),
+      topVues: ORGS.map((o, i) => ({ rank: String(i + 1).padStart(2, '0'), name: o[0], lieu: o[1], views: fr(o[2] * f), pct: `${(o[2] * f / vMax) * 100}%` })),
+      topCta: ctaOrgs.map(({ o, t }, i) => ({
+        rank: String(i + 1).padStart(2, '0'), name: o[0], total: fr(t * f), pct: `${Math.max(12, (t * f / cMax) * 100)}%`,
+        tel: o[3], mail: o[4], lien: o[5], detail: `Tél. ${fr(o[3] * f)} · Email ${fr(o[4] * f)} · Lien ${fr(o[5] * f)}`
+      })),
+      ctaTotal: fr(ctaTot),
+      ctaSplit: [['Téléphone', tot[0], '#0B0B0B', 'solid', '#0B0B0B'], ['Email', tot[1], '#A83B2A', 'solid', '#A83B2A'], ['Lien principal', tot[2], '#F2EFE9', 'dashed', '#8D8681']].map(([label, v, bg, style, border]) => ({
+        label, n: v, value: fr(v * f), pctLabel: `${Math.round((v / (tot[0] + tot[1] + tot[2])) * 100)} %`, bg, style, border
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

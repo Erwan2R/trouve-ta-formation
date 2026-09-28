@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button { font-family: inherit; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 40px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation" style="position:sticky;top:14px;z-index:30;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid #E7E3DD;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:24px;width:auto;display:block" />
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:wrap;gap:2px">
+        <a href="#dashboard" style="background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700" style-hover="color:#FFFFFF">Tableau de bord</a>
+        <a href="#ma-fiche" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Ma fiche</a>
+        <a href="#mes-formations" style="display:flex;align-items:center;gap:8px;color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Mes formations<span style="min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:#F2EFE9;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:400;color:#45423E">{{ nbFormations }}</span></a>
+        <a href="#parametres" style="color:#3C3A37;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;transition:background 140ms ease" style-hover="background:#F2EFE9;color:#0B0B0B">Paramètres</a>
+      </nav>
+      <span style="flex:none;margin-left:auto;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid {{ pubBorder }};background:{{ pubBg }};color:{{ pubColor }};border-radius:999px;padding:8px 13px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase"><span style="width:6px;height:6px;border-radius:99px;background:{{ pubDot }};display:block"></span>{{ pubLabel }}</span>
+        <span title="Sophie Martin · Administratrice" style="width:42px;height:42px;border-radius:99px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">SM</span>
+      </span>
+    </header>
+
+    <section data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace organisme · Bobigny (93)</span>
+        <h1 style="margin:0;max-width:20ch;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800;text-wrap:balance">Académie Française de Sécurité</h1>
+      </div>
+      <a href="https://trouve-ta-formation.fr/organismes/afs-bobigny" style="display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:16px 24px;font-size:15px;font-weight:700;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">Voir ma fiche publique<span>→</span></a>
+    </section>
+
+    <sc-if value="{{ nonPubliee }}" hint-placeholder-val="{{ false }}">
+      <section data-screen-label="Statut de publication — non publiée" style="background:#0B0B0B;border-radius:28px;padding:clamp(26px,4vw,48px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px 48px;background-image:radial-gradient(60% 120% at 100% 0%, #2A2626 0%, rgba(42,38,38,0) 70%)">
+        <div style="flex:1 1 440px;min-width:260px;display:flex;flex-direction:column;gap:12px">
+          <span style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B"><span style="width:30px;height:1.5px;background:#E19D8B;display:block"></span>Étape restante</span>
+          <h2 style="margin:0;font-size:clamp(28px,3.4vw,44px);line-height:1.04;letter-spacing:-0.035em;font-weight:800;color:#FFFFFF">Votre fiche n'est pas encore en ligne</h2>
+          <p style="margin:0;max-width:56ch;font-size:16px;line-height:1.65;color:#D0CAC5">Validez votre adresse email pour la publier. Nous avons envoyé un lien à contact@afs-formation.fr.</p>
+        </div>
+        <button type="button" onClick="{{ renvoyer }}" style="display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border:0;border-radius:999px;padding:18px 26px;font-size:15.5px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#E19D8B">{{ renvoyerLabel }}</button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ publiee }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px">
+
+        <section data-screen-label="Palier de complétude" style="background:#0B0B0B;color:#FFFFFF;border-radius:28px;padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:18px">
+          <span style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em">Complétude de votre fiche</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #2A2626;border-radius:999px;padding:6px 12px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#FFFFFF;background:{{ idxBg }}"><span style="width:6px;height:6px;border-radius:99px;background:{{ idxDot }};display:block"></span>{{ idxLabel }}</span>
+          </span>
+          <div style="position:relative;max-width:380px;width:100%;margin:6px auto 0">
+            {{ gauge }}
+            <span style="position:absolute;left:0;right:0;bottom:4px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Palier actuel</span>
+              <span style="font-size:clamp(40px,5vw,58px);line-height:0.95;letter-spacing:-0.05em;font-weight:800">{{ palierNom }}</span>
+            </span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;border-top:1px solid #2A2626;padding-top:14px">
+            <sc-for list="{{ paliers }}" as="p" hint-placeholder-count="3">
+              <span style="display:flex;flex-direction:column;gap:3px;padding:0 4px">
+                <span style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:{{ p.color }}"><span style="width:8px;height:8px;border-radius:3px;background:{{ p.dot }};display:block"></span>{{ p.name }}</span>
+                <span style="font-size:12px;line-height:1.4;color:#8D8681">{{ p.status }}</span>
+              </span>
+            </sc-for>
+          </div>
+          <p style="margin:0;font-size:16px;line-height:1.55;font-weight:700;color:#FFFFFF;text-wrap:pretty">{{ idxPhrase }}</p>
+          <sc-if value="{{ isBasique }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:-8px 0 0;font-size:14px;line-height:1.6;color:#D0CAC5">Elle reste consultable par son adresse directe. Ce sont les moteurs de recherche qui ne l'affichent pas encore.</p>
+          </sc-if>
+          <sc-if value="{{ recul }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid #E19D8B;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Recul de palier</span>
+              <span style="font-size:14px;line-height:1.55;color:#FFFFFF">Votre fiche est repassée du palier Correct au palier Basique : plus aucune formation n'y est déclarée.</span>
+            </div>
+          </sc-if>
+        </section>
+
+        <section data-screen-label="Ce que voit un candidat" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:16px">
+          <span style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px">
+            <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em">Ce que voit un candidat</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Votre carte dans le catalogue</span>
+          </span>
+          <div style="flex:1;border-radius:20px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);padding:clamp(18px,3.5vw,40px);display:flex;align-items:center;justify-content:center">
+            <div data-screen-label="Carte organisme" style="width:100%;max-width:440px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px">
+              <span style="display:flex;align-items:flex-start;gap:13px">
+                <span style="position:relative;flex:none">
+                  <sc-if value="{{ c.logo }}" hint-placeholder-val="{{ false }}"><span style="width:48px;height:48px;border-radius:13px;background:#0B0B0B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;letter-spacing:-0.02em">AFS</span></sc-if>
+                  <sc-if value="{{ c.noLogo }}" hint-placeholder-val="{{ true }}"><span style="width:48px;height:48px;border-radius:13px;border:1.5px dashed {{ c.logoBorder }};background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">AF</span></sc-if>
+                  <sc-if value="{{ c.mkLogo }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:99px;background:#A83B2A;color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10.5px;display:flex;align-items:center;justify-content:center">{{ c.nLogo }}</span></sc-if>
+                </span>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:7px">
+                  <span style="display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Académie Française de Sécurité</span>
+                    <span style="font-size:13px;color:#7B746E">Bobigny (93) et 2 autres lieux</span>
+                  </span>
+                  <span style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-if value="{{ c.cnaps }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;background:#0B0B0B;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:600;color:#FFFFFF"><span style="width:5px;height:5px;border-radius:99px;background:#E19D8B;display:block"></span>Agréé CNAPS</span></sc-if>
+                    <sc-if value="{{ c.noCnaps }}" hint-placeholder-val="{{ true }}"><span style="position:relative;display:inline-flex;align-items:center;border:1.5px dashed {{ c.cnapsBorder }};border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;color:#6B6560">Agrément non renseigné<sc-if value="{{ c.mkCnaps }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;border-radius:99px;background:#A83B2A;color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10.5px;display:flex;align-items:center;justify-content:center">{{ c.nCnaps }}</span></sc-if></span></sc-if>
+                    <sc-if value="{{ c.qualiopi }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:600;color:#45423E"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span></sc-if>
+                    <sc-if value="{{ c.mkQualiopi }}" hint-placeholder-val="{{ false }}"><span style="position:relative;display:inline-flex;align-items:center;border:1.5px dashed #A83B2A;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;color:#6B6560">Qualiopi<span style="position:absolute;top:-9px;right:-9px;width:20px;height:20px;border-radius:99px;background:#A83B2A;color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10.5px;display:flex;align-items:center;justify-content:center">{{ c.nQualiopi }}</span></span></sc-if>
+                  </span>
+                </span>
+              </span>
+              <sc-if value="{{ c.formations }}" hint-placeholder-val="{{ false }}">
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ c.titres }}" as="t" hint-placeholder-count="3">
+                    <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13px;font-weight:600"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>{{ t }}</span>
+                  </sc-for>
+                </span>
+              </sc-if>
+              <sc-if value="{{ c.noFormations }}" hint-placeholder-val="{{ true }}">
+                <span style="position:relative;display:flex;align-items:center;justify-content:center;border:1.5px dashed {{ c.formBorder }};border-radius:11px;padding:11px 14px;font-size:13px;font-weight:600;color:#6B6560">Aucune formation déclarée<sc-if value="{{ c.mkFormations }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-10px;right:-10px;width:20px;height:20px;border-radius:99px;background:#A83B2A;color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10.5px;display:flex;align-items:center;justify-content:center">{{ c.nFormations }}</span></sc-if></span>
+              </sc-if>
+              <span style="position:relative;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12.5px;color:#4C4946">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                <sc-if value="{{ c.fin }}" hint-placeholder-val="{{ false }}"><span>CPF · France Travail · OPCO</span></sc-if>
+                <sc-if value="{{ c.noFin }}" hint-placeholder-val="{{ true }}"><span style="position:relative;border:1.5px dashed {{ c.finBorder }};border-radius:8px;padding:3px 9px;font-weight:600;color:#6B6560">Non renseignés<sc-if value="{{ c.mkFin }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-10px;right:-10px;width:20px;height:20px;border-radius:99px;background:#A83B2A;color:#FFFFFF;font-family:'IBM Plex Mono',monospace;font-size:10.5px;display:flex;align-items:center;justify-content:center">{{ c.nFin }}</span></sc-if></span></sc-if>
+              </span>
+            </div>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:#3C3A37">{{ c.caption }}</p>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ publiee }}" hint-placeholder-val="{{ true }}">
+      <section data-screen-label="Checklist de relance" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(22px,3vw,32px);display:flex;flex-direction:column;gap:20px">
+        <sc-if value="{{ hasChecklist }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 20px">
+              <span style="display:flex;flex-direction:column;gap:6px">
+                <span style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A"><span style="width:30px;height:1.5px;background:#A83B2A;display:block"></span>À faire</span>
+                <span style="font-size:clamp(22px,2.4vw,28px);font-weight:800;letter-spacing:-0.03em">{{ checklistTitre }}</span>
+              </span>
+              <sc-if value="{{ hasNote }}" hint-placeholder-val="{{ false }}"><span style="max-width:44ch;font-size:13.5px;line-height:1.55;color:#6B6560">{{ note }}</span></sc-if>
+            </span>
+            <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px">
+              <sc-for list="{{ actions }}" as="ac" hint-placeholder-count="3">
+                <li style="display:flex;flex-direction:column;gap:14px;background:{{ ac.bg }};border:1px solid {{ ac.border }};border-radius:22px;padding:22px;min-height:230px;transition:border-color 140ms ease, transform 140ms ease" style-hover="transform:translateY(-2px)">
+                  <span style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                    <span style="width:36px;height:36px;border-radius:99px;background:{{ ac.numBg }};color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px">{{ ac.num }}</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:{{ ac.tagColor }}">{{ ac.tag }}</span>
+                  </span>
+                  <span style="display:flex;flex-direction:column;gap:6px">
+                    <span style="font-size:17.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3;color:{{ ac.titleColor }}">{{ ac.titre }}</span>
+                    <span style="font-size:14px;line-height:1.55;color:{{ ac.textColor }}">{{ ac.pourquoi }}</span>
+                  </span>
+                  <span style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid {{ ac.rule }}">
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:{{ ac.textColor }}">{{ ac.dest }}</span>
+                    <button type="button" onClick="{{ ac.faire }}" style="display:inline-flex;align-items:center;gap:8px;background:{{ ac.btnBg }};color:{{ ac.btnColor }};border:0;border-radius:999px;padding:11px 16px;font-size:13.5px;font-weight:700;cursor:pointer;transition:background 140ms ease" style-hover="background:#A83B2A;color:#FFFFFF">{{ ac.cta }}<span>→</span></button>
+                  </span>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isOptimal }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 40px;padding:8px 0">
+            <span style="display:flex;flex-direction:column;gap:12px">
+              <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+              <span style="font-size:clamp(26px,3vw,38px);line-height:1.05;letter-spacing:-0.035em;font-weight:800">Votre fiche est complète.</span>
+            </span>
+            <p style="margin:0;max-width:52ch;font-size:15.5px;line-height:1.65;color:#3C3A37">Elle apparaît dans les résultats de recherche et elle est mise en avant dans le catalogue.</p>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:14px">
+      <a href="#ma-fiche" data-screen-label="Accès — Ma fiche" style="display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:22px;color:#0B0B0B;transition:border-color 140ms ease, transform 140ms ease" style-hover="border-color:#0B0B0B;transform:translateY(-2px);color:#0B0B0B">
+        <span style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Accès rapide</span><span style="width:34px;height:34px;border-radius:99px;background:#F2EFE9;color:#A83B2A;display:flex;align-items:center;justify-content:center">→</span></span>
+        <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:19px;font-weight:800;letter-spacing:-0.02em">Ma fiche</span><span style="font-size:13.5px;color:#6B6560">Coordonnées, présentation, agréments</span></span>
+      </a>
+      <a href="#mes-formations" data-screen-label="Accès — Mes formations" style="display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:22px;color:#0B0B0B;transition:border-color 140ms ease, transform 140ms ease" style-hover="border-color:#0B0B0B;transform:translateY(-2px);color:#0B0B0B">
+        <span style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Accès rapide</span><span style="width:34px;height:34px;border-radius:99px;background:#F2EFE9;color:#A83B2A;display:flex;align-items:center;justify-content:center">→</span></span>
+        <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:19px;font-weight:800;letter-spacing:-0.02em">Mes formations</span><span style="font-size:13.5px;color:#6B6560">{{ formationsMeta }}</span></span>
+      </a>
+      <a href="#parametres" data-screen-label="Accès — Paramètres" style="display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:22px;color:#0B0B0B;transition:border-color 140ms ease, transform 140ms ease" style-hover="border-color:#0B0B0B;transform:translateY(-2px);color:#0B0B0B">
+        <span style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Accès rapide</span><span style="width:34px;height:34px;border-radius:99px;background:#F2EFE9;color:#A83B2A;display:flex;align-items:center;justify-content:center">→</span></span>
+        <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:19px;font-weight:800;letter-spacing:-0.02em">Paramètres</span><span style="font-size:13.5px;color:#6B6560">Compte, email, mot de passe</span></span>
+      </a>
+      <sc-if value="{{ publiee }}" hint-placeholder-val="{{ true }}">
+        <div data-screen-label="Statut de publication" style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:24px;padding:22px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Publication</span>
+          <span style="display:flex;flex-direction:column;gap:4px"><span style="font-size:19px;font-weight:800;letter-spacing:-0.02em">Fiche en ligne</span><span style="font-size:13px;color:#4C4946">Depuis le 12 sept. 2026</span></span>
+          <span style="margin-top:auto;padding:10px 12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.4;color:#45423E">…/organismes/<wbr />afs-bobigny</span>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:14px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:12px 12px 12px 20px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22);max-width:calc(100vw - 32px)">
+      <span style="width:8px;height:8px;border-radius:99px;background:#E19D8B;display:block;flex:none"></span>
+      <span style="font-size:14px;font-weight:600;line-height:1.4">{{ toast }}</span>
+      <button type="button" aria-label="Fermer" onClick="{{ closeToast }}" style="flex:none;width:30px;height:30px;border-radius:99px;border:0;background:#2A2626;color:#FFFFFF;font-size:15px;cursor:pointer">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Non publiée&quot;,&quot;Basique — sans formation&quot;,&quot;Basique — formations déclarées&quot;,&quot;Correct&quot;,&quot;Optimal&quot;,&quot;Recul (formations retirées)&quot;],&quot;default&quot;:&quot;Basique — sans formation&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;État de la fiche&quot;}}">
+const OPT_KEYS = ['cnaps', 'qualiopi', 'siret', 'logo', 'accessibilite', 'horaires', 'siteweb'];
+const ACT = {
+  formations: { titre: 'Ajoutez vos formations', pourquoi: "C'est ce qui vous rend visible dans les résultats de recherche des candidats.", dest: 'Mes formations', cta: 'Ajouter' },
+  financements: { titre: 'Renseignez les financements que vous acceptez', pourquoi: 'CPF, France Travail, OPCO : les candidats filtrent souvent sur ce critère.', dest: 'Ma fiche', cta: 'Renseigner' },
+  presentation: { titre: 'Rédigez une courte présentation de votre organisme', pourquoi: 'Quelques lignes sur votre centre, vos publics et votre façon de former.', dest: 'Ma fiche', cta: 'Rédiger' },
+  cnaps: { titre: "Indiquez votre numéro d'agrément CNAPS", pourquoi: "C'est lui qui distingue un centre autorisé à former.", dest: 'Ma fiche', cta: 'Indiquer' },
+  qualiopi: { titre: 'Ajoutez votre certification Qualiopi', pourquoi: "Elle conditionne l'accès de vos stagiaires aux financements publics.", dest: 'Ma fiche', cta: 'Ajouter' },
+  siret: { titre: 'Renseignez votre numéro SIRET', pourquoi: "Il confirme l'existence légale de votre organisme.", dest: 'Ma fiche', cta: 'Renseigner' },
+  logo: { titre: 'Ajoutez votre logo', pourquoi: 'Il remplace vos initiales sur votre fiche et dans le catalogue.', dest: 'Ma fiche', cta: 'Ajouter' },
+  accessibilite: { titre: "Précisez l'accessibilité de vos locaux", pourquoi: "Pour certains candidats, c'est un critère éliminatoire.", dest: 'Ma fiche', cta: 'Préciser' },
+  horaires: { titre: "Indiquez vos horaires d'accueil", pourquoi: 'Les candidats savent quand vous joindre.', dest: 'Ma fiche', cta: 'Indiquer' },
+  siteweb: { titre: "Ajoutez l'adresse de votre site", pourquoi: 'Les candidats peuvent en savoir plus avant de vous contacter.', dest: 'Ma fiche', cta: 'Ajouter' }
+};
+const PRESETS = {
+  'Non publiée': { publiee: false, formations: 0 },
+  'Basique — sans formation': { publiee: true, formations: 0 },
+  'Basique — formations déclarées': { publiee: true, formations: 3, cnaps: true },
+  'Correct': { publiee: true, formations: 3, financements: true, presentation: true, cnaps: true, siret: true },
+  'Optimal': { publiee: true, formations: 3, financements: true, presentation: true, cnaps: true, qualiopi: true, siret: true, logo: true, accessibilite: true },
+  'Recul (formations retirées)': { publiee: true, formations: 0, financements: true, presentation: true, cnaps: true, siret: true, qualiopi: true, recul: true }
+};
+const NOMS = ['Basique', 'Correct', 'Optimal'];
+const TITRES = ['TFP APS', 'SSIAP 1', 'MAC APS'];
+
+class Component extends DCLogic {
+  state = { f: {}, toast: null, renvoye: false };
+  componentDidMount() { this.load(); }
+  componentDidUpdate(pp) { if (pp && pp.etat !== this.props.etat) this.load(); }
+  componentWillUnmount() { clearTimeout(this.t); }
+  load() { this.setState({ f: { ...(PRESETS[this.props.etat] || PRESETS['Basique — sans formation']) }, toast: null, renvoye: false }); }
+
+  palier(f) {
+    if (!(f.formations > 0 && (f.financements || f.presentation))) return 0;
+    return OPT_KEYS.filter(k => f[k]).length >= 5 ? 2 : 1;
+  }
+  actions(f, pal) {
+    if (pal === 0) return ['formations', 'financements', 'presentation'].filter(k => k === 'formations' ? !(f.formations > 0) : !f[k]).slice(0, 3);
+    if (pal === 1) return OPT_KEYS.filter(k => !f[k]).slice(0, 3);
+    return [];
+  }
+  complete(k) {
+    const f = { ...this.state.f };
+    const before = this.palier(f);
+    if (k === 'formations') f.formations = 3; else f[k] = true;
+    const after = this.palier(f);
+    if (after > before) f.recul = false;
+    const msg = after > before
+      ? (after === 1 ? 'Palier Correct atteint : votre fiche devient indexable.' : 'Palier Optimal atteint : votre fiche est mise en avant dans le catalogue.')
+      : 'Modification enregistrée.';
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ toast: null }), 4200);
+    this.setState({ f, toast: msg });
+  }
+  gauge(pal) {
+    const n = 15, cx = 160, cy = 160, r1 = 96, r2 = 146, els = [];
+    for (let i = 0; i < n; i++) {
+      const a = Math.PI - (i * Math.PI) / (n - 1);
+      const tier = Math.floor(i / 5);
+      const stroke = tier < pal ? '#FFFFFF' : tier === pal ? '#E19D8B' : '#2A2626';
+      els.push(React.createElement('line', {
+        key: i, x1: cx + r1 * Math.cos(a), y1: cy - r1 * Math.sin(a), x2: cx + r2 * Math.cos(a), y2: cy - r2 * Math.sin(a),
+        stroke, strokeWidth: 20, strokeLinecap: 'round', style: { transition: 'stroke 300ms ease' }
+      }));
+    }
+    return React.createElement('svg', { viewBox: '0 0 320 176', width: '100%', style: { display: 'block' }, 'aria-hidden': 'true' }, els);
+  }
+
+  renderVals() {
+    const f = this.state.f;
+    const pal = this.palier(f);
+    const keys = this.actions(f, pal);
+    const need = 5 - OPT_KEYS.filter(k => f[k]).length;
+    const nb = f.formations || 0;
+    const mk = k => { const i = keys.indexOf(k); return i < 0 ? '' : String(i + 1); };
+    const idx = [
+      { label: 'Non indexée', bg: 'transparent', dot: '#E19D8B', phrase: "Votre fiche n'apparaît pas encore dans les résultats de recherche." },
+      { label: 'Indexée', bg: '#2A2626', dot: '#FFFFFF', phrase: 'Votre fiche apparaît dans les résultats de recherche.' },
+      { label: 'Mise en avant', bg: '#2A2626', dot: '#E19D8B', phrase: 'Votre fiche apparaît dans les résultats de recherche et elle est mise en avant dans le catalogue.' }
+    ][pal];
+    const status = ['Non indexée', 'Indexable', 'Mise en avant'];
+    const caption = pal === 0
+      ? (nb === 0 ? "Sans formation déclarée, votre carte n'apparaît dans aucun filtre par titre." : "Votre carte est dans le catalogue, mais votre fiche n'est pas encore référencée par les moteurs de recherche.")
+      : pal === 1 ? 'Votre carte apparaît dans le catalogue et votre fiche est référencée par les moteurs de recherche.'
+      : 'Votre carte remonte en tête du tri du catalogue.';
+    const tags = ['Priorité', 'Ensuite', 'Puis'];
+    return {
+      publiee: !!f.publiee, nonPubliee: !f.publiee,
+      pubLabel: f.publiee ? 'En ligne' : 'Non publiée', pubBg: f.publiee ? '#0B0B0B' : '#FFFFFF', pubColor: f.publiee ? '#FFFFFF' : '#45423E',
+      pubBorder: f.publiee ? '#0B0B0B' : '#C7C1BC', pubDot: f.publiee ? '#E19D8B' : '#A83B2A',
+      renvoyer: () => this.setState({ renvoye: true }),
+      renvoyerLabel: this.state.renvoye ? 'Email renvoyé' : "Renvoyer l'email de validation",
+      gauge: this.gauge(pal),
+      palierNom: NOMS[pal], isBasique: pal === 0, isOptimal: pal === 2, recul: !!f.recul && pal === 0,
+      idxLabel: idx.label, idxBg: idx.bg, idxDot: idx.dot, idxPhrase: idx.phrase,
+      paliers: NOMS.map((name, i) => ({ name, status: status[i], color: i <= pal ? '#FFFFFF' : '#8D8681', dot: i < pal ? '#FFFFFF' : i === pal ? '#E19D8B' : '#2A2626' })),
+      c: {
+        logo: !!f.logo, noLogo: !f.logo, logoBorder: mk('logo') ? '#A83B2A' : '#E7E3DD', mkLogo: !!mk('logo'), nLogo: mk('logo'),
+        cnaps: !!f.cnaps, noCnaps: !f.cnaps, cnapsBorder: mk('cnaps') ? '#A83B2A' : '#C7C1BC', mkCnaps: !!mk('cnaps'), nCnaps: mk('cnaps'),
+        qualiopi: !!f.qualiopi, mkQualiopi: !f.qualiopi && !!mk('qualiopi'), nQualiopi: mk('qualiopi'),
+        formations: nb > 0, noFormations: nb === 0, titres: TITRES.slice(0, Math.max(1, Math.min(3, nb))), formBorder: mk('formations') ? '#A83B2A' : '#C7C1BC', mkFormations: !!mk('formations'), nFormations: mk('formations'),
+        fin: !!f.financements, noFin: !f.financements, finBorder: mk('financements') ? '#A83B2A' : '#C7C1BC', mkFin: !!mk('financements'), nFin: mk('financements'),
+        caption
+      },
+      hasChecklist: pal < 2,
+      checklistTitre: pal === 0 ? 'Pour passer au palier Correct :' : 'Pour passer au palier Optimal :',
+      actions: keys.map((k, i) => {
+        const first = i === 0;
+        return {
+          ...ACT[k], num: '0' + (i + 1), tag: tags[i], faire: () => this.complete(k),
+          bg: first ? '#0B0B0B' : '#F7F5F1', border: first ? '#0B0B0B' : '#E7E3DD',
+          numBg: first ? '#A83B2A' : '#0B0B0B', tagColor: first ? '#E19D8B' : '#7B746E',
+          titleColor: first ? '#FFFFFF' : '#0B0B0B', textColor: first ? '#D0CAC5' : '#4C4946', rule: first ? '#2A2626' : '#E7E3DD',
+          btnBg: first ? '#FFFFFF' : '#0B0B0B', btnColor: first ? '#0B0B0B' : '#FFFFFF'
+        };
+      }),
+      hasNote: (pal === 0 && nb > 0) || pal === 1,
+      note: pal === 0 ? 'Une seule de ces deux informations suffit pour atteindre le palier Correct.' : `Encore ${need} élément${need > 1 ? 's' : ''} à renseigner pour atteindre le palier Optimal.`,
+      nbFormations: nb,
+      formationsMeta: nb === 0 ? 'Aucune formation déclarée' : nb === 1 ? '1 formation déclarée' : `${nb} formations déclarées`,
+      hasToast: !!this.state.toast, toast: this.state.toast || '',
+      closeToast: () => this.setState({ toast: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

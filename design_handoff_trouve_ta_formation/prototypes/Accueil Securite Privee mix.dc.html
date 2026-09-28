@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  summary::-webkit-details-marker { display: none; }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh;padding-bottom:0">
+
+  <header style="position:sticky;top:0;z-index:40;background:rgba(247,245,241,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:24px;position:relative">
+      <a href="#" style="display:flex;align-items:center;gap:12px;color:#0B0B0B">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+      </a>
+
+      <nav style="margin:0 auto;display:flex;align-items:center;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:5px">
+        <button type="button" onClick="{{ toggleNav }}" style="display:flex;align-items:center;gap:6px;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:#F2EFE9;border:0;border-radius:999px;padding:9px 16px;cursor:pointer">Les formations <span style="font-size:10px;color:#7B746E">▾</span></button>
+        <a href="#organismes" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px" style-hover="background:#F2EFE9;color:#0B0B0B">Organismes</a>
+        <a href="#demarches" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px" style-hover="background:#F2EFE9;color:#0B0B0B">Démarches CNAPS</a>
+        <a href="#blog" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px" style-hover="background:#F2EFE9;color:#0B0B0B">Blog</a>
+      </nav>
+
+      <a href="#espace-organisme" style="flex:none;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Espace organisme</a>
+
+      <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:78px;left:28px;right:28px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22);padding:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Agent de sécurité</span>
+            <a href="#tfp-aps" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">TFP APS</a>
+            <a href="#mac-aps" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">MAC APS</a>
+            <a href="#magasin" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Agent de sécurité magasin</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Sécurité incendie</span>
+            <a href="#ssiap-1" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 1</a>
+            <a href="#ssiap-2" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 2</a>
+            <a href="#ssiap-3" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 3</a>
+            <a href="#recyclage-ssiap" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Recyclage SSIAP</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Spécialités</span>
+            <a href="#cynophile" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Agent cynophile</a>
+            <a href="#aeroportuaire" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Sûreté aéroportuaire</a>
+            <a href="#protection-rapprochee" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Protection rapprochée</a>
+            <a href="#transport-de-fonds" style="font-size:15px;font-weight:500;color:#0B0B0B" style-hover="color:#A83B2A">Transport de fonds</a>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </header>
+
+  <section data-screen-label="Hero" style="background-image:radial-gradient(62% 80% at 50% -12%, #FFFFFF 0%, rgba(255,255,255,0) 72%), repeating-conic-gradient(from 178deg at 50% -18%, rgba(11,11,11,0.05) 0deg 0.55deg, rgba(11,11,11,0) 0.55deg 3deg);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:900px;margin:0 auto;padding:52px 28px 56px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px">
+      <span style="display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;color:#45423E">
+        <span style="width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block"></span>Annuaire indépendant
+      </span>
+      <h1 style="margin:0;font-size:clamp(32px,4.4vw,54px);line-height:1.06;letter-spacing:-0.03em;font-weight:700;text-wrap:balance">Trouvez votre formation en sécurité privée en Île-de-France</h1>
+      <p style="margin:0;max-width:620px;font-size:16.5px;line-height:1.6;color:#4C4946">Comparez les organismes agréés d'Île-de-France, titre par titre et département par département. Un annuaire indépendant, sans commission ni classement payant.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:2px">
+        <a href="#affinage" style="font-size:15px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:14px 26px" style-hover="background:#A83B2A;color:#FFFFFF">{{ ctaPrimaire }}</a>
+        <a href="#organismes" style="font-size:15px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:14px 26px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Voir les organismes</a>
+      </div>
+      <p style="margin:6px 0 0;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.01em;color:#7B746E">
+        <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span>[N] organismes référencés · 14 titres de formation · 8 départements franciliens</span></sc-if>
+        <sc-if value="{{ lancement }}" hint-placeholder-val="{{ true }}"><span>14 titres de formation couverts · 8 départements franciliens · Mise à jour le 1er septembre 2026</span></sc-if>
+      </p>
+    </div>
+  </section>
+
+  <section id="formations" data-screen-label="Grille par titre" style="padding:88px 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
+        <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Les titres</span>
+        <h2 style="margin:0;max-width:22ch;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Quelle formation en sécurité privée suivre ?</h2>
+        <p style="margin:0;max-width:64ch;font-size:16.5px;line-height:1.65;color:#4C4946">Chaque métier de la sécurité privée correspond à un titre précis, reconnu par le CNAPS et exigé pour obtenir sa carte professionnelle. Voici ceux qui se préparent en Île-de-France.</p>
+      </div>
+      <div style="margin-top:44px;display:flex;flex-direction:column;gap:32px">
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Agent de sécurité</span>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+            <a href="#tfp-aps" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">01</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">TFP APS</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Le titre d'entrée dans le métier. Surveillance de sites, de magasins et d'événements.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~175 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#mac-aps" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">02</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">MAC APS</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Le recyclage obligatoire pour renouveler sa carte professionnelle d'agent de prévention et de sécurité.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~31 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#magasin" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">03</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Agent de sécurité magasin</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Prévention des vols et gestion des flux en surface de vente.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~[X] h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Sécurité incendie</span>
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+            <a href="#ssiap-1" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">04</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">SSIAP 1</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Agent de sécurité incendie en établissement recevant du public ou immeuble de grande hauteur.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~67 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#ssiap-2" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">05</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">SSIAP 2</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Chef d'équipe. Encadrement d'une équipe d'agents SSIAP 1.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~70 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#ssiap-3" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">06</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">SSIAP 3</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Chef de service. Responsabilité du service de sécurité incendie d'un établissement.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~216 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#recyclage-ssiap" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">07</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Recyclage SSIAP</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Le maintien des compétences obligatoire tous les trois ans, quel que soit le niveau.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~14 à 21 h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:13px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#7B746E">Spécialités</span>
+          <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+            <a href="#cynophile" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">08</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Agent cynophile</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Surveillance avec un chien. Le titre porte sur le binôme, pas seulement sur l'agent.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~[X] h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#aeroportuaire" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">09</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Sûreté aéroportuaire</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Contrôle des passagers, des bagages et des accès en zone aéroportuaire.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~[X] h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#protection-rapprochee" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">10</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Protection rapprochée</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Protection physique des personnes. Le titre le plus long et le plus sélectif du secteur.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~[X] h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+            <a href="#transport-de-fonds" style="display:flex;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;padding-top:4px">11</span>
+              <span style="display:flex;flex-direction:column;gap:9px;min-width:0">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em;line-height:1.25">Transport de fonds</span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Convoyage de valeurs. Formation longue, débouchés concentrés sur peu d'employeurs.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:2px">
+                  <span style="background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#45423E">~[X] h</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:600;color:#A83B2A">[N] organismes</span></sc-if>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="affinage" data-screen-label="Formulaire d'affinage" style="padding:88px 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="background:#0B0B0B;border-radius:26px;padding:clamp(28px,4vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Questionnaire</span>
+          <h2 style="margin:0;font-size:clamp(26px,2.8vw,36px);line-height:1.15;letter-spacing:-0.02em;font-weight:700;color:#FFFFFF">Vous ne savez pas quel titre correspond à votre situation ?</h2>
+          <p style="margin:0;font-size:16px;line-height:1.65;color:#D0CAC5">Six questions suffisent pour identifier le titre adapté à votre profil et les organismes qui le préparent près de chez vous.</p>
+        </div>
+        <div style="background:#FFFFFF;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">Où en êtes-vous aujourd'hui ?</span>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a href="#q2" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4" style-hover="border-color:#A83B2A;background:#FAF0ED">Je ne travaille pas encore dans la sécurité privée <span style="color:#A83B2A;font-size:15px">→</span></a>
+            <a href="#q2" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4" style-hover="border-color:#A83B2A;background:#FAF0ED">J'y travaille, ma carte arrive à échéance <span style="color:#A83B2A;font-size:15px">→</span></a>
+            <a href="#q2" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:14.5px;font-weight:500;color:#0B0B0B;line-height:1.4" style-hover="border-color:#A83B2A;background:#FAF0ED">J'y travaille, je veux évoluer ou me spécialiser <span style="color:#A83B2A;font-size:15px">→</span></a>
+          </div>
+          <p style="margin:2px 0 0;font-size:12.5px;line-height:1.5;color:#7B746E">Sans inscription. Vos réponses ne sont transmises à aucun organisme.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="departements" data-screen-label="Entrée géographique" style="padding:0 0 88px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
+        <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Île-de-France</span>
+        <h2 style="margin:0;max-width:22ch;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Se former près de chez soi en Île-de-France</h2>
+        <p style="margin:0;max-width:64ch;font-size:16.5px;line-height:1.65;color:#4C4946">Les formations à la sécurité privée se déroulent en présentiel : la proximité du centre est un critère de choix réel. Sélectionnez votre département.</p>
+      </div>
+      <div style="margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
+        <a href="#dep-75" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Paris (75)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-93" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Seine-Saint-Denis (93)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-92" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Hauts-de-Seine (92)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-94" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Val-de-Marne (94)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-91" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Essonne (91)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-78" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Yvelines (78)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-95" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Val-d'Oise (95)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+        <a href="#dep-77" style="display:flex;align-items:center;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:12px 20px;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Seine-et-Marne (77)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">[N]</span></sc-if></a>
+      </div>
+      <span style="margin-top:28px;width:100%;aspect-ratio:21/8;border-radius:18px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:16px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">carte interactive — île-de-france</span>
+    </div>
+  </section>
+
+  <section id="demarches" data-screen-label="Démarches CNAPS" style="padding:88px 0;background:#FFFFFF;border-top:1px solid #E7E3DD;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
+        <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">CNAPS</span>
+        <h2 style="margin:0;max-width:22ch;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les démarches CNAPS, étape par étape</h2>
+        <p style="margin:0;max-width:64ch;font-size:16.5px;line-height:1.65;color:#4C4946">Se former ne suffit pas : l'exercice de la sécurité privée est conditionné à des autorisations délivrées par le CNAPS. Elles s'enchaînent dans un ordre précis.</p>
+      </div>
+      <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+        <a href="#autorisation-prealable" style="display:flex;flex-direction:column;gap:13px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:26px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+          <span style="width:36px;height:36px;border-radius:999px;background:#A83B2A;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12.5px">01</span>
+          <span style="font-size:20px;font-weight:700;letter-spacing:-0.015em">Autorisation préalable</span>
+          <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Elle conditionne l'entrée en formation. À demander avant de s'inscrire, pas après.</span>
+        </a>
+        <a href="#carte-professionnelle" style="display:flex;flex-direction:column;gap:13px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:26px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+          <span style="width:36px;height:36px;border-radius:999px;background:#A83B2A;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12.5px">02</span>
+          <span style="font-size:20px;font-weight:700;letter-spacing:-0.015em">Carte professionnelle</span>
+          <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Délivrée après l'obtention du titre, elle autorise l'exercice du métier.</span>
+        </a>
+        <a href="#renouvellement" style="display:flex;flex-direction:column;gap:13px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:26px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+          <span style="width:36px;height:36px;border-radius:999px;background:#A83B2A;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12.5px">03</span>
+          <span style="font-size:20px;font-weight:700;letter-spacing:-0.015em">Renouvellement de la carte</span>
+          <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Valable cinq ans, elle se renouvelle après un stage de maintien des compétences.</span>
+        </a>
+      </div>
+      <p style="margin:26px 0 0;text-align:center"><a href="#toutes-demarches" style="font-size:15px;font-weight:600;border-bottom:1px solid #E2B6AC;padding-bottom:2px">Voir toutes les démarches CNAPS →</a></p>
+    </div>
+  </section>
+
+  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}">
+    <section id="organismes" data-screen-label="Échantillon d'organismes" style="padding:88px 0">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+        <div style="max-width:720px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Échantillon</span>
+          <h2 style="margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Quelques organismes référencés</h2>
+        </div>
+        <div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">TFP APS · MAC APS · SSIAP 1</span>
+            </span>
+          </a>
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">SSIAP 1 · SSIAP 2 · Recyclage SSIAP</span>
+            </span>
+          </a>
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">Agent cynophile · TFP APS</span>
+            </span>
+          </a>
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">Sûreté aéroportuaire · TFP APS</span>
+            </span>
+          </a>
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">SSIAP 3 · SSIAP 2</span>
+            </span>
+          </a>
+          <a href="#fiche" style="display:flex;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+            <span style="flex:none;width:52px;height:52px;border-radius:12px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 6px,#F7F5F1 6px 12px);border:1px solid #E7E3DD"></span>
+            <span style="display:flex;flex-direction:column;gap:6px">
+              <span style="font-size:16px;font-weight:700">Nom de l'organisme</span>
+              <span style="font-size:13.5px;color:#7B746E">Ville (département)</span>
+              <span style="font-size:13.5px;color:#45423E">TFP APS · Agent de sécurité magasin</span>
+            </span>
+          </a>
+        </div>
+        <p style="margin:24px 0 0"><a href="#catalogue" style="font-size:15px;font-weight:600;border-bottom:1px solid #E2B6AC;padding-bottom:2px">Voir les [N] organismes d'Île-de-France →</a></p>
+      </div>
+    </section>
+  </sc-if>
+
+  <section data-screen-label="Comment ça marche" style="padding:88px 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:13px">
+        <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+        
+        <h2 style="margin:0;max-width:22ch;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Comment ça marche</h2>
+        
+      </div>
+      <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
+          <span style="width:42px;height:42px;border-radius:999px;background:#FFFFFF;border:1px solid #E7E3DD;color:#A83B2A;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px">01</span>
+          <span style="font-size:19px;font-weight:700;letter-spacing:-0.015em">Identifiez votre titre</span>
+          <span style="max-width:38ch;font-size:15px;line-height:1.7;color:#4C4946">Selon votre situation et le poste que vous visez, un seul titre est généralement pertinent. Le questionnaire vous y amène en quelques questions.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
+          <span style="width:42px;height:42px;border-radius:999px;background:#FFFFFF;border:1px solid #E7E3DD;color:#A83B2A;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px">02</span>
+          <span style="font-size:19px;font-weight:700;letter-spacing:-0.015em">Comparez les organismes</span>
+          <span style="max-width:38ch;font-size:15px;line-height:1.7;color:#4C4946">Localisation, titres préparés, modalités : les informations viennent des organismes eux-mêmes, qui gèrent leur fiche.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px">
+          <span style="width:42px;height:42px;border-radius:999px;background:#FFFFFF;border:1px solid #E7E3DD;color:#A83B2A;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px">03</span>
+          <span style="font-size:19px;font-weight:700;letter-spacing:-0.015em">Contactez directement</span>
+          <span style="max-width:38ch;font-size:15px;line-height:1.7;color:#4C4946">Vous joignez l'organisme de votre choix. Nous ne sommes pas intermédiaires et ne revendons aucune coordonnée.</span>
+        </div>
+      </div>
+      <p style="margin:44px auto 0;max-width:820px;text-align:center;background:#0B0B0B;color:#FFFFFF;border-radius:22px;padding:clamp(24px,3vw,36px);font-size:clamp(18px,2.1vw,24px);font-weight:600;line-height:1.45;letter-spacing:-0.015em">Trouve ta formation est un annuaire, pas un courtier. <span style="color:#E19D8B">Aucun organisme ne peut acheter une meilleure position dans nos résultats.</span></p>
+    </div>
+  </section>
+
+  <sc-if value="{{ reassurance }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Réassurance" style="padding:0 0 88px">
+      <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+          <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,36px);line-height:1.12;letter-spacing:-0.025em;font-weight:700">D'où viennent ces informations</h2>
+          <p style="margin:0;max-width:64ch;font-size:clamp(17px,1.9vw,21px);line-height:1.55;letter-spacing:-0.01em;color:#0B0B0B">Les organismes référencés créent et mettent à jour eux-mêmes leur fiche. Nous vérifions leur déclaration auprès du CNAPS avant publication.</p>
+        </div>
+        <div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px">
+          <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Réglementaire</span>
+            <p style="margin:0;font-size:15.5px;line-height:1.7;color:#45423E">Les informations réglementaires — durées, conditions d'accès, démarches — sont établies à partir des textes en vigueur et des publications du CNAPS, et revues à chaque évolution réglementaire.</p>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Classement</span>
+            <p style="margin:0;font-size:15.5px;line-height:1.7;color:#45423E">Aucun organisme ne peut acheter une meilleure position dans nos résultats. Le classement du catalogue repose sur la complétude des fiches, jamais sur une contrepartie financière.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <section data-screen-label="Corps éditorial" style="padding:88px 0;background:#FFFFFF;border-top:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+      <nav style="flex:0 1 200px;min-width:0;position:sticky;top:96px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#8D8681">Sur cette page</span>
+        <a href="#ed-secteur" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Le secteur en Île-de-France</a>
+        <a href="#ed-titre" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Quel titre choisir</a>
+        <a href="#ed-conditions" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Conditions communes</a>
+        <a href="#ed-durees" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Durées et coûts</a>
+        <a href="#ed-financer" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Financer sa formation</a>
+        <a href="#ed-apres" style="font-size:14px;font-weight:500;color:#45423E;line-height:1.4" style-hover="color:#A83B2A">Après la formation</a>
+      </nav>
+
+      <div style="flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:72px">
+
+        <div id="ed-secteur" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Le secteur de la sécurité privée en Île-de-France</h2>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">La sécurité privée regroupe des métiers très différents derrière une même appellation. Un agent qui surveille un centre commercial, un agent de service de sécurité incendie posté dans une tour de bureaux et un maître-chien intervenant sur un chantier relèvent tous du même cadre réglementaire, mais ne suivent pas la même formation et ne postulent pas aux mêmes offres.</p>
+          <span style="aspect-ratio:16/7;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">photo — métiers de la sécurité privée</span>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">L'Île-de-France concentre une part importante de l'activité du secteur : densité d'établissements recevant du public, plateformes aéroportuaires, sièges sociaux, événementiel. C'est aussi la région où l'offre de formation est la plus dense, ce qui rend le choix d'un organisme plus difficile plutôt que plus simple.</p>
+          <p style="margin:0;padding-left:20px;border-left:2px solid #A83B2A;font-size:clamp(18px,1.9vw,21px);line-height:1.5;letter-spacing:-0.01em;color:#0B0B0B">Le point commun à tous ces métiers : ils sont réglementés. Nul ne peut exercer sans <a href="#carte-professionnelle" style="border-bottom:1px solid #E2B6AC">carte professionnelle</a>, et nul n'obtient de carte professionnelle sans un titre reconnu. La formation n'est donc pas une option de confort mais une condition d'accès.</p>
+        </div>
+
+        <div id="ed-titre" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Quel titre choisir selon votre situation</h2>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">C'est la question qui bloque la plupart des candidats, et elle se tranche en regardant sa propre situation avant de regarder le catalogue.</p>
+          <div style="margin-top:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="aspect-ratio:5/4;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">photo — débuter</span>
+              <h3 style="margin:4px 0 0;font-size:18px;line-height:1.3;letter-spacing:-0.01em;font-weight:700">Vous n'avez jamais travaillé dans la sécurité privée</h3>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">Deux portes d'entrée dominent. La première mène à la surveillance de sites, de magasins et d'événements : c'est le <a href="#tfp-aps" style="border-bottom:1px solid #E2B6AC">TFP APS</a>, le titre le plus répandu et celui qui ouvre le plus grand nombre d'offres d'emploi. La seconde mène à la sécurité incendie : c'est le SSIAP 1, qui s'exerce en poste fixe dans les établissements recevant du public et les immeubles de grande hauteur.</p>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">Le choix entre les deux se joue moins sur la difficulté que sur le rythme de travail visé. La surveillance implique davantage de mobilité et de contact avec le public ; la sécurité incendie, davantage de postes fixes, de rondes et de procédures techniques. Les deux titres se cumulent d'ailleurs fréquemment au cours d'une carrière.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="aspect-ratio:5/4;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">photo — carte à renouveler</span>
+              <h3 style="margin:4px 0 0;font-size:18px;line-height:1.3;letter-spacing:-0.01em;font-weight:700">Vous exercez déjà et votre carte arrive à échéance</h3>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">Il ne s'agit pas d'une nouvelle formation mais d'un stage de maintien et d'actualisation des compétences, dont le format dépend du titre détenu. Un agent titulaire d'un TFP APS suit un <a href="#mac-aps" style="border-bottom:1px solid #E2B6AC">MAC APS</a> ; un agent SSIAP suit un recyclage correspondant à son niveau. La logique est la même dans les deux cas : une durée courte, une échéance à ne pas dépasser, et une conséquence directe sur la validité de la carte professionnelle.</p>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">L'erreur la plus fréquente consiste à attendre l'expiration de la carte pour s'inscrire. Les délais de session et les délais d'instruction s'additionnent.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="aspect-ratio:5/4;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">photo — évoluer</span>
+              <h3 style="margin:4px 0 0;font-size:18px;line-height:1.3;letter-spacing:-0.01em;font-weight:700">Vous exercez et vous voulez évoluer</h3>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">Deux directions. La progression hiérarchique, d'abord : le <a href="#ssiap-2" style="border-bottom:1px solid #E2B6AC">SSIAP 2</a> pour encadrer une équipe, le SSIAP 3 pour prendre la responsabilité d'un service de sécurité incendie. La spécialisation, ensuite : cynophile, sûreté aéroportuaire, protection physique des personnes, transport de fonds. Les spécialités demandent des formations plus longues et débouchent sur des marchés plus étroits mais moins concurrentiels.</p>
+              <p style="margin:0;font-size:14.5px;line-height:1.65;color:#4C4946">Chaque titre fait l'objet d'une page dédiée détaillant son programme, ses conditions d'accès et les organismes qui le préparent en Île-de-France.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="ed-conditions" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Les conditions communes à toutes les formations</h2>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Quel que soit le titre visé, plusieurs conditions s'appliquent avant même l'inscription.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:18px">
+              <span style="font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">L'autorisation préalable du CNAPS</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">C'est la condition la plus mal connue et la plus bloquante. Elle doit être obtenue avant l'entrée en formation, et non après. Elle suppose notamment un casier judiciaire compatible avec l'exercice du métier, examiné par le CNAPS.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:18px">
+              <span style="font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">La maîtrise du français</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Les titres de la sécurité privée exigent un niveau de compréhension et d'expression écrite et orale suffisant, contrôlé à l'entrée en formation. Le niveau attendu varie selon le titre.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:18px">
+              <span style="font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">L'âge et le titre de séjour</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">La majorité est requise. Pour les ressortissants étrangers hors Union européenne, un titre de séjour en cours de validité autorisant l'exercice d'une activité professionnelle est nécessaire.</span>
+            </div>
+          </div>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Ces conditions relèvent de la réglementation et non des organismes : aucun centre ne peut y déroger, et un organisme qui proposerait de s'en passer devrait éveiller votre méfiance.</p>
+        </div>
+
+        <div id="ed-durees" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Durées et coûts : les ordres de grandeur</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+            <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Les durées sont fixées par la réglementation, pas par les organismes. Elles vont d'une trentaine d'heures pour un stage de maintien des compétences à plusieurs centaines d'heures pour les titres de spécialité les plus longs. Un titre d'entrée dans le métier représente généralement quelques semaines à temps plein.</p>
+            <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Les coûts, eux, varient d'un organisme à l'autre pour un même titre. Cette variation s'explique par le format, l'effectif par session, les moyens matériels et l'accompagnement proposé — rarement par la qualité seule. Comparer les prix sans comparer ce qu'ils recouvrent conduit à de mauvaises décisions.</p>
+          </div>
+        </div>
+
+        <div id="ed-financer" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Financer sa formation</h2>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Plusieurs dispositifs coexistent, et ils ne s'adressent pas aux mêmes profils.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Autonome</span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">Le compte personnel de formation</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">mobilise les droits acquis au titre de votre activité passée, directement depuis votre espace personnel. C'est la voie la plus autonome.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Demandeur d'emploi</span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">France Travail</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">peut financer tout ou partie d'une formation pour un demandeur d'emploi, dans le cadre d'un projet validé avec un conseiller. Certains dispositifs sont adossés à une promesse d'embauche.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:24px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Salarié</span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em">Les OPCO et le plan de développement des compétences</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">concernent les salariés : la formation est alors portée par l'employeur, ce qui est le cas courant des recyclages et des montées en niveau.</span>
+            </div>
+          </div>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">Chaque organisme référencé indique les financements qu'il accepte. Vérifiez systématiquement que l'organisme est certifié Qualiopi : cette certification conditionne l'accès aux financements publics et mutualisés.</p>
+        </div>
+
+        <div id="ed-apres" style="display:flex;flex-direction:column;gap:18px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:22px;padding:clamp(24px,3vw,36px)">
+          <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Après la formation : obtenir sa carte professionnelle</h2>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">L'obtention du titre n'autorise pas encore l'exercice. Elle ouvre le droit à demander la carte professionnelle auprès du CNAPS, qui est le document autorisant réellement à travailler. Cette carte est valable cinq ans et son renouvellement suppose un stage de maintien des compétences.</p>
+          <p style="margin:0;font-size:17px;line-height:1.75;color:#3C3A37">L'enchaînement complet — autorisation préalable, formation, carte professionnelle, renouvellement — est détaillé dans nos <a href="#toutes-demarches" style="border-bottom:1px solid #E2B6AC">pages consacrées aux démarches CNAPS</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" data-screen-label="FAQ" style="padding:88px 0;background:#FFFFFF;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:880px;margin:0 auto;padding:0 28px">
+      <h2 style="margin:0 0 32px;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700;max-width:640px">Questions fréquentes sur la formation en sécurité privée</h2>
+      <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid #E7E3DD">
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Faut-il un diplôme pour entrer en formation à la sécurité privée ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Aucun diplôme n'est exigé pour les titres d'entrée dans le métier. Les conditions portent sur l'autorisation préalable du CNAPS, la maîtrise du français et la majorité, pas sur un niveau scolaire.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Peut-on se former à la sécurité privée sans autorisation préalable ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. L'autorisation préalable du CNAPS conditionne l'entrée en formation. Elle se demande avant l'inscription, et son instruction prend du temps : c'est la première démarche à engager.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Un casier judiciaire empêche-t-il de travailler dans la sécurité privée ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Pas systématiquement. Le CNAPS examine la nature des mentions au regard des exigences du métier. Certaines condamnations sont rédhibitoires, d'autres non.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Combien de temps dure une formation d'agent de sécurité ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Cela dépend du titre visé. Un titre d'entrée dans le métier représente généralement quelques semaines à temps plein ; un stage de maintien des compétences, quelques jours ; un titre de spécialité, plusieurs mois.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Quelle différence entre le TFP APS et le SSIAP 1 ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Deux métiers distincts. Le TFP APS prépare à la surveillance de sites, de magasins et d'événements. Le SSIAP 1 prépare à la sécurité incendie en établissement recevant du public. Ils se cumulent souvent au cours d'une carrière.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Peut-on financer sa formation avec le CPF ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Oui pour la plupart des titres, sous réserve que l'organisme soit certifié Qualiopi et la formation référencée. Chaque fiche d'organisme indique les financements acceptés.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Faut-il refaire une formation complète pour renouveler sa carte professionnelle ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Le renouvellement passe par un stage de maintien et d'actualisation des compétences, nettement plus court que la formation initiale, à suivre avant l'échéance des cinq ans.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Les formations se font-elles à distance ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Très marginalement. Les titres de la sécurité privée comportent des mises en situation pratiques et des épreuves en présentiel. Certains modules théoriques peuvent être suivis à distance selon l'organisme.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Comment vérifier qu'un organisme de formation est habilité ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">L'organisme doit être déclaré auprès du CNAPS pour dispenser des formations à la sécurité privée, et certifié Qualiopi pour accéder aux financements publics. Ces deux informations figurent sur chaque fiche.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Trouve ta formation est-il rémunéré par les organismes référencés ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Le référencement est gratuit et aucun organisme ne peut acheter une meilleure position dans nos résultats.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="blog" data-screen-label="Derniers articles" style="padding:88px 0">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <h2 style="margin:0;font-size:clamp(28px,3.2vw,40px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Comprendre le secteur</h2>
+      <div style="margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+        <a href="#article" style="display:flex;flex-direction:column;gap:14px;color:#0B0B0B">
+          <span style="aspect-ratio:16/10;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">visuel article</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#7B746E">Date de publication</span>
+          <span style="font-size:17.5px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Titre de l'article</span>
+          <span style="font-size:14.5px;line-height:1.55;color:#4C4946">Accroche de 12 mots maximum.</span>
+        </a>
+        <a href="#article" style="display:flex;flex-direction:column;gap:14px;color:#0B0B0B">
+          <span style="aspect-ratio:16/10;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">visuel article</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#7B746E">Date de publication</span>
+          <span style="font-size:17.5px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Titre de l'article</span>
+          <span style="font-size:14.5px;line-height:1.55;color:#4C4946">Accroche de 12 mots maximum.</span>
+        </a>
+        <a href="#article" style="display:flex;flex-direction:column;gap:14px;color:#0B0B0B">
+          <span style="aspect-ratio:16/10;border-radius:16px;border:1px solid #E7E3DD;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">visuel article</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#7B746E">Date de publication</span>
+          <span style="font-size:17.5px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Titre de l'article</span>
+          <span style="font-size:14.5px;line-height:1.55;color:#4C4946">Accroche de 12 mots maximum.</span>
+        </a>
+      </div>
+      <p style="margin:28px 0 0"><a href="#tous-articles" style="font-size:15px;font-weight:600;border-bottom:1px solid #E2B6AC;padding-bottom:2px">Tous nos articles sur la sécurité privée →</a></p>
+    </div>
+  </section>
+
+  <section data-screen-label="Bandeau B2B" style="padding:0 0 88px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:22px;padding:clamp(24px,2.8vw,34px);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:19px;font-weight:700;letter-spacing:-0.015em">Vous êtes un organisme de formation ?</span>
+          <span style="font-size:15px;line-height:1.6;color:#4C4946">Référencez votre centre gratuitement et gérez votre fiche.</span>
+        </div>
+        <a href="#espace-organisme" style="font-size:15px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:14px 24px" style-hover="background:#A83B2A;color:#FFFFFF">En savoir plus →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#0B0B0B;color:#D0CAC5;padding:72px 0 32px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:30px;width:auto;display:block;filter:brightness(0) invert(1)" />
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Formations les plus recherchées</span>
+          <a href="#tfp-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">TFP APS</a>
+          <a href="#mac-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">MAC APS</a>
+          <a href="#ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 1</a>
+          <a href="#ssiap-2" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 2</a>
+          <a href="#ssiap-3" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 3</a>
+          <a href="#cynophile" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Agent cynophile</a>
+          <a href="#aeroportuaire" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Sûreté aéroportuaire</a>
+          <a href="#formations" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les formations →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Se former par département</span>
+          <a href="#dep-75" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Paris (75)</a>
+          <a href="#dep-93" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-Saint-Denis (93)</a>
+          <a href="#dep-92" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Hauts-de-Seine (92)</a>
+          <a href="#dep-94" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-de-Marne (94)</a>
+          <a href="#dep-91" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Essonne (91)</a>
+          <a href="#dep-78" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Yvelines (78)</a>
+          <a href="#dep-95" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-d'Oise (95)</a>
+          <a href="#dep-77" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-et-Marne (77)</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Démarches CNAPS</span>
+          <a href="#autorisation-prealable" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Autorisation préalable</a>
+          <a href="#carte-professionnelle" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Carte professionnelle</a>
+          <a href="#renouvellement" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Renouvellement de la carte</a>
+          <a href="#toutes-demarches" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les démarches →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Trouve ta formation</span>
+          <a href="#a-propos" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">À propos</a>
+          <a href="#methode" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Notre méthode de référencement</a>
+          <a href="#blog" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Blog</a>
+          <a href="#contact" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#espace-organisme" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Espace organisme</a>
+          <span style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:13px">
+            <a href="#mentions" style="color:#8D8681">Mentions légales</a>
+            <a href="#confidentialite" style="color:#8D8681">Politique de confidentialité</a>
+            <a href="#cookies" style="color:#8D8681">Gestion des cookies</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin:48px 0 0;padding-top:24px;border-top:1px solid #2A2626;font-size:14px;line-height:1.6;color:#8D8681">Trouve ta formation référence aussi des organismes dans d'autres secteurs. <a href="#secteurs" style="color:#E5E0DB;font-weight:600">Voir tous les secteurs →</a></p>
+      <p style="margin:16px 0 0;font-size:12.5px;line-height:1.6;color:#7B746E">© 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.</p>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;compteurs&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Inventaire&quot;,&quot;label&quot;:&quot;Compteurs et échantillon d'organismes&quot;},&quot;reassurance&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Blocs&quot;,&quot;label&quot;:&quot;Bloc « D'où viennent ces informations »&quot;},&quot;ctaPrimaire&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Quelle formation pour moi ?&quot;,&quot;Trouver ma formation en 2 minutes&quot;,&quot;Je ne sais pas quel titre viser&quot;],&quot;default&quot;:&quot;Quelle formation pour moi ?&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { navOpen: false };
+  renderVals() {
+    const compteurs = this.props.compteurs ?? false;
+    return {
+      compteurs,
+      lancement: !compteurs,
+      reassurance: this.props.reassurance ?? true,
+      ctaPrimaire: this.props.ctaPrimaire ?? "Quelle formation pour moi ?",
+      navOpen: this.state.navOpen,
+      toggleNav: () => this.setState(s => ({ navOpen: !s.navOpen })),
+    };
+  }
+}
+</script>
+</body>
+</html>

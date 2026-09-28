@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  summary::-webkit-details-marker { display: none; }
+  @keyframes sk { 0%,100% { opacity: 1 } 50% { opacity: 0.45 } }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh">
+
+  <header style="background:rgba(247,245,241,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px">
+      <a href="#" style="display:flex;align-items:center;gap:12px;color:#0B0B0B">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+      </a>
+      <nav style="margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:5px">
+        <a href="#formations" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Les formations</a>
+        <a href="#listing" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#F2EFE9;padding:9px 16px;border-radius:999px;white-space:nowrap">Organismes</a>
+        <a href="#demarches" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Démarches CNAPS</a>
+        <a href="#blog" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 16px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Blog</a>
+      </nav>
+      <a href="#espace-organisme" style="flex:none;white-space:nowrap;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Espace organisme</a>
+    </div>
+  </header>
+
+  <section data-screen-label="En-tête catalogue" style="background:#FFFFFF">
+    <div style="max-width:1240px;margin:0 auto;padding:22px 28px 26px">
+      <nav aria-label="Fil d'Ariane" style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#7B746E">
+        <a href="#silo" style="color:#7B746E" style-hover="color:#0B0B0B">Sécurité privée</a>
+        <span>›</span>
+        <span style="color:#45423E">Organismes de formation</span>
+      </nav>
+      <h1 style="margin:26px 0 0;font-size:clamp(30px,3.8vw,46px);line-height:1.08;letter-spacing:-0.03em;font-weight:700;max-width:19ch;text-wrap:balance">Organismes de formation à la sécurité privée en Île-de-France</h1>
+      <div style="margin-top:18px;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px">
+        <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><p style="margin:0;max-width:60ch;font-size:17px;line-height:1.6;color:#4C4946">Comparez les centres agréés par titre préparé, par département et par financement accepté.</p></sc-if>
+        <sc-if value="{{ lancement }}" hint-placeholder-val="{{ true }}"><p style="margin:0;max-width:60ch;font-size:17px;line-height:1.6;color:#4C4946">Les organismes référencés en Île-de-France, avec les titres qu'ils préparent et les financements qu'ils acceptent.</p></sc-if>
+        <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7B746E;padding-left:14px;border-left:1px solid #E7E3DD">[N] organismes référencés</span></sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Chapô" style="background:#FFFFFF;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:20px 28px 22px;display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,44px)">
+      <p style="flex:3 1 480px;margin:0;font-size:14.5px;line-height:1.75;color:#4C4946">Tous les organismes référencés ici dispensent des formations menant aux titres de la sécurité privée : TFP APS, SSIAP, titres de spécialité. Deux mentions figurent sur les fiches et il ne faut pas les confondre. <strong style="font-weight:700;color:#0B0B0B">L'autorisation d'exercice délivrée par le CNAPS</strong> conditionne la validité de votre formation : un titre obtenu dans un centre non autorisé ne vous ouvrira pas droit à la carte professionnelle. <strong style="font-weight:700;color:#0B0B0B">La certification Qualiopi</strong> ne dit rien de la légalité du centre, mais elle conditionne l'accès aux financements publics et mutualisés, dont le CPF.</p>
+      <p style="flex:1 1 240px;margin:0;font-size:13px;line-height:1.7;color:#7B746E">Le référencement dans cet annuaire est gratuit et ne constitue ni une recommandation, ni un label. Les informations proviennent des organismes eux-mêmes, qui gèrent leur fiche. Vérifiez l'autorisation d'un centre avant de vous engager.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="Recherche tri carte" style="background:#FFFFFF;border-bottom:1px solid #E7E3DD;position:sticky;top:0;z-index:30">
+    <div style="max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+      <label style="flex:1 1 320px;min-width:0;display:flex;align-items:center;gap:10px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:12px 18px">
+        <span aria-hidden="true" style="flex:none;width:15px;height:15px;border:1.6px solid #7B746E;border-radius:99px;position:relative;display:block"><span style="position:absolute;right:-5px;bottom:-4px;width:7px;height:1.6px;background:#7B746E;transform:rotate(45deg);display:block"></span></span>
+        <input type="text" placeholder="Nom d'un organisme" aria-label="Rechercher un organisme par son nom" style="flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:15px;color:#0B0B0B;outline:none" />
+      </label>
+      <label style="flex:none;display:flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:11px 16px;font-size:14px;color:#45423E">
+        <span style="color:#7B746E">Trier par</span>
+        <select style="border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;outline:none;cursor:pointer">
+          <option>Pertinence</option>
+          <option>Ordre alphabétique</option>
+          <option>Par ville</option>
+        </select>
+      </label>
+      <button type="button" onClick="{{ toggleCarte }}" style="flex:none;display:flex;align-items:center;gap:9px;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:12px 20px;cursor:pointer" style-hover="border-color:#0B0B0B">
+        <span aria-hidden="true" style="width:9px;height:9px;border-radius:99px;background:#A83B2A;display:block"></span>Voir sur la carte
+      </button>
+    </div>
+  </section>
+
+  <section id="listing" data-screen-label="Listing" style="padding:28px 0 72px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+      <aside data-screen-label="Filtres" style="flex:1 1 280px;position:sticky;top:96px;display:flex;flex-direction:column;gap:12px">
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:20px 20px 8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid #E7E3DD">
+            <span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">Affiner</span>
+            <button type="button" style="font:inherit;font-size:13px;font-weight:600;color:#A83B2A;background:transparent;border:0;padding:0;cursor:pointer" style-hover="color:#0B0B0B">Tout effacer</button>
+          </div>
+
+          <details open="true" style="border-bottom:1px solid #E7E3DD">
+            <summary style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;cursor:pointer;list-style:none;font-size:14px;font-weight:700">Où<span style="color:#7B746E;font-size:11px">▾</span></summary>
+            <div style="display:flex;flex-direction:column;gap:2px;padding-bottom:14px">
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Paris (75)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">68</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" checked="true" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1;font-weight:600;color:#0B0B0B">Seine-Saint-Denis (93)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">24</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Hauts-de-Seine (92)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">31</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Val-de-Marne (94)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">22</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Essonne (91)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">14</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Yvelines (78)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">17</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Val-d'Oise (95)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">12</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" />
+                <span style="flex:1">Seine-et-Marne (77)</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">9</span></sc-if>
+              </label>
+              <div style="display:flex;flex-direction:column;gap:2px;margin-top:8px;padding:12px 12px 10px;background:#F7F5F1;border-radius:12px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;margin-bottom:4px">Villes du 93</span>
+                <label style="display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;font-size:13.5px;color:#3C3A37">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Bobigny</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">7</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;font-size:13.5px;color:#3C3A37">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Saint-Denis</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">6</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;font-size:13.5px;color:#3C3A37">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Montreuil</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">5</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;font-size:13.5px;color:#3C3A37">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Aubervilliers</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">4</span></sc-if>
+                </label>
+              </div>
+            </div>
+          </details>
+
+          <details open="true" style="border-bottom:1px solid #E7E3DD">
+            <summary style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;cursor:pointer;list-style:none;font-size:14px;font-weight:700">Formation préparée<span style="color:#7B746E;font-size:11px">▾</span></summary>
+            <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:14px">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-bottom:4px">Agent de sécurité</span>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">TFP APS</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">96</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">MAC APS</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">74</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Agent de sécurité magasin</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">28</span></sc-if>
+                </label>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-bottom:4px">Sécurité incendie</span>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" checked="true" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1;font-weight:600;color:#0B0B0B">SSIAP 1</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">61</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">SSIAP 2</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">34</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">SSIAP 3</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">11</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Recyclage SSIAP</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">52</span></sc-if>
+                </label>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-bottom:4px">Spécialités</span>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Agent cynophile</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">8</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                  <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Sûreté aéroportuaire</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">6</span></sc-if>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#8D8681">
+                  <input type="checkbox" disabled="true" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Transport de fonds</span>
+                  <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8D8681">0</span></sc-if>
+                </label>
+              </div>
+            </div>
+          </details>
+
+          <details open="true" style="border-bottom:1px solid #E7E3DD">
+            <summary style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;cursor:pointer;list-style:none;font-size:14px;font-weight:700">Financement accepté<span style="color:#7B746E;font-size:11px">▾</span></summary>
+            <div style="display:flex;flex-direction:column;gap:2px;padding-bottom:14px">
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" checked="true" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1;font-weight:600;color:#0B0B0B">CPF</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">128</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">France Travail</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">97</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">OPCO</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">83</span></sc-if>
+              </label>
+            </div>
+          </details>
+
+          <details open="true" style="border-bottom:1px solid #E7E3DD">
+            <summary style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;cursor:pointer;list-style:none;font-size:14px;font-weight:700">Rythme<span style="color:#7B746E;font-size:11px">▾</span></summary>
+            <div style="display:flex;flex-direction:column;gap:2px;padding-bottom:14px">
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Temps plein</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">141</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Cours du soir</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">23</span></sc-if>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Week-end</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">19</span></sc-if>
+              </label>
+            </div>
+          </details>
+
+          <details open="true">
+            <summary style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;cursor:pointer;list-style:none;font-size:14px;font-weight:700">Certification<span style="color:#7B746E;font-size:11px">▾</span></summary>
+            <div style="padding-bottom:16px">
+              <label style="display:flex;align-items:center;gap:10px;padding:6px 8px;margin:0 -8px;border-radius:9px;cursor:pointer;font-size:14px;color:#3C3A37" style-hover="background:#F7F5F1">
+                <input type="checkbox" style="accent-color:#0B0B0B;width:15px;height:15px;margin:0" /><span style="flex:1">Certifié Qualiopi</span>
+                <sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">156</span></sc-if>
+              </label>
+            </div>
+          </details>
+        </div>
+
+        <sc-if value="{{ bande }}" hint-placeholder-val="{{ true }}">
+          <a href="#dep-93" style="display:flex;flex-direction:column;gap:6px;background:#0B0B0B;border-radius:18px;padding:18px 20px;color:#FFFFFF" style-hover="color:#FFFFFF">
+            <span style="font-size:14.5px;font-weight:700;line-height:1.35">Nous avons une page dédiée à la Seine-Saint-Denis</span>
+            <span style="font-size:13.5px;line-height:1.55;color:#C7C1BC">Organismes, spécificités locales et démarches.</span>
+            <span style="font-size:13.5px;font-weight:600;color:#E19D8B;margin-top:2px">La consulter →</span>
+          </a>
+        </sc-if>
+      </aside>
+
+      <div style="flex:999 1 520px;display:flex;flex-direction:column;gap:16px;min-width:0">
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <sc-if value="{{ nominal }}" hint-placeholder-val="{{ true }}"><span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">34 organismes correspondent à votre recherche</span></sc-if>
+            <sc-if value="{{ unique }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">1 organisme correspond à votre recherche</span></sc-if>
+            <sc-if value="{{ vide }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:700;letter-spacing:-0.01em">Aucun organisme ne correspond à ces critères</span></sc-if>
+            <sc-if value="{{ chargement }}" hint-placeholder-val="{{ false }}"><span style="width:220px;height:16px;border-radius:99px;background:#E7E3DD;animation:sk 1.4s ease-in-out infinite;display:block"></span></sc-if>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Affichage</span>
+            <div style="display:flex;align-items:center;gap:3px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+              <button type="button" onClick="{{ setGrille }}" style="display:flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:600;color:{{ grilleColor }};background:{{ grilleBg }};border:0;border-radius:999px;padding:7px 14px;cursor:pointer">Grille</button>
+              <button type="button" onClick="{{ setListe }}" style="display:flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:600;color:{{ listeColor }};background:{{ listeBg }};border:0;border-radius:999px;padding:7px 14px;cursor:pointer">Liste</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+          <span style="font-size:13px;color:#7B746E">Votre recherche :</span>
+          <span style="display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13px;font-weight:600;color:#0B0B0B">SSIAP 1<button type="button" aria-label="Retirer le filtre SSIAP 1" style="font:inherit;font-size:13px;line-height:1;color:#7B746E;background:#F2EFE9;border:0;border-radius:99px;width:19px;height:19px;cursor:pointer">×</button></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13px;font-weight:600;color:#0B0B0B">Seine-Saint-Denis (93)<button type="button" aria-label="Retirer le filtre Seine-Saint-Denis" style="font:inherit;font-size:13px;line-height:1;color:#7B746E;background:#F2EFE9;border:0;border-radius:99px;width:19px;height:19px;cursor:pointer">×</button></span>
+          <span style="display:inline-flex;align-items:center;gap:8px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:6px 8px 6px 14px;font-size:13px;font-weight:600;color:#0B0B0B">CPF<button type="button" aria-label="Retirer le filtre CPF" style="font:inherit;font-size:13px;line-height:1;color:#7B746E;background:#F2EFE9;border:0;border-radius:99px;width:19px;height:19px;cursor:pointer">×</button></span>
+          <button type="button" style="font:inherit;font-size:13px;font-weight:600;color:#A83B2A;background:transparent;border:0;padding:6px 4px;cursor:pointer" style-hover="color:#0B0B0B">Tout effacer</button>
+        </div>
+
+        <sc-if value="{{ nominal }}" hint-placeholder-val="{{ true }}">
+          <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:{{ colonnes }};gap:14px">
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">AF</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Académie Française de Sécurité</span>
+                    <span style="font-size:13.5px;color:#7B746E">Bobigny (93) et 2 autres lieux</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+                  <span style="display:inline-flex;align-items:center;border-radius:9px;padding:6px 4px;font-size:13px;color:#7B746E">+2 titres</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">CS</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Centre Sécuriform Île-de-France</span>
+                    <span style="font-size:13.5px;color:#7B746E">Saint-Denis (93)</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Recyclage SSIAP</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">IP</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Institut Prévention &amp; Sûreté</span>
+                    <span style="font-size:13.5px;color:#7B746E">Montreuil (93) et 1 autre lieu</span>
+                  </span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>MAC APS</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">GF</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Groupe Formation Sécurité 93</span>
+                    <span style="font-size:13.5px;color:#7B746E">Aubervilliers (93)</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 3</span>
+                  <span style="display:inline-flex;align-items:center;border-radius:9px;padding:6px 4px;font-size:13px;color:#7B746E">+4 titres</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">EN</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">École Nationale de la Sécurité Privée</span>
+                    <span style="font-size:13.5px;color:#7B746E">Pantin (93)</span>
+                  </span>
+                </span>
+                <span style="font-size:14px;line-height:1.6;color:#4C4946">Organisme de formation à la sécurité privée · Pantin (93)</span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">PF</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Pôle Formation Incendie Nord</span>
+                    <span style="font-size:13.5px;color:#7B746E">Le Blanc-Mesnil (93) et 3 autres lieux</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Recyclage SSIAP</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">AS</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Aria Sécurité Formation</span>
+                    <span style="font-size:13.5px;color:#7B746E">Noisy-le-Sec (93)</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Agent cynophile</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+                <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+                  <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">SP</span>
+                  <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:160px">
+                    <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Sécurité Pro Académie</span>
+                    <span style="font-size:13.5px;color:#7B746E">Stains (93)</span>
+                  </span>
+                </span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Agent de sécurité magasin</span>
+                </span>
+                <span style="margin-top:auto;padding-top:12px;border-top:1px solid #F0ECE6;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span>
+                </span>
+              </a>
+            </li>
+          </ol>
+        </sc-if>
+
+        <sc-if value="{{ unique }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4C4946">Un seul organisme correspond à ces critères. Élargissez votre recherche pour en voir davantage.</p>
+            <a href="#fiche" style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:26px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:26px;color:#0B0B0B" style-hover="border-color:#0B0B0B">
+              <span style="display:flex;flex-direction:column;gap:14px;min-width:0">
+                <span style="display:flex;align-items:flex-start;gap:14px">
+                  <span style="flex:none;width:54px;height:54px;border-radius:14px;border:1px solid #E7E3DD;background:#F2EFE9;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#45423E">GF</span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.25">Groupe Formation Sécurité 93</span>
+                    <span style="font-size:14px;color:#7B746E">Aubervilliers (93)</span>
+                  </span>
+                  <span style="flex:none;display:inline-flex;align-items:center;gap:6px;background:#F2EFE9;border-radius:999px;padding:5px 11px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Qualiopi</span>
+                </span>
+                <span style="font-size:15px;line-height:1.7;color:#4C4946">Centre spécialisé dans la sécurité incendie, avec des sessions SSIAP tous les niveaux et un plateau technique dédié aux mises en situation.</span>
+                <span style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:13px;color:#4C4946;padding-top:4px;border-top:1px solid #F0ECE6">
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+                  <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+                </span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Titres préparés</span>
+                <span style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 3</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>Recyclage SSIAP</span>
+                  <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+                </span>
+              </span>
+            </a>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:14px;color:#4C4946">
+              <span style="font-weight:700;color:#0B0B0B">Voir aussi</span>
+              <a href="#dep-94">les organismes du Val-de-Marne (94)</a><span style="color:#C7C1BC">·</span>
+              <a href="#ssiap-2">les organismes préparant le SSIAP 2</a>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vide }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:18px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:clamp(22px,2.6vw,32px)">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:20px;font-weight:700;letter-spacing:-0.02em">Aucun organisme ne correspond à ces critères</span>
+              <span style="font-size:14.5px;color:#4C4946">Votre recherche : <strong style="font-weight:700;color:#0B0B0B">SSIAP 3</strong> · <strong style="font-weight:700;color:#0B0B0B">Essonne (91)</strong> · <strong style="font-weight:700;color:#0B0B0B">CPF</strong></span>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:16px;padding:18px 20px">
+              <span style="font-size:15.5px;font-weight:700;line-height:1.45">Retirez « Essonne » et 12 organismes correspondent.</span>
+              <button type="button" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border:0;border-radius:999px;padding:12px 20px;cursor:pointer" style-hover="background:#A83B2A">Retirer ce filtre →</button>
+            </div>
+            <p style="margin:0;font-size:14.5px;line-height:1.7;color:#4C4946">Ou consultez les organismes préparant le SSIAP 3 dans les départements voisins : <a href="#dep-94">Val-de-Marne (94)</a> · <a href="#dep-92">Hauts-de-Seine (92)</a> · <a href="#dep-75">Paris (75)</a></p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;padding-top:16px;border-top:1px solid #F0ECE6">
+              <button type="button" style="font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:12px 20px;cursor:pointer" style-hover="border-color:#0B0B0B">Tout effacer et voir les [N] organismes</button>
+              <a href="#ssiap-3" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:12px 20px" style-hover="border-color:#0B0B0B">Voir la page dédiée au SSIAP 3 →</a>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ chargement }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:{{ colonnes }};gap:14px">
+            <span style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;animation:sk 1.4s ease-in-out infinite">
+              <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px"><span style="flex:none;width:46px;height:46px;border-radius:13px;background:#EEEAE4;display:block"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="height:15px;width:80%;border-radius:99px;background:#EEEAE4;display:block"></span><span style="height:12px;width:45%;border-radius:99px;background:#F2EFE9;display:block"></span></span></span>
+              <span style="display:flex;gap:6px"><span style="height:29px;width:82px;border-radius:9px;background:#F2EFE9;display:block"></span><span style="height:29px;width:82px;border-radius:9px;background:#F2EFE9;display:block"></span></span>
+              <span style="height:13px;width:60%;border-radius:99px;background:#F2EFE9;display:block"></span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;animation:sk 1.4s ease-in-out infinite">
+              <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px"><span style="flex:none;width:46px;height:46px;border-radius:13px;background:#EEEAE4;display:block"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="height:15px;width:70%;border-radius:99px;background:#EEEAE4;display:block"></span><span style="height:12px;width:38%;border-radius:99px;background:#F2EFE9;display:block"></span></span></span>
+              <span style="display:flex;gap:6px"><span style="height:29px;width:82px;border-radius:9px;background:#F2EFE9;display:block"></span><span style="height:29px;width:110px;border-radius:9px;background:#F2EFE9;display:block"></span></span>
+              <span style="height:13px;width:52%;border-radius:99px;background:#F2EFE9;display:block"></span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;animation:sk 1.4s ease-in-out infinite">
+              <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px"><span style="flex:none;width:46px;height:46px;border-radius:13px;background:#EEEAE4;display:block"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="height:15px;width:76%;border-radius:99px;background:#EEEAE4;display:block"></span><span style="height:12px;width:42%;border-radius:99px;background:#F2EFE9;display:block"></span></span></span>
+              <span style="display:flex;gap:6px"><span style="height:29px;width:96px;border-radius:9px;background:#F2EFE9;display:block"></span><span style="height:29px;width:82px;border-radius:9px;background:#F2EFE9;display:block"></span></span>
+              <span style="height:13px;width:58%;border-radius:99px;background:#F2EFE9;display:block"></span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px;animation:sk 1.4s ease-in-out infinite">
+              <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px"><span style="flex:none;width:46px;height:46px;border-radius:13px;background:#EEEAE4;display:block"></span><span style="flex:1;display:flex;flex-direction:column;gap:8px"><span style="height:15px;width:66%;border-radius:99px;background:#EEEAE4;display:block"></span><span style="height:12px;width:48%;border-radius:99px;background:#F2EFE9;display:block"></span></span></span>
+              <span style="display:flex;gap:6px"><span style="height:29px;width:82px;border-radius:9px;background:#F2EFE9;display:block"></span><span style="height:29px;width:64px;border-radius:9px;background:#F2EFE9;display:block"></span></span>
+              <span style="height:13px;width:50%;border-radius:99px;background:#F2EFE9;display:block"></span>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ pagination }}" hint-placeholder-val="{{ true }}">
+          <nav aria-label="Pagination" style="margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px">
+            <a href="#page-1" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:10px 18px" style-hover="border-color:#0B0B0B">Précédent</a>
+            <a href="#page-1" style="min-width:40px;text-align:center;font-size:14px;font-weight:600;color:#45423E;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">1</a>
+            <a href="#page-2" aria-current="page" style="min-width:40px;text-align:center;font-size:14px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:10px 14px" style-hover="color:#FFFFFF">2</a>
+            <a href="#page-3" style="min-width:40px;text-align:center;font-size:14px;font-weight:600;color:#45423E;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">3</a>
+            <a href="#page-4" style="min-width:40px;text-align:center;font-size:14px;font-weight:600;color:#45423E;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">4</a>
+            <span style="color:#8D8681;padding:0 4px">…</span>
+            <a href="#page-9" style="min-width:40px;text-align:center;font-size:14px;font-weight:600;color:#45423E;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:999px;padding:10px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">9</a>
+            <a href="#page-3" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:10px 18px" style-hover="border-color:#0B0B0B">Suivant</a>
+            <span style="width:100%;text-align:center;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7B746E">Page 2 sur 9</span>
+          </nav>
+        </sc-if>
+
+        <div style="margin-top:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:clamp(22px,2.6vw,30px);display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:19px;font-weight:700;letter-spacing:-0.015em">Vous dirigez un organisme de formation ?</span>
+            <span style="font-size:15px;line-height:1.6;color:#4C4946">Le référencement est gratuit. Créez la fiche de votre centre et gérez-la vous-même.</span>
+          </div>
+          <a href="#espace-organisme" style="font-size:15px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:14px 24px" style-hover="background:#A83B2A;color:#FFFFFF">Référencer mon organisme →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="maillage-titres" data-screen-label="Maillage titres" style="padding:72px 0;background:#FFFFFF;border-top:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.025em;font-weight:700">Chercher par titre de formation</h2>
+      <p style="margin:12px 0 0;max-width:64ch;font-size:16px;line-height:1.65;color:#4C4946">Chaque titre dispose d'une page dédiée : programme, conditions d'accès, durée réglementaire et organismes qui le préparent.</p>
+      <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px">
+        <a href="#tfp-aps" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">TFP APS<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">96</span></sc-if></a>
+        <a href="#mac-aps" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">MAC APS<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">74</span></sc-if></a>
+        <a href="#magasin" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Agent de sécurité magasin<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">28</span></sc-if></a>
+        <a href="#ssiap-1" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">SSIAP 1<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">61</span></sc-if></a>
+        <a href="#ssiap-2" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">SSIAP 2<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">34</span></sc-if></a>
+        <a href="#ssiap-3" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">SSIAP 3<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">11</span></sc-if></a>
+        <a href="#recyclage-ssiap" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Recyclage SSIAP<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">52</span></sc-if></a>
+        <a href="#cynophile" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Agent cynophile<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">8</span></sc-if></a>
+        <a href="#aeroportuaire" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Sûreté aéroportuaire<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">6</span></sc-if></a>
+        <a href="#protection-rapprochee" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Protection rapprochée<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">4</span></sc-if></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="maillage-geo" data-screen-label="Maillage géographique" style="padding:0 0 72px;background:#FFFFFF">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <h2 style="margin:0;font-size:clamp(26px,2.9vw,34px);line-height:1.15;letter-spacing:-0.025em;font-weight:700">Chercher par département</h2>
+      <p style="margin:12px 0 0;max-width:64ch;font-size:16px;line-height:1.65;color:#4C4946">La formation se déroule en présentiel : la proximité du centre compte.</p>
+      <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px">
+        <a href="#dep-75" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Paris (75)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">68</span></sc-if></a>
+        <a href="#dep-93" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Seine-Saint-Denis (93)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">24</span></sc-if></a>
+        <a href="#dep-92" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Hauts-de-Seine (92)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">31</span></sc-if></a>
+        <a href="#dep-94" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Val-de-Marne (94)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">22</span></sc-if></a>
+        <a href="#dep-91" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Essonne (91)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">14</span></sc-if></a>
+        <a href="#dep-78" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Yvelines (78)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">17</span></sc-if></a>
+        <a href="#dep-95" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Val-d'Oise (95)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">12</span></sc-if></a>
+        <a href="#dep-77" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:14px;padding:15px 18px;font-size:15px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B">Seine-et-Marne (77)<sc-if value="{{ compteurs }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#7B746E">9</span></sc-if></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="editorial" data-screen-label="Corps éditorial" style="padding:80px 0;border-top:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.1fr);gap:clamp(28px,5vw,72px);align-items:start">
+      <div style="position:sticky;top:150px;display:flex;flex-direction:column;gap:12px">
+        <span style="width:30px;height:2px;background:#A83B2A;display:block"></span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Le guide</span>
+        <h2 style="margin:0;font-size:clamp(24px,2.6vw,30px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Comment choisir son organisme de formation</h2>
+        <p style="margin:0;font-size:15.5px;line-height:1.7;color:#4C4946">Le choix d'un centre se joue sur quatre points, et un seul d'entre eux est éliminatoire.</p>
+        <nav style="margin-top:12px;display:flex;flex-direction:column;border-top:1px solid #E7E3DD">
+          <a href="#g-cnaps" style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #E7E3DD;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">01</span>L'autorisation CNAPS</a>
+          <a href="#g-qualiopi" style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #E7E3DD;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">02</span>Ce que garantit Qualiopi</a>
+          <a href="#g-titre" style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #E7E3DD;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">03</span>Le titre que vous visez</a>
+          <a href="#g-questions" style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid #E7E3DD;font-size:14.5px;font-weight:600;color:#0B0B0B" style-hover="color:#A83B2A"><span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:#A83B2A">04</span>Les questions à poser</a>
+        </nav>
+      </div>
+      <div style="flex:1 1 420px;display:flex;flex-direction:column;gap:56px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div id="g-cnaps" style="display:flex;align-items:baseline;gap:16px">
+            <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#A83B2A">01</span>
+            <h3 style="margin:0;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-0.02em;font-weight:700">Vérifier que le centre est autorisé par le CNAPS</h3>
+          </div>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">C'est le point éliminatoire, et c'est celui que les candidats vérifient le moins.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Un organisme qui dispense des formations à la sécurité privée doit détenir une autorisation d'exercice délivrée par le CNAPS. Ce n'est pas une distinction commerciale : c'est une condition de validité. <strong style="font-weight:700;color:#0B0B0B">Un titre obtenu dans un centre non autorisé ne vous ouvrira pas droit à la carte professionnelle.</strong> Vous aurez payé, suivi la formation, passé les épreuves, et vous ne pourrez pas exercer.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Le CNAPS met à disposition un espace public de consultation des titres, qui permet de vérifier l'autorisation d'un organisme comme la validité d'une carte professionnelle. La vérification prend une minute et elle est à faire avant tout versement.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Les fiches de cet annuaire indiquent le numéro d'autorisation quand l'organisme l'a renseigné. Son absence sur une fiche ne signifie pas que le centre n'est pas autorisé — seulement qu'il n'a pas rempli le champ. Dans ce cas, demandez-le au centre, et vérifiez-le vous-même.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div id="g-qualiopi" style="display:flex;align-items:baseline;gap:16px">
+            <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#A83B2A">02</span>
+            <h3 style="margin:0;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-0.02em;font-weight:700">Ce que garantit la certification Qualiopi, et ce qu’elle ne garantit pas</h3>
+          </div>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Qualiopi est une certification portant sur le processus de l'organisme : la façon dont il conçoit ses formations, informe ses candidats, suit ses stagiaires, recueille leurs retours.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Ce qu'elle apporte</span>
+              <span style="font-size:15px;line-height:1.7;color:#4C4946"><strong style="font-weight:700;color:#0B0B0B">Elle conditionne l'accès aux financements publics et mutualisés.</strong> Sans elle, ni CPF, ni France Travail, ni OPCO. Pour la majorité des candidats, c'est donc un critère décisif, non par qualité mais par financement.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:22px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Ce qu'elle ne garantit pas</span>
+              <span style="font-size:15px;line-height:1.7;color:#4C4946">La qualité pédagogique d'une session, le taux de réussite aux épreuves, la compétence d'un formateur en particulier. Et elle ne remplace en aucun cas l'autorisation du CNAPS — les deux sont indépendantes, et seule la seconde conditionne votre carte professionnelle.</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div id="g-titre" style="display:flex;align-items:baseline;gap:16px">
+            <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#A83B2A">03</span>
+            <h3 style="margin:0;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-0.02em;font-weight:700">Vérifier que le centre prépare bien le titre que vous visez</h3>
+          </div>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Un organisme peut être autorisé, certifié, et ne pas préparer le titre dont vous avez besoin. C'est fréquent sur les spécialités et sur les MAC, où l'offre est plus rare que sur les titres d'entrée.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Vérifiez également <strong style="font-weight:700;color:#0B0B0B">où</strong> la formation se déroule. Un organisme dont le siège est à Paris peut dispenser ses sessions en grande couronne. Sur des formations de plusieurs semaines en présentiel, le trajet quotidien est un critère de faisabilité, pas de confort.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div id="g-questions" style="display:flex;align-items:baseline;gap:16px">
+            <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#A83B2A">04</span>
+            <h3 style="margin:0;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-0.02em;font-weight:700">Les questions à poser avant de s’inscrire</h3>
+          </div>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37">Quatre questions font le tri, et un centre sérieux y répond sans détour.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px">
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:16px">
+              <span style="font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Quel est le prix total, tout compris ?</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Les frais d'inscription, de dossier ou de passage d'épreuves sont parfois annoncés séparément du prix de la formation.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:16px">
+              <span style="font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Quel est le rythme exact et sur quelle période ?</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Temps plein, cours du soir, week-end : c'est ce qui détermine si vous pouvez suivre la formation en conservant un emploi.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:16px">
+              <span style="font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Que se passe-t-il en cas d'échec aux épreuves ?</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Rattrapage inclus ou facturé, délai avant nouvelle présentation.</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;border-top:2px solid #0B0B0B;padding-top:16px">
+              <span style="font-size:16px;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Quel financement acceptez-vous, et qui monte le dossier ?</span>
+              <span style="font-size:14.5px;line-height:1.65;color:#4C4946">Un centre habitué au CPF ou à France Travail vous fera gagner des semaines sur le montage.</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:22px;padding:clamp(24px,3vw,34px)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#A83B2A">Signaux d'alerte</span>
+          <h3 style="margin:0;font-size:clamp(21px,2.2vw,26px);line-height:1.2;letter-spacing:-0.02em;font-weight:700">Les pièges à éviter</h3>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37"><strong style="font-weight:700;color:#0B0B0B">Un centre qui vous propose de vous inscrire sans autorisation préalable du CNAPS.</strong> L'autorisation préalable est requise avant l'entrée en formation. Un organisme qui propose de s'en passer vous expose à une formation sans débouché.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37"><strong style="font-weight:700;color:#0B0B0B">Un prix nettement inférieur au marché sur un titre à durée réglementée.</strong> Les durées de formation sont fixées par la réglementation, pas par les centres. Un tarif très bas signale souvent un volume horaire réduit, ce qui compromet la validité du titre.</p>
+          <p style="margin:0;font-size:16.5px;line-height:1.75;color:#3C3A37"><strong style="font-weight:700;color:#0B0B0B">Une promesse d'embauche présentée comme automatique.</strong> Un centre peut avoir des relations avec des employeurs ; il ne peut pas garantir un poste.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" data-screen-label="FAQ" style="padding:80px 0;background:#FFFFFF;border-top:1px solid #E7E3DD;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:880px;margin:0 auto;padding:0 28px">
+      <h2 style="margin:0 0 30px;font-size:clamp(26px,3vw,36px);line-height:1.12;letter-spacing:-0.025em;font-weight:700;max-width:620px">Questions fréquentes sur le choix d'un organisme</h2>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #E7E3DD">
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Comment vérifier qu'un organisme est autorisé par le CNAPS ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Le CNAPS met à disposition un espace public de consultation des titres, qui permet de vérifier l'autorisation d'un organisme. Demandez son numéro d'autorisation au centre et vérifiez-le avant tout versement.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Un organisme non certifié Qualiopi peut-il me former légalement ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Oui, si le CNAPS l'a autorisé. Qualiopi ne conditionne pas la légalité de la formation, mais l'accès aux financements publics et mutualisés, dont le CPF.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Comment un organisme est-il référencé dans cet annuaire ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Les organismes créent et gèrent eux-mêmes leur fiche. Le référencement est gratuit et volontaire.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Faut-il payer pour figurer dans le catalogue ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Le référencement est gratuit et aucun organisme ne peut acheter une meilleure position dans les résultats.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Pourquoi certaines fiches n'indiquent-elles aucune formation ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Parce que l'organisme n'a pas encore renseigné son offre. Ces fiches apparaissent dans le catalogue complet, mais pas dans les résultats filtrés par titre.</p>
+        </details>
+        <details style="border-bottom:1px solid #E7E3DD">
+          <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:20px 0;cursor:pointer;list-style:none;font-size:17px;font-weight:600;line-height:1.4">Les informations des fiches sont-elles vérifiées ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+          <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Elles proviennent des organismes eux-mêmes. Nous vérifions leur déclaration auprès du CNAPS avant publication, mais les tarifs, rythmes et disponibilités relèvent de leur responsabilité et évoluent. Confirmez-les auprès du centre.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#0B0B0B;color:#D0CAC5;padding:72px 0 32px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:30px;width:auto;display:block;filter:brightness(0) invert(1)" />
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Formations les plus recherchées</span>
+          <a href="#tfp-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">TFP APS</a>
+          <a href="#mac-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">MAC APS</a>
+          <a href="#ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 1</a>
+          <a href="#ssiap-2" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 2</a>
+          <a href="#ssiap-3" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 3</a>
+          <a href="#cynophile" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Agent cynophile</a>
+          <a href="#aeroportuaire" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Sûreté aéroportuaire</a>
+          <a href="#maillage-titres" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les formations →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Se former par département</span>
+          <a href="#dep-75" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Paris (75)</a>
+          <a href="#dep-93" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-Saint-Denis (93)</a>
+          <a href="#dep-92" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Hauts-de-Seine (92)</a>
+          <a href="#dep-94" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-de-Marne (94)</a>
+          <a href="#dep-91" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Essonne (91)</a>
+          <a href="#dep-78" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Yvelines (78)</a>
+          <a href="#dep-95" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-d'Oise (95)</a>
+          <a href="#dep-77" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-et-Marne (77)</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Démarches CNAPS</span>
+          <a href="#autorisation-prealable" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Autorisation préalable</a>
+          <a href="#carte-professionnelle" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Carte professionnelle</a>
+          <a href="#renouvellement" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Renouvellement de la carte</a>
+          <a href="#toutes-demarches" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les démarches →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Trouve ta formation</span>
+          <a href="#a-propos" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">À propos</a>
+          <a href="#methode" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Notre méthode de référencement</a>
+          <a href="#blog" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Blog</a>
+          <a href="#contact" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#espace-organisme" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Espace organisme</a>
+          <span style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:13px">
+            <a href="#mentions" style="color:#8D8681">Mentions légales</a>
+            <a href="#confidentialite" style="color:#8D8681">Politique de confidentialité</a>
+            <a href="#cookies" style="color:#8D8681">Gestion des cookies</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin:48px 0 0;padding-top:24px;border-top:1px solid #2A2626;font-size:14px;line-height:1.6;color:#8D8681">Trouve ta formation référence aussi des organismes dans d'autres secteurs. <a href="#secteurs" style="color:#E5E0DB;font-weight:600">Voir tous les secteurs →</a></p>
+      <p style="margin:16px 0 0;font-size:12.5px;line-height:1.6;color:#7B746E">© 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.</p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ carteOuverte }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;background:rgba(11,11,11,0.45);display:flex;align-items:center;justify-content:center;padding:28px">
+      <div style="width:min(980px,100%);max-height:88vh;display:flex;flex-direction:column;background:#FFFFFF;border-radius:22px;overflow:hidden">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;border-bottom:1px solid #E7E3DD">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:18px;font-weight:700;letter-spacing:-0.015em">Les lieux de formation</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#7B746E">[N] organismes · [M] lieux de formation</span>
+          </div>
+          <button type="button" onClick="{{ toggleCarte }}" aria-label="Fermer la carte" style="font:inherit;font-size:15px;color:#45423E;background:#F2EFE9;border:0;border-radius:99px;width:36px;height:36px;cursor:pointer">×</button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 24px;border-bottom:1px solid #E7E3DD;font-size:13.5px;color:#4C4946">
+          <span style="color:#7B746E">Filtres actifs :</span>
+          <span style="font-weight:600;color:#0B0B0B">SSIAP 1</span><span style="color:#C7C1BC">·</span>
+          <span style="font-weight:600;color:#0B0B0B">Seine-Saint-Denis (93)</span>
+          <button type="button" style="font:inherit;font-size:13px;font-weight:600;color:#A83B2A;background:transparent;border:0;cursor:pointer;margin-left:auto">Tout effacer</button>
+        </div>
+        <div style="flex:1;min-height:340px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8D8681">carte — chargée à la demande</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Résultats&quot;,&quot;Résultat unique&quot;,&quot;Zéro résultat&quot;,&quot;Chargement&quot;],&quot;default&quot;:&quot;Résultats&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Listing&quot;,&quot;label&quot;:&quot;État du listing&quot;},&quot;compteurs&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Inventaire&quot;,&quot;label&quot;:&quot;Compteurs et pagination (au-dessus du seuil)&quot;},&quot;bande&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Filtres&quot;,&quot;label&quot;:&quot;Bande vers la page éditorialisée&quot;}}">
+class Component extends DCLogic {
+  state = { vue: "grille", carteOuverte: false };
+  renderVals() {
+    const etat = this.props.etat ?? "Résultats";
+    const compteurs = this.props.compteurs ?? false;
+    const vue = this.state.vue;
+    return {
+      compteurs,
+      lancement: !compteurs,
+      bande: this.props.bande ?? true,
+      nominal: etat === "Résultats",
+      unique: etat === "Résultat unique",
+      vide: etat === "Zéro résultat",
+      chargement: etat === "Chargement",
+      pagination: etat === "Résultats" && compteurs,
+      colonnes: vue === "grille" ? "repeat(auto-fill,minmax(300px,1fr))" : "minmax(0,1fr)",
+      grilleBg: vue === "grille" ? "#F2EFE9" : "transparent",
+      grilleColor: vue === "grille" ? "#0B0B0B" : "#7B746E",
+      listeBg: vue === "liste" ? "#F2EFE9" : "transparent",
+      listeColor: vue === "liste" ? "#0B0B0B" : "#7B746E",
+      setGrille: () => this.setState({ vue: "grille" }),
+      setListe: () => this.setState({ vue: "liste" }),
+      carteOuverte: this.state.carteOuverte,
+      toggleCarte: () => this.setState(s => ({ carteOuverte: !s.carteOuverte })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

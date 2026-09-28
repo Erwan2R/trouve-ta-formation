@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-padding-top: 130px; }
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  summary::-webkit-details-marker { display: none; }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh">
+
+  <header style="background:#FFFFFF;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px">
+      <a href="#" style="display:flex;align-items:center;gap:12px;color:#0B0B0B" style-hover="color:#0B0B0B">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+      </a>
+      <nav style="margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px">
+        <a href="#formations" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Les formations</a>
+        <a href="#organismes" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Organismes</a>
+        <a href="#demarches" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#F2EFE9;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="color:#0B0B0B">Démarches CNAPS</a>
+        <a href="#blog" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Blog</a>
+      </nav>
+      <a href="#espace-organisme" style="flex:none;white-space:nowrap;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Espace organisme</a>
+    </div>
+  </header>
+
+  <section data-screen-label="En-tête démarche" style="background:#F2EFE9;border-bottom:1px solid #E2DDD6">
+    <div style="max-width:1240px;margin:0 auto;padding:18px 28px 40px">
+      <nav aria-label="Fil d'Ariane" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#7B746E">
+        <a href="#silo" style="color:#7B746E" style-hover="color:#0B0B0B">Sécurité privée</a>
+        <span>›</span>
+        <a href="#demarches" style="color:#7B746E" style-hover="color:#0B0B0B">Démarches</a>
+        <span>›</span>
+        <span style="color:#45423E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Autorisation préalable</span>
+      </nav>
+
+      <div style="margin-top:32px;display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,48px);align-items:flex-start">
+        <div style="flex:1 1 500px;min-width:290px;display:flex;flex-direction:column;gap:14px">
+          <span style="display:inline-flex;align-self:flex-start;align-items:center;gap:9px;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#45423E"><span style="width:6px;height:6px;border-radius:99px;background:#A83B2A;display:block"></span>Étape 1 sur 4 du parcours</span>
+          <h1 style="margin:0;font-size:clamp(30px,4vw,50px);line-height:1.04;letter-spacing:-0.035em;font-weight:700;text-wrap:balance">Autorisation préalable du CNAPS : la démarche avant d'entrer en formation</h1>
+          <p style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.02em;color:#7B746E">Vérifié le {{ dateVerif }}<sc-if value="{{ bandeauDracar }}" hint-placeholder-val="{{ true }}"><span> · Procédure mise à jour depuis le passage à Dracar Ultimate</span></sc-if></p>
+          <p style="margin:0;max-width:62ch;font-size:19px;line-height:1.6;color:#3C3A37;text-wrap:pretty">L'autorisation préalable est le feu vert du CNAPS pour commencer une formation à la sécurité privée. Sans elle, aucun organisme ne peut vous accueillir en formation, et un centre qui accepterait de le faire vous exposerait à ne jamais obtenir votre carte.</p>
+        </div>
+
+        <dl data-screen-label="Encadré de synthèse" style="flex:1 1 330px;min-width:280px;margin:0;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:0">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">À qui</dt>
+            <dd style="margin:0;flex:1 1 180px;font-size:14.5px;font-weight:600;line-height:1.45;text-align:right">Toute personne entrant en formation sans carte professionnelle en cours de validité</dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Quand</dt>
+            <dd style="margin:0;flex:1 1 160px;font-size:14.5px;font-weight:600;line-height:1.45;text-align:right">Avant l'inscription en formation, jamais après</dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Où</dt>
+            <dd style="margin:0;flex:1 1 160px;font-size:14.5px;font-weight:600;line-height:1.45;text-align:right">En ligne sur <a href="https://espace-usagers.cnaps.interieur.gouv.fr" style="font-weight:700">Dracar Ultimate</a>, espace usager du CNAPS</dd>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Pièces principales</dt>
+            <dd style="margin:0;flex:1 1 180px;font-size:14.5px;font-weight:600;line-height:1.45;text-align:right">Pièce d'identité, justificatif de domicile, justificatif de pré-inscription</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Délai d'instruction</dt>
+            <dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;text-align:right">à vérifier</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Coût</dt>
+            <dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A;text-align:right">à vérifier</dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #F0ECE6">
+            <dt style="font-size:13.5px;color:#7B746E">Validité</dt>
+            <dd style="margin:0;font-size:15px;font-weight:700;text-align:right">Six mois <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:400;color:#A83B2A">à confirmer</span></dd>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:11px 0">
+            <dt style="font-size:13.5px;color:#7B746E">Dernière vérification</dt>
+            <dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#45423E;text-align:right">{{ dateVerif }}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <nav data-screen-label="Table des matières" aria-label="Sur cette page" style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:11px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;margin-right:6px">Sur cette page</span>
+      <a href="#qui" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Qui doit la demander</a>
+      <a href="#conditions" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Les conditions</a>
+      <a href="#pieces" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Les pièces à fournir</a>
+      <a href="#depot" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Déposer la demande</a>
+      <a href="#delais" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">Délais et suivi</a>
+      <a href="#refus" style="font-size:13.5px;font-weight:600;color:#45423E;border:1px solid #E7E3DD;border-radius:999px;padding:8px 14px" style-hover="border-color:#0B0B0B;color:#0B0B0B">En cas de refus</a>
+      <a href="#ensuite" style="font-size:13.5px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border:1px solid #0B0B0B;border-radius:999px;padding:8px 14px" style-hover="background:#A83B2A;border-color:#A83B2A;color:#FFFFFF">Ce qu'il faut faire ensuite</a>
+    </div>
+  </nav>
+
+  <section data-screen-label="Corps de la démarche" style="background:#F7F5F1">
+    <div style="max-width:1240px;margin:0 auto;padding:48px 28px 56px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px);align-items:flex-start">
+
+      <div style="flex:999 1 560px;min-width:300px;display:flex;flex-direction:column;gap:46px">
+
+        <div id="qui" style="display:flex;flex-direction:column;gap:16px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Qui doit demander une autorisation préalable</h2>
+          <p style="margin:0;max-width:70ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Vous devez la demander si vous voulez entrer en formation à la sécurité privée et que vous ne détenez pas de carte professionnelle en cours de validité. C'est le cas de la très grande majorité des candidats : ceux qui préparent un TFP APS, un SSIAP, un titre de spécialité, sans avoir jamais exercé.</p>
+          <p style="margin:0;max-width:70ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation.</p>
+          <div style="border-left:2px solid #A83B2A;padding:4px 0 4px 20px;max-width:70ch;display:flex;flex-direction:column;gap:6px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#A83B2A">Ne pas confondre</span>
+            <span style="font-size:17px;line-height:1.7;color:#0B0B0B">L'autorisation <strong>provisoire</strong> concerne une situation différente : être employé pour une activité de sécurité privée sans détenir encore la carte professionnelle. Les deux figurent sur le même formulaire historique et sont constamment mélangées.</span>
+          </div>
+        </div>
+
+        <div id="conditions" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les conditions que le CNAPS vérifie</h2>
+          <p style="margin:0;max-width:70ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">L'autorisation préalable n'est pas une formalité d'inscription : c'est une enquête administrative. Le CNAPS vérifie que rien, dans votre situation personnelle, ne s'oppose à l'exercice d'un métier de la sécurité privée.</p>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">L'enquête administrative et le casier judiciaire</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Le CNAPS consulte le bulletin n° 2 de votre casier judiciaire, le fichier de traitement des antécédents judiciaires et le fichier des personnes recherchées.</p>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Le bulletin n° 2 ne contient pas toutes les condamnations : certaines en sont exclues, d'autres en sont effacées avec le temps. Vous pouvez le demander vous-même avant d'engager la démarche, et c'est ce qu'il faut faire si vous avez un doute. Découvrir un problème au stade de l'autorisation préalable coûte quelques semaines ; le découvrir au stade de la carte professionnelle, après avoir payé et suivi une formation, coûte beaucoup plus. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à vérifier]</span></p>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty"><strong>Une condamnation n'est pas automatiquement rédhibitoire.</strong> Le CNAPS apprécie la nature des faits, leur ancienneté et leur compatibilité avec l'exercice du métier. Une inscription au fichier des antécédents judiciaires n'est pas une condamnation et ne ferme pas nécessairement la porte, mais elle peut suffire à motiver un refus.</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">Nationalité et titre de séjour</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Les ressortissants français et européens fournissent une pièce d'identité en cours de validité.</p>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Les ressortissants d'un État hors Union européenne doivent disposer d'un titre de séjour en cours de validité les autorisant à travailler en France, et fournir l'équivalent du bulletin n° 3 du casier judiciaire de leur pays d'origine ou de provenance. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à vérifier]</span></p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h3 style="margin:0;font-size:18.5px;font-weight:700;letter-spacing:-0.015em">L'aptitude professionnelle n'est pas contrôlée ici</h3>
+            <p style="margin:0;max-width:70ch;font-size:17px;line-height:1.75;color:#3C3A37;text-wrap:pretty">L'autorisation préalable ne vérifie pas vos compétences : elle intervient précisément avant que vous les acquériez. L'aptitude professionnelle s'obtient par la réussite d'un titre reconnu, et elle est contrôlée au moment de la demande de carte professionnelle. <a href="#formations" style="font-weight:700">Voir les formations qui donnent l'aptitude professionnelle →</a></p>
+          </div>
+
+          <p style="margin:6px 0 0;max-width:70ch;font-size:15.5px;line-height:1.7;color:#4C4946;padding-top:16px;border-top:1px solid #DFD9D2">Cette procédure est décrite officiellement sur <a href="https://www.cnaps.interieur.gouv.fr" style="font-weight:600">le site du CNAPS</a>. Nous la reformulons ici pour la rendre plus lisible, mais en cas de divergence, c'est le site officiel qui fait foi.</p>
+        </div>
+
+        <div id="pieces" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les pièces à réunir</h2>
+          <p style="margin:0;max-width:70ch;font-size:16px;line-height:1.7;color:#4C4946">Base de travail issue des sources disponibles, à confirmer sur le portail officiel. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></p>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:74ch">
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;gap:14px;align-items:flex-start">
+              <span style="flex:none;width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block;margin-top:9px"></span>
+              <span style="font-size:16.5px;line-height:1.65;color:#0B0B0B">Une pièce d'identité en cours de validité : carte nationale d'identité, passeport, ou titre de séjour</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;gap:14px;align-items:flex-start">
+              <span style="flex:none;width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block;margin-top:9px"></span>
+              <span style="font-size:16.5px;line-height:1.65;color:#0B0B0B">Un justificatif de domicile</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;gap:14px;align-items:flex-start">
+              <span style="flex:none;width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block;margin-top:9px"></span>
+              <span style="font-size:16.5px;line-height:1.65;color:#0B0B0B">Un justificatif de pré-inscription délivré par l'organisme de formation</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:15px 0;display:flex;gap:14px;align-items:flex-start">
+              <span style="flex:none;width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block;margin-top:9px"></span>
+              <span style="font-size:16.5px;line-height:1.65;color:#0B0B0B">Pour les ressortissants étrangers, l'équivalent du bulletin n° 3 du pays d'origine</span>
+            </li>
+          </ul>
+          <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;padding:20px 22px;max-width:74ch;display:flex;flex-direction:column;gap:7px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Le point qui déroute le plus de candidats</span>
+            <span style="font-size:17px;font-weight:700;line-height:1.4">Le justificatif de pré-inscription se demande au centre de formation, avant la demande d'autorisation.</span>
+            <span style="font-size:16px;line-height:1.7;color:#4C4946">La démarche paraît circulaire, alors qu'elle ne l'est pas : vous demandez au centre un document attestant que vous êtes pré-inscrit ; l'inscription définitive n'intervient qu'une fois l'autorisation obtenue.</span>
+          </div>
+        </div>
+
+        <div id="depot" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Déposer sa demande sur Dracar Ultimate</h2>
+          <p style="margin:0;max-width:70ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Depuis 2026, la demande se dépose exclusivement en ligne sur Dracar Ultimate, le portail du CNAPS. L'envoi postal et l'ancien téléservice ne sont plus opérants.</p>
+          <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:74ch">
+            <li style="border-bottom:1px solid #DFD9D2;padding:18px 0;display:flex;gap:16px;align-items:flex-start">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A;padding-top:4px">01</span>
+              <span style="display:flex;flex-direction:column;gap:5px">
+                <h3 style="margin:0;font-size:17.5px;font-weight:700;letter-spacing:-0.015em">Créer votre espace personnel</h3>
+                <span style="font-size:16px;line-height:1.7;color:#4C4946">Un usager, un compte. Votre adresse email sert d'identifiant. Le compte est personnel : ni votre centre de formation, ni un futur employeur ne peut déposer la demande à votre place.</span>
+              </span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:18px 0;display:flex;gap:16px;align-items:flex-start">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A;padding-top:4px">02</span>
+              <span style="display:flex;flex-direction:column;gap:5px">
+                <h3 style="margin:0;font-size:17.5px;font-weight:700;letter-spacing:-0.015em">Réunir vos pièces au format numérique</h3>
+                <span style="font-size:16px;line-height:1.7;color:#4C4946">Les documents se téléversent. Des scans lisibles évitent une demande de pièce complémentaire, qui rallonge l'instruction.</span>
+              </span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:18px 0;display:flex;gap:16px;align-items:flex-start">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A;padding-top:4px">03</span>
+              <span style="display:flex;flex-direction:column;gap:5px">
+                <h3 style="margin:0;font-size:17.5px;font-weight:700;letter-spacing:-0.015em">Remplir et déposer le formulaire</h3>
+                <span style="font-size:16px;line-height:1.7;color:#4C4946">Déroulé exact des écrans à relever sur le portail. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></span>
+              </span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:18px 0;display:flex;gap:16px;align-items:flex-start">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A83B2A;padding-top:4px">04</span>
+              <span style="display:flex;flex-direction:column;gap:5px">
+                <h3 style="margin:0;font-size:17.5px;font-weight:700;letter-spacing:-0.015em">Suivre l'instruction depuis votre espace</h3>
+                <span style="font-size:16px;line-height:1.7;color:#4C4946">Les échanges avec le service instructeur passent par la messagerie interne du portail. Les notifications arrivent par email, mais le détail n'est visible que dans votre espace. Répondre par email classique à une demande de complément ne fonctionne pas.</span>
+              </span>
+            </li>
+          </ol>
+          <div style="background:#0B0B0B;border-radius:18px;padding:22px 24px;max-width:74ch;display:flex;flex-direction:column;gap:7px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">À ne pas manquer</span>
+            <span style="font-size:17.5px;font-weight:700;line-height:1.4;color:#FFFFFF">Consultez votre messagerie Dracar pendant l'instruction.</span>
+            <span style="font-size:16px;line-height:1.7;color:#D0CAC5">Une demande de pièce complémentaire arrive dans le portail, avec un délai de réponse limité. Sans réponse dans le temps imparti, le dossier peut être classé sans suite — et la démarche est à reprendre depuis le début.</span>
+          </div>
+        </div>
+
+        <div id="delais" style="display:flex;flex-direction:column;gap:16px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Combien de temps faut-il compter</h2>
+          <p style="margin:0;max-width:70ch;font-size:16px;line-height:1.7;color:#4C4946">Les sources disponibles donnent des fourchettes incompatibles, de deux semaines à trois mois. Le délai sera affiché ici une fois confirmé auprès du CNAPS. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à vérifier]</span></p>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:74ch">
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline">
+              <span style="flex:none;width:210px;font-size:16px;font-weight:700">Délai d'instruction</span>
+              <span style="flex:1 1 220px;font-size:16px;line-height:1.65;color:#4C4946">Indicatif, à confirmer à la source</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline">
+              <span style="flex:none;width:210px;font-size:16px;font-weight:700">Ce qui l'allonge</span>
+              <span style="flex:1 1 220px;font-size:16px;line-height:1.65;color:#4C4946">Dossier incomplet, pièce illisible, demande de complément</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline">
+              <span style="flex:none;width:210px;font-size:16px;font-weight:700">Suivre son dossier</span>
+              <span style="flex:1 1 220px;font-size:16px;line-height:1.65;color:#4C4946">Depuis l'espace usager, rubrique de suivi et messagerie interne</span>
+            </li>
+            <li style="border-bottom:1px solid #DFD9D2;padding:14px 0;display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline">
+              <span style="flex:none;width:210px;font-size:16px;font-weight:700">Sans réponse prolongée</span>
+              <span style="flex:1 1 220px;font-size:16px;line-height:1.65;color:#4C4946">Canal et délai de relance <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <div id="refus" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Si votre demande est refusée</h2>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:76ch">
+            <details open="{{ true }}" style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;cursor:pointer;list-style:none;font-size:17.5px;font-weight:600">Les motifs de refus les plus fréquents<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 18px;max-width:70ch;font-size:16px;line-height:1.7;color:#4C4946">À documenter depuis le recueil de décisions et la rubrique jurisprudence publiés par le CNAPS. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;cursor:pointer;list-style:none;font-size:17.5px;font-weight:600">Les voies de recours<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 18px;max-width:70ch;font-size:16px;line-height:1.7;color:#4C4946">Recours gracieux, recours devant la commission nationale d'agrément et de contrôle, recours contentieux : articulation et délais à vérifier. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0;cursor:pointer;list-style:none;font-size:17.5px;font-weight:600">Cas particuliers<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <ul style="margin:0 0 18px;padding-left:20px;max-width:70ch;font-size:16px;line-height:1.75;color:#4C4946">
+                <li>Militaires, policiers et gendarmes, en activité ou en réserve : le CNAPS leur consacre une rubrique dédiée <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></li>
+                <li>Demande après un refus antérieur</li>
+                <li>Changement de situation en cours d'instruction</li>
+              </ul>
+            </details>
+          </div>
+        </div>
+
+        <div id="ensuite" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:22px;padding:clamp(24px,3vw,34px);display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:clamp(23px,2.8vw,30px);line-height:1.12;letter-spacing:-0.025em;font-weight:700">Une fois l'autorisation obtenue</h2>
+          <p style="margin:0;max-width:66ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">Votre autorisation est valable six mois. C'est votre fenêtre pour entrer en formation — au-delà, la démarche est à refaire.</p>
+          <p style="margin:0;max-width:66ch;font-size:17.5px;line-height:1.75;color:#3C3A37;text-wrap:pretty">L'étape suivante est le choix du titre et de l'organisme. Le titre dépend du métier que vous visez : la surveillance de sites et de magasins passe par le TFP APS, la sécurité incendie par le SSIAP 1, les spécialités par des titres propres.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px">
+            <a href="#organismes" style="display:inline-flex;align-items:center;gap:10px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:15px 22px;font-size:15.5px;font-weight:700" style-hover="background:#A83B2A;color:#FFFFFF">Trouver un organisme en Île-de-France<span>→</span></a>
+            <a href="#formations" style="display:inline-flex;align-items:center;gap:10px;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:15px 22px;font-size:15.5px;font-weight:600" style-hover="border-color:#0B0B0B;color:#0B0B0B">Comparer les titres de la sécurité privée<span>→</span></a>
+          </div>
+        </div>
+
+        <div id="formations" style="display:flex;flex-direction:column;gap:14px">
+          <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Les formations accessibles avec une autorisation préalable</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+            <a href="#pilier-tfp-aps" style="display:flex;flex-direction:column;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">
+              <span style="font-size:16px;font-weight:700">TFP APS</span>
+              <span style="font-size:13.5px;line-height:1.5;color:#7B746E">Surveillance de sites et de magasins</span>
+            </a>
+            <a href="#pilier-ssiap-1" style="display:flex;flex-direction:column;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">
+              <span style="font-size:16px;font-weight:700">SSIAP 1</span>
+              <span style="font-size:13.5px;line-height:1.5;color:#7B746E">Sécurité incendie en ERP et IGH</span>
+            </a>
+            <a href="#pilier-tfp-asc" style="display:flex;flex-direction:column;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">
+              <span style="font-size:16px;font-weight:700">TFP ASC</span>
+              <span style="font-size:13.5px;line-height:1.5;color:#7B746E">Agent de sécurité cynophile</span>
+            </a>
+            <a href="#pilier-tfp-a3p" style="display:flex;flex-direction:column;gap:4px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">
+              <span style="font-size:16px;font-weight:700">TFP A3P</span>
+              <span style="font-size:13.5px;line-height:1.5;color:#7B746E">Protection physique des personnes</span>
+            </a>
+          </div>
+          <p style="margin:0;font-size:13px;line-height:1.65;color:#8D8681">Seuls les titres dont la page est publiée sont liés ici.</p>
+        </div>
+
+        <div id="faq" style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Questions fréquentes sur l'autorisation préalable</h2>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #DFD9D2;max-width:80ch">
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Peut-on commencer une formation sans autorisation préalable ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. Un organisme qui vous accepterait sans autorisation vous ferait suivre une formation qui ne débouchera pas sur une carte professionnelle.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Combien de temps l'autorisation préalable est-elle valable ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Six mois <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à vérifier]</span>. Passé ce délai sans entrée en formation, la demande est à renouveler.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Le centre de formation peut-il faire la demande à ma place ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non. La demande est personnelle et se dépose depuis votre propre espace sur Dracar Ultimate. Le centre vous délivre en revanche le justificatif de pré-inscription nécessaire au dossier.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Une inscription au fichier des antécédents judiciaires bloque-t-elle la demande ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Pas automatiquement. Ce n'est pas une condamnation, mais le CNAPS en tient compte dans son appréciation. La nature des faits et leur ancienneté comptent.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Faut-il refaire une autorisation préalable pour une seconde formation ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Non si vous détenez alors une carte professionnelle en cours de validité.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Que faire si je n'ai pas de réponse ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Délai au-delà duquel relancer et canal de relance à confirmer auprès du CNAPS. <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#A83B2A">[à compléter]</span></p>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <aside data-screen-label="Colonne latérale" style="flex:1 1 300px;min-width:270px;position:sticky;top:76px;display:flex;flex-direction:column;gap:12px">
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Le parcours complet</span>
+          <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px">
+            <li style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid #F0ECE6">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A83B2A;padding-top:3px">01</span>
+              <span style="display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:15px;font-weight:700">Autorisation préalable</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#7B746E">Vous êtes ici — avant l'entrée en formation</span>
+              </span>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid #F0ECE6">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#C7C1BC;padding-top:3px">02</span>
+              <a href="#formations" style="display:flex;flex-direction:column;gap:2px;color:#0B0B0B" style-hover="color:#A83B2A">
+                <span style="font-size:15px;font-weight:700">Formation et titre</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#7B746E">L'aptitude professionnelle</span>
+              </a>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid #F0ECE6">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#C7C1BC;padding-top:3px">03</span>
+              <a href="#demarche-carte-professionnelle" style="display:flex;flex-direction:column;gap:2px;color:#0B0B0B" style-hover="color:#A83B2A">
+                <span style="font-size:15px;font-weight:700">Carte professionnelle</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#7B746E">L'autorisation d'exercer</span>
+              </a>
+            </li>
+            <li style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid #F0ECE6">
+              <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#C7C1BC;padding-top:3px">04</span>
+              <a href="#demarche-renouvellement" style="display:flex;flex-direction:column;gap:2px;color:#0B0B0B" style-hover="color:#A83B2A">
+                <span style="font-size:15px;font-weight:700">Renouvellement</span>
+                <span style="font-size:12.5px;line-height:1.5;color:#7B746E">Tous les 5 ans, après un MAC</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Déposer sa demande</span>
+          <span style="font-size:15.5px;line-height:1.6;color:#3C3A37">Toutes les démarches passent par l'espace usager du CNAPS, en ligne.</span>
+          <a href="https://espace-usagers.cnaps.interieur.gouv.fr" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:14px 20px;font-size:15px;font-weight:700" style-hover="background:#A83B2A;color:#FFFFFF">Ouvrir Dracar Ultimate<span>↗</span></a>
+          <a href="https://espace-consultation.cnaps.interieur.gouv.fr" style="display:flex;align-items:center;justify-content:center;gap:9px;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14.5px;font-weight:600" style-hover="border-color:#0B0B0B;color:#0B0B0B">Consultation publique des titres<span>↗</span></a>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:2px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-bottom:10px">Les autres démarches CNAPS</span>
+          <a href="#demarche-carte-professionnelle" style="display:flex;flex-direction:column;gap:3px;padding:12px 0;border-top:1px solid #F0ECE6;color:#0B0B0B" style-hover="color:#A83B2A">
+            <span style="font-size:15px;font-weight:700">Demande de carte professionnelle</span>
+            <span style="font-size:13px;line-height:1.5;color:#7B746E">Après votre formation, pour obtenir le droit d'exercer</span>
+          </a>
+          <a href="#demarche-renouvellement" style="display:flex;flex-direction:column;gap:3px;padding:12px 0;border-top:1px solid #F0ECE6;color:#0B0B0B" style-hover="color:#A83B2A">
+            <span style="font-size:15px;font-weight:700">Renouvellement de la carte</span>
+            <span style="font-size:13px;line-height:1.5;color:#7B746E">Tous les cinq ans, après un stage de maintien</span>
+          </a>
+          <a href="#demarches" style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid #F0ECE6;font-size:14.5px;font-weight:600">Voir les trois démarches<span>→</span></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#0B0B0B;color:#D0CAC5;padding:72px 0 32px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:30px;width:auto;display:block;filter:brightness(0) invert(1)" />
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Formations les plus recherchées</span>
+          <a href="#pilier-tfp-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">TFP APS</a>
+          <a href="#pilier-mac-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">MAC APS</a>
+          <a href="#pilier-ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 1</a>
+          <a href="#pilier-recyclage-ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Recyclage SSIAP 1</a>
+          <a href="#pilier-ssiap-2" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 2</a>
+          <a href="#pilier-tfp-asc" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Agent cynophile</a>
+          <a href="#formations" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les formations →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Se former par département</span>
+          <a href="#geo-75" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Paris (75)</a>
+          <a href="#geo-93" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-Saint-Denis (93)</a>
+          <a href="#geo-92" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Hauts-de-Seine (92)</a>
+          <a href="#geo-94" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-de-Marne (94)</a>
+          <a href="#geo-91" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Essonne (91)</a>
+          <a href="#geo-78" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Yvelines (78)</a>
+          <a href="#geo-95" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-d'Oise (95)</a>
+          <a href="#geo-77" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-et-Marne (77)</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Démarches CNAPS</span>
+          <a href="#demarche-autorisation-prealable" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Autorisation préalable</a>
+          <a href="#demarche-carte-professionnelle" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Carte professionnelle</a>
+          <a href="#demarche-renouvellement" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Renouvellement de la carte</a>
+          <a href="#demarches" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les démarches →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Trouve ta formation</span>
+          <a href="#a-propos" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">À propos</a>
+          <a href="#methode" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Notre méthode de référencement</a>
+          <a href="#blog" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Blog</a>
+          <a href="#contact" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#espace-organisme" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Espace organisme</a>
+          <span style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:13px">
+            <a href="#mentions" style="color:#8D8681">Mentions légales</a>
+            <a href="#confidentialite" style="color:#8D8681">Politique de confidentialité</a>
+            <a href="#cookies" style="color:#8D8681">Gestion des cookies</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin:48px 0 0;padding-top:24px;border-top:1px solid #2A2626;font-size:14px;line-height:1.6;color:#8D8681">Trouve ta formation référence aussi des organismes dans d'autres secteurs. <a href="#secteurs" style="color:#E5E0DB;font-weight:600">Voir tous les secteurs →</a></p>
+      <p style="margin:16px 0 0;font-size:12.5px;line-height:1.6;color:#7B746E">© 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.</p>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;dateVerif&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;01.09.2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Fraîcheur&quot;,&quot;label&quot;:&quot;Date de dernière vérification&quot;},&quot;bandeauDracar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Fraîcheur&quot;,&quot;label&quot;:&quot;Mention « mise à jour depuis Dracar Ultimate »&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      dateVerif: this.props.dateVerif ?? "01.09.2026",
+      bandeauDracar: this.props.bandeauDracar ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

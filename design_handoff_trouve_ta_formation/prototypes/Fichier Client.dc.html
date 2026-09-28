@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<meta name="robots" content="noindex" />
+<style>
+  body { margin: 0; background: #F2EFE9; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  button, input, select { font-family: inherit; }
+  input::placeholder { color: #8D8681; }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F2EFE9;padding:14px clamp(12px,2vw,24px) 48px">
+  <div style="max-width:1320px;margin:0 auto;display:flex;flex-direction:column;gap:14px">
+
+    <header data-screen-label="Navigation admin" style="position:sticky;top:14px;z-index:30;background:#0B0B0B;border-radius:999px;padding:8px 8px 8px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px">
+      <span style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:22px;width:auto;display:block;filter:brightness(0) invert(1)" />
+        <span style="background:#A83B2A;color:#FFFFFF;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase">Admin</span>
+      </span>
+      <nav style="flex:1 1 0;min-width:0;display:flex;flex-wrap:nowrap;gap:2px;overflow-x:auto;scrollbar-width:none">
+        <a href="Dashboard Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Tableau de bord</a>
+        <a href="#fichier-client" style="background:#FFFFFF;color:#0B0B0B;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:700" style-hover="color:#0B0B0B">Fichier client</a>
+        <a href="Referentiel Titres.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Référentiel des titres</a>
+        <a href="Blog Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Blog</a>
+        <a href="Analytics Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Analytics</a>
+        <a href="Parametres Admin.dc.html" style="color:#D0CAC5;border-radius:999px;padding:9px 12px;font-size:13.5px;white-space:nowrap;font-weight:600;transition:background 140ms ease" style-hover="background:#2A2626;color:#FFFFFF">Paramètres</a>
+      </nav>
+      <span title="Erwan · Administrateur" style="flex:none;margin-left:auto;width:42px;height:42px;border-radius:99px;background:#2A2626;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px">ER</span>
+    </header>
+
+    <section id="fichier-client" data-screen-label="En-tête" style="padding:clamp(18px,3vw,36px) clamp(6px,1vw,12px) clamp(4px,1vw,10px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 32px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Espace admin · Sécurité privée</span>
+        <h1 style="margin:0;font-size:clamp(34px,4.6vw,60px);line-height:0.98;letter-spacing:-0.045em;font-weight:800">Fichier client</h1>
+      </div>
+      <span style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'IBM Plex Mono',monospace;font-size:34px;letter-spacing:-0.04em">{{ total }}</span><span style="font-size:15px;font-weight:700">organismes inscrits</span></span>
+    </section>
+
+    <sc-if value="{{ fromDash }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Contexte Dashboard" style="background:#0B0B0B;color:#FFFFFF;border-radius:20px;padding:14px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px">
+        <span style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:14.5px"><span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#E19D8B">Depuis le tableau de bord</span>{{ dashLabel }}</span>
+        <a href="Dashboard Admin.dc.html" style="font-size:13.5px;font-weight:700;color:#E19D8B" style-hover="color:#FFFFFF">Retour au tableau de bord →</a>
+      </div>
+    </sc-if>
+
+    <section data-screen-label="Filtres" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:24px;padding:14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+      <label style="flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:12px;background:#F7F5F1;border:1px solid #E2DDD6;border-radius:999px;padding:0 18px">
+        <span style="flex:none;width:11px;height:11px;border:1.5px solid #8D8681;border-radius:99px;display:block"></span>
+        <input type="search" placeholder="Rechercher un organisme" value="{{ q }}" onChange="{{ onQ }}" style="flex:1;min-width:0;font-size:14.5px;color:#0B0B0B;background:transparent;border:0;outline:none;padding:12px 0" />
+      </label>
+      <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+        <sc-for list="{{ palierOpts }}" as="p" hint-placeholder-count="4">
+          <button type="button" onClick="{{ p.pick }}" style="border:0;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;background:{{ p.bg }};color:{{ p.color }};white-space:nowrap">{{ p.label }}</button>
+        </sc-for>
+      </span>
+      <span style="display:flex;gap:3px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:3px">
+        <sc-for list="{{ statutOpts }}" as="s" hint-placeholder-count="3">
+          <button type="button" onClick="{{ s.pick }}" style="border:0;border-radius:999px;padding:9px 13px;font-size:13px;font-weight:700;cursor:pointer;background:{{ s.bg }};color:{{ s.color }};white-space:nowrap">{{ s.label }}</button>
+        </sc-for>
+      </span>
+      <select value="{{ dep }}" onChange="{{ onDep }}" style="font-size:13.5px;font-weight:600;color:#0B0B0B;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:999px;padding:11px 14px;outline:none">
+        <option value="">Tous les départements</option>
+        <option value="75">Paris (75)</option>
+        <option value="77">Seine-et-Marne (77)</option>
+        <option value="78">Yvelines (78)</option>
+        <option value="91">Essonne (91)</option>
+        <option value="92">Hauts-de-Seine (92)</option>
+        <option value="93">Seine-Saint-Denis (93)</option>
+        <option value="94">Val-de-Marne (94)</option>
+        <option value="95">Val-d'Oise (95)</option>
+      </select>
+      <button type="button" onClick="{{ toggleSans }}" aria-pressed="{{ sansPressed }}" style="display:inline-flex;align-items:center;gap:9px;border:1px solid {{ sansBorder }};background:{{ sansBg }};color:{{ sansColor }};border-radius:999px;padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer;white-space:nowrap"><span style="width:16px;height:16px;border-radius:5px;border:1.5px solid {{ sansBox }};background:{{ sansFill }};display:block"></span>Sans formation déclarée</button>
+      <sc-if value="{{ hasFilters }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ reset }}" style="background:transparent;border:0;padding:8px 6px;font-size:13.5px;font-weight:700;color:#A83B2A;cursor:pointer" style-hover="color:#0B0B0B">Réinitialiser</button></sc-if>
+    </section>
+
+    <section data-screen-label="Table des organismes" style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:28px;padding:clamp(14px,2vw,22px);display:flex;flex-direction:column;gap:10px">
+      <span style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:4px 6px">
+        <span style="font-size:15px;font-weight:700">{{ countLabel }}</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#7B746E">Tri : {{ sortLabel }}</span>
+      </span>
+      <div style="overflow-x:auto">
+        <table style="width:100%;min-width:980px;border-collapse:collapse;font-size:13.5px">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Organisme</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Palier</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Indexation</th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD"><button type="button" onClick="{{ sortForm }}" style="background:transparent;border:0;padding:0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:{{ formSortColor }};cursor:pointer">Formations {{ formArrow }}</button></th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD"><button type="button" onClick="{{ sortDate }}" style="background:transparent;border:0;padding:0;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:{{ dateSortColor }};cursor:pointer">Inscription {{ dateArrow }}</button></th>
+              <th style="text-align:left;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Statut</th>
+              <th style="text-align:right;padding:10px 12px;border-bottom:1px solid #E7E3DD;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;color:#7B746E">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+              <tr style="background:{{ r.rowBg }}">
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6">
+                  <a href="Fiche Client.dc.html" style="display:flex;align-items:center;gap:12px;color:#0B0B0B" style-hover="color:#A83B2A">
+                    <span style="flex:none;width:36px;height:36px;border-radius:10px;background:#F2EFE9;border:1px solid #E7E3DD;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#45423E">{{ r.ini }}</span>
+                    <span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:14.5px;font-weight:700">{{ r.name }}</span><span style="font-size:12px;color:#7B746E">{{ r.lieu }}</span></span>
+                  </a>
+                </td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6"><span style="display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:700"><span style="width:9px;height:9px;border-radius:3px;background:{{ r.palBg }};border:1px {{ r.palStyle }} {{ r.palBorder }};display:block"></span>{{ r.palier }}</span></td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6"><span style="display:inline-flex;align-items:center;border-radius:999px;padding:4px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;background:{{ r.idxBg }};color:{{ r.idxColor }};border:1.5px {{ r.idxStyle }} {{ r.idxBorder }}">{{ r.idx }}</span></td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6;font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ r.formColor }}">{{ r.formations }}</td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6;font-family:'IBM Plex Mono',monospace;font-size:12.5px;white-space:nowrap;color:#3C3A37">{{ r.date }}</td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6"><span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:{{ r.stColor }}"><span style="width:7px;height:7px;border-radius:99px;background:{{ r.stDot }};display:block"></span>{{ r.statut }}</span></td>
+                <td style="padding:12px;border-bottom:1px solid #F0ECE6">
+                  <span style="display:flex;justify-content:flex-end;gap:6px">
+                    <button type="button" onClick="{{ r.rappel }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="border-color:#0B0B0B">Rappel</button>
+                    <button type="button" onClick="{{ r.suspend }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="border-color:#0B0B0B">{{ r.suspendLabel }}</button>
+                    <button type="button" onClick="{{ r.del }}" style="background:#FFFFFF;color:#A83B2A;border:1px solid #E2B6AC;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="border-color:#A83B2A">Supprimer</button>
+                  </span>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+      <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+        <div style="border-radius:18px;border:1.5px dashed #C7C1BC;background-image:repeating-linear-gradient(135deg,#F2EFE9 0 7px,#FFFFFF 7px 14px);padding:28px;display:flex;justify-content:center">
+          <span style="background:#FFFFFF;border-radius:12px;padding:10px 14px;font-size:14px;color:#3C3A37">Aucun organisme ne correspond à ces critères.</span>
+        </div>
+      </sc-if>
+    </section>
+  </div>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:100;background:rgba(11,11,11,0.55);display:flex;align-items:center;justify-content:center;padding:16px">
+      <div role="dialog" aria-modal="true" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:28px;width:100%;max-width:520px;max-height:100%;overflow-y:auto;padding:clamp(22px,3vw,30px);display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22)">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">{{ mOrg }}</span>
+
+        <sc-if value="{{ mRappel }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale rappel" style="display:flex;flex-direction:column;gap:16px">
+            <span style="display:flex;flex-direction:column;gap:6px"><span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Envoyer un rappel</span><span style="font-size:14px;line-height:1.55;color:#4C4946">Un email pré-rédigé part à l'adresse de connexion de l'organisme.</span></span>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ types }}" as="ty" hint-placeholder-count="2">
+                <button type="button" onClick="{{ ty.pick }}" style="text-align:left;display:flex;align-items:center;gap:14px;background:{{ ty.bg }};border:1.5px solid {{ ty.border }};border-radius:14px;padding:14px 16px;cursor:pointer;color:#0B0B0B;font-size:14.5px;font-weight:700" style-hover="border-color:#A83B2A">
+                  <span style="flex:none;width:20px;height:20px;border-radius:99px;border:1.5px solid {{ ty.ring }};display:flex;align-items:center;justify-content:center"><span style="width:10px;height:10px;border-radius:99px;background:{{ ty.fill }};display:block"></span></span>{{ ty.label }}
+                </button>
+              </sc-for>
+            </div>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ sendRappel }}" disabled="{{ rappelDisabled }}" style="background:{{ rappelBg }};color:{{ rappelColor }};border:0;border-radius:999px;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer">Envoyer</button>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mSuspend }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale suspension" style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">{{ suspendTitle }}</span>
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37">{{ suspendText }}</span>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ confirmSuspend }}" style="background:#0B0B0B;color:#FFFFFF;border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer" style-hover="background:#45423E">{{ suspendCta }}</button>
+            </span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mDelete }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Modale suppression" style="display:flex;flex-direction:column;gap:16px">
+            <span style="font-size:22px;font-weight:800;letter-spacing:-0.025em">Supprimer le compte et la fiche</span>
+            <span style="font-size:14.5px;line-height:1.6;color:#3C3A37">{{ delText }}</span>
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:13.5px;line-height:1.5;font-weight:600">Saisissez le nom de l'organisme : <strong>{{ mOrg }}</strong></span><input type="text" value="{{ delInput }}" onChange="{{ onDel }}" autoComplete="off" style="font-size:15px;color:#0B0B0B;background:#FFFFFF;border:1.5px solid {{ delBorder }};border-radius:14px;padding:13px 15px;outline:none;width:100%" /></label>
+            <span style="display:flex;justify-content:flex-end;gap:8px">
+              <button type="button" onClick="{{ closeModal }}" style="background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 18px;font-size:14px;font-weight:700;cursor:pointer" style-hover="border-color:#0B0B0B">Annuler</button>
+              <button type="button" onClick="{{ doDelete }}" disabled="{{ delDisabled }}" style="background:{{ delBg }};color:{{ delColor }};border:0;border-radius:999px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer">Supprimer définitivement</button>
+            </span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;display:flex;align-items:center;gap:14px;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:12px 12px 12px 20px;box-shadow:0 24px 60px -24px rgba(11,11,11,0.22);max-width:calc(100vw - 32px)">
+      <span style="width:8px;height:8px;border-radius:99px;background:#E19D8B;display:block;flex:none"></span>
+      <span style="font-size:14px;font-weight:600;line-height:1.4">{{ toast }}</span>
+      <button type="button" aria-label="Fermer" onClick="{{ closeToast }}" style="flex:none;width:30px;height:30px;border-radius:99px;border:0;background:#2A2626;color:#FFFFFF;font-size:15px;cursor:pointer">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;filtreInitial&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Aucun&quot;,&quot;Fiches en noindex&quot;,&quot;Sans formation déclarée&quot;],&quot;default&quot;:&quot;Aucun&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Revue&quot;,&quot;label&quot;:&quot;Arrivée depuis le tableau de bord&quot;},&quot;connexionSuspendu&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Bloquée&quot;,&quot;Message de suspension&quot;],&quot;default&quot;:&quot;Bloquée&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Point ouvert&quot;,&quot;label&quot;:&quot;Connexion d'un compte suspendu&quot;}}">
+const RAW = [
+  ['Garde Sécurité Val-d\'Oise', 'Cergy', '95', 'Basique', 0, '2026-09-22', 'Actif'],
+  ['Institut Vigie', 'Créteil', '94', 'Correct', 3, '2026-09-21', 'Actif'],
+  ['Atlas Prévention', 'Versailles', '78', 'Optimal', 3, '2026-09-20', 'Actif'],
+  ['Formapro Sécurité 91', 'Évry-Courcouronnes', '91', 'Basique', 2, '2026-09-19', 'Actif'],
+  ['Sûreté Formation Roissy', 'Roissy-en-France', '95', 'Correct', 2, '2026-09-18', 'Actif'],
+  ['Horizon Sécurité', 'Nanterre', '92', 'Optimal', 4, '2026-09-17', 'Actif'],
+  ['Cynotech 77', 'Meaux', '77', 'Basique', 0, '2026-09-16', 'Suspendu'],
+  ['Protectis Formation', 'Paris 11e', '75', 'Optimal', 6, '2026-09-15', 'Actif'],
+  ['Centre Sécuriform Île-de-France', 'Saint-Denis', '93', 'Correct', 3, '2026-09-14', 'Actif'],
+  ['Vigilance Pro Formation', 'Argenteuil', '95', 'Basique', 0, '2026-09-13', 'Actif'],
+  ['Académie Française de Sécurité', 'Bobigny', '93', 'Correct', 3, '2026-09-12', 'Actif'],
+  ['Bastion Formation', 'Boulogne-Billancourt', '92', 'Correct', 2, '2026-09-11', 'Actif'],
+  ['Écoles Sentinelle', 'Paris 19e', '75', 'Basique', 1, '2026-09-10', 'Actif'],
+  ['Cerbère Sécurité Formation', 'Melun', '77', 'Basique', 0, '2026-09-09', 'Actif'],
+  ['Prévention Plus 94', 'Vitry-sur-Seine', '94', 'Correct', 2, '2026-09-08', 'Suspendu'],
+  ['Ligne de Garde', 'Massy', '91', 'Optimal', 5, '2026-09-06', 'Actif']
+];
+const MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+const fmtDate = s => { const [y, m, d] = s.split('-').map(Number); return `${d} ${MONTHS[m - 1]} ${y}`; };
+const TYPES = ["Rappel d'ajout de formation", 'Rappel de complétion de fiche'];
+const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+class Component extends DCLogic {
+  state = { orgs: [], q: '', palier: '', statut: '', dep: '', sans: false, sort: 'date', dir: -1, modal: null, target: null, type: null, delInput: '', toast: null };
+  componentDidMount() { this.load(); }
+  componentDidUpdate(pp) {
+    if (pp && pp.filtreInitial !== this.props.filtreInitial) this.load();
+    document.body.style.overflow = this.state.modal ? 'hidden' : '';
+  }
+  componentWillUnmount() { clearTimeout(this.t); document.body.style.overflow = ''; }
+  load() {
+    const f = this.props.filtreInitial || 'Aucun';
+    this.setState({
+      orgs: RAW.map((r, i) => ({ id: i, name: r[0], ville: r[1], d: r[2], palier: r[3], n: r[4], date: r[5], statut: r[6] })),
+      q: '', statut: '', dep: '', palier: f === 'Fiches en noindex' ? 'Basique' : '', sans: f === 'Sans formation déclarée', modal: null
+    });
+  }
+  flash(m) { clearTimeout(this.t); this.t = setTimeout(() => this.setState({ toast: null }), 3800); this.setState({ toast: m }); }
+
+  renderVals() {
+    const st = this.state;
+    const nq = norm(st.q.trim());
+    let rows = st.orgs.filter(o => (!nq || norm(o.name).includes(nq)) && (!st.palier || o.palier === st.palier) && (!st.statut || o.statut === st.statut) && (!st.dep || o.d === st.dep) && (!st.sans || o.n === 0));
+    rows = rows.slice().sort((a, b) => st.sort === 'date' ? st.dir * a.date.localeCompare(b.date) : st.dir * (a.n - b.n));
+    const target = st.target != null ? st.orgs.find(o => o.id === st.target) : null;
+    const delOk = target && st.delInput.trim() === target.name;
+    const seg = (cur, val, label, key) => ({ label, pick: () => this.setState({ [key]: val }), bg: cur === val ? '#0B0B0B' : 'transparent', color: cur === val ? '#FFFFFF' : '#3C3A37' });
+    const open = (modal, o) => this.setState({ modal, target: o.id, type: null, delInput: '' });
+    const f = this.props.filtreInitial || 'Aucun';
+    const fromDash = f !== 'Aucun' && ((f === 'Fiches en noindex' && st.palier === 'Basique') || (f === 'Sans formation déclarée' && st.sans));
+    const cnxBloquee = (this.props.connexionSuspendu || 'Bloquée') === 'Bloquée';
+    return {
+      total: st.orgs.length,
+      fromDash, dashLabel: f === 'Fiches en noindex' ? 'Fiches en noindex (palier Basique)' : 'Fiches sans formation déclarée',
+      q: st.q, onQ: e => this.setState({ q: e.target.value }),
+      palierOpts: [seg(st.palier, '', 'Tous paliers', 'palier'), seg(st.palier, 'Basique', 'Basique', 'palier'), seg(st.palier, 'Correct', 'Correct', 'palier'), seg(st.palier, 'Optimal', 'Optimal', 'palier')],
+      statutOpts: [seg(st.statut, '', 'Tous statuts', 'statut'), seg(st.statut, 'Actif', 'Actifs', 'statut'), seg(st.statut, 'Suspendu', 'Suspendus', 'statut')],
+      dep: st.dep, onDep: e => this.setState({ dep: e.target.value }),
+      toggleSans: () => this.setState({ sans: !st.sans }), sansPressed: st.sans ? 'true' : 'false',
+      sansBorder: st.sans ? '#0B0B0B' : '#E7E3DD', sansBg: st.sans ? '#0B0B0B' : '#F7F5F1', sansColor: st.sans ? '#FFFFFF' : '#3C3A37',
+      sansBox: st.sans ? '#E19D8B' : '#C7C1BC', sansFill: st.sans ? '#E19D8B' : '#FFFFFF',
+      hasFilters: !!(st.q || st.palier || st.statut || st.dep || st.sans),
+      reset: () => this.setState({ q: '', palier: '', statut: '', dep: '', sans: false }),
+      countLabel: rows.length === 1 ? '1 organisme' : `${rows.length} organismes`,
+      sortLabel: st.sort === 'date' ? (st.dir < 0 ? 'inscription la plus récente' : 'inscription la plus ancienne') : (st.dir < 0 ? 'plus de formations' : 'moins de formations'),
+      sortDate: () => this.setState({ sort: 'date', dir: st.sort === 'date' ? -st.dir : -1 }),
+      sortForm: () => this.setState({ sort: 'n', dir: st.sort === 'n' ? -st.dir : -1 }),
+      dateArrow: st.sort === 'date' ? (st.dir < 0 ? '↓' : '↑') : '', formArrow: st.sort === 'n' ? (st.dir < 0 ? '↓' : '↑') : '',
+      dateSortColor: st.sort === 'date' ? '#0B0B0B' : '#7B746E', formSortColor: st.sort === 'n' ? '#0B0B0B' : '#7B746E',
+      noRows: rows.length === 0,
+      rows: rows.map(o => {
+        const susp = o.statut === 'Suspendu', basique = o.palier === 'Basique';
+        return {
+          ini: o.name.split(/\s+/).filter(w => /^[A-ZÀ-Ý]/.test(w)).slice(0, 2).map(w => w[0]).join(''),
+          name: o.name, lieu: `${o.ville} (${o.d})`, palier: o.palier,
+          palBg: o.palier === 'Optimal' ? '#A83B2A' : o.palier === 'Correct' ? '#0B0B0B' : '#F2EFE9',
+          palBorder: basique ? '#8D8681' : 'transparent', palStyle: basique ? 'dashed' : 'solid',
+          idx: basique ? 'noindex' : 'Indexable',
+          idxBg: basique ? '#FFFFFF' : '#F2EFE9', idxColor: basique ? '#A83B2A' : '#45423E', idxBorder: basique ? '#A83B2A' : '#F2EFE9', idxStyle: basique ? 'dashed' : 'solid',
+          formations: String(o.n), formColor: o.n === 0 ? '#A83B2A' : '#0B0B0B',
+          date: fmtDate(o.date), statut: o.statut,
+          stColor: susp ? '#A83B2A' : '#0B0B0B', stDot: susp ? '#A83B2A' : '#0B0B0B', rowBg: susp ? '#FCF7F5' : 'transparent',
+          suspendLabel: susp ? 'Réactiver' : 'Suspendre',
+          rappel: () => open('rappel', o), suspend: () => open('suspend', o), del: () => open('delete', o)
+        };
+      }),
+      modalOpen: !!st.modal, mRappel: st.modal === 'rappel', mSuspend: st.modal === 'suspend', mDelete: st.modal === 'delete',
+      mOrg: target ? target.name : '',
+      closeModal: () => this.setState({ modal: null }), stop: e => e.stopPropagation(),
+      types: TYPES.map(t => { const on = st.type === t; return { label: t, pick: () => this.setState({ type: t }), bg: on ? '#FFFFFF' : '#F7F5F1', border: on ? '#0B0B0B' : '#E7E3DD', ring: on ? '#0B0B0B' : '#C7C1BC', fill: on ? '#0B0B0B' : 'transparent' }; }),
+      rappelDisabled: !st.type, rappelBg: st.type ? '#0B0B0B' : '#E7E3DD', rappelColor: st.type ? '#FFFFFF' : '#7B746E',
+      sendRappel: () => { if (!st.type) return; this.setState({ modal: null }); this.flash(`${st.type} envoyé à ${target.name}.`); },
+      suspendTitle: target && target.statut === 'Suspendu' ? 'Réactiver ce compte ?' : 'Suspendre ce compte ?',
+      suspendText: target && target.statut === 'Suspendu' ? 'La fiche sera republiée sur le site public.' : `Le compte est bloqué et la fiche est dépubliée du site public. ${cnxBloquee ? "L'organisme ne pourra plus se connecter." : "L'organisme pourra se connecter et verra un message de suspension."} La suspension est réversible.`,
+      suspendCta: target && target.statut === 'Suspendu' ? 'Réactiver' : 'Suspendre',
+      confirmSuspend: () => {
+        const next = target.statut === 'Suspendu' ? 'Actif' : 'Suspendu';
+        this.setState(s => ({ modal: null, orgs: s.orgs.map(o => o.id === target.id ? { ...o, statut: next } : o) }));
+        this.flash(next === 'Suspendu' ? `${target.name} suspendu. La fiche est dépubliée.` : `${target.name} réactivé.`);
+      },
+      delText: target ? `Le compte, la fiche et ${target.n === 0 ? 'ses données' : `ses ${target.n} formation${target.n > 1 ? 's' : ''} déclarée${target.n > 1 ? 's' : ''}`} sont supprimés immédiatement. Cette action ne peut pas être annulée.` : '',
+      delInput: st.delInput, onDel: e => this.setState({ delInput: e.target.value }),
+      delBorder: delOk ? '#A83B2A' : '#E2DDD6', delDisabled: !delOk, delBg: delOk ? '#A83B2A' : '#E7E3DD', delColor: delOk ? '#FFFFFF' : '#7B746E',
+      doDelete: () => { if (!delOk) return; this.setState(s => ({ modal: null, orgs: s.orgs.filter(o => o.id !== target.id) })); this.flash(`${target.name} supprimé.`); },
+      hasToast: !!st.toast, toast: st.toast || '', closeToast: () => this.setState({ toast: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

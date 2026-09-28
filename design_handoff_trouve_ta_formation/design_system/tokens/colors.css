@@ -1,0 +1,47 @@
+:root {
+  /* Fonds */
+  --cream-100: #F7F5F1;   /* fond de page */
+  --cream-200: #F2EFE9;   /* surface chaude, pastilles de durée, nav active */
+  --cream-300: #ECE8E2;   /* trait des hachures de placeholder */
+  --white: #FFFFFF;
+
+  /* Encres */
+  --ink-900: #0B0B0B;     /* titres, texte principal, boutons pleins */
+  --ink-700: #3C3A37;     /* corps éditorial long */
+  --ink-600: #45423E;     /* texte secondaire, nav au repos */
+  --ink-500: #4C4946;     /* chapôs et descriptions de cartes */
+  --ink-400: #7B746E;     /* légendes, mentions, dates */
+  --ink-300: #8D8681;     /* étiquettes de placeholder, liens de pied de page */
+
+  /* Filets */
+  --line: #E7E3DD;        /* filet par défaut : cartes, sections, header */
+  --line-strong: #E2DDD6; /* filet du bouton secondaire */
+  --line-dark: #2A2626;   /* filet sur fond noir */
+
+  /* Brique — accent unique de la marque */
+  --brique-700: #A83B2A;  /* accent, numéros, eyebrows, hover des boutons */
+  --brique-400: #E19D8B;  /* accent sur fond noir */
+  --brique-200: #E2B6AC;  /* soulignement des liens texte */
+  --brique-050: #FAF0ED;  /* fond d'option survolée */
+
+  /* Sur fond noir */
+  --on-dark-strong: #E5E0DB;
+  --on-dark: #D0CAC5;
+
+  /* Alias sémantiques */
+  --surface-page: var(--cream-100);
+  --surface-card: var(--white);
+  --surface-card-inverse: var(--cream-100);
+  --surface-warm: var(--cream-200);
+  --surface-dark: var(--ink-900);
+  --text-title: var(--ink-900);
+  --text-body: var(--ink-500);
+  --text-prose: var(--ink-700);
+  --text-muted: var(--ink-400);
+  --text-on-dark: var(--on-dark);
+  --accent: var(--brique-700);
+  --accent-on-dark: var(--brique-400);
+  --accent-underline: var(--brique-200);
+  --border-card: var(--line);
+  --border-hover: var(--ink-900);
+}

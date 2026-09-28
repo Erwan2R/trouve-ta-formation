@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #F7F5F1; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: #0B0B0B; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #A83B2A; text-decoration: none; }
+  a:hover { color: #0B0B0B; }
+  summary::-webkit-details-marker { display: none; }
+</style>
+</helmet>
+
+<div style="background:#F7F5F1;min-height:100vh">
+
+  <header style="background:#FFFFFF;border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 20px">
+      <a href="#" style="display:flex;align-items:center;gap:12px;color:#0B0B0B" style-hover="color:#0B0B0B">
+        <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:27px;width:auto;display:block" />
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E;padding-left:12px;border-left:1px solid #E7E3DD">Sécurité privée</span>
+      </a>
+      <nav style="margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px">
+        <a href="#formations" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Les formations</a>
+        <a href="#organismes" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#F2EFE9;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="color:#0B0B0B">Organismes</a>
+        <a href="#demarches" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Démarches CNAPS</a>
+        <a href="#blog" style="font-size:14px;font-weight:500;color:#45423E;padding:9px 14px;border-radius:999px;white-space:nowrap" style-hover="background:#F2EFE9;color:#0B0B0B">Blog</a>
+      </nav>
+      <a href="#espace-organisme" style="flex:none;white-space:nowrap;font-size:14px;font-weight:600;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Espace organisme</a>
+    </div>
+  </header>
+
+  <section data-screen-label="En-tête organisme" style="background:#F2EFE9;border-bottom:1px solid #E2DDD6;color:#0B0B0B">
+    <div style="max-width:1240px;margin:0 auto;padding:18px 28px 44px">
+      <nav aria-label="Fil d'Ariane" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;color:#7B746E">
+        <a href="#silo" style="color:#7B746E" style-hover="color:#0B0B0B">Sécurité privée</a>
+        <span>›</span>
+        <a href="#organismes" style="color:#7B746E" style-hover="color:#0B0B0B">Organismes</a>
+        <span>›</span>
+        <span style="color:#45423E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Académie Française de Sécurité</span>
+      </nav>
+
+      <div style="margin-top:34px;display:flex;flex-wrap:wrap;align-items:flex-start;gap:clamp(20px,3vw,40px)">
+        <div style="flex:none;width:clamp(76px,9vw,104px);height:clamp(76px,9vw,104px);border-radius:24px;background:#FFFFFF;border:1px solid #E2DDD6;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:clamp(22px,3vw,30px);color:#45423E">AF</div>
+        <div style="flex:1 1 420px;min-width:280px;display:flex;flex-direction:column;gap:14px">
+          <h1 style="margin:0;font-size:clamp(32px,4.4vw,54px);line-height:1.02;letter-spacing:-0.035em;font-weight:700;color:#0B0B0B;text-wrap:balance">Académie Française de Sécurité</h1>
+          <p style="margin:0;font-size:16.5px;line-height:1.5;color:#4C4946">Bobigny (93)<sc-if value="{{ multisite }}" hint-placeholder-val="{{ true }}"><span> · </span><a href="#lieux" style="color:#A83B2A;font-weight:600" style-hover="color:#0B0B0B">et 2 autres lieux de formation</a></sc-if><sc-if value="{{ noteGoogle }}" hint-placeholder-val="{{ true }}"><span style="color:#C7C1BC"> · </span><span style="color:#0B0B0B;font-weight:700">4,2</span><span> </span><a href="#avis" style="color:#4C4946" style-hover="color:#0B0B0B">38 avis Google</a></sc-if></p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:2px">
+            <span style="display:inline-flex;align-items:center;gap:9px;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:12px;padding:10px 15px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block"></span>Agréé CNAPS · 093-2019-01-24-20190578920</span>
+            <span style="display:inline-flex;align-items:center;gap:9px;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:12px;padding:10px 15px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:7px;height:7px;border-radius:99px;background:#A83B2A;display:block"></span>Certifié Qualiopi</span>
+          </div>
+          <p style="margin:0;font-size:13.5px;color:#7B746E">Agrément vérifiable sur <a href="#cnaps" style="color:#A83B2A;font-weight:600" style-hover="color:#0B0B0B">l'espace de consultation du CNAPS</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div data-screen-label="Barre d'actions sticky" style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:12px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+      <span style="flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:15px;font-weight:700;letter-spacing:-0.015em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Académie Française de Sécurité</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Agréé CNAPS · Bobigny (93)</span>
+      </span>
+      <div style="flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+        <a href="#itineraire" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:10px 16px" style-hover="border-color:#0B0B0B">Itinéraire</a>
+        <a href="#site-web" style="font-size:14px;font-weight:600;color:#0B0B0B;background:#FFFFFF;border:1px solid #E2DDD6;border-radius:999px;padding:10px 16px" style-hover="border-color:#0B0B0B">Site web</a>
+        <a href="tel:+33148300000" style="font-size:14px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:11px 20px" style-hover="background:#A83B2A;color:#FFFFFF">Appeler</a>
+      </div>
+    </div>
+  </div>
+
+  <section data-screen-label="Corps de fiche" style="background:#F7F5F1">
+    <div style="max-width:1240px;margin:0 auto;padding:44px 28px 64px;display:flex;flex-wrap:wrap;gap:clamp(24px,3vw,44px);align-items:flex-start">
+
+      <div style="flex:999 1 560px;min-width:300px;display:flex;flex-direction:column;gap:48px">
+
+        <sc-if value="{{ presentation }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:0;max-width:70ch;font-size:19px;line-height:1.7;color:#3C3A37;text-wrap:pretty">Centre installé à Bobigny depuis 2014, spécialisé dans la formation initiale des agents de sécurité privée. Sessions de 12 stagiaires maximum, salle de mise en situation et plateau technique incendie sur place à Montreuil. La plupart de nos stagiaires viennent de Seine-Saint-Denis et du Val-d'Oise et sont accompagnés par France Travail. Nos formateurs sont tous en activité ou anciens professionnels du secteur, et le montage des dossiers de financement est fait avec vous au centre.</p>
+        </sc-if>
+
+        <sc-if value="{{ avecFormations }}" hint-placeholder-val="{{ true }}">
+          <div id="offre" style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:18px">
+              <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Les formations proposées</h2>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7B746E">5 titres · déclarés par l'organisme</span>
+            </div>
+
+            <ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+              <li style="border-bottom:1px solid #DFD9D2;padding:22px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px">
+                <div style="flex:1 1 220px;min-width:190px;display:flex;flex-direction:column;gap:6px">
+                  <a href="#pilier-tfp-aps" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:#0B0B0B" style-hover="color:#A83B2A">TFP APS</a>
+                  <span style="font-size:14px;color:#7B746E">175 heures · Temps plein · Bobigny</span>
+                </div>
+                <span style="flex:none;font-size:20px;font-weight:700;letter-spacing:-0.02em;min-width:110px">1 490 €</span>
+                <button type="button" onClick="{{ ouvrirTfpAps }}" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:transparent;border:1px solid #D8D2CA;border-radius:999px;padding:11px 20px;cursor:pointer" style-hover="background:#0B0B0B;color:#FFFFFF;border-color:#0B0B0B">Détails</button>
+              </li>
+              <li style="border-bottom:1px solid #DFD9D2;padding:22px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px">
+                <div style="flex:1 1 220px;min-width:190px;display:flex;flex-direction:column;gap:6px">
+                  <a href="#pilier-mac-aps" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:#0B0B0B" style-hover="color:#A83B2A">MAC APS</a>
+                  <span style="font-size:14px;color:#7B746E">31 heures · Temps plein · Bobigny</span>
+                </div>
+                <span style="flex:none;font-size:20px;font-weight:700;letter-spacing:-0.02em;min-width:110px">390 €</span>
+                <button type="button" onClick="{{ ouvrirMacAps }}" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:transparent;border:1px solid #D8D2CA;border-radius:999px;padding:11px 20px;cursor:pointer" style-hover="background:#0B0B0B;color:#FFFFFF;border-color:#0B0B0B">Détails</button>
+              </li>
+              <li style="border-bottom:1px solid #DFD9D2;padding:22px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px">
+                <div style="flex:1 1 220px;min-width:190px;display:flex;flex-direction:column;gap:6px">
+                  <a href="#pilier-ssiap-1" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 1</a>
+                  <span style="font-size:14px;color:#7B746E">70 heures · Temps plein · Saint-Denis</span>
+                </div>
+                <span style="flex:none;font-size:20px;font-weight:700;letter-spacing:-0.02em;min-width:110px">690 €</span>
+                <button type="button" onClick="{{ ouvrirSsiap1 }}" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:transparent;border:1px solid #D8D2CA;border-radius:999px;padding:11px 20px;cursor:pointer" style-hover="background:#0B0B0B;color:#FFFFFF;border-color:#0B0B0B">Détails</button>
+              </li>
+              <li style="border-bottom:1px solid #DFD9D2;padding:22px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px">
+                <div style="flex:1 1 220px;min-width:190px;display:flex;flex-direction:column;gap:6px">
+                  <a href="#pilier-ssiap-2" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:#0B0B0B" style-hover="color:#A83B2A">SSIAP 2</a>
+                  <span style="font-size:14px;color:#7B746E">67 heures · Cours du soir · Montreuil</span>
+                </div>
+                <span style="flex:none;font-size:15.5px;font-weight:600;color:#4C4946;min-width:110px">Prix sur demande</span>
+                <button type="button" onClick="{{ ouvrirSsiap2 }}" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:transparent;border:1px solid #D8D2CA;border-radius:999px;padding:11px 20px;cursor:pointer" style-hover="background:#0B0B0B;color:#FFFFFF;border-color:#0B0B0B">Détails</button>
+              </li>
+              <li style="border-bottom:1px solid #DFD9D2;padding:22px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:14px 24px">
+                <div style="flex:1 1 220px;min-width:190px;display:flex;flex-direction:column;gap:6px">
+                  <a href="#pilier-recyclage-ssiap" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:#0B0B0B" style-hover="color:#A83B2A">Recyclage SSIAP 1</a>
+                  <span style="font-size:14px;color:#7B746E">14 heures · Week-end · Bobigny</span>
+                </div>
+                <span style="flex:none;font-size:20px;font-weight:700;letter-spacing:-0.02em;min-width:110px">210 €</span>
+                <button type="button" onClick="{{ ouvrirRecyclage }}" style="flex:none;font:inherit;font-size:14px;font-weight:600;color:#0B0B0B;background:transparent;border:1px solid #D8D2CA;border-radius:999px;padding:11px 20px;cursor:pointer" style-hover="background:#0B0B0B;color:#FFFFFF;border-color:#0B0B0B">Détails</button>
+              </li>
+            </ol>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ sansFormation }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:22px;padding:clamp(24px,3vw,34px);max-width:68ch">
+            <h2 style="margin:0;font-size:clamp(25px,3vw,34px);line-height:1.1;letter-spacing:-0.025em;font-weight:700">Formations</h2>
+            <p style="margin:0;font-size:17px;line-height:1.7;color:#3C3A37">Cet organisme n'a pas encore détaillé son offre de formation. Contactez-le directement pour connaître les titres qu'il prépare.</p>
+            <a href="tel:+33148300000" style="align-self:flex-start;font-size:15px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:13px 22px" style-hover="background:#A83B2A;color:#FFFFFF">Appeler l'organisme</a>
+          </div>
+        </sc-if>
+
+        <div id="lieux" style="display:flex;flex-direction:column;gap:18px">
+          <sc-if value="{{ multisite }}" hint-placeholder-val="{{ true }}"><h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Lieux de formation</h2></sc-if>
+          <sc-if value="{{ monosite }}" hint-placeholder-val="{{ false }}"><h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Adresse</h2></sc-if>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+            <div style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;overflow:hidden">
+              <div style="height:118px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">carte statique — différée</div>
+              <div style="display:flex;flex-direction:column;gap:5px;padding:16px 18px 18px">
+                <span style="font-size:15px;font-weight:700">Siège</span>
+                <span style="font-size:14px;line-height:1.55;color:#4C4946">14 rue de la République, 93000 Bobigny</span>
+                <span style="font-size:13px;line-height:1.55;color:#7B746E">Formations dispensées ici : TFP APS, MAC APS, Recyclage SSIAP</span>
+              </div>
+            </div>
+            <sc-if value="{{ multisite }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;overflow:hidden">
+                <div style="height:118px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">carte statique — différée</div>
+                <div style="display:flex;flex-direction:column;gap:5px;padding:16px 18px 18px">
+                  <span style="font-size:15px;font-weight:700">Centre Saint-Denis</span>
+                  <span style="font-size:14px;line-height:1.55;color:#4C4946">8 avenue Lénine, 93200 Saint-Denis</span>
+                  <span style="font-size:13px;line-height:1.55;color:#7B746E">Formations dispensées ici : SSIAP 1</span>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ multisite }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:18px;overflow:hidden">
+                <div style="height:118px;background-image:repeating-linear-gradient(135deg,#ECE8E2 0 7px,#F7F5F1 7px 14px);display:flex;align-items:flex-end;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#8D8681">carte statique — différée</div>
+                <div style="display:flex;flex-direction:column;gap:5px;padding:16px 18px 18px">
+                  <span style="font-size:15px;font-weight:700">Plateau technique Montreuil</span>
+                  <span style="font-size:14px;line-height:1.55;color:#4C4946">31 rue de Paris, 93100 Montreuil</span>
+                  <span style="font-size:13px;line-height:1.55;color:#7B746E">Formations dispensées ici : SSIAP 2</span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{ mentionAdresses }}" hint-placeholder-val="{{ true }}">
+            <p style="margin:0;font-size:12.5px;line-height:1.65;color:#8D8681">Les adresses sont déclarées par l'organisme. Confirmez le lieu exact de votre session lors de votre inscription.</p>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ avecFormations }}" hint-placeholder-val="{{ true }}">
+          <div id="maillage-titres" style="display:flex;flex-direction:column;gap:6px">
+            <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">En savoir plus sur ces formations</h2>
+            <p style="margin:8px 0 18px;font-size:15.5px;line-height:1.6;color:#4C4946">Programme, conditions d'accès et durée réglementaire de chaque titre.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+              <a href="#pilier-tfp-aps" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">TFP APS<span style="color:#A83B2A">→</span></a>
+              <a href="#pilier-mac-aps" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">MAC APS<span style="color:#A83B2A">→</span></a>
+              <a href="#pilier-ssiap-1" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">SSIAP 1<span style="color:#A83B2A">→</span></a>
+              <a href="#pilier-ssiap-2" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">SSIAP 2<span style="color:#A83B2A">→</span></a>
+              <a href="#pilier-recyclage-ssiap" style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#FFFFFF;border:1px solid #E7E3DD;border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:600;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">Recyclage SSIAP<span style="color:#A83B2A">→</span></a>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Questions fréquentes</h2>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #DFD9D2">
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Quelles formations Académie Française de Sécurité prépare-t-il ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Académie Française de Sécurité prépare au TFP APS, au MAC APS, au SSIAP 1, au SSIAP 2 et au recyclage SSIAP 1. Retrouvez le détail de chaque formation, avec les tarifs et les rythmes proposés, dans la section ci-dessus.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Académie Française de Sécurité est-il agréé par le CNAPS ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Oui. Son numéro d'agrément est le 093-2019-01-24-20190578920, vérifiable sur l'espace de consultation du CNAPS.</p>
+            </details>
+            <details style="border-bottom:1px solid #DFD9D2">
+              <summary style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:19px 0;cursor:pointer;list-style:none;font-size:16.5px;font-weight:600;line-height:1.4">Où se déroulent les formations de Académie Française de Sécurité ?<span style="flex:none;color:#A83B2A;font-size:18px">+</span></summary>
+              <p style="margin:0 0 20px;padding-right:40px;font-size:16px;line-height:1.7;color:#4C4946">Académie Française de Sécurité dispose de 3 lieux de formation, à Bobigny, Saint-Denis et Montreuil.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+
+      <aside data-screen-label="Colonne pratique" style="flex:1 1 300px;min-width:270px;position:sticky;top:88px;display:flex;flex-direction:column;gap:12px">
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:14px">
+          <a href="tel:+33148300000" style="display:flex;align-items:center;justify-content:center;background:#0B0B0B;color:#FFFFFF;border-radius:999px;padding:16px 22px;font-size:16px;font-weight:700" style-hover="background:#A83B2A;color:#FFFFFF">Appeler</a>
+          <div style="display:flex;gap:8px">
+            <a href="#site-web" style="flex:1;display:flex;align-items:center;justify-content:center;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 16px;font-size:14.5px;font-weight:600" style-hover="border-color:#0B0B0B;color:#0B0B0B">Site web</a>
+            <a href="#itineraire" style="flex:1;display:flex;align-items:center;justify-content:center;background:#FFFFFF;color:#0B0B0B;border:1px solid #E2DDD6;border-radius:999px;padding:13px 16px;font-size:14.5px;font-weight:600" style-hover="border-color:#0B0B0B;color:#0B0B0B">Itinéraire</a>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:11px;padding-top:14px;border-top:1px solid #E7E3DD">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Financements acceptés</span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 11px;font-size:13.5px;font-weight:600">CPF</span>
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 11px;font-size:13.5px;font-weight:600">France Travail</span>
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 11px;font-size:13.5px;font-weight:600">OPCO</span>
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 11px;font-size:13.5px;font-weight:600">Plan de développement des compétences</span>
+            </span>
+            <span style="font-size:13px;line-height:1.6;color:#7B746E">La certification Qualiopi conditionne l'accès aux financements publics et mutualisés.</span>
+          </div>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid #E7E3DD;border-radius:20px;padding:22px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Informations pratiques</span>
+          <dl style="margin:14px 0 0;display:flex;flex-direction:column;gap:13px">
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Téléphone</dt>
+              <dd style="margin:0;font-size:14.5px"><a href="tel:+33148300000" style="color:#0B0B0B">01 48 30 00 00</a></dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Email</dt>
+              <dd style="margin:0;font-size:14.5px"><a href="mailto:contact@afs-formation.fr" style="color:#0B0B0B">contact@afs-formation.fr</a></dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Site internet</dt>
+              <dd style="margin:0;font-size:14.5px"><a href="#site-web" style="color:#0B0B0B">afs-formation.fr</a></dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Horaires d'accueil</dt>
+              <dd style="margin:0;font-size:14.5px;color:#3C3A37">Lundi au vendredi, 9 h – 18 h</dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Accessibilité</dt>
+              <dd style="margin:0;font-size:14.5px;line-height:1.5;color:#3C3A37">Locaux accessibles aux personnes à mobilité réduite</dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Langues d'enseignement</dt>
+              <dd style="margin:0;font-size:14.5px;color:#3C3A37">Français</dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Organisme créé en</dt>
+              <dd style="margin:0;font-size:14.5px;color:#3C3A37">2014</dd>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <dt style="font-size:12.5px;color:#7B746E">Numéro de déclaration d'activité</dt>
+              <dd style="margin:0;font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:#3C3A37">11930567893</dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section data-screen-label="Autres organismes" style="background:#FFFFFF;border-top:1px solid #E7E3DD">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 28px">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:20px">
+        <h2 style="margin:0;font-size:clamp(22px,2.4vw,28px);line-height:1.15;letter-spacing:-0.02em;font-weight:700">Autres organismes en Seine-Saint-Denis</h2>
+        <a href="#dep-93" style="font-size:14.5px;font-weight:600">Voir tous les organismes en Seine-Saint-Denis →</a>
+      </div>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">CS</span>
+              <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Centre Sécuriform Île-de-France</span>
+                <span style="font-size:13.5px;color:#7B746E">Saint-Denis (93)</span>
+              </span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>France Travail</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">IP</span>
+              <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Institut Prévention Est Parisien</span>
+                <span style="font-size:13.5px;color:#7B746E">Montreuil (93)</span>
+              </span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 1</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>SSIAP 2</span>
+              <span style="display:inline-flex;align-items:center;border-radius:9px;padding:6px 4px;font-size:13px;color:#7B746E">+1 titre</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>CPF</span><span style="color:#C7C1BC">·</span><span>OPCO</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="#fiche" style="height:100%;display:flex;flex-direction:column;gap:14px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:18px;padding:20px;color:#0B0B0B" style-hover="border-color:#0B0B0B;transform:translateY(-2px)">
+            <span style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:13px">
+              <span style="flex:none;width:46px;height:46px;border-radius:13px;border:1px solid #E7E3DD;background:#FFFFFF;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:14px;color:#45423E">FS</span>
+              <span style="flex:1 1 160px;display:flex;flex-direction:column;gap:3px;min-width:150px">
+                <span style="font-size:16.5px;font-weight:700;letter-spacing:-0.015em;line-height:1.3">Formasûr Aubervilliers</span>
+                <span style="font-size:13.5px;color:#7B746E">Aubervilliers (93)</span>
+              </span>
+            </span>
+            <span style="display:flex;flex-wrap:wrap;gap:6px">
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>TFP APS</span>
+              <span style="display:inline-flex;align-items:center;gap:7px;border:1px solid #E7E3DD;border-radius:9px;padding:6px 11px;font-size:13.5px;font-weight:600;color:#0B0B0B"><span style="width:5px;height:5px;border-radius:99px;background:#A83B2A;display:block"></span>MAC APS</span>
+            </span>
+            <span style="margin-top:auto;padding-top:12px;border-top:1px solid #E7E3DD;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;color:#4C4946">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#7B746E">Financements</span>
+              <span>France Travail</span>
+            </span>
+          </a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#0B0B0B;color:#D0CAC5;padding:72px 0 32px">
+    <div style="max-width:1240px;margin:0 auto;padding:0 28px">
+      <img src="assets/logo-bicolore.png" alt="Trouve ta formation" style="height:30px;width:auto;display:block;filter:brightness(0) invert(1)" />
+      <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Formations les plus recherchées</span>
+          <a href="#tfp-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">TFP APS</a>
+          <a href="#mac-aps" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">MAC APS</a>
+          <a href="#ssiap-1" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 1</a>
+          <a href="#ssiap-2" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 2</a>
+          <a href="#ssiap-3" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">SSIAP 3</a>
+          <a href="#cynophile" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Agent cynophile</a>
+          <a href="#maillage-titres" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les formations →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Se former par département</span>
+          <a href="#dep-75" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Paris (75)</a>
+          <a href="#dep-93" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-Saint-Denis (93)</a>
+          <a href="#dep-92" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Hauts-de-Seine (92)</a>
+          <a href="#dep-94" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-de-Marne (94)</a>
+          <a href="#dep-91" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Essonne (91)</a>
+          <a href="#dep-78" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Yvelines (78)</a>
+          <a href="#dep-95" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Val-d'Oise (95)</a>
+          <a href="#dep-77" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Seine-et-Marne (77)</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Démarches CNAPS</span>
+          <a href="#autorisation-prealable" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Autorisation préalable</a>
+          <a href="#carte-professionnelle" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Carte professionnelle</a>
+          <a href="#renouvellement" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Renouvellement de la carte</a>
+          <a href="#toutes-demarches" style="font-size:14.5px;color:#E19D8B;margin-top:4px">Toutes les démarches →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#E19D8B">Trouve ta formation</span>
+          <a href="#a-propos" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">À propos</a>
+          <a href="#methode" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Notre méthode de référencement</a>
+          <a href="#blog" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Blog</a>
+          <a href="#contact" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Contact</a>
+          <a href="#espace-organisme" style="font-size:14.5px;color:#E5E0DB" style-hover="color:#FFFFFF">Espace organisme</a>
+          <span style="display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;font-size:13px">
+            <a href="#mentions" style="color:#8D8681">Mentions légales</a>
+            <a href="#confidentialite" style="color:#8D8681">Politique de confidentialité</a>
+            <a href="#cookies" style="color:#8D8681">Gestion des cookies</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin:48px 0 0;padding-top:24px;border-top:1px solid #2A2626;font-size:14px;line-height:1.6;color:#8D8681">Trouve ta formation référence aussi des organismes dans d'autres secteurs. <a href="#secteurs" style="color:#E5E0DB;font-weight:600">Voir tous les secteurs →</a></p>
+      <p style="margin:16px 0 0;font-size:12.5px;line-height:1.6;color:#7B746E">© 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.</p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ panelOuvert }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;background:rgba(11,11,11,0.45);display:flex;justify-content:flex-end">
+      <div style="width:min(560px,100%);height:100%;background:#FFFFFF;display:flex;flex-direction:column;overflow-y:auto">
+        <div style="position:sticky;top:0;background:#FFFFFF;border-bottom:1px solid #E7E3DD;padding:22px 26px;display:flex;align-items:flex-start;gap:16px">
+          <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:21px;font-weight:700;line-height:1.2;letter-spacing:-0.02em">{{ f.titreLong }}</span>
+            <span style="font-size:14px;color:#7B746E">chez Académie Française de Sécurité</span>
+          </div>
+          <button type="button" onClick="{{ fermerPanel }}" aria-label="Fermer le détail de la formation" style="flex:none;font:inherit;font-size:15px;color:#45423E;background:#F2EFE9;border:0;border-radius:99px;width:36px;height:36px;cursor:pointer">×</button>
+        </div>
+        <div style="padding:24px 26px 32px;display:flex;flex-direction:column;gap:22px">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Tarif</span>
+            <span style="font-size:24px;font-weight:700;letter-spacing:-0.02em">{{ f.prix }}</span>
+            <span style="font-size:14.5px;line-height:1.65;color:#4C4946">{{ f.compris }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;padding:18px 0;border-top:1px solid #E7E3DD;border-bottom:1px solid #E7E3DD">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Durée</span>
+              <span style="font-size:15.5px;font-weight:600">{{ f.duree }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Rythme</span>
+              <span style="font-size:15.5px;font-weight:600">{{ f.rythme }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Lieu</span>
+              <span style="font-size:15px;font-weight:600;line-height:1.5">{{ f.lieu }}</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Financements acceptés</span>
+            <span style="display:flex;flex-wrap:wrap;gap:7px">
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 12px;font-size:13.5px;font-weight:600">CPF</span>
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 12px;font-size:13.5px;font-weight:600">France Travail</span>
+              <span style="border:1px solid #E7E3DD;border-radius:9px;padding:7px 12px;font-size:13.5px;font-weight:600">OPCO</span>
+            </span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:#7B746E">Comment s'inscrire</span>
+            <p style="margin:0;font-size:15px;line-height:1.7;color:#3C3A37">{{ f.inscription }}</p>
+            <a href="tel:+33148300000" style="align-self:flex-start;margin-top:4px;font-size:15px;font-weight:700;color:#FFFFFF;background:#0B0B0B;border-radius:999px;padding:13px 22px" style-hover="background:#A83B2A;color:#FFFFFF">Appeler l'organisme</a>
+          </div>
+          <a href="#pilier" style="display:flex;align-items:flex-start;gap:12px;background:#F7F5F1;border:1px solid #E7E3DD;border-radius:16px;padding:18px 20px;font-size:15px;font-weight:600;line-height:1.55;color:#0B0B0B" style-hover="border-color:#0B0B0B;color:#0B0B0B">Tout savoir sur le {{ f.titreCourt }} : programme, conditions d'accès et durée réglementaire<span style="flex:none;color:#A83B2A">→</span></a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;etat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Fiche complète&quot;,&quot;Fiche sans formation déclarée&quot;,&quot;Fiche sans présentation&quot;,&quot;Organisme mono-site&quot;],&quot;default&quot;:&quot;Fiche complète&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;États de la fiche&quot;,&quot;label&quot;:&quot;État de la fiche&quot;},&quot;noteGoogle&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;En-tête&quot;,&quot;label&quot;:&quot;Afficher la note Google&quot;},&quot;mentionAdresses&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Lieux&quot;,&quot;label&quot;:&quot;Mention de vigilance sur les adresses&quot;}}">
+const FORMATIONS = {
+  "tfp-aps": { titreCourt: "TFP APS", titreLong: "Titre à finalité professionnelle Agent de prévention et de sécurité", prix: "1 490 €", compris: "Support de cours, passage des épreuves et une session de rattrapage incluses.", duree: "175 heures", rythme: "Temps plein", lieu: "Siège — 14 rue de la République, 93000 Bobigny", inscription: "Dossier à déposer au centre ou par email. Autorisation préalable du CNAPS à obtenir avant l'entrée en formation ; le centre vous accompagne dans la demande." },
+  "mac-aps": { titreCourt: "MAC APS", titreLong: "Maintien et actualisation des compétences Agent de prévention et de sécurité", prix: "390 €", compris: "Support de cours et passage des épreuves inclus.", duree: "31 heures", rythme: "Temps plein", lieu: "Siège — 14 rue de la République, 93000 Bobigny", inscription: "Carte professionnelle en cours de validité à présenter à l'inscription." },
+  "ssiap-1": { titreCourt: "SSIAP 1", titreLong: "Service de sécurité incendie et d'assistance à personnes — niveau 1", prix: "690 €", compris: "Support de cours, équipements de protection et passage des épreuves inclus.", duree: "70 heures", rythme: "Temps plein", lieu: "Centre Saint-Denis — 8 avenue Lénine, 93200 Saint-Denis", inscription: "SST ou PSC1 en cours de validité requis. Dossier à déposer au centre de Saint-Denis." },
+  "ssiap-2": { titreCourt: "SSIAP 2", titreLong: "Service de sécurité incendie et d'assistance à personnes — niveau 2", prix: "Prix sur demande", compris: "Contactez le centre pour le détail du tarif et de ce qu'il comprend.", duree: "67 heures", rythme: "Cours du soir", lieu: "Plateau technique Montreuil — 31 rue de Paris, 93100 Montreuil", inscription: "Contactez l'organisme directement pour connaître les modalités d'inscription et les prochaines dates." },
+  "recyclage-ssiap": { titreCourt: "Recyclage SSIAP 1", titreLong: "Recyclage SSIAP 1 — remise à niveau triennale", prix: "210 €", compris: "Support de cours et attestation de recyclage inclus.", duree: "14 heures", rythme: "Week-end", lieu: "Siège — 14 rue de la République, 93000 Bobigny", inscription: "Diplôme SSIAP 1 et SST à jour à présenter à l'inscription." }
+};
+
+class Component extends DCLogic {
+  state = { panel: null };
+  ouvrir(slug) { this.setState({ panel: slug }); }
+  renderVals() {
+    const etat = this.props.etat ?? "Fiche complète";
+    const slug = this.state.panel;
+    return {
+      multisite: etat !== "Organisme mono-site",
+      monosite: etat === "Organisme mono-site",
+      presentation: etat !== "Fiche sans présentation",
+      avecFormations: etat !== "Fiche sans formation déclarée",
+      sansFormation: etat === "Fiche sans formation déclarée",
+      noteGoogle: this.props.noteGoogle ?? true,
+      mentionAdresses: this.props.mentionAdresses ?? true,
+      panelOuvert: !!slug,
+      f: FORMATIONS[slug] || FORMATIONS["tfp-aps"],
+      fermerPanel: () => this.setState({ panel: null }),
+      ouvrirTfpAps: () => this.ouvrir("tfp-aps"),
+      ouvrirMacAps: () => this.ouvrir("mac-aps"),
+      ouvrirSsiap1: () => this.ouvrir("ssiap-1"),
+      ouvrirSsiap2: () => this.ouvrir("ssiap-2"),
+      ouvrirRecyclage: () => this.ouvrir("recyclage-ssiap")
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Trouve ta formation
+
+> Annuaire indépendant d'organismes de formation professionnelle. Première verticale : la sécurité privée en Île-de-France. L'annuaire compare des organismes agréés par le CNAPS, titre par titre et département par département, sans commission ni classement payant.
+
+## Verticales
+
+- [Sécurité privée](https://trouve-ta-formation.fr/securite-privee/) : formations aux titres de la sécurité privée (TFP APS, SSIAP, cynophile, sûreté aéroportuaire, protection physique des personnes) et à leurs recyclages / MAC, en Île-de-France.
+
+## Structure des pages (verticale sécurité privée)
+
+- `/securite-privee/` : accueil de la verticale.
+- `/securite-privee/[titre]/` : page pilier d'un titre du référentiel (ex. `/securite-privee/ssiap-1/`) — programme, prérequis, organismes qui le préparent.
+- `/securite-privee/[departement-ou-ville]/` : page géographique listant les organismes d'une zone.
+- `/securite-privee/demarches/[demarche]/` : démarches CNAPS (carte professionnelle, autorisation préalable, renouvellement), avec date de vérification.
+- `/securite-privee/organismes/` : catalogue des organismes.
+- `/securite-privee/organismes/[organisme]/` : fiche d'un organisme ; chaque formation proposée est une ancre `#[titre]` de la fiche.
+- `/blog/[article]/` : articles.
+
+## Politique de contenu
+
+- Référentiel des titres fermé et maintenu par l'éditeur ; les organismes ne saisissent pas de titre libre.
+- Aucun classement payant ni commission : l'ordre d'affichage ne dépend pas d'un paiement.
+- Les informations réglementaires sont datées ; les données non vérifiées ne sont pas publiées.
