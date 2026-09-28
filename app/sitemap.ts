@@ -1,15 +1,20 @@
 import type { MetadataRoute } from "next";
 import { VERTICALES } from "@/lib/config/verticales";
+import { estIndexable } from "@/lib/organismes/completude";
 import { resoudrePilier } from "@/lib/resolution-pilier";
 import { absoluteUrl } from "@/lib/seo/metadata";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
+import { getOrganismes } from "@/lib/supabase/queries/organismes";
 import { getTousLesTitres } from "@/lib/supabase/queries/referentiel";
 
-// Uniquement les pages servies (les titres archivés remplacés redirigent, ils sortent du sitemap).
-// À ajouter : fiches (Sprint 5), géo (6).
+// Uniquement les pages servies et indexables (les titres archivés remplacés redirigent, ils sortent du sitemap).
+// À ajouter : géo (Sprint 6).
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const titres = await getTousLesTitres();
-  const { publiees, listeVisible } = await getDemarches(VERTICALES["securite-privee"]);
+  const [titres, { publiees, listeVisible }, organismes] = await Promise.all([
+    getTousLesTitres(),
+    getDemarches(VERTICALES["securite-privee"]),
+    getOrganismes(), // jamais d'organisme de test en production
+  ]);
   // Pages publiées uniquement, quel que soit l'environnement (décision Erwan 01/10/2026).
   const piliers = titres.filter((t) => t.page_publiee && resoudrePilier(t.slug, titres)?.type === "page");
   return [
@@ -18,5 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...piliers.map((t) => ({ url: absoluteUrl(`/securite-privee/${t.slug}/`) })),
     ...(listeVisible ? [{ url: absoluteUrl("/securite-privee/demarches/") }] : []),
     ...publiees.map((d) => ({ url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`) })),
+    { url: absoluteUrl("/securite-privee/organismes/") },
+    // Fiches au palier Basique : noindex, donc hors sitemap.
+    ...organismes
+      .filter((o) => estIndexable(o.palier))
+      .map((o) => ({ url: absoluteUrl(`/securite-privee/organismes/${o.slug}/`), lastModified: o.updated_at })),
   ];
 }

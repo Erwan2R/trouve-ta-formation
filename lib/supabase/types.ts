@@ -97,25 +97,37 @@ export type Database = {
         Row: {
           adresse: string
           code_postal: string
+          created_at: string
           est_siege: boolean
           id: number
+          nom: string | null
           organisme_id: string
+          updated_at: string
+          ville: string
           ville_id: number | null
         }
         Insert: {
           adresse: string
           code_postal: string
+          created_at?: string
           est_siege?: boolean
           id?: never
+          nom?: string | null
           organisme_id: string
+          updated_at?: string
+          ville?: string
           ville_id?: number | null
         }
         Update: {
           adresse?: string
           code_postal?: string
+          created_at?: string
           est_siege?: boolean
           id?: never
+          nom?: string | null
           organisme_id?: string
+          updated_at?: string
+          ville?: string
           ville_id?: number | null
         }
         Relationships: [
@@ -135,39 +147,118 @@ export type Database = {
           },
         ]
       }
-      organisme_titres: {
+      offre_lieux: {
         Row: {
-          financements: string[]
-          lieu_id: number | null
-          modalites: string | null
-          organisme_id: string
-          prix: number | null
-          titre_id: number
+          lieu_id: number
+          offre_id: string
         }
         Insert: {
-          financements?: string[]
-          lieu_id?: number | null
-          modalites?: string | null
-          organisme_id: string
-          prix?: number | null
-          titre_id: number
+          lieu_id: number
+          offre_id: string
         }
         Update: {
-          financements?: string[]
-          lieu_id?: number | null
-          modalites?: string | null
-          organisme_id?: string
-          prix?: number | null
-          titre_id?: number
+          lieu_id?: number
+          offre_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "organisme_titres_lieu_id_fkey"
+            foreignKeyName: "offre_lieux_lieu_id_fkey"
             columns: ["lieu_id"]
             isOneToOne: false
             referencedRelation: "lieux"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "offre_lieux_offre_id_fkey"
+            columns: ["offre_id"]
+            isOneToOne: false
+            referencedRelation: "organisme_titres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      offre_prix_historique: {
+        Row: {
+          change_le: string
+          id: number
+          offre_id: string
+          prix_max: number | null
+          prix_min: number | null
+        }
+        Insert: {
+          change_le?: string
+          id?: never
+          offre_id: string
+          prix_max?: number | null
+          prix_min?: number | null
+        }
+        Update: {
+          change_le?: string
+          id?: never
+          offre_id?: string
+          prix_max?: number | null
+          prix_min?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "offre_prix_historique_offre_id_fkey"
+            columns: ["offre_id"]
+            isOneToOne: false
+            referencedRelation: "organisme_titres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organisme_titres: {
+        Row: {
+          created_at: string
+          duree_heures: number | null
+          financements: string[]
+          id: string
+          inscription: string | null
+          modalites: string | null
+          organisme_id: string
+          prix_compris: string | null
+          prix_max: number | null
+          prix_min: number | null
+          rythmes: string[]
+          slug: string
+          titre_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duree_heures?: number | null
+          financements?: string[]
+          id?: string
+          inscription?: string | null
+          modalites?: string | null
+          organisme_id: string
+          prix_compris?: string | null
+          prix_max?: number | null
+          prix_min?: number | null
+          rythmes?: string[]
+          slug: string
+          titre_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duree_heures?: number | null
+          financements?: string[]
+          id?: string
+          inscription?: string | null
+          modalites?: string | null
+          organisme_id?: string
+          prix_compris?: string | null
+          prix_max?: number | null
+          prix_min?: number | null
+          rythmes?: string[]
+          slug?: string
+          titre_id?: number
+          updated_at?: string
+        }
+        Relationships: [
           {
             foreignKeyName: "organisme_titres_organisme_id_fkey"
             columns: ["organisme_id"]
@@ -186,33 +277,84 @@ export type Database = {
       }
       organismes: {
         Row: {
+          accessibilite_pmr: boolean
+          annee_creation: number | null
+          capacites: Json
           created_at: string
+          email_contact: string | null
+          est_test: boolean
+          financements: string[]
+          horaires: string | null
           id: string
+          langues: string[]
+          logo_url: string | null
           nom: string
+          numero_agrement_cnaps: string | null
+          numero_declaration_activite: string | null
+          numero_qualiopi: string | null
+          presentation: string | null
+          qualiopi: boolean
+          raison_sociale: string | null
           score_completude: number
           siret: string | null
+          site_web: string | null
           slug: string
           statut: Database["public"]["Enums"]["statut_organisme"]
+          telephone: string | null
           updated_at: string
         }
         Insert: {
+          accessibilite_pmr?: boolean
+          annee_creation?: number | null
+          capacites?: Json
           created_at?: string
+          email_contact?: string | null
+          est_test?: boolean
+          financements?: string[]
+          horaires?: string | null
           id?: string
+          langues?: string[]
+          logo_url?: string | null
           nom: string
+          numero_agrement_cnaps?: string | null
+          numero_declaration_activite?: string | null
+          numero_qualiopi?: string | null
+          presentation?: string | null
+          qualiopi?: boolean
+          raison_sociale?: string | null
           score_completude?: number
           siret?: string | null
+          site_web?: string | null
           slug: string
           statut?: Database["public"]["Enums"]["statut_organisme"]
+          telephone?: string | null
           updated_at?: string
         }
         Update: {
+          accessibilite_pmr?: boolean
+          annee_creation?: number | null
+          capacites?: Json
           created_at?: string
+          email_contact?: string | null
+          est_test?: boolean
+          financements?: string[]
+          horaires?: string | null
           id?: string
+          langues?: string[]
+          logo_url?: string | null
           nom?: string
+          numero_agrement_cnaps?: string | null
+          numero_declaration_activite?: string | null
+          numero_qualiopi?: string | null
+          presentation?: string | null
+          qualiopi?: boolean
+          raison_sociale?: string | null
           score_completude?: number
           siret?: string | null
+          site_web?: string | null
           slug?: string
           statut?: Database["public"]["Enums"]["statut_organisme"]
+          telephone?: string | null
           updated_at?: string
         }
         Relationships: []
