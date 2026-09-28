@@ -22,8 +22,9 @@ export function Reassurance() {
             D&apos;où viennent ces informations
           </h2>
           <p className="max-w-[64ch] text-[clamp(17px,1.9vw,21px)] leading-[1.55] tracking-[-0.01em] text-ink-900">
-            Les organismes référencés créent et mettent à jour eux-mêmes leur fiche. Nous vérifions leur déclaration
-            auprès du CNAPS avant publication.
+            Les organismes référencés créent et mettent à jour eux-mêmes leur fiche. Quand un organisme indique son
+            numéro d&apos;agrément CNAPS, il apparaît sur sa fiche : vérifiez-le sur l&apos;espace de consultation du
+            CNAPS avant de vous inscrire.
           </p>
         </div>
         <div className="mt-9 grid grid-cols-[repeat(auto-fit,minmax(min(100%,290px),1fr))] gap-3.5">

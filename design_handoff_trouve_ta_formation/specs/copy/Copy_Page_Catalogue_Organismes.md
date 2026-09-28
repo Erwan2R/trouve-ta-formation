@@ -430,7 +430,7 @@ Non. Le référencement est gratuit et aucun organisme ne peut acheter une meill
 Parce que l'organisme n'a pas encore renseigné son offre. Ces fiches apparaissent dans le catalogue complet, mais pas dans les résultats filtrés par titre.
 
 **Les informations des fiches sont-elles vérifiées ?**
-Elles proviennent des organismes eux-mêmes. Nous vérifions leur déclaration auprès du CNAPS avant publication, mais les tarifs, rythmes et disponibilités relèvent de leur responsabilité et évoluent. Confirmez-les auprès du centre.
+Elles proviennent des organismes eux-mêmes, qui créent et mettent à jour leur fiche. Les tarifs, rythmes et disponibilités relèvent de leur responsabilité et évoluent : confirmez-les auprès du centre, et vérifiez son numéro d'agrément sur l'espace de consultation du CNAPS.
 
 **Note** — la dernière question est celle que la plupart des annuaires évitent. Y répondre honnêtement coûte moins qu'un visiteur qui découvre un tarif obsolète et en tire une conclusion sur l'ensemble du site.
 

@@ -511,7 +511,7 @@ Titre de l'article · Date de publication · Une ligne d'accroche de 12 mots max
 
 ### Texte
 
-> Les organismes référencés créent et mettent à jour eux-mêmes leur fiche. Nous vérifions leur déclaration auprès du CNAPS avant publication.
+> Les organismes référencés créent et mettent à jour eux-mêmes leur fiche. Quand un organisme indique son numéro d'agrément CNAPS, il apparaît sur sa fiche : vérifiez-le sur l'espace de consultation du CNAPS avant de vous inscrire.
 >
 > Les informations réglementaires — durées, conditions d'accès, démarches — sont établies à partir des textes en vigueur et des publications du CNAPS, et revues à chaque évolution réglementaire.
 >
