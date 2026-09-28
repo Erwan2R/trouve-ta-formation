@@ -8,6 +8,10 @@ test("parcours complet, sans réinitialisation au retour", async ({ page }) => {
   // L'accueil a déjà posé la question 1 : on arrive à l'écran 2.
   await expect(page.getByText("Question 2 sur 6")).toBeVisible();
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+  await expect(page.getByRole("link", { name: /Revenir à la page précédente/ })).toHaveAttribute(
+    "href",
+    "/securite-privee/",
+  );
   await page.getByRole("button", { name: /Assurer la sécurité incendie/ }).click();
   await page.getByRole("button", { name: /Non, pas encore/ }).click();
   await page.getByRole("button", { name: /Salarié/ }).click();

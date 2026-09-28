@@ -65,13 +65,13 @@ export async function PagePilier({
           titre: "Ce titre ne correspond pas à votre situation ?",
           texte: "Six questions suffisent pour identifier celui qui vous convient.",
           cta: "Trouver mon titre",
-          href: `${base}formulaire/`,
+          href: `${base}formulaire/?depuis=${base}${titre.slug}/`,
         }
       : {
           titre: "Vous ne savez pas quel stage correspond à votre carte ?",
           texte: "Indiquez le titre que vous détenez, nous vous orientons vers le maintien correspondant.",
           cta: "Vérifier mon cas",
-          href: `${base}formulaire/?depart=renouvellement`,
+          href: `${base}formulaire/?depart=renouvellement&depuis=${base}${titre.slug}/`,
         };
 
   return (

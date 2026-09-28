@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { after } from "next/server";
 import { EcranQuestion, type GroupeOptions } from "@/components/public/formulaire/EcranQuestion";
 import { EcranResultat } from "@/components/public/formulaire/EcranResultat";
 import { LienContenu } from "@/components/public/LienContenu";
@@ -6,6 +7,8 @@ import { sansMarqueur } from "@/contenu/marqueurs";
 import {
   ASA,
   ELARGISSEMENT,
+  ENCADREMENT_PREREQUIS,
+  ORIGINE,
   ENCARTS,
   EXPLICATIONS,
   FORMULAIRE,
@@ -27,12 +30,13 @@ import {
   cleFormulaire,
   ecranCourant,
   etapesInitiales,
+  lireOrigine,
   lireReponses,
+  ordreRelachement,
   optionDisponible,
   recommander,
   versParams,
   type Etape,
-  type Niveau,
   type Recommandation,
   type Reponses,
 } from "@/lib/formulaire/parcours";
@@ -42,7 +46,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { supabasePublic } from "@/lib/supabase/client";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getOrganismes } from "@/lib/supabase/queries/organismes";
-import { getSeuilPropositionElargissement } from "@/lib/supabase/queries/parametres";
+import { getExperienceEncadrement, getSeuilPropositionElargissement } from "@/lib/supabase/queries/parametres";
 import { getDepartements, getTitres, type Titre } from "@/lib/supabase/queries/referentiel";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
@@ -67,12 +71,13 @@ const ouFr = (formes: string[]) =>
 
 export default async function Formulaire({ searchParams }: Props) {
   const params = await searchParams;
-  const [titres, departements, organismes, { visibles }, seuil] = await Promise.all([
+  const [titres, departements, organismes, { visibles }, seuil, experienceMin] = await Promise.all([
     getTitres(), // titres actifs seulement : les archivés sont exclus des questions et des résultats
     getDepartements(),
     getOrganismes(),
     getDemarches(verticale),
     getSeuilPropositionElargissement(),
+    getExperienceEncadrement(),
   ]);
   const actifs = new Set(titres.map((t) => t.slug));
   const parSlug = new Map(titres.map((t) => [t.slug, t]));
@@ -84,10 +89,21 @@ export default async function Formulaire({ searchParams }: Props) {
     departements.map((d) => d.code),
   );
   let ecran = ecranCourant(r, un("etape"), un("apres"));
-  const reco = ecran === "resultat" ? recommander(r, actifs) : null;
+  const reco = ecran === "resultat" ? recommander(r, actifs, experienceMin) : null;
   if (ecran === "resultat" && !reco) ecran = "depart"; // réponse devenue sans sortie (titre archivé entre-temps)
 
-  const lien = (extra: Record<string, string>) => `${action}?${versParams(r, extra)}`;
+  // Page d'origine : conservée tout au long du parcours pour le lien de retour.
+  const depuis = lireOrigine(params.depuis, base);
+  const persistants: Record<string, string> = depuis ? { depuis } : {};
+  const lien = (extra: Record<string, string>) => `${action}?${versParams(r, { ...persistants, ...extra })}`;
+  // Écrans atteints (suivi des abandons) : compteur anonyme par écran, production seulement, après la réponse.
+  const compter = (cle: string) =>
+    EST_PRODUCTION &&
+    after(async () => {
+      const { error } = await supabasePublic().rpc("compter_formulaire", { p_cle: cle });
+      if (error) console.error("Statistique formulaire :", error.message);
+    });
+  compter(`ecran=${ecran}`);
   const initiales = etapesInitiales(r);
   const affinage = ecran !== "resultat" && AFFINAGE.includes(ecran);
 
@@ -130,6 +146,7 @@ export default async function Formulaire({ searchParams }: Props) {
         groupes={groupes(ecran, r, actifs, deptsOrdonnes)}
         type={ecran === "secteur" ? "multiple" : ecran === "pmr" ? "case" : "unique"}
         reponses={r}
+        persistants={persistants}
         action={action}
         retour={precedent ? lien({ etape: precedent }) : null}
       />
@@ -185,11 +202,13 @@ export default async function Formulaire({ searchParams }: Props) {
       pmr: r.pmr === "1",
     };
     const demande = Number(un("elargir"));
-    const minimum = ([2, 3, 4].includes(demande) ? demande : 1) as Niveau;
-    const { niveau, liste, suivant } = cascade(organismes, criteres, DEPARTEMENTS_VOISINS, minimum);
+    const minimum = Number.isInteger(demande) && demande > 0 ? demande : 0;
+    const ordre = ordreRelachement(criteres, r.deplacement);
+    const { applique, liste, aucun, suivant } = cascade(organismes, criteres, DEPARTEMENTS_VOISINS, ordre, minimum);
+    if (r.debut && QUESTIONS.debut.options?.some((o) => o.valeur === r.debut)) compter(`debut=${r.debut}`);
 
-    // Aucun centre au niveau 1 : combinaison de critères + compteur (jamais de réponse personnelle), production seulement.
-    if (EST_PRODUCTION && niveau !== 1 && minimum === 1 && organismes.length > 0)
+    // Aucun centre avec tous les critères : combinaison de critères + compteur (jamais de réponse personnelle), production seulement.
+    if (EST_PRODUCTION && (applique.length > 0 || liste.length === 0) && minimum === 0 && organismes.length > 0)
       await supabasePublic()
         .rpc("enregistrer_recherche_sans_resultat", { p_combinaison: cleFormulaire(criteres) })
         .then(({ error }) => error && console.error("Enregistrement recherche sans résultat :", error.message));
@@ -197,16 +216,24 @@ export default async function Formulaire({ searchParams }: Props) {
     const formes = (secteur ?? []).map((c) => departements.find((d) => d.code === c)!.forme_lieu);
     const ou = formes.length ? ouFr(formes) : null;
     const t = court(titre);
-    const message =
-      niveau === 1 || niveau === 5
-        ? null
-        : minimum > 1
-          ? ELARGISSEMENT.choisi[niveau]
-          : niveau === 2
-            ? RELACHEMENT[2](t, ou, formes.length > 1)
-            : niveau === 3
-              ? RELACHEMENT[3](t, ou!)
-              : RELACHEMENT[4](t);
+    const dernier = applique.at(-1);
+    const message = aucun
+      ? null
+      : liste.length === 0
+        ? RELACHEMENT.proximite(t, ou ?? "en Île-de-France")
+        : !dernier
+          ? null
+          : minimum > 0
+            ? ELARGISSEMENT.choisi[dernier]
+            : dernier === "region"
+              ? RELACHEMENT.region(t)
+              : dernier === "voisins"
+                ? criteres.rythme && !applique.includes("rythme")
+                  ? RELACHEMENT.voisinsAvantRythme(t, ou!)
+                  : RELACHEMENT.voisins(t, ou!)
+                : applique.includes("voisins")
+                  ? RELACHEMENT.rythmeApresVoisins(t, ou!)
+                  : RELACHEMENT.rythme(t, ou, formes.length > 1);
     // Les départements choisis d'abord, puis la pertinence (Optimal en tête).
     const tries = trier(liste, "pertinence").sort(
       (a, b) =>
@@ -222,12 +249,19 @@ export default async function Formulaire({ searchParams }: Props) {
         base={base}
         demarchesVisibles={visibles}
         titre={{ ...titre, court: t }}
-        fort={rec.gabarit === "encadrement-sans-experience" && ref ? sansExperience(ref.libelle_court) : null}
+        fort={
+          rec.gabarit === "encadrement-prerequis"
+            ? ENCADREMENT_PREREQUIS.fort
+            : rec.gabarit === "encadrement-sans-experience" && ref
+              ? sansExperience(ref.libelle_court)
+              : null
+        }
+        conseil={r.debut === "vite" || r.debut === "renseigne" ? r.debut : null}
         explication={explication}
         // Contenu à vérifier : aperçu sur dev/preprod seulement (double verrou).
         encart={encart && (sansMarqueur(encart) || !EST_PRODUCTION) ? encart : null}
         organismes={
-          niveau === 5
+          aucun
             ? null
             : tries.map((o) => ({
                 organisme: o,
@@ -236,10 +270,10 @@ export default async function Formulaire({ searchParams }: Props) {
         }
         message={message}
         elargir={
-          suivant && liste.length < seuil
+          suivant && liste.length > 0 && liste.length < seuil
             ? {
-                texte: ELARGISSEMENT.proposition,
-                lien: lien({ etape: "resultat", elargir: String(suivant.niveau) }),
+                texte: ELARGISSEMENT.proposition(liste.length),
+                lien: lien({ etape: "resultat", elargir: String(suivant.applique) }),
                 libelle: ELARGISSEMENT.lien(suivant.nombre),
               }
             : null
@@ -256,6 +290,13 @@ export default async function Formulaire({ searchParams }: Props) {
 
   return (
     <main className="bg-cream-100 px-[clamp(8px,3vw,32px)] py-[clamp(16px,4vw,56px)]">
+      {depuis && (
+        <div className={`mx-auto mb-4 w-full ${ecran === "resultat" ? "max-w-[980px]" : "max-w-[720px]"}`}>
+          <Link href={depuis} className="text-[15px] font-bold text-ink-900 hover:text-brique-700">
+            {ORIGINE}
+          </Link>
+        </div>
+      )}
       <div
         className={`mx-auto flex w-full flex-col overflow-hidden rounded-[26px] border border-line bg-white shadow-[0_24px_60px_-24px_rgba(11,11,11,0.22)] ${ecran === "resultat" ? "max-w-[980px]" : "max-w-[720px]"}`}
       >
@@ -263,7 +304,7 @@ export default async function Formulaire({ searchParams }: Props) {
           <div className="flex items-center justify-between gap-4">
             <h1 className="text-[15px] leading-[1.35] font-bold tracking-[-0.01em]">{FORMULAIRE.h1}</h1>
             <Link
-              href={base}
+              href={depuis ?? base}
               aria-label="Fermer"
               className="flex size-10 flex-none items-center justify-center rounded-full border border-line bg-cream-100 text-xl leading-none text-ink-900 hover:border-ink-900 hover:text-ink-900"
             >

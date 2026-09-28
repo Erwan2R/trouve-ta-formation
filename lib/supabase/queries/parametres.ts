@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import type { SeuilPage } from "@/contenu/securite-privee/departements";
+import type { ExperienceMin } from "@/lib/formulaire/parcours";
 import { supabasePublic } from "../client";
 
 const lireParametres = cache(async () => {
@@ -20,4 +21,11 @@ export async function getSeuilPageDepartement(): Promise<SeuilPage> {
 export async function getSeuilPropositionElargissement(): Promise<number> {
   const v = (await lireParametres()).get("seuil_proposition_elargissement");
   return typeof v === "number" ? v : 3;
+}
+
+/** Formulaire d'affinage : années d'expérience minimales pour recommander le SSIAP 2 et le SSIAP 3. */
+export async function getExperienceEncadrement(): Promise<ExperienceMin> {
+  const v = (await lireParametres()).get("experience_encadrement") as ExperienceMin | undefined;
+  if (!v) throw new Error("Paramètre experience_encadrement manquant");
+  return v;
 }

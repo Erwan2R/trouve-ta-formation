@@ -165,6 +165,7 @@ export const EXPLICATIONS = {
     `Vous détenez le ${ref} et vous voulez encadrer une équipe : le ${t} est le niveau suivant de cette filière.`,
   "encadrement-sans-experience": () =>
     "C'est le titre à viser ensuite. En attendant, vous pouvez élargir vos compétences avec un titre complémentaire : beaucoup d'agents cumulent le TFP APS et le SSIAP 1, ce qui ouvre davantage de postes.",
+  "encadrement-prerequis": () => ENCADREMENT_PREREQUIS.explication,
   "vers-incendie": () =>
     "Vous travaillez déjà en surveillance et vous voulez aller vers la sécurité incendie : le SSIAP 1 est le titre d'entrée de cette filière. Le cumul avec votre titre actuel est fréquent et recherché par les employeurs.",
   specialisation: (t: string, metier: string) =>
@@ -192,7 +193,8 @@ export const ENCARTS = {
   // Copy §9 : traitement d'une carte expirée (renouvellement tardif ou nouvelle demande) à vérifier → aperçu seulement.
   "carte-expiree": {
     titre: "Votre carte est expirée",
-    texte: `Vous ne pouvez pas exercer tant qu'elle n'est pas renouvelée. Inscrivez-vous à un stage dès que possible, puis déposez votre demande de renouvellement. ${A_VERIFIER}`,
+    // Renouvellement tardif ou nouvelle demande : pas encore vérifié (décision Erwan 02/10/2026), encadré masqué en production.
+    texte: `Vous ne pouvez pas exercer sans carte professionnelle en cours de validité. ${A_VERIFIER}`,
     lien: { libelle: "Voir la démarche de renouvellement", href: RENOUVELLEMENT },
   },
 };
@@ -220,27 +222,52 @@ export const AUCUN_ORGANISME = {
   demarches: { libelle: "Voir les démarches à accomplir", href: "demarches/" },
 };
 
-/** Messages de relâchement automatique (Copy §10). `ou` : « en Seine-Saint-Denis », « à Paris ou dans les Yvelines ». */
+/**
+ * Messages de relâchement automatique (Copy §10). `ou` : « en Seine-Saint-Denis », « à Paris ou dans les Yvelines ».
+ * Variantes « avant voisins / après voisins » : ordre piloté par le déplacement (décision Erwan 02/10/2026).
+ */
 export const RELACHEMENT = {
-  2: (t: string, ou: string | null, plusieurs: boolean) =>
+  rythme: (t: string, ou: string | null, plusieurs: boolean) =>
     ou
       ? `Aucun centre ne propose ce rythme ${ou}. Voici tous les organismes ${plusieurs ? "de ces départements" : "du département"} qui préparent au ${t}.`
       : `Aucun centre ne propose ce rythme en Île-de-France. Voici tous les organismes qui préparent au ${t}.`,
-  3: (t: string, ou: string) => `Aucun centre ne prépare au ${t} ${ou}. Voici les organismes des départements voisins.`,
-  4: (t: string) =>
+  rythmeApresVoisins: (t: string, ou: string) =>
+    `Aucun centre ne propose ce rythme ${ou} ni dans les départements voisins. Voici tous les organismes de ces départements qui préparent au ${t}.`,
+  voisins: (t: string, ou: string) =>
+    `Aucun centre ne prépare au ${t} ${ou}. Voici les organismes des départements voisins.`,
+  voisinsAvantRythme: (t: string, ou: string) =>
+    `Aucun centre ne prépare au ${t} à ce rythme ${ou}. Voici les organismes des départements voisins.`,
+  region: (t: string) =>
     `Le ${t} est rarement proposé en Île-de-France. Voici tous les organismes de la région qui le préparent.`,
+  proximite: (t: string, ou: string) =>
+    `Aucun centre ne prépare au ${t} ${ou}. Vous cherchez tout près de chez vous : la recherche n'a pas été étendue aux autres départements.`,
 };
 
-/** Élargissement proposé (1 ou 2 résultats), puis choisi par le visiteur — décision Erwan 01/10/2026. */
+/** Élargissement proposé (sous le seuil réglable), puis choisi par le visiteur — décisions Erwan 01 et 02/10/2026. */
 export const ELARGISSEMENT = {
-  proposition: "Peu de centres correspondent à tous vos critères.",
+  proposition: (n: number) =>
+    n === 1 ? "Seul 1 centre correspond à tous vos critères." : `Seuls ${n} centres correspondent à tous vos critères.`,
   lien: (n: number) => `Élargir la recherche : ${n} organismes →`,
   choisi: {
-    2: "À votre demande, la recherche ne tient plus compte du rythme.",
-    3: "À votre demande, la recherche inclut les départements voisins.",
-    4: "À votre demande, la recherche couvre toute l'Île-de-France.",
+    rythme: "À votre demande, la recherche ne tient plus compte du rythme.",
+    voisins: "À votre demande, la recherche inclut les départements voisins.",
+    region: "À votre demande, la recherche couvre toute l'Île-de-France.",
   },
 };
+
+/** « Quand voulez-vous commencer ? » (O3) : ne filtre pas en V1, adapte le message du résultat. */
+export const CONSEILS_DEBUT = {
+  vite: "Vous voulez commencer vite : contactez directement les centres ci-dessous pour connaître leurs prochaines sessions.",
+  renseigne:
+    "Vous vous renseignez : la page du titre détaille le programme, la durée et les conditions d'accès. C'est un bon point de départ.",
+};
+
+export const ENCADREMENT_PREREQUIS = {
+  fort: "Pour encadrer une équipe en sécurité incendie (SSIAP 2), il faut d'abord le SSIAP 1, puis une expérience d'agent.",
+  explication: "Le SSIAP 1 est le titre d'entrée de cette filière.",
+};
+
+export const ORIGINE = "← Revenir à la page précédente";
 
 export const RESULTAT = {
   surtitre: "Votre résultat",

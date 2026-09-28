@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CarteOrganisme } from "@/components/public/organisme/CarteOrganisme";
 import { LienContenu } from "@/components/public/LienContenu";
 import { TexteContenu } from "@/components/public/TexteContenu";
-import { AUCUN_ORGANISME, CONDITIONS, RESULTAT } from "@/contenu/securite-privee/formulaire";
+import { AUCUN_ORGANISME, CONDITIONS, CONSEILS_DEBUT, RESULTAT } from "@/contenu/securite-privee/formulaire";
 import type { Lien } from "@/contenu/securite-privee/demarches/types";
 import type { Lieu, Organisme } from "@/lib/supabase/queries/organismes";
 
@@ -22,6 +22,7 @@ export function EcranResultat({
   titre,
   fort,
   explication,
+  conseil,
   encart,
   organismes,
   message,
@@ -35,6 +36,8 @@ export function EcranResultat({
   titre: Titre;
   fort: string | null;
   explication: string;
+  /** Réponse « quand commencer » qui adapte le message (O3, décision Erwan 02/10/2026). */
+  conseil: "vite" | "renseigne" | null;
   encart: { titre: string; texte: string; lien: Lien } | null;
   /** null : aucun organisme sur ce titre (niveau 5). */
   organismes: { organisme: Organisme; lieu: Lieu | null }[] | null;
@@ -62,6 +65,9 @@ export function EcranResultat({
           {fort && <strong className="text-ink-900">{fort} </strong>}
           {explication}
         </p>
+        {conseil === "renseigne" && titre.a_une_page && (
+          <p className="max-w-[62ch] text-[15.5px] leading-[1.65] text-ink-700">{CONSEILS_DEBUT.renseigne}</p>
+        )}
         {pilier}
       </div>
 
@@ -85,10 +91,15 @@ export function EcranResultat({
 
       {organismes ? (
         <div className="flex flex-col gap-3.5">
-          <h3 className="text-lg font-bold tracking-[-0.015em]">{RESULTAT.compte(organismes.length)}</h3>
+          {organismes.length > 0 && (
+            <h3 className="text-lg font-bold tracking-[-0.015em]">{RESULTAT.compte(organismes.length)}</h3>
+          )}
+          {conseil === "vite" && organismes.length > 0 && (
+            <p className="max-w-[62ch] text-[15.5px] leading-[1.65] text-ink-700">{CONSEILS_DEBUT.vite}</p>
+          )}
           {message && (
             <div className="flex flex-col gap-1.5 rounded-2xl border border-line-strong bg-cream-100 px-[18px] py-4">
-              <span className="eyebrow text-brique-700">{RESULTAT.elargie}</span>
+              {organismes.length > 0 && <span className="eyebrow text-brique-700">{RESULTAT.elargie}</span>}
               <p className="text-[15px] leading-[1.6]">{message}</p>
             </div>
           )}

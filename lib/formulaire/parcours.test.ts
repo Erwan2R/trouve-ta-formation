@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { cascade, ecranCourant, etapesInitiales, lireReponses, recommander, type OrganismeCascade } from "./parcours";
+import {
+  cascade,
+  ecranCourant,
+  etapesInitiales,
+  lireOrigine,
+  lireReponses,
+  optionDisponible,
+  ordreRelachement,
+  recommander,
+  type OrganismeCascade,
+} from "./parcours";
 
 const actifs = new Set(["tfp-aps", "ssiap-1", "ssiap-2", "ssiap-3", "mac-aps", "recyclage-ssiap-1", "tfp-asc"]);
 const DEPTS = ["75", "92", "93", "94"];
@@ -42,22 +52,36 @@ describe("arbre", () => {
   });
 });
 
+const exp = { "ssiap-2": 1, "ssiap-3": 3 };
+
 describe("recommandation", () => {
   it("renouvellement : le stage correspondant ; ASA : message dédié", () => {
-    expect(recommander({ depart: "renouvellement", detenu: "ssiap-1" }, actifs)).toMatchObject({
+    expect(recommander({ depart: "renouvellement", detenu: "ssiap-1" }, actifs, exp)).toMatchObject({
       titre: "recyclage-ssiap-1",
     });
-    expect(recommander({ depart: "renouvellement", detenu: "tfp-asa" }, actifs)).toEqual({ type: "asa" });
+    expect(recommander({ depart: "renouvellement", detenu: "tfp-asa" }, actifs, exp)).toEqual({ type: "asa" });
   });
 
-  it("encadrement sans expérience : pas encore, titre complémentaire", () => {
-    expect(
-      recommander({ depart: "evolution", detenu: "ssiap-1", experience: "moins-1-an", objectif: "encadrer" }, actifs),
-    ).toMatchObject({ titre: "tfp-aps", gabarit: "encadrement-sans-experience", reference: "ssiap-2" });
+  it("jamais un titre dont le prérequis n'est pas détenu : TFP APS + encadrer → SSIAP 1", () => {
+    const r = { depart: "evolution", detenu: "tfp-aps", experience: "plus-3-ans", objectif: "encadrer" };
+    expect(recommander(r, actifs, exp)).toMatchObject({ titre: "ssiap-1", gabarit: "encadrement-prerequis" });
+  });
+
+  it("expérience sous le seuil réglable : pas encore, titre complémentaire", () => {
+    const r = { depart: "evolution", detenu: "ssiap-2", experience: "1-3-ans", objectif: "encadrer" };
+    expect(recommander(r, actifs, exp)).toMatchObject({ titre: "tfp-aps", reference: "ssiap-3" });
+    expect(recommander(r, actifs, { ...exp, "ssiap-3": 1 })).toMatchObject({ titre: "ssiap-3" });
+    expect(recommander({ ...r, detenu: "ssiap-1" }, actifs, exp)).toMatchObject({ titre: "ssiap-2" });
+  });
+
+  it("SSIAP 3 détenu : pas d'option « encadrer » ; SSIAP détenu : pas d'option « vers l'incendie »", () => {
+    expect(optionDisponible("objectif", "encadrer", { detenu: "ssiap-3" }, actifs)).toBe(false);
+    expect(optionDisponible("objectif", "incendie", { detenu: "ssiap-1" }, actifs)).toBe(false);
+    expect(optionDisponible("objectif", "encadrer", { detenu: "tfp-aps" }, actifs)).toBe(true);
   });
 
   it("titre de sortie archivé : aucune recommandation (option masquée en amont)", () => {
-    expect(recommander({ depart: "renouvellement", detenu: "tfp-a3p" }, actifs)).toBeNull();
+    expect(recommander({ depart: "renouvellement", detenu: "tfp-a3p" }, actifs, exp)).toBeNull();
   });
 });
 
@@ -69,18 +93,45 @@ describe("cascade", () => {
     accessibilite_pmr: false,
     lieux: [{ departement: d }],
   });
-  const orgs = [o("93", ["ssiap-1"]), o("75", ["ssiap-1"], ["soir"]), o("92", ["ssiap-1"])];
+  // 93 : temps plein ; 75 (voisin) : soir ; 77 (hors voisinage) : soir.
+  const orgs = [o("93", ["ssiap-1"]), o("75", ["ssiap-1"], ["soir"]), o("77", ["ssiap-1"], ["soir"])];
   const c = { titre: "ssiap-1", departements: ["93"], rythme: "soir", financement: null, double: false, pmr: false };
   const voisins = { "93": ["75"] };
+  const run = (deplacement?: string, minimum = 0) =>
+    cascade(orgs, c, voisins, ordreRelachement(c, deplacement), minimum);
 
-  it("relâche seulement à zéro, et propose l'élargissement suivant sans l'imposer", () => {
-    expect(cascade(orgs, c, voisins)).toMatchObject({ niveau: 2, liste: [orgs[0]], suivant: { niveau: 3, nombre: 2 } });
-    expect(cascade(orgs, { ...c, rythme: null }, voisins).niveau).toBe(1);
-    expect(cascade(orgs, c, voisins, 3)).toMatchObject({ niveau: 3, suivant: { niveau: 4, nombre: 3 } });
+  it("transports : le rythme d'abord ; relâche seulement à zéro et propose la suite sans l'imposer", () => {
+    expect(run("transports")).toMatchObject({ applique: ["rythme"], liste: [orgs[0]], suivant: { nombre: 2 } });
+    expect(cascade(orgs, { ...c, rythme: null }, voisins, ["voisins", "region"]).applique).toEqual([]);
+  });
+
+  it("véhicule : les voisins avant le rythme", () => {
+    expect(run("vehicule")).toMatchObject({ applique: ["voisins"], liste: [orgs[1]] });
+  });
+
+  it("proximité immédiate : jamais d'élargissement géographique", () => {
+    expect(ordreRelachement(c, "proximite")).toEqual(["rythme"]);
+    const r = cascade([orgs[1]], c, voisins, ordreRelachement(c, "proximite"));
+    expect(r).toMatchObject({ liste: [], aucun: false, suivant: null });
+  });
+
+  it("élargissement choisi par le visiteur", () => {
+    expect(run("transports", 2)).toMatchObject({
+      applique: ["rythme", "voisins"],
+      suivant: { applique: 3, nombre: 3 },
+    });
   });
 
   it("aucun organisme sur le titre : niveau 5 (catalogue vide compris)", () => {
-    expect(cascade([], c, voisins).niveau).toBe(5);
-    expect(cascade(orgs, { ...c, pmr: true }, voisins).niveau).toBe(5);
+    expect(cascade([], c, voisins, ["region"]).aucun).toBe(true);
+    expect(cascade(orgs, { ...c, pmr: true }, voisins, ["region"]).aucun).toBe(true);
   });
+});
+
+it("page d'origine : chemin interne de la verticale uniquement", () => {
+  const b = "/securite-privee/";
+  expect(lireOrigine("/securite-privee/ssiap-1/", b)).toBe("/securite-privee/ssiap-1/");
+  expect(lireOrigine("https://evil.example/", b)).toBeNull();
+  expect(lireOrigine("/securite-privee/formulaire/", b)).toBeNull();
+  expect(lireOrigine("//evil.example/securite-privee/", b)).toBeNull();
 });

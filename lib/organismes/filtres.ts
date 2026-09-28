@@ -164,7 +164,13 @@ export function relachement<T extends OrganismeFiltrable>(
  */
 export function cleRecherche(f: Filtres): string | null {
   if (f.q || !aDesFiltres(f)) return null;
-  const tries = { ...f, villes: [], titres: [...f.titres].sort(), fin: [...f.fin].sort(), rythmes: [...f.rythmes].sort() };
+  const tries = {
+    ...f,
+    villes: [],
+    titres: [...f.titres].sort(),
+    fin: [...f.fin].sort(),
+    rythmes: [...f.rythmes].sort(),
+  };
   // Les villes sont du texte libre saisi par les organismes : on ne garde que le département.
   const cle = versQuery({ ...tries, q: "", tri: "pertinence", page: 1 }).slice(1);
   return /^[a-z0-9=&_-]+$/.test(cle) && cle.length <= 300 ? cle : null;

@@ -103,6 +103,7 @@ export type Recommandation =
         | "renouvellement"
         | "encadrement"
         | "encadrement-sans-experience"
+        | "encadrement-prerequis"
         | "vers-incendie"
         | "specialisation";
       /** Titre détenu, ou titre d'encadrement visé sans l'expérience demandée. */
@@ -110,8 +111,13 @@ export type Recommandation =
       encart?: "autorisation" | "autorisation-inconnue" | "carte-expiree";
     };
 
+/** Expérience minimale (en années) pour viser un titre d'encadrement — table parametres. */
+export type ExperienceMin = { "ssiap-2": number; "ssiap-3": number };
+/** Réponse C3 → années d'expérience minimales qu'elle garantit. */
+const ANNEES_EXPERIENCE: Record<string, number> = { "moins-1-an": 0, "1-3-ans": 1, "plus-3-ans": 3 };
+
 /** null : réponses incomplètes ou titre de sortie absent des titres actifs (archivé). */
-export function recommander(r: Reponses, actifs: Set<string>): Recommandation | null {
+export function recommander(r: Reponses, actifs: Set<string>, experienceMin: ExperienceMin): Recommandation | null {
   const reco = (
     titre: string | null | undefined,
     rest: Omit<Extract<Recommandation, { type: "titre" }>, "type" | "titre">,
@@ -136,13 +142,13 @@ export function recommander(r: Reponses, actifs: Set<string>): Recommandation | 
   }
   if (r.depart === "evolution" && r.detenu) {
     if (r.objectif === "encadrer") {
-      const vise = r.detenu === "ssiap-2" || r.detenu === "ssiap-3" ? "ssiap-3" : "ssiap-2";
-      // [À VÉRIFIER Copy §6] conditions d'expérience exactes du SSIAP 2 et du SSIAP 3 : moins d'un an = insuffisant.
-      if (r.experience === "moins-1-an")
-        return reco(r.detenu.startsWith("ssiap") ? "tfp-aps" : "ssiap-1", {
-          gabarit: "encadrement-sans-experience",
-          reference: vise,
-        });
+      // Jamais un titre dont le prérequis n'est pas détenu (décision Erwan 02/10/2026) : SSIAP 1 avant le SSIAP 2.
+      if (r.detenu !== "ssiap-1" && r.detenu !== "ssiap-2")
+        return reco("ssiap-1", { gabarit: "encadrement-prerequis", reference: "ssiap-2" });
+      const vise = r.detenu === "ssiap-1" ? "ssiap-2" : "ssiap-3";
+      // Expérience minimale réglable (parametres) : valeurs à vérifier (Copy §6).
+      if ((ANNEES_EXPERIENCE[r.experience ?? ""] ?? 0) < experienceMin[vise])
+        return reco("tfp-aps", { gabarit: "encadrement-sans-experience", reference: vise });
       return reco(vise, { gabarit: "encadrement", reference: r.detenu });
     }
     if (r.objectif === "incendie") return reco("ssiap-1", { gabarit: "vers-incendie" });
@@ -166,10 +172,11 @@ export function optionDisponible(etape: Etape, valeur: string, r: Reponses, acti
         (r.depart !== "renouvellement" || valeur === "tfp-asa" || actifs.has(RENOUVELLEMENT[valeur]))
       );
     case "objectif":
+      // SSIAP 3 : plus haut niveau de la filière ; SSIAP détenu : déjà en sécurité incendie.
       return valeur === "encadrer"
-        ? actifs.has("ssiap-2") && actifs.has("ssiap-3")
+        ? r.detenu !== "ssiap-3" && actifs.has("ssiap-1") && actifs.has("ssiap-2") && actifs.has("ssiap-3")
         : valeur === "incendie"
-          ? actifs.has("ssiap-1")
+          ? !r.detenu?.startsWith("ssiap") && actifs.has("ssiap-1")
           : uneSpecialite;
     default:
       return true;
@@ -197,7 +204,9 @@ export function alternatives(reco: Extract<Recommandation, { type: "titre" }>, a
   const liste: [string, string][] =
     reco.gabarit === "encadrement-sans-experience"
       ? [[reco.reference!, "Quand vous aurez l'expérience demandée."]]
-      : (ALTERNATIVES[reco.titre] ?? []);
+      : reco.gabarit === "encadrement-prerequis"
+        ? [["ssiap-2", "Quand vous aurez le SSIAP 1 et l'expérience demandée."]]
+        : (ALTERNATIVES[reco.titre] ?? []);
   return liste.filter(([t]) => actifs.has(t));
 }
 
@@ -220,44 +229,66 @@ export type Criteres = {
   pmr: boolean;
 };
 
-export type Niveau = 1 | 2 | 3 | 4 | 5;
+/** Critère relâché : le rythme, puis les départements voisins, puis toute l'Île-de-France (tous critères levés). */
+export type Relachement = "rythme" | "voisins" | "region";
 
 /**
- * Cascade de relâchement (UX §9). 1 : tous critères ; 2 : sans le rythme ; 3 : départements voisins ;
- * 4 : toute l'Île-de-France ; 5 : aucun organisme sur ce titre.
- * Relâchement automatique uniquement à zéro résultat (décision Erwan 01/10/2026). `suivant` : l'élargissement
- * à proposer sans l'imposer, quand il rend davantage d'organismes. `minimum` : niveau demandé par le visiteur.
+ * Ordre des relâchements piloté par le déplacement (O2, décision Erwan 02/10/2026) : véhicule → les voisins avant
+ * le rythme ; transports (ou sans réponse) → le rythme d'abord, les voisins ensuite ; proximité immédiate → jamais
+ * d'élargissement géographique.
+ */
+export function ordreRelachement(c: Criteres, deplacement?: string): Relachement[] {
+  const rythme: Relachement[] = c.rythme ? ["rythme"] : [];
+  const voisins: Relachement[] = c.departements ? ["voisins"] : [];
+  if (deplacement === "proximite") return c.departements ? rythme : [...rythme, "region"];
+  return deplacement === "vehicule" ? [...voisins, ...rythme, "region"] : [...rythme, ...voisins, "region"];
+}
+
+/**
+ * Cascade de relâchement (UX §9). Relâchement automatique uniquement à zéro résultat (décision Erwan 01/10/2026).
+ * `applique` : relâchements appliqués, dans l'ordre ; `suivant` : l'élargissement à proposer sans l'imposer, quand
+ * il rend davantage d'organismes ; `minimum` : nombre de relâchements demandés par le visiteur.
+ * `aucun` : aucun organisme ne prépare ce titre (niveau 5). Liste vide sans `aucun` : proximité immédiate.
  */
 export function cascade<T extends OrganismeCascade>(
   organismes: T[],
   c: Criteres,
   voisins: Record<string, string[]>,
-  minimum: Niveau = 1,
-): { niveau: Niveau; liste: T[]; suivant: { niveau: Niveau; nombre: number } | null } {
+  ordre: Relachement[],
+  minimum = 0,
+): { applique: Relachement[]; liste: T[]; aucun: boolean; suivant: { applique: number; nombre: number } | null } {
   const base = organismes.filter(
     (o) =>
       o.titres.includes(c.titre) &&
       (!c.double || (o.titres.includes("tfp-aps") && o.titres.includes("ssiap-1"))) &&
       (!c.pmr || o.accessibilite_pmr),
   );
-  if (base.length === 0) return { niveau: 5, liste: [], suivant: null };
-  const dans = (ds: string[] | null) => (o: T) => !ds || o.lieux.some((l) => ds.includes(l.departement));
-  const fin = (o: T) => !c.financement || o.financements.includes(c.financement);
-  const ry = (o: T) => !c.rythme || o.rythmes.includes(c.rythme);
+  if (base.length === 0) return { applique: [], liste: [], aucun: true, suivant: null };
   const ds = c.departements;
   const elargis = ds ? [...new Set([...ds, ...ds.flatMap((d) => voisins[d] ?? [])])] : null;
-  const niveaux: [Niveau, T[]][] = [[1, base.filter((o) => fin(o) && ry(o) && dans(ds)(o))]];
-  if (c.rythme) niveaux.push([2, base.filter((o) => fin(o) && dans(ds)(o))]);
-  if (ds) niveaux.push([3, base.filter((o) => fin(o) && dans(elargis)(o))]);
-  niveaux.push([4, base]);
-
-  const i = Math.max(
-    0,
-    niveaux.findIndex(([n, l]) => n >= minimum && l.length > 0),
-  );
-  const [niveau, liste] = niveaux[i];
-  const plus = niveaux.slice(i + 1).find(([, l]) => l.length > liste.length);
-  return { niveau, liste, suivant: plus ? { niveau: plus[0], nombre: plus[1].length } : null };
+  const niveau = (applique: Relachement[]) => {
+    if (applique.includes("region")) return base;
+    const zone = applique.includes("voisins") ? elargis : ds;
+    return base.filter(
+      (o) =>
+        (!c.financement || o.financements.includes(c.financement)) &&
+        (!c.rythme || applique.includes("rythme") || o.rythmes.includes(c.rythme)) &&
+        (!zone || o.lieux.some((l) => zone.includes(l.departement))),
+    );
+  };
+  const niveaux = ordre.map((_, i) => niveau(ordre.slice(0, i + 1)));
+  niveaux.unshift(niveau([]));
+  const debut = Math.min(minimum, ordre.length);
+  let i = niveaux.findIndex((l, k) => k >= debut && l.length > 0);
+  if (i < 0) i = ordre.length; // proximité immédiate sans résultat : liste vide, jamais d'élargissement géographique
+  const liste = niveaux[i];
+  const plus = niveaux.findIndex((l, k) => k > i && l.length > liste.length);
+  return {
+    applique: ordre.slice(0, i),
+    liste,
+    aucun: false,
+    suivant: plus > 0 ? { applique: plus, nombre: niveaux[plus].length } : null,
+  };
 }
 
 /** Clé d'une recherche sans résultat au niveau 1 : combinaison de critères seule (même format que le catalogue). */
@@ -319,4 +350,10 @@ export function versParams(r: Reponses, extra: Record<string, string> = {}): str
   }
   for (const [k, v] of Object.entries(extra)) p.set(k, v);
   return p.toString();
+}
+
+/** Page d'origine (lien de retour) : un chemin de la verticale, jamais le formulaire lui-même ni une URL externe. */
+export function lireOrigine(v: string | string[] | undefined, base: string): string | null {
+  const s = Array.isArray(v) ? v[0] : v;
+  return s && s.startsWith(base) && /^[a-z0-9/-]+$/.test(s) && !s.startsWith(`${base}formulaire`) ? s : null;
 }

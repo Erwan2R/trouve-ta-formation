@@ -21,6 +21,7 @@ export function EcranQuestion({
   groupes,
   type,
   reponses,
+  persistants,
   action,
   retour,
 }: {
@@ -29,10 +30,12 @@ export function EcranQuestion({
   groupes: GroupeOptions[];
   type: "unique" | "multiple" | "case";
   reponses: Reponses;
+  /** Paramètres hors réponses conservés d'un écran à l'autre (page d'origine). */
+  persistants: Record<string, string>;
   action: string;
   retour: string | null;
 }) {
-  const caches = Object.entries(reponses).flatMap(([k, v]) =>
+  const caches = Object.entries({ ...reponses, ...persistants }).flatMap(([k, v]) =>
     k === etape || !v ? [] : (Array.isArray(v) ? v : [v]).map((x) => [k, x] as const),
   );
   const coche = (v: string) =>

@@ -30,7 +30,7 @@ export function AccrocheAffinage({ base }: { base: string }) {
               {REPONSES.map((r) => (
                 <Link
                   key={r.depart}
-                  href={`${base}formulaire/?depart=${r.depart}`}
+                  href={`${base}formulaire/?depart=${r.depart}&depuis=${base}`}
                   rel="nofollow"
                   className="flex items-center justify-between gap-4 rounded-[14px] border border-line bg-cream-100 px-[18px] py-4 text-[14.5px] leading-[1.4] font-medium text-ink-900 transition-colors hover:border-brique-700 hover:bg-brique-050 hover:text-ink-900"
                 >

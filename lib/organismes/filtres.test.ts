@@ -81,9 +81,9 @@ describe("relachement", () => {
 
 describe("cleRecherche", () => {
   it("combinaison de filtres triée, sans texte libre ni ville", () => {
-    expect(cleRecherche(lireFiltres({ titre: ["tfp-aps", "ssiap-1"], dept: "93", ville: "Bobigny", tri: "alpha" }))).toBe(
-      "dept=93&titre=ssiap-1&titre=tfp-aps",
-    );
+    expect(
+      cleRecherche(lireFiltres({ titre: ["tfp-aps", "ssiap-1"], dept: "93", ville: "Bobigny", tri: "alpha" })),
+    ).toBe("dept=93&titre=ssiap-1&titre=tfp-aps");
   });
 
   it("recherche par nom ou sans filtre : rien n'est enregistré", () => {

@@ -96,6 +96,27 @@ export type Database = {
         }
         Relationships: []
       }
+      formulaire_statistiques: {
+        Row: {
+          cle: string
+          compteur: number
+          derniere_le: string
+          premiere_le: string
+        }
+        Insert: {
+          cle: string
+          compteur?: number
+          derniere_le?: string
+          premiere_le?: string
+        }
+        Update: {
+          cle?: string
+          compteur?: number
+          derniere_le?: string
+          premiere_le?: string
+        }
+        Relationships: []
+      }
       lieux: {
         Row: {
           adresse: string
@@ -510,6 +531,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      compter_formulaire: { Args: { p_cle: string }; Returns: undefined }
       enregistrer_recherche_sans_resultat: {
         Args: { p_combinaison: string }
         Returns: undefined

@@ -440,7 +440,7 @@ export async function PageDepartement({ departement: d }: { departement: Departe
                 le préparent.
               </p>
               <Link
-                href={`${base}formulaire/`}
+                href={`${base}formulaire/?depuis=${base}${d.slug}/`}
                 rel="nofollow"
                 className="flex items-center justify-center rounded-full bg-white px-5 py-3.5 text-[15px] font-bold text-ink-900 hover:bg-brique-400 hover:text-ink-900"
               >
