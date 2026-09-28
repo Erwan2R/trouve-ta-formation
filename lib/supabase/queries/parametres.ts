@@ -15,3 +15,9 @@ export async function getSeuilPageDepartement(): Promise<SeuilPage> {
   if (!v) throw new Error("Paramètre seuil_page_departement manquant");
   return v;
 }
+
+/** Formulaire d'affinage : en dessous de ce nombre de résultats, l'élargissement est proposé (jamais imposé). */
+export async function getSeuilPropositionElargissement(): Promise<number> {
+  const v = (await lireParametres()).get("seuil_proposition_elargissement");
+  return typeof v === "number" ? v : 3;
+}

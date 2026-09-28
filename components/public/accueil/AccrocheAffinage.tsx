@@ -4,8 +4,8 @@ import Link from "next/link";
 // complet en conservant la réponse (Sprint 7 : le paramètre `depart` est lu par le formulaire).
 const REPONSES = [
   { depart: "debutant", libelle: "Je ne travaille pas encore dans la sécurité privée" },
-  { depart: "renouvellement", libelle: "J'y travaille, ma carte arrive à échéance" },
-  { depart: "evolution", libelle: "J'y travaille, je veux évoluer ou me spécialiser" },
+  { depart: "renouvellement", libelle: "Je travaille dans la sécurité, ma carte arrive à échéance" },
+  { depart: "evolution", libelle: "Je travaille dans la sécurité, je veux évoluer" },
 ];
 
 /** Bloc 4 — accroche du formulaire d'affinage. */
