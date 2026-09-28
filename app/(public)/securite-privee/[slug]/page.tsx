@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { ColonnePilier } from "@/components/public/pilier/ColonnePilier";
 import { CorpsPilier } from "@/components/public/pilier/CorpsPilier";
 import { EnTetePilier } from "@/components/public/pilier/EnTetePilier";
@@ -10,7 +10,9 @@ import { estSlugReserve } from "@/lib/config/slugs-reserves";
 import { VERTICALES, type Verticale } from "@/lib/config/verticales";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
-import { getDepartements, getTitres, type Titre } from "@/lib/supabase/queries/referentiel";
+import { dateLongue } from "@/lib/format-date";
+import { resoudrePilier } from "@/lib/resolution-pilier";
+import { getDepartements, getTitres, getTousLesTitres } from "@/lib/supabase/queries/referentiel";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
 const base = `/${verticale.slug}/`;
@@ -19,22 +21,21 @@ type Props = { params: Promise<{ slug: string }> };
 
 /**
  * Résolution de /securite-privee/[slug]/ (CLAUDE.md §6) : slug réservé → route dédiée (jamais ici) ;
- * titre du référentiel → page pilier ; département/ville → page géographique (Sprint 6) ; sinon 404.
+ * titre du référentiel (actif ou archivé, cf. resoudrePilier) → page pilier ;
+ * département/ville → page géographique (Sprint 6) ; sinon 404.
  */
-async function resoudre(slug: string): Promise<{ titre: Titre } | null> {
+async function resoudre(slug: string) {
   if (estSlugReserve(slug)) return null;
-  const titre = (await getTitres()).find((t) => t.slug === slug);
-  if (titre?.a_une_page) return { titre };
-  return null;
+  return resoudrePilier(slug, await getTousLesTitres());
 }
 
 export async function generateStaticParams() {
-  return (await getTitres()).filter((t) => t.a_une_page).map((t) => ({ slug: t.slug }));
+  return (await getTousLesTitres()).filter((t) => t.a_une_page).map((t) => ({ slug: t.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await resoudre((await params).slug);
-  if (!page) return {};
+  if (page?.type !== "page") return {};
   const { titre } = page;
   const contenu = PILIERS[titre.slug];
   const court = titre.libelle_court;
@@ -57,7 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PagePilier({ params }: Props) {
   const page = await resoudre((await params).slug);
   if (!page) notFound();
-  const { titre } = page;
+  if (page.type === "redirection") permanentRedirect(`${base}${page.vers.slug}/`);
+  const { titre, archive } = page;
   const contenu = PILIERS[titre.slug];
 
   const [titres, departements, compteurs] = await Promise.all([
@@ -90,6 +92,20 @@ export default async function PagePilier({ params }: Props) {
 
   return (
     <main>
+      {archive && (
+        <p className="border-b border-brique-200 bg-brique-050 px-7 py-3 text-center text-[14.5px] text-ink-900">
+          <strong>Ce titre n&apos;est plus délivré depuis le {dateLongue(archive.depuis)}.</strong>
+          {archive.proche && (
+            <>
+              {" "}
+              Titre le plus proche :{" "}
+              <Link href={`${base}${archive.proche.slug}/`} className="font-bold">
+                {archive.proche.libelle_court} →
+              </Link>
+            </>
+          )}
+        </p>
+      )}
       {!titre.page_publiee && (
         <p className="bg-brique-700 px-7 py-2 text-center font-mono text-xs tracking-[0.08em] text-white uppercase">
           Aperçu — page non publiée, invisible en production

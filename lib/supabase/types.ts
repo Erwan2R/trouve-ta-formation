@@ -190,6 +190,7 @@ export type Database = {
       titres_referentiel: {
         Row: {
           accroche: string | null
+          archive_le: string | null
           categorie: string
           code_rncp: string | null
           created_at: string
@@ -199,11 +200,14 @@ export type Database = {
           libelle_long: string
           ordre: number
           page_publiee: boolean
+          remplace_par_id: number | null
           slug: string
           statut: Database["public"]["Enums"]["statut_titre"]
+          titre_proche_id: number | null
         }
         Insert: {
           accroche?: string | null
+          archive_le?: string | null
           categorie: string
           code_rncp?: string | null
           created_at?: string
@@ -213,11 +217,14 @@ export type Database = {
           libelle_long: string
           ordre?: number
           page_publiee?: boolean
+          remplace_par_id?: number | null
           slug: string
           statut?: Database["public"]["Enums"]["statut_titre"]
+          titre_proche_id?: number | null
         }
         Update: {
           accroche?: string | null
+          archive_le?: string | null
           categorie?: string
           code_rncp?: string | null
           created_at?: string
@@ -227,10 +234,27 @@ export type Database = {
           libelle_long?: string
           ordre?: number
           page_publiee?: boolean
+          remplace_par_id?: number | null
           slug?: string
           statut?: Database["public"]["Enums"]["statut_titre"]
+          titre_proche_id?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "titres_referentiel_remplace_par_id_fkey"
+            columns: ["remplace_par_id"]
+            isOneToOne: false
+            referencedRelation: "titres_referentiel"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "titres_referentiel_titre_proche_id_fkey"
+            columns: ["titre_proche_id"]
+            isOneToOne: false
+            referencedRelation: "titres_referentiel"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       villes: {
         Row: {
