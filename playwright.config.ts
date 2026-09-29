@@ -1,5 +1,10 @@
 import { defineConfig } from "@playwright/test";
 
+// Variables de .env.local (Supabase) pour les tests qui préparent des données ; absent en CI.
+try {
+  process.loadEnvFile(".env.local");
+} catch {}
+
 // Parcours critiques uniquement (formulaire d'affinage, inscription organisme) — Sprints 7 et 8.
 export default defineConfig({
   testDir: "e2e",
