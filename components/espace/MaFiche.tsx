@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import { createContext, useContext, useEffect, useRef, useState, useTransition } from "react";
 import type { Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { LANGUES, PLAFOND_PRESENTATION } from "@/lib/organismes/validation";
 import { monogramme } from "@/lib/organismes/libelles";
@@ -65,8 +65,21 @@ const mono = "font-mono text-[14.5px] tracking-[0.04em]";
 const libelle = "text-[13.5px] font-bold";
 
 /** Une section : valeurs locales, état « modifié », enregistrement séparé (UX Ma fiche §2). */
-function useSection<T>(initial: T, cle: Cle, signaler: (c: Cle, sale: boolean) => void) {
+/**
+ * Affichage de la fiche : toutes les sections (Ma fiche) ou une partie avec enregistrement automatique
+ * (onboarding, spec Inscription §7 : « sauvegarde automatique à chaque étape »).
+ */
+export type ModeFiche = { sections: Cle[] | null; auto: boolean };
+const Mode = createContext<ModeFiche>({ sections: null, auto: false });
+
+function useSection<T>(
+  initial: T,
+  cle: Cle,
+  signaler: (c: Cle, sale: boolean) => void,
+  action: (v: T) => Promise<Retour>,
+) {
   const router = useRouter();
+  const { auto } = useContext(Mode);
   const [valeurs, setValeurs] = useState(initial);
   const [enregistre, setEnregistre] = useState(initial);
   const [statut, setStatut] = useState<{ heure?: string; erreur?: string }>({});
@@ -77,7 +90,7 @@ function useSection<T>(initial: T, cle: Cle, signaler: (c: Cle, sale: boolean) =
     setStatut({});
     signaler(cle, JSON.stringify(v) !== JSON.stringify(enregistre));
   };
-  const enregistrer = (action: (v: T) => Promise<Retour>) =>
+  const enregistrer = () =>
     demarrer(async () => {
       const r = await action(valeurs);
       if (!r.ok) return setStatut({ erreur: r.erreur });
@@ -91,6 +104,22 @@ function useSection<T>(initial: T, cle: Cle, signaler: (c: Cle, sale: boolean) =
     setStatut({});
     signaler(cle, false);
   };
+  // Enregistrement automatique : 900 ms après la dernière frappe, et au départ de l'étape si besoin.
+  const dernier = useRef({ valeurs, sale });
+  dernier.current = { valeurs, sale };
+  useEffect(() => {
+    if (!auto || !sale) return;
+    const t = setTimeout(enregistrer, 900);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- relancé à chaque modification des valeurs
+  }, [auto, valeurs]);
+  useEffect(
+    () => () => {
+      if (auto && dernier.current.sale) void action(dernier.current.valeurs);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- au démontage seulement
+    [],
+  );
   return { valeurs, maj, sale, statut, enCours, enregistrer, annuler, setStatut };
 }
 
@@ -109,13 +138,15 @@ function Section({
   pied: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const { sections, auto } = useContext(Mode);
+  if (sections && !sections.includes(id as Cle)) return null;
   return (
     <section
       id={id}
       className="flex scroll-mt-[100px] flex-col gap-[22px] rounded-[28px] border border-line bg-white p-[clamp(22px,3vw,34px)]"
     >
       <div className="flex flex-col gap-1.5">
-        <span className="font-mono text-[11px] text-brique-700">{num}</span>
+        {!auto && <span className="font-mono text-[11px] text-brique-700">{num}</span>}
         <h2 className="text-2xl leading-[1.15] font-extrabold tracking-[-0.025em]">{titre}</h2>
         {description && <p className="text-[14.5px] leading-[1.6] text-ink-500">{description}</p>}
       </div>
@@ -134,9 +165,16 @@ function Pied({
   onSave: () => void;
   gauche?: React.ReactNode;
 }) {
+  const { auto } = useContext(Mode);
   const texte =
     s.statut.erreur ??
-    (s.sale ? "Modifications non enregistrées" : s.statut.heure ? `Enregistré à ${s.statut.heure}` : "");
+    (s.sale
+      ? auto
+        ? "Enregistrement…"
+        : "Modifications non enregistrées"
+      : s.statut.heure
+        ? `Enregistré à ${s.statut.heure}`
+        : "");
   const rouge = !!s.statut.erreur || s.sale;
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-cream-200 pt-[18px]">
@@ -155,7 +193,7 @@ function Pied({
         </span>
         {gauche}
       </span>
-      <span className="flex gap-2">
+      <span className={`flex gap-2 ${auto ? "hidden" : ""}`}>
         {s.sale && (
           <button
             type="button"
@@ -211,16 +249,35 @@ function Bascule({
   );
 }
 
-export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actions: ActionsMaFiche }) {
+export function MaFiche({
+  donnees: d,
+  actions: a,
+  mode = { sections: null, auto: false },
+}: {
+  donnees: DonneesMaFiche;
+  actions: ActionsMaFiche;
+  mode?: ModeFiche;
+}) {
+  return (
+    <Mode.Provider value={mode}>
+      <Formulaire donnees={d} actions={a} />
+    </Mode.Provider>
+  );
+}
+
+function Formulaire({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actions: ActionsMaFiche }) {
+  const { sections } = useContext(Mode);
   const [sales, setSales] = useState<Partial<Record<Cle, boolean>>>({});
   const signaler = (c: Cle, sale: boolean) => setSales((s) => ({ ...s, [c]: sale }));
 
-  const identite = useSection(d.identite, "identite", signaler);
-  const agrement = useSection(d.agrement, "agrement", signaler);
-  const coord = useSection(d.coordonnees, "coordonnees", signaler);
-  const lieux = useSection(d.lieux, "lieux", signaler);
-  const pratique = useSection(d.pratique, "pratique", signaler);
-  const pres = useSection(d.presentation, "presentation", signaler);
+  const identite = useSection(d.identite, "identite", signaler, a.enregistrerIdentite);
+  const agrement = useSection(d.agrement, "agrement", signaler, a.enregistrerAgrement);
+  const coord = useSection(d.coordonnees, "coordonnees", signaler, a.enregistrerCoordonnees);
+  const lieux = useSection(d.lieux, "lieux", signaler, (l) =>
+    a.enregistrerLieux(l.map(({ formations: _f, ...x }) => ({ ...x, id: x.id !== null && x.id < 0 ? null : x.id }))),
+  );
+  const pratique = useSection(d.pratique, "pratique", signaler, a.enregistrerPratique);
+  const pres = useSection(d.presentation, "presentation", signaler, a.enregistrerPresentation);
 
   // Logo : envoi immédiat du fichier choisi (conversion WebP côté serveur).
   const [logo, setLogo] = useState(d.logo);
@@ -259,7 +316,10 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
 
   return (
     <div className="flex flex-wrap items-start gap-3.5">
-      <aside className="sticky top-24 flex max-w-full flex-[1_1_220px] flex-col gap-0.5 rounded-3xl border border-line bg-white px-2.5 py-4">
+      <aside
+        hidden={!!sections}
+        className="sticky top-24 flex max-w-full flex-[1_1_220px] flex-col gap-0.5 rounded-3xl border border-line bg-white px-2.5 py-4"
+      >
         <span className="px-3 pt-1 pb-2.5 font-mono text-[10px] tracking-[0.14em] text-ink-300 uppercase">
           Sections
         </span>
@@ -287,7 +347,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           num="01"
           titre="Identité"
           description="Les informations légales de votre organisme."
-          pied={<Pied s={identite} onSave={() => identite.enregistrer(a.enregistrerIdentite)} />}
+          pied={<Pied s={identite} onSave={identite.enregistrer} />}
         >
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
             <label className="col-span-full flex flex-col gap-[7px]">
@@ -517,7 +577,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           id="agrement"
           num="03"
           titre="Agrément et certifications"
-          pied={<Pied s={agrement} onSave={() => agrement.enregistrer(a.enregistrerAgrement)} />}
+          pied={<Pied s={agrement} onSave={agrement.enregistrer} />}
         >
           <div className="flex flex-wrap items-stretch gap-4">
             <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-4">
@@ -591,7 +651,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           num="04"
           titre="Coordonnées et siège"
           description="Ce que les candidats utilisent pour vous trouver et vous joindre."
-          pied={<Pied s={coord} onSave={() => coord.enregistrer(a.enregistrerCoordonnees)} />}
+          pied={<Pied s={coord} onSave={coord.enregistrer} />}
         >
           <div className="grid grid-cols-6 gap-4">
             <div className="col-span-6 flex flex-col gap-[7px]">
@@ -677,18 +737,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           num="05"
           titre="Lieux additionnels"
           description="Les lieux où vous formez, en plus du siège. Vous pourrez y rattacher vos formations."
-          pied={
-            <Pied
-              s={lieux}
-              onSave={() =>
-                lieux.enregistrer((l) =>
-                  a.enregistrerLieux(
-                    l.map(({ formations: _f, ...x }) => ({ ...x, id: x.id !== null && x.id < 0 ? null : x.id })),
-                  ),
-                )
-              }
-            />
-          }
+          pied={<Pied s={lieux} onSave={lieux.enregistrer} />}
         >
           <div className="flex flex-col gap-2.5">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2.5 rounded-[18px] border border-line px-[18px] py-3.5">
@@ -832,7 +881,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           num="06"
           titre="Informations pratiques"
           description="Des informations qui valent pour toute votre fiche, siège et lieux additionnels."
-          pied={<Pied s={pratique} onSave={() => pratique.enregistrer(a.enregistrerPratique)} />}
+          pied={<Pied s={pratique} onSave={pratique.enregistrer} />}
         >
           <div className="flex flex-wrap gap-x-10 gap-y-6">
             <div className="flex flex-col gap-[9px]">
@@ -885,7 +934,7 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           num="07"
           titre="Présentation"
           description="Quelques lignes sur votre centre, vos publics et votre façon de former."
-          pied={<Pied s={pres} onSave={() => pres.enregistrer(a.enregistrerPresentation)} />}
+          pied={<Pied s={pres} onSave={pres.enregistrer} />}
         >
           <div className="flex flex-col gap-2">
             <textarea
