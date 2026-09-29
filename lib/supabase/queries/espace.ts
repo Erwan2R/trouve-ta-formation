@@ -48,7 +48,7 @@ async function lireEspace() {
   const financements = [...new Set([...organisme.financements, ...offresActives.flatMap((o) => o.financements)])];
   const p: Palier = palier({ ...organisme, financements, nbFormations: offresActives.length });
   return {
-    user: { email: user.email ?? "", confirme: !!user.email_confirmed_at, nouvelEmail: user.new_email ?? null },
+    user: { id: user.id, email: user.email ?? "", confirme: !!user.email_confirmed_at, nouvelEmail: user.new_email ?? null },
     compte,
     organisme,
     lieux,

@@ -10,7 +10,14 @@ export function estHoteEspace(hote: string | null): boolean {
 }
 
 /** Pages accessibles sans être connecté. */
-export const PAGES_PUBLIQUES_ESPACE = ["/connexion/", "/inscription/", "/mot-de-passe-oublie/", "/auth/confirm/"];
+export const PAGES_PUBLIQUES_ESPACE = [
+  "/connexion/",
+  "/inscription/",
+  "/mot-de-passe-oublie/",
+  "/auth/confirm/",
+  "/auth/suppression/",
+  "/compte-supprime/",
+];
 
 /** URL absolue de l'espace depuis le site public (variable par environnement, production par défaut). */
 export const URL_ESPACE_ORGANISME = (
