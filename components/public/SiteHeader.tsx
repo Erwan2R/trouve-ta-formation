@@ -17,7 +17,8 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
     <header className="sticky top-0 z-40 border-b border-line bg-cream-100/88 backdrop-blur-md">
       <div className="relative container-public flex flex-wrap items-center gap-x-6 gap-y-3 py-4">
         <Link href={base} className="flex items-center gap-3 text-ink-900 hover:text-ink-900">
-          <Logo height={27} priority />
+          {/* 36 px au lieu des 27 px du handoff (§12) : demande d'Erwan, logo jugé trop petit. */}
+          <Logo height={36} priority />
           <span className="border-l border-line pl-3 font-mono text-[10.5px] tracking-[0.12em] text-ink-400 uppercase">
             {verticale.nom}
           </span>
