@@ -93,11 +93,13 @@ export function ChampAdresse({
         onBlur={() => setTimeout(() => setOuvert(false), 150)}
         onKeyDown={(e) => {
           if (!visible) return;
-          if (e.key === "ArrowDown") (e.preventDefault(), setActif((actif + 1) % suggestions.length));
-          else if (e.key === "ArrowUp")
-            (e.preventDefault(), setActif((actif - 1 + suggestions.length) % suggestions.length));
-          else if (e.key === "Enter" && actif >= 0) (e.preventDefault(), choisir(suggestions[actif]));
-          else if (e.key === "Escape") setOuvert(false);
+          const n = suggestions.length;
+          if (e.key === "Escape") return setOuvert(false);
+          if (e.key === "Enter" && actif >= 0) choisir(suggestions[actif]);
+          else if (e.key === "ArrowDown") setActif((actif + 1) % n);
+          else if (e.key === "ArrowUp") setActif((actif - 1 + n) % n);
+          else return;
+          e.preventDefault();
         }}
       />
       {visible && (
