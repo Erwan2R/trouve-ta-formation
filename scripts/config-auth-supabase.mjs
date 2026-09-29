@@ -1,6 +1,7 @@
 // Configuration de l'authentification Supabase (espace organisme, Sprint 8). Idempotent.
-// Usage : node --env-file=.env.local scripts/config-auth-supabase.mjs [--emails]
-// --emails : applique aussi les modèles d'emails en français (exige un service d'envoi SMTP branché : Resend).
+// Usage : node --env-file=.env.local scripts/config-auth-supabase.mjs [--smtp] [--emails]
+// --smtp   : branche l'envoi sur Resend (clé RESEND_SENDING_KEY, « Sending access » limitée au domaine).
+// --emails : applique les modèles d'emails en français (exige l'envoi SMTP branché).
 const PROJET = "fuwfzxxgosgxmwtdevzh";
 
 const lien = (type) => `{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=${type}`;
@@ -67,7 +68,24 @@ const emails = {
   ),
 };
 
-const corps = process.argv.includes("--emails") ? { ...reglages, ...emails } : reglages;
+// Envoi par Resend (région Europe), expéditeur du domaine vérifié.
+const smtp = {
+  smtp_host: "smtp.resend.com",
+  smtp_port: "465",
+  smtp_user: "resend",
+  smtp_pass: process.env.RESEND_SENDING_KEY,
+  smtp_admin_email: "ne-pas-repondre@trouve-ta-formation.fr",
+  smtp_sender_name: "Trouve ta formation",
+  // Emails par heure (Supabase : 2 sans SMTP personnalisé). Resend gratuit : 100 par jour, 3 000 par mois.
+  rate_limit_email_sent: 30,
+};
+if (process.argv.includes("--smtp") && !smtp.smtp_pass) throw new Error("RESEND_SENDING_KEY manquante");
+
+const corps = {
+  ...reglages,
+  ...(process.argv.includes("--smtp") ? smtp : {}),
+  ...(process.argv.includes("--emails") ? emails : {}),
+};
 const r = await fetch(`https://api.supabase.com/v1/projects/${PROJET}/config/auth`, {
   method: "PATCH",
   headers: { Authorization: `Bearer ${process.env.SUPABASE_ACCESS_TOKEN}`, "Content-Type": "application/json" },
