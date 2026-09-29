@@ -11,7 +11,7 @@ const ok = ({ data, error }) => {
   return data;
 };
 
-const commun = { statut: "publie", est_test: true, langues: ["Français"] };
+const commun = { statut: "publie", est_test: true, langues: [] };
 const ORGANISMES = [
   {
     org: {

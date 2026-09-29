@@ -8,6 +8,21 @@ const gabarit = (titre: string, corps: string, bouton: string, lien: string) =>
 <p><a href="${lien}" style="display:inline-block;background:#0B0B0B;color:#FFFFFF;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:bold">${bouton}</a></p>
 <p style="font-size:13px;color:#7B746E">Ce lien est valable 24 heures et ne sert qu'une fois.</p>${pied}</div>`;
 
+/** Version texte (sans HTML), envoyée avec chaque email : lisibilité et délivrabilité. */
+const texte = (titre: string, corps: string, lien: string) =>
+  `${titre}
+
+${corps}
+
+${lien}
+
+Ce lien est valable 24 heures et ne sert qu'une fois.
+
+Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.
+--
+Trouve ta formation — annuaire indépendant des organismes de formation.
+`;
+
 export const EMAIL_VALIDATION = {
   sujet: "Confirmez votre adresse email",
   html: (lien: string) =>
@@ -15,6 +30,12 @@ export const EMAIL_VALIDATION = {
       "Confirmez votre adresse email",
       "<p>Votre espace organisme est créé. Confirmez votre adresse email : c'est la condition pour que votre fiche soit publiée dès que son minimum est rempli.</p>",
       "Confirmer mon adresse",
+      lien,
+    ),
+  texte: (lien: string) =>
+    texte(
+      "Confirmez votre adresse email",
+      "Votre espace organisme est créé. Confirmez votre adresse email : c'est la condition pour que votre fiche soit publiée dès que son minimum est rempli. Pour confirmer, ouvrez ce lien :",
       lien,
     ),
 };
@@ -26,6 +47,12 @@ export const EMAIL_CHANGEMENT = {
       "Confirmez votre nouvelle adresse de connexion",
       `<p>Vous avez demandé à utiliser ${email} pour vous connecter à votre espace organisme. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée.</p>`,
       "Confirmer cette adresse",
+      lien,
+    ),
+  texte: (lien: string, email: string) =>
+    texte(
+      "Confirmez votre nouvelle adresse de connexion",
+      `Vous avez demandé à utiliser ${email} pour vous connecter à votre espace organisme. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée. Pour confirmer, ouvrez ce lien :`,
       lien,
     ),
 };

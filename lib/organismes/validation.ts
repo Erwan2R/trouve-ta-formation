@@ -8,7 +8,22 @@ const vide = (s: string) => s.trim() === "";
 const ok = <T>(valeur: T): Resultat<T> => ({ ok: true, valeur });
 const ko = (erreur: string): Resultat<never> => ({ ok: false, erreur });
 
-export const LANGUES = ["Français", "Anglais", "Arabe", "Espagnol", "Portugais", "Roumain", "Tamoul"] as const;
+/**
+ * « Autres langues parlées par l'équipe » (décision Erwan 29/09/2026) : les formations se déroulent en français
+ * (niveau B1 exigé), le français n'est donc pas proposé. Liste de départ reprise de la maquette Ma fiche, complétée.
+ */
+export const LANGUES = [
+  "Allemand",
+  "Anglais",
+  "Arabe",
+  "Chinois",
+  "Espagnol",
+  "Italien",
+  "Portugais",
+  "Roumain",
+  "Russe",
+  "Tamoul",
+] as const;
 export const PLAFOND_PRESENTATION = 1500;
 
 export function texte(s: string, max: number, champ: string): Resultat<string | null> {

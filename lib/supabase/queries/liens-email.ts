@@ -46,8 +46,13 @@ export async function envoyerLien(compteId: string, type: TypeLien, email: strin
   const lien = `${await origineEspace()}/auth/verifier/?t=${jeton}`;
   const envoye = await envoyerEmail(
     type === "validation"
-      ? { a: email, sujet: EMAIL_VALIDATION.sujet, html: EMAIL_VALIDATION.html(lien) }
-      : { a: email, sujet: EMAIL_CHANGEMENT.sujet, html: EMAIL_CHANGEMENT.html(lien, email) },
+      ? { a: email, sujet: EMAIL_VALIDATION.sujet, html: EMAIL_VALIDATION.html(lien), texte: EMAIL_VALIDATION.texte(lien) }
+      : {
+          a: email,
+          sujet: EMAIL_CHANGEMENT.sujet,
+          html: EMAIL_CHANGEMENT.html(lien, email),
+          texte: EMAIL_CHANGEMENT.texte(lien, email),
+        },
   );
   return envoye ? { ok: true } : { ok: false, erreur: "L'envoi a échoué. Réessayez dans un instant." };
 }

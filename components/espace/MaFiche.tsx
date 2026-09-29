@@ -936,7 +936,11 @@ function Formulaire({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actio
               />
             </div>
             <div className="flex min-w-0 flex-[1_1_320px] flex-col gap-[9px]">
-              <span className={libelle}>Langues d&apos;enseignement</span>
+              <span className={libelle}>Autres langues parlées par l&apos;équipe</span>
+              <span className="text-[13px] text-ink-500">
+                Les formations se déroulent en français (niveau B1 exigé). Indiquez les autres langues dans lesquelles
+                votre équipe peut accueillir et renseigner les candidats.
+              </span>
               <span className="flex flex-wrap gap-2">
                 {LANGUES.map((lg) => {
                   const actif = pratique.valeurs.langues.includes(lg);

@@ -9,6 +9,7 @@ const secondaire =
 /** Colonne pratique — actions, financements (bloc 7) et informations pratiques (bloc 8). Chaque donnée absente disparaît. */
 export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
   const a = actionsOrganisme(o);
+  const autresLangues = o.langues.filter((l) => l !== "Français");
   const infos: [string, React.ReactNode, boolean?][] = [
     ...(o.telephone && a.appeler
       ? [
@@ -44,7 +45,10 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
     ...(o.accessibilite_pmr
       ? [["Accessibilité", "Locaux accessibles aux personnes à mobilité réduite"] as [string, React.ReactNode]]
       : []),
-    ...(o.langues.length ? [["Langues d'enseignement", o.langues.join(", ")] as [string, React.ReactNode]] : []),
+    // Le français est la langue des formations (B1 exigé) : seules les autres langues de l'équipe sont listées.
+    ...(autresLangues.length
+      ? [["Autres langues parlées par l'équipe", autresLangues.join(", ")] as [string, React.ReactNode]]
+      : []),
     ...(o.annee_creation ? [["Organisme créé en", String(o.annee_creation)] as [string, React.ReactNode]] : []),
     ...(o.numero_declaration_activite
       ? [
