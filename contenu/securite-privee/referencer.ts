@@ -137,8 +137,8 @@ export const REFERENCER = {
     h2: "Pourquoi c'est gratuit",
     paragraphes: [
       "Un annuaire n'a de valeur pour un candidat que s'il est complet. Notre priorité est donc de référencer les organismes, pas de leur facturer leur présence.",
-      // Point ouvert §15 : version qui nomme une fonctionnalité future (défaut de la maquette).
-      "Le référencement restera gratuit. Nous proposerons plus tard des fonctionnalités optionnelles aux organismes qui les souhaitent — la gestion des inscriptions, par exemple. Elles seront payantes, et elles ne changeront rien à la position des fiches dans le catalogue.",
+      // Version générique, sans citer de fonctionnalité (décision Erwan 30/09/2026).
+      "Le référencement restera gratuit. Nous proposerons plus tard des services optionnels aux organismes qui les souhaitent. Ils ne changeront rien à la position des fiches dans le catalogue.",
     ],
     grille: {
       entete: ["Organismes de formation", "Tarif"],
@@ -146,7 +146,7 @@ export const REFERENCER = {
         { titre: "Référencement de la fiche", detail: "Publication, modification, suppression", tarif: "0 €" },
         {
           titre: "Fonctionnalités optionnelles",
-          detail: "La gestion des inscriptions, par exemple",
+          detail: null,
           tarif: "Plus tard",
         },
         {
@@ -188,7 +188,8 @@ export const REFERENCER = {
           "Oui, depuis votre espace, sans avoir à nous écrire ni à justifier votre décision. La fiche disparaît du site.",
       },
       {
-        // Toujours déplié (Copy §10). Réponse à faire valider juridiquement avant le premier envoi de prospection.
+        // Toujours déplié (Copy §10). Texte provisoire (Erwan 30/09/2026) : à valider contre le fonctionnement réel du
+        // scraping (sources citées, nature des adresses) et juridiquement, avant le premier envoi de prospection.
         question: "D'où vient mon adresse email ?",
         reponse:
           "De sources professionnelles publiques : votre site internet, les registres publics d'organismes de formation, les annuaires professionnels du secteur. Nous ne collectons que des adresses professionnelles, et nous vous contactons à propos de votre activité d'organisme de formation.",

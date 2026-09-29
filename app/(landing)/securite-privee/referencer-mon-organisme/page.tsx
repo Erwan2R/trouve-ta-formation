@@ -439,7 +439,7 @@ export default async function ReferencerMonOrganisme() {
                         >
                           {l.titre}
                         </span>
-                        <span className="text-[13.5px] leading-normal text-ink-500">{l.detail}</span>
+                        {l.detail && <span className="text-[13.5px] leading-normal text-ink-500">{l.detail}</span>}
                       </span>
                       <span
                         className={
