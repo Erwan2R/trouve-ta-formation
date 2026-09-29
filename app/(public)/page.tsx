@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <header className="border-b border-line">
         <div className="container-public py-4">
-          <Logo height={27} priority />
+          <Logo height={36} priority />
         </div>
       </header>
       <main className="container-public py-[clamp(56px,9vw,88px)]">

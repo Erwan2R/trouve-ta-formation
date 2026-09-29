@@ -1,3 +1,5 @@
+import { EMAIL_CONTACT } from "@/lib/config/contact";
+
 // Landing organismes « Référencer mon organisme » (Copy_Landing_Organismes.md, maquette « Landing Organismes v3 »).
 // Textes validés : ne pas réécrire. Points ouverts de la copy (§15) signalés à Erwan.
 
@@ -6,7 +8,7 @@ export const REFERENCER = {
   description:
     "Référencez gratuitement votre centre de formation à la sécurité privée sur l'annuaire Trouve ta formation. Création de fiche en cinq minutes, sans engagement.",
   ogTitle: "Référencer mon organisme de formation en sécurité privée",
-  contact: "contact@trouve-ta-formation.fr",
+  contact: EMAIL_CONTACT,
 
   enTete: {
     surtitre: "Espace organismes",
@@ -155,8 +157,10 @@ export const REFERENCER = {
         },
       ],
     },
-    engagement: "Aucun organisme ne peut acheter un meilleur classement.",
-    engagementTexte: "C'est une règle de conception, pas une politique commerciale susceptible d'évoluer.",
+    // Formulation d'Erwan (30/09/2026), remplace « Aucun organisme ne peut acheter un meilleur classement ».
+    engagement: "Le classement ne s'achète pas.",
+    engagementTexte:
+      "Si un emplacement est un jour mis en avant contre rémunération, il sera toujours signalé comme tel.",
   },
 
   faq: {
@@ -188,8 +192,7 @@ export const REFERENCER = {
         question: "D'où vient mon adresse email ?",
         reponse:
           "De sources professionnelles publiques : votre site internet, les registres publics d'organismes de formation, les annuaires professionnels du secteur. Nous ne collectons que des adresses professionnelles, et nous vous contactons à propos de votre activité d'organisme de formation.",
-        suite:
-          "Vous pouvez demander la suppression de vos données de notre base à tout moment, en écrivant à contact@trouve-ta-formation.fr. La demande est traitée sans condition et sans relance.",
+        suite: `Vous pouvez demander la suppression de vos données de notre base à tout moment, en écrivant à ${EMAIL_CONTACT}. La demande est traitée sans condition et sans relance.`,
         ouverte: true,
       },
       {

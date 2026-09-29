@@ -36,15 +36,15 @@ export function ApercuFicheAnnotee({ annotations, mention }: { annotations: Anno
           {[0, 1, 2].map((i) => (
             <span key={i} className="block size-[7px] rounded-full bg-line-heavy" />
           ))}
-          <span className="ml-2">trouve-ta-formation.fr/organismes/afs-bobigny</span>
+          <span className="ml-2">trouve-ta-formation.fr/organismes/votre-centre-de-formation</span>
         </span>
 
         <div {...survol(1)} className={`${zone(actif === 1)} flex flex-wrap items-start gap-3.5`}>
           <span className="flex size-[52px] flex-none items-center justify-center rounded-xl border border-line bg-cream-200 font-mono text-sm text-ink-600">
-            AF
+            VC
           </span>
           <span className="flex min-w-[140px] flex-[1_1_160px] flex-col gap-[7px]">
-            <span className="text-lg leading-[1.2] font-bold tracking-[-0.02em]">Académie Française de Sécurité</span>
+            <span className="text-lg leading-[1.2] font-bold tracking-[-0.02em]">Votre centre de formation</span>
             <span className="flex flex-wrap gap-[5px]">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-900 px-2.5 py-1 text-[11.5px] font-semibold text-white">
                 <span className="block size-[5px] rounded-full bg-brique-400" />
@@ -101,7 +101,7 @@ export function ApercuFicheAnnotee({ annotations, mention }: { annotations: Anno
         <div {...survol(5)} className={`${zone(actif === 5)} flex flex-wrap items-center gap-3`}>
           <span className="flex min-w-[160px] flex-[1_1_180px] flex-col gap-[5px]">
             <span className={etiquette}>Contact</span>
-            <span className="text-[14.5px] font-semibold">01 48 30 00 00 · contact@afs-formation.fr</span>
+            <span className="text-[14.5px] font-semibold">01 48 30 00 00 · contact@votre-centre.fr</span>
           </span>
           <Pastille n={5} />
         </div>

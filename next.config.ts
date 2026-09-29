@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 // Imports relatifs : next.config ne résout pas l'alias « @/ ».
 import { pilierVisible } from "./contenu/securite-privee/piliers";
 import { redirectionsArchivage } from "./lib/resolution-pilier";
+import { CONFIDENTIALITE } from "./contenu/legal/confidentialite";
+import { MENTIONS_LEGALES } from "./contenu/legal/mentions-legales";
+import { sansMarqueur } from "./contenu/marqueurs";
+
+// Mise en production bloquée tant que les pages légales contiennent un champ [à compléter] (décision Erwan 30/09/2026).
+if (process.env.VERCEL_ENV === "production" && !sansMarqueur([MENTIONS_LEGALES, CONFIDENTIALITE]))
+  throw new Error("Mise en production bloquée : mentions légales ou politique de confidentialité incomplètes.");
 
 const nextConfig: NextConfig = {
   // Toutes les URLs publiques des specs se terminent par « / ».

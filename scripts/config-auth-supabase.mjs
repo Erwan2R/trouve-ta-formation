@@ -2,11 +2,17 @@
 // Usage : node --env-file=.env.local scripts/config-auth-supabase.mjs [--smtp] [--emails]
 // --smtp   : branche l'envoi sur Resend (clé RESEND_SENDING_KEY, « Sending access » limitée au domaine).
 // --emails : applique les modèles d'emails en français (exige l'envoi SMTP branché).
+import { readFileSync } from "node:fs";
+
 const PROJET = "fuwfzxxgosgxmwtdevzh";
+// Adresse de contact publique : réglage unique dans lib/config/contact.ts (Supabase n'a pas de Reply-To).
+const EMAIL_CONTACT = readFileSync(new URL("../lib/config/contact.ts", import.meta.url), "utf8").match(
+  /EMAIL_CONTACT = "([^"]+)"/,
+)[1];
 
 const lien = (type) => `{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=${type}`;
 const pied = (texte) =>
-  `<p style="font-size:13px;color:#7B746E">${texte}<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
+  `<p style="font-size:13px;color:#7B746E">${texte}<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
 const gabarit = (titre, corps, bouton, type) =>
   `<div style="font-family:Arial,sans-serif;color:#0B0B0B;max-width:560px;line-height:1.6">
 <p style="font-weight:bold;font-size:18px">${titre}</p>${corps}

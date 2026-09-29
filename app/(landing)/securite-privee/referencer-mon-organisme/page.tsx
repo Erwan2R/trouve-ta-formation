@@ -161,11 +161,11 @@ export default async function ReferencerMonOrganisme() {
                   {R.hero.votreFiche}
                 </span>
                 <span className="flex size-[52px] flex-none items-center justify-center rounded-xl border border-line bg-cream-200 font-mono text-[13px] text-ink-600">
-                  AF
+                  VC
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col gap-2">
                   <span className="text-[16.5px] leading-[1.25] font-bold tracking-[-0.015em]">
-                    Académie Française de Sécurité
+                    Votre centre de formation
                   </span>
                   <span className="flex flex-wrap gap-[5px]">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-900 px-[9px] py-1 text-[11px] font-semibold text-white">

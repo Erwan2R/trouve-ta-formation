@@ -1,7 +1,9 @@
+import { EMAIL_CONTACT } from "@/lib/config/contact";
+
 // Emails envoyés par l'application (validation d'adresse, changement d'email). Textes à valider par Erwan,
 // alignés sur ceux installés dans Supabase (scripts/config-auth-supabase.mjs).
 
-const pied = `<p style="font-size:13px;color:#7B746E">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
+const pied = `<p style="font-size:13px;color:#7B746E">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
 const gabarit = (titre: string, corps: string, bouton: string, lien: string) =>
   `<div style="font-family:Arial,sans-serif;color:#0B0B0B;max-width:560px;line-height:1.6">
 <p style="font-weight:bold;font-size:18px">${titre}</p>${corps}
@@ -19,6 +21,7 @@ ${lien}
 Ce lien est valable 24 heures et ne sert qu'une fois.
 
 Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.
+Pour nous écrire : ${EMAIL_CONTACT}
 --
 Trouve ta formation — annuaire indépendant des organismes de formation.
 `;
