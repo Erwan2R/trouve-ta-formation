@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState, useTransition } from "react";
 import type { Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { LANGUES, PLAFOND_PRESENTATION } from "@/lib/organismes/validation";
-import { monogramme } from "@/lib/organismes/libelles";
+import { FINANCEMENTS, monogramme } from "@/lib/organismes/libelles";
 import { ChampAdresse } from "./ChampAdresse";
 import type * as Actions from "@/app/partenaires/(connecte)/ma-fiche/actions";
 
@@ -29,7 +29,7 @@ export type DonneesMaFiche = {
     horaires: string;
   };
   lieux: (Actions.LieuSaisi & { formations: string[] })[];
-  pratique: { accessibilite_pmr: boolean; langues: string[] };
+  pratique: { financements: string[]; accessibilite_pmr: boolean; langues: string[] };
   presentation: { presentation: string };
 };
 
@@ -884,6 +884,40 @@ function Formulaire({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actio
           pied={<Pied s={pratique} onSave={pratique.enregistrer} />}
         >
           <div className="flex flex-wrap gap-x-10 gap-y-6">
+            <div className="flex w-full flex-col gap-[9px]">
+              <span className={libelle}>Financements acceptés</span>
+              <span className="text-[13px] text-ink-500">
+                Ces informations permettent aux candidats de vous trouver. Vous pouvez aussi les préciser formation par
+                formation.
+              </span>
+              <span className="flex flex-wrap gap-2">
+                {Object.entries(FINANCEMENTS).map(([cle, texte]) => {
+                  const actif = pratique.valeurs.financements.includes(cle);
+                  return (
+                    <button
+                      key={cle}
+                      type="button"
+                      aria-pressed={actif}
+                      onClick={() =>
+                        pratique.maj({
+                          ...pratique.valeurs,
+                          financements: actif
+                            ? pratique.valeurs.financements.filter((x) => x !== cle)
+                            : [...pratique.valeurs.financements, cle],
+                        })
+                      }
+                      className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-[15px] py-[9px] text-sm font-semibold hover:border-ink-900 ${actif ? "border-ink-900 bg-ink-900 text-white" : "border-line bg-white text-ink-700"}`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`block size-1.5 rounded-full ${actif ? "bg-brique-400" : "bg-line-heavy"}`}
+                      />
+                      {texte}
+                    </button>
+                  );
+                })}
+              </span>
+            </div>
             <div className="flex flex-col gap-[9px]">
               <span className={libelle}>Accès adapté aux personnes à mobilité réduite</span>
               <Bascule

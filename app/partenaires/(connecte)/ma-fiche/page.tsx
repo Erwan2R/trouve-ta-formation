@@ -3,13 +3,14 @@ import { MaFiche } from "@/components/espace/MaFiche";
 import { absoluteUrl } from "@/lib/seo/metadata";
 import { getEspace } from "@/lib/supabase/queries/espace";
 import * as actions from "./actions";
+import { donneesMaFiche } from "./donnees";
 
 export const metadata: Metadata = { title: "Ma fiche" };
 
 /** Ma fiche : identité, coordonnées et lieux, sections enregistrées séparément (UX Ma fiche). */
 export default async function PageMaFiche() {
-  const { organisme: o, siege, lieux, offres, user } = await getEspace();
-  const s = (v: string | number | null) => (v === null ? "" : String(v));
+  const espace = await getEspace();
+  const o = espace.organisme;
   return (
     <>
       <section className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 px-[clamp(6px,1vw,12px)] pt-[clamp(18px,3vw,36px)] pb-[clamp(4px,1vw,10px)]">
@@ -32,46 +33,7 @@ export default async function PageMaFiche() {
           </a>
         )}
       </section>
-      <MaFiche
-        actions={{ ...actions }}
-        donnees={{
-          emailCompte: user.email,
-          identite: {
-            nom: o.nom,
-            raison_sociale: s(o.raison_sociale),
-            siret: s(o.siret),
-            numero_declaration_activite: s(o.numero_declaration_activite),
-            annee_creation: s(o.annee_creation),
-          },
-          logo: o.logo_url,
-          agrement: {
-            numero_agrement_cnaps: s(o.numero_agrement_cnaps),
-            qualiopi: o.qualiopi,
-            numero_qualiopi: s(o.numero_qualiopi),
-          },
-          coordonnees: {
-            adresse: s(siege?.adresse ?? null),
-            code_postal: s(siege?.code_postal ?? null),
-            ville: s(siege?.ville ?? null),
-            telephone: s(o.telephone),
-            site_web: s(o.site_web),
-            email_contact: s(o.email_contact),
-            horaires: s(o.horaires),
-          },
-          lieux: lieux
-            .filter((l) => !l.est_siege)
-            .map((l) => ({
-              id: l.id,
-              nom: s(l.nom),
-              adresse: l.adresse,
-              code_postal: l.code_postal,
-              ville: l.ville,
-              formations: offres.filter((x) => x.lieux.includes(l.id)).map((x) => x.titre.libelle_court),
-            })),
-          pratique: { accessibilite_pmr: o.accessibilite_pmr, langues: o.langues },
-          presentation: { presentation: s(o.presentation) },
-        }}
-      />
+      <MaFiche actions={{ ...actions }} donnees={donneesMaFiche(espace)} />
     </>
   );
 }

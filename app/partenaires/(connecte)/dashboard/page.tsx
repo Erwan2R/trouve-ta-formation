@@ -4,6 +4,7 @@ import { BoutonRenvoyer } from "@/components/espace/BoutonRenvoyer";
 import { ApercuCarte } from "@/components/espace/ApercuCarte";
 import { Jauge } from "@/components/espace/Jauge";
 import { ACTIONS, DASHBOARD as D, INDEXATION, NOMS_PALIERS } from "@/contenu/espace/dashboard";
+import { ONBOARDING } from "@/contenu/espace/onboarding";
 import { dateCourte } from "@/lib/format-date";
 import { RANG_PALIER, type Palier } from "@/lib/organismes/completude";
 import { minimumPubliable } from "@/lib/organismes/publication";
@@ -20,7 +21,7 @@ const surtitre = "font-mono text-[10.5px] tracking-[0.12em] uppercase";
 
 /** Tableau de bord : état de la fiche et quoi faire pour la faire progresser (UX Dashboard). */
 export default async function Dashboard() {
-  const { organisme: o, siege, lieux, user, offresActives, financements, palier: p } = await getEspace();
+  const { organisme: o, siege, lieux, user, compte, offresActives, financements, palier: p } = await getEspace();
   const donnees = { ...o, financements, nbFormations: offresActives.length };
   const actions = actionsRelance(donnees, p);
   const publiee = o.statut === "publie";
@@ -50,6 +51,24 @@ export default async function Dashboard() {
           </a>
         )}
       </section>
+
+      {compte.onboarding_etape !== null && (
+        <section className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 rounded-[28px] border-[1.5px] border-ink-900 bg-white p-[clamp(22px,3vw,32px)]">
+          <span className="flex flex-col gap-1.5">
+            <h2 className="text-[clamp(20px,2.2vw,26px)] font-extrabold tracking-[-0.025em]">
+              {ONBOARDING.reprendre.titre}
+            </h2>
+            <span className="text-[15px] text-ink-700">{ONBOARDING.reprendre.texte(compte.onboarding_etape)}</span>
+          </span>
+          <Link
+            href={`/bienvenue/${compte.onboarding_etape}/`}
+            className="inline-flex items-center gap-2.5 rounded-full bg-ink-900 px-6 py-4 text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
+          >
+            {ONBOARDING.reprendre.cta}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </section>
+      )}
 
       {!publiee && (
         <section className="flex flex-wrap items-center justify-between gap-x-12 gap-y-6 rounded-[28px] bg-ink-900 bg-[radial-gradient(60%_120%_at_100%_0%,#2A2626_0%,rgba(42,38,38,0)_70%)] p-[clamp(26px,4vw,48px)]">

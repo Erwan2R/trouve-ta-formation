@@ -45,6 +45,7 @@ export type Database = {
           contact_telephone: string | null
           created_at: string
           id: string
+          onboarding_etape: number | null
           organisme_id: string
         }
         Insert: {
@@ -52,6 +53,7 @@ export type Database = {
           contact_telephone?: string | null
           created_at?: string
           id: string
+          onboarding_etape?: number | null
           organisme_id: string
         }
         Update: {
@@ -59,6 +61,7 @@ export type Database = {
           contact_telephone?: string | null
           created_at?: string
           id?: string
+          onboarding_etape?: number | null
           organisme_id?: string
         }
         Relationships: [

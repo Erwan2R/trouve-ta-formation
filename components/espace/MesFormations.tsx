@@ -72,11 +72,14 @@ export function MesFormations({
   groupes,
   lieux,
   actions: a,
+  enTete = true,
 }: {
   offres: OffreVue[];
   groupes: { categorie: string; titres: TitreModale[] }[];
   lieux: LieuVue[];
   actions: Actions;
+  /** false dans l'accompagnement à l'inscription : la page d'étape porte déjà le titre. */
+  enTete?: boolean;
 }) {
   const [toast, setToast] = useState<string | null>(null);
   const [ajout, setAjout] = useState<{ q: string; sel: number[]; demande: string | null } | null>(null);
@@ -141,9 +144,11 @@ export function MesFormations({
     <>
       <section className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 px-[clamp(6px,1vw,12px)] pt-[clamp(18px,3vw,36px)] pb-[clamp(4px,1vw,10px)]">
         <div className="flex flex-col gap-2.5">
-          <h1 className="text-[clamp(34px,4.6vw,60px)] leading-[0.98] font-extrabold tracking-[-0.045em]">
-            Mes formations
-          </h1>
+          {enTete && (
+            <h1 className="text-[clamp(34px,4.6vw,60px)] leading-[0.98] font-extrabold tracking-[-0.045em]">
+              Mes formations
+            </h1>
+          )}
           <span className="flex flex-wrap items-center gap-x-3.5 gap-y-2">
             <span className="text-[17px] font-bold tracking-[-0.01em]">{F.compte(n)}</span>
             {n > 0 && <span className="font-mono text-[11.5px] text-ink-500">{F.repartition(completes, n)}</span>}

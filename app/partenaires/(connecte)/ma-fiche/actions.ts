@@ -1,6 +1,7 @@
 "use server";
 
 import sharp from "sharp";
+import { FINANCEMENTS } from "@/lib/organismes/libelles";
 import * as V from "@/lib/organismes/validation";
 import { apresEnregistrement, type Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { getEspaceFrais } from "@/lib/supabase/queries/espace";
@@ -145,8 +146,17 @@ export async function enregistrerLieux(saisis: LieuSaisi[]): Promise<Retour> {
   return apresEnregistrement();
 }
 
-export async function enregistrerPratique(d: { accessibilite_pmr: boolean; langues: string[] }): Promise<Retour> {
-  return majFiche({ accessibilite_pmr: d.accessibilite_pmr, langues: V.langues(d.langues) });
+/** Financements (niveau organisme, spec Inscription étape 6), accessibilité, langues. */
+export async function enregistrerPratique(d: {
+  financements: string[];
+  accessibilite_pmr: boolean;
+  langues: string[];
+}): Promise<Retour> {
+  return majFiche({
+    financements: Object.keys(FINANCEMENTS).filter((f) => d.financements.includes(f)),
+    accessibilite_pmr: d.accessibilite_pmr,
+    langues: V.langues(d.langues),
+  });
 }
 
 export async function enregistrerPresentation(d: { presentation: string }): Promise<Retour> {

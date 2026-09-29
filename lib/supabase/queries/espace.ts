@@ -12,7 +12,7 @@ export type OffreEspace = Tables<"organisme_titres"> & {
   lieux: number[];
 };
 
-const SELECT = `contact_nom, contact_telephone,
+const SELECT = `contact_nom, contact_telephone, onboarding_etape,
   organismes (*,
     lieux (*),
     organisme_titres (*, titres_referentiel (id, slug, libelle_court, libelle_long, categorie, statut, ordre), offre_lieux (lieu_id))
