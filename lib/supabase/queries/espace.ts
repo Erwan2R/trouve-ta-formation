@@ -4,6 +4,7 @@ import { cache } from "react";
 import { palier, type Palier } from "@/lib/organismes/completude";
 import { departementDuCodePostal } from "@/lib/organismes/libelles";
 import { supabaseServeur } from "../serveur";
+import { changementEnAttente } from "./liens-email";
 import type { Tables } from "../types";
 
 export type LieuEspace = Tables<"lieux"> & { departement: string };
@@ -12,7 +13,7 @@ export type OffreEspace = Tables<"organisme_titres"> & {
   lieux: number[];
 };
 
-const SELECT = `contact_nom, contact_telephone, onboarding_etape,
+const SELECT = `contact_nom, contact_telephone, onboarding_etape, email_verifie_le,
   organismes (*,
     lieux (*),
     organisme_titres (*, titres_referentiel (id, slug, libelle_court, libelle_long, categorie, statut, ordre), offre_lieux (lieu_id))
@@ -48,7 +49,13 @@ async function lireEspace() {
   const financements = [...new Set([...organisme.financements, ...offresActives.flatMap((o) => o.financements)])];
   const p: Palier = palier({ ...organisme, financements, nbFormations: offresActives.length });
   return {
-    user: { id: user.id, email: user.email ?? "", confirme: !!user.email_confirmed_at, nouvelEmail: user.new_email ?? null },
+    // Validation de l'email gérée par l'application (comptes_organisme.email_verifie_le), pas par Supabase.
+    user: {
+      id: user.id,
+      email: user.email ?? "",
+      confirme: !!compte.email_verifie_le,
+      nouvelEmail: await changementEnAttente(user.id),
+    },
     compte,
     organisme,
     lieux,

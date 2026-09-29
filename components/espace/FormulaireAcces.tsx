@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import type { EtatFormulaire } from "@/app/partenaires/(acces)/actions";
+import { reinitialiserTurnstile, Turnstile } from "./Turnstile";
 
 type Champ = { nom: string; libelle: string; type: string; autocomplete: string; aide?: string; minLength?: number };
 
@@ -10,16 +11,20 @@ export function FormulaireAcces({
   action,
   champs,
   bouton,
+  turnstile,
 }: {
   action: (etat: EtatFormulaire, donnees: FormData) => Promise<EtatFormulaire>;
   champs: Champ[];
   bouton: string;
+  /** Clé publique Turnstile : protection anti-robots du formulaire (inscription). */
+  turnstile?: string;
 }) {
   const [etat, envoyer, enCours] = useActionState(action, null);
   // Rechargement complet : le middleware lit la nouvelle session et réécrit l'URL vers l'espace.
   useEffect(() => {
     if (etat?.vers) window.location.assign(etat.vers);
-  }, [etat]);
+    else if (etat?.erreur && turnstile) reinitialiserTurnstile();
+  }, [etat, turnstile]);
   return (
     <form action={envoyer} className="flex flex-col gap-4">
       {champs.map((c) => (
@@ -45,6 +50,7 @@ export function FormulaireAcces({
           )}
         </div>
       ))}
+      {turnstile && <Turnstile cle={turnstile} />}
       {etat?.erreur && (
         <p role="alert" className="text-[13.5px] font-bold text-brique-700">
           {etat.erreur}

@@ -44,6 +44,7 @@ export type Database = {
           contact_nom: string | null
           contact_telephone: string | null
           created_at: string
+          email_verifie_le: string | null
           id: string
           onboarding_etape: number | null
           organisme_id: string
@@ -52,6 +53,7 @@ export type Database = {
           contact_nom?: string | null
           contact_telephone?: string | null
           created_at?: string
+          email_verifie_le?: string | null
           id: string
           onboarding_etape?: number | null
           organisme_id: string
@@ -60,6 +62,7 @@ export type Database = {
           contact_nom?: string | null
           contact_telephone?: string | null
           created_at?: string
+          email_verifie_le?: string | null
           id?: string
           onboarding_etape?: number | null
           organisme_id?: string
@@ -186,6 +189,47 @@ export type Database = {
           premiere_le?: string
         }
         Relationships: []
+      }
+      liens_email: {
+        Row: {
+          compte_id: string
+          created_at: string
+          email: string
+          expire_le: string
+          id: number
+          jeton_hash: string
+          type: string
+          utilise_le: string | null
+        }
+        Insert: {
+          compte_id: string
+          created_at?: string
+          email: string
+          expire_le?: string
+          id?: never
+          jeton_hash: string
+          type: string
+          utilise_le?: string | null
+        }
+        Update: {
+          compte_id?: string
+          created_at?: string
+          email?: string
+          expire_le?: string
+          id?: never
+          jeton_hash?: string
+          type?: string
+          utilise_le?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "liens_email_compte_id_fkey"
+            columns: ["compte_id"]
+            isOneToOne: false
+            referencedRelation: "comptes_organisme"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lieux: {
         Row: {
@@ -634,11 +678,13 @@ export type Database = {
     }
     Functions: {
       compter_formulaire: { Args: { p_cle: string }; Returns: undefined }
+      email_deja_utilise: { Args: { p_email: string }; Returns: boolean }
       enregistrer_recherche_sans_resultat: {
         Args: { p_combinaison: string }
         Returns: undefined
       }
       maj_publication: { Args: never; Returns: string }
+      maj_publication_organisme: { Args: { p_org: string }; Returns: string }
       mon_organisme: { Args: never; Returns: string }
       slug_organisme: { Args: { p_nom: string }; Returns: string }
     }

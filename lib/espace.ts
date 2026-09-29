@@ -20,6 +20,7 @@ export const PAGES_PUBLIQUES_ESPACE = [
   "/inscription/",
   "/mot-de-passe-oublie/",
   "/auth/confirm/",
+  "/auth/verifier/",
   "/auth/suppression/",
   "/compte-supprime/",
 ];

@@ -24,8 +24,11 @@ const espace = ["partenaires", "partenaires-dev", "partenaires-preprod"].map(
 const reglages = {
   site_url: "https://partenaires.trouve-ta-formation.fr",
   uri_allow_list: [...espace, "http://partenaires.localhost:3000/**"].join(","),
-  // Spec Inscription : accès immédiat à l'espace ; la validation de l'email bloque la publication, pas l'accès.
-  mailer_allow_unverified_email_sign_ins: true,
+  // Spec Inscription §4 : accès immédiat. Le réglage « connexion avant validation » de Supabase ne fonctionne pas
+  // sur ce projet : la validation de l'email est gérée par l'application (comptes_organisme.email_verifie_le,
+  // liens envoyés par Resend) et Supabase ne l'exige plus (décision Erwan 29/09/2026).
+  mailer_allow_unverified_email_sign_ins: false,
+  mailer_autoconfirm: true,
   // Spec Paramètres : le lien part vers la nouvelle adresse seulement ; l'ancienne reste valide jusque-là.
   mailer_secure_email_change_enabled: false,
   password_min_length: 10, // organisme ; l'admin (12 caractères) est contrôlé dans l'application

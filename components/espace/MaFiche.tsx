@@ -147,7 +147,12 @@ function Section({
     >
       <div className="flex flex-col gap-1.5">
         {!auto && <span className="font-mono text-[11px] text-brique-700">{num}</span>}
-        <h2 className="text-2xl leading-[1.15] font-extrabold tracking-[-0.025em]">{titre}</h2>
+        {/* Étape à section unique : la page porte déjà ce titre. */}
+        <h2
+          className={`text-2xl leading-[1.15] font-extrabold tracking-[-0.025em] ${sections?.length === 1 ? "sr-only" : ""}`}
+        >
+          {titre}
+        </h2>
         {description && <p className="text-[14.5px] leading-[1.6] text-ink-500">{description}</p>}
       </div>
       {children}

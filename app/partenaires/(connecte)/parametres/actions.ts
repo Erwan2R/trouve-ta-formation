@@ -3,61 +3,43 @@
 import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { origineEspace } from "@/lib/espace-serveur";
 import * as V from "@/lib/organismes/validation";
 import { type Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { getEspaceFrais } from "@/lib/supabase/queries/espace";
+import { annulerChangement, envoyerLien } from "@/lib/supabase/queries/liens-email";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 
 const ECHEC = "L'opération a échoué. Réessayez dans un instant.";
 const heure = () =>
   new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" }).format(new Date());
 
-/** Changement d'email différé : le lien part vers la nouvelle adresse, l'ancienne reste active jusque-là. */
+/**
+ * Changement d'email différé (décision Erwan 29/09/2026) : un lien part vers la nouvelle adresse ; elle n'est prise
+ * en compte qu'au clic (/auth/verifier/), et la validation de l'email suit la nouvelle adresse.
+ */
 export async function changerEmail(nouvel: string): Promise<Retour> {
   const e = V.email(nouvel);
   if (!e.ok || !e.valeur) return { ok: false, erreur: "Cette adresse email ne semble pas valide." };
   const { supabase, user } = await getEspaceFrais();
   if (e.valeur === user.email.toLowerCase()) return { ok: false, erreur: "C'est déjà votre email de connexion." };
-  const { error } = await supabase.auth.updateUser(
-    { email: e.valeur },
-    { emailRedirectTo: `${await origineEspace()}/auth/confirm/` },
-  );
-  if (error) {
-    console.error("Changement d'email :", error.message);
-    return {
-      ok: false,
-      erreur: /already|registered|exists/i.test(error.message)
-        ? "Cette adresse est déjà utilisée par un autre compte."
-        : ECHEC,
-    };
-  }
-  return { ok: true, heure: heure() };
+  const { data: pris } = await supabase.rpc("email_deja_utilise", { p_email: e.valeur });
+  if (pris) return { ok: false, erreur: "Cette adresse est déjà utilisée par un autre compte." };
+  const r = await envoyerLien(user.id, "changement", e.valeur);
+  return r.ok ? { ok: true, heure: heure() } : r;
 }
 
-/** Annule un changement d'email en attente : l'adresse actuelle est réaffirmée, le lien envoyé devient caduc. */
+/** Annule un changement en attente : le lien envoyé devient caduc, l'adresse actuelle reste la seule. */
 export async function annulerChangementEmail(): Promise<Retour> {
   const { user } = await getEspaceFrais();
-  const { error } = await supabaseAdmin().auth.admin.updateUserById(user.id, {
-    email: user.email,
-    email_confirm: true,
-  });
-  if (error) {
-    console.error("Annulation du changement d'email :", error.message);
-    return { ok: false, erreur: ECHEC };
-  }
+  await annulerChangement(user.id);
   return { ok: true, heure: heure() };
 }
 
 export async function renvoyerLienEmail(): Promise<Retour> {
-  const { supabase, user } = await getEspaceFrais();
+  const { user } = await getEspaceFrais();
   if (!user.nouvelEmail) return { ok: false, erreur: ECHEC };
-  const { error } = await supabase.auth.resend({
-    type: "email_change",
-    email: user.nouvelEmail,
-    options: { emailRedirectTo: `${await origineEspace()}/auth/confirm/` },
-  });
-  return error ? { ok: false, erreur: ECHEC } : { ok: true, heure: heure() };
+  const r = await envoyerLien(user.id, "changement", user.nouvelEmail);
+  return r.ok ? { ok: true, heure: heure() } : r;
 }
 
 /**

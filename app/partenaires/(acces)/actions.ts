@@ -1,6 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
 import { origineEspace } from "@/lib/espace-serveur";
+import { envoyerLien } from "@/lib/supabase/queries/liens-email";
+import { verifierTurnstile } from "@/lib/turnstile";
 import { supabaseServeur } from "@/lib/supabase/serveur";
 
 /**
@@ -52,6 +55,14 @@ export async function sInscrire(_: EtatFormulaire, donnees: FormData): Promise<E
     return { erreur: "Cette adresse email ne semble pas valide.", valeurs };
   if (motDePasse.length < 10) return { erreur: "Le mot de passe doit contenir au moins 10 caractères.", valeurs };
   if (nom.length < 2 || nom.length > 150) return { erreur: "Indiquez le nom de votre organisme.", valeurs };
+  const h = await headers();
+  if (
+    !(await verifierTurnstile(
+      donnees.get("cf-turnstile-response") as string | null,
+      h.get("x-forwarded-for")?.split(",")[0] ?? null,
+    ))
+  )
+    return { erreur: "La vérification anti-robots a échoué. Réessayez.", valeurs };
   const supabase = await supabaseServeur();
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -79,5 +90,10 @@ export async function sInscrire(_: EtatFormulaire, donnees: FormData): Promise<E
       return { erreur: "Votre compte est créé. Connectez-vous pour continuer.", valeurs };
     }
   }
+  // Email de validation envoyé par l'application ; un échec d'envoi ne bloque pas l'accès (renvoi possible).
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (user) await envoyerLien(user.id, "validation", email);
   return { vers: "/bienvenue/1/" };
 }

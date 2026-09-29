@@ -1,7 +1,7 @@
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 import { origineEspace } from "@/lib/espace-serveur";
-import { supabaseServeur } from "@/lib/supabase/serveur";
+import { supabaseAdmin, supabaseServeur } from "@/lib/supabase/serveur";
 
 /**
  * Liens reçus par email (validation d'adresse, changement d'email, mot de passe oublié) : le jeton est vérifié,
@@ -20,6 +20,21 @@ export async function GET(requete: NextRequest) {
   const { error } = await supabase.auth.verifyOtp({ type, token_hash: jeton });
   if (error) return vers("/connexion/?erreur=lien");
   if (type === "recovery") {
+    // Le lien de réinitialisation prouve la possession de l'adresse : il la valide aussi (décision Erwan 29/09/2026).
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const admin = supabaseAdmin();
+      const { data: c } = await admin
+        .from("comptes_organisme")
+        .update({ email_verifie_le: new Date().toISOString() })
+        .eq("id", user.id)
+        .is("email_verifie_le", null)
+        .select("organisme_id")
+        .maybeSingle();
+      if (c) await admin.rpc("maj_publication_organisme", { p_org: c.organisme_id });
+    }
     // Mot de passe oublié : le nouveau mot de passe se choisit sans l'actuel pendant 15 minutes.
     const r = vers("/parametres/?mot-de-passe=nouveau");
     r.cookies.set("reinitialisation", "1", {

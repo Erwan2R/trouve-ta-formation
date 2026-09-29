@@ -23,6 +23,7 @@ export default function Inscription() {
       <FormulaireAcces
         action={sInscrire}
         bouton="Créer mon compte"
+        turnstile={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined}
         champs={[
           {
             nom: "nom_organisme",
