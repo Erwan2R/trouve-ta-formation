@@ -138,7 +138,7 @@ export const REFERENCER = {
     paragraphes: [
       "Un annuaire n'a de valeur pour un candidat que s'il est complet. Notre priorité est donc de référencer les organismes, pas de leur facturer leur présence.",
       // Version générique, sans citer de fonctionnalité (décision Erwan 30/09/2026).
-      "Le référencement restera gratuit. Nous proposerons plus tard des services optionnels aux organismes qui les souhaitent. Ils ne changeront rien à la position des fiches dans le catalogue.",
+      "Le référencement restera gratuit. Nous proposerons plus tard des services optionnels aux organismes qui les souhaitent. Ils ne changeront rien à l'ordre de classement des fiches.",
     ],
     grille: {
       entete: ["Organismes de formation", "Tarif"],
@@ -199,7 +199,7 @@ export const REFERENCER = {
       {
         question: "Comment gagnez-vous de l'argent ?",
         reponse:
-          "Pas encore. Le référencement restera gratuit ; des fonctionnalités optionnelles seront proposées plus tard aux organismes qui les souhaitent. Elles n'influenceront pas le classement des fiches.",
+          "Pas encore. Le référencement restera gratuit ; des fonctionnalités optionnelles seront proposées plus tard aux organismes qui les souhaitent. Elles n'influenceront pas le classement des fiches. Le classement dépend uniquement de la pertinence et de la complétude des fiches. Un éventuel emplacement mis en avant contre rémunération serait distinct du classement et toujours signalé comme tel.",
       },
     ],
   },
