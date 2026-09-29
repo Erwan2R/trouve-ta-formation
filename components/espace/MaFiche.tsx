@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import type { Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { LANGUES, PLAFOND_PRESENTATION } from "@/lib/organismes/validation";
@@ -64,6 +65,7 @@ const libelle = "text-[13.5px] font-bold";
 
 /** Une section : valeurs locales, état « modifié », enregistrement séparé (UX Ma fiche §2). */
 function useSection<T>(initial: T, cle: Cle, signaler: (c: Cle, sale: boolean) => void) {
+  const router = useRouter();
   const [valeurs, setValeurs] = useState(initial);
   const [enregistre, setEnregistre] = useState(initial);
   const [statut, setStatut] = useState<{ heure?: string; erreur?: string }>({});
@@ -81,6 +83,7 @@ function useSection<T>(initial: T, cle: Cle, signaler: (c: Cle, sale: boolean) =
       setEnregistre(valeurs);
       setStatut({ heure: r.heure });
       signaler(cle, false);
+      router.refresh(); // statut « En ligne » de l'en-tête, compteurs
     });
   const annuler = () => {
     setValeurs(enregistre);
