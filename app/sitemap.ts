@@ -20,6 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: absoluteUrl("/") },
     ...Object.keys(VERTICALES).map((v) => ({ url: absoluteUrl(`/${v}/`) })),
+    // Landing organismes : indexable, dans le sitemap (décision Erwan 30/09/2026).
+    { url: absoluteUrl("/securite-privee/referencer-mon-organisme/") },
     ...piliers.map((t) => ({ url: absoluteUrl(`/securite-privee/${t.slug}/`) })),
     ...(listeVisible ? [{ url: absoluteUrl("/securite-privee/demarches/") }] : []),
     ...publiees.map((d) => ({ url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`) })),
