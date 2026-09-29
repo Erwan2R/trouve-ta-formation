@@ -5,6 +5,7 @@ import { useRef, useState, useTransition } from "react";
 import type { Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { LANGUES, PLAFOND_PRESENTATION } from "@/lib/organismes/validation";
 import { monogramme } from "@/lib/organismes/libelles";
+import { ChampAdresse } from "./ChampAdresse";
 import type * as Actions from "@/app/partenaires/(connecte)/ma-fiche/actions";
 
 export type DonneesMaFiche = {
@@ -593,15 +594,18 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
           pied={<Pied s={coord} onSave={() => coord.enregistrer(a.enregistrerCoordonnees)} />}
         >
           <div className="grid grid-cols-6 gap-4">
-            <label className="col-span-6 flex flex-col gap-[7px]">
-              <span className={libelle}>Adresse du siège</span>
-              <input
-                autoComplete="street-address"
+            <div className="col-span-6 flex flex-col gap-[7px]">
+              <span aria-hidden="true" className={libelle}>
+                Adresse du siège
+              </span>
+              <ChampAdresse
+                libelle="Adresse du siège"
                 className={champ}
-                value={cv.adresse}
-                onChange={(e) => coord.maj({ ...cv, adresse: e.target.value })}
+                valeur={cv.adresse}
+                onChange={(v) => coord.maj({ ...cv, adresse: v })}
+                onChoix={(adr) => coord.maj({ ...cv, ...adr })}
               />
-            </label>
+            </div>
             <label className="col-span-6 flex min-w-0 flex-col gap-[7px] sm:col-span-2">
               <span className={libelle}>Code postal</span>
               <input
@@ -724,14 +728,18 @@ export function MaFiche({ donnees: d, actions: a }: { donnees: DonneesMaFiche; a
                         onChange={(e) => maj({ nom: e.target.value })}
                       />
                     </label>
-                    <label className="flex flex-col gap-[7px] sm:col-span-2">
-                      <span className="text-[13px] font-bold">Adresse</span>
-                      <input
+                    <div className="flex flex-col gap-[7px] sm:col-span-2">
+                      <span aria-hidden="true" className="text-[13px] font-bold">
+                        Adresse
+                      </span>
+                      <ChampAdresse
+                        libelle="Adresse"
                         className={`${champ} bg-white`}
-                        value={l.adresse}
-                        onChange={(e) => maj({ adresse: e.target.value })}
+                        valeur={l.adresse}
+                        onChange={(v) => maj({ adresse: v })}
+                        onChoix={(adr) => maj(adr)}
                       />
-                    </label>
+                    </div>
                     <label className="flex flex-col gap-[7px]">
                       <span className="text-[13px] font-bold">Code postal</span>
                       <input

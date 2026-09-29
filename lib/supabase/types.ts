@@ -456,6 +456,32 @@ export type Database = {
         }
         Relationships: []
       }
+      organismes_anciens_slugs: {
+        Row: {
+          created_at: string
+          organisme_id: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          organisme_id: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          organisme_id?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organismes_anciens_slugs_organisme_id_fkey"
+            columns: ["organisme_id"]
+            isOneToOne: false
+            referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       parametres: {
         Row: {
           cle: string

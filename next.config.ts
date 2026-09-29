@@ -35,7 +35,17 @@ const nextConfig: NextConfig = {
       ...t,
       a_une_page: pilierVisible(t, production),
     }));
-    return redirectionsArchivage("securite-privee", titres);
+    // Fiches dont le slug a changé (admin) : 301 de l'ancienne URL vers la nouvelle.
+    const anciens = await fetch(`${url}/rest/v1/organismes_anciens_slugs?select=slug,organismes(slug)`, {
+      headers: { apikey: cle },
+    });
+    if (!anciens.ok) throw new Error(`Lecture des anciens slugs impossible (${anciens.status})`);
+    const fiches = ((await anciens.json()) as { slug: string; organismes: { slug: string } }[]).map((a) => ({
+      source: `/securite-privee/organismes/${a.slug}/`,
+      destination: `/securite-privee/organismes/${a.organismes.slug}/`,
+      statusCode: 301 as const,
+    }));
+    return [...redirectionsArchivage("securite-privee", titres), ...fiches];
   },
 };
 

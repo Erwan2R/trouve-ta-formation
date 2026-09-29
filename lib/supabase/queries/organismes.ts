@@ -74,3 +74,13 @@ export const getOrganismes = cache(async (): Promise<Organisme[]> => {
 export async function getOrganisme(slug: string): Promise<Organisme | null> {
   return (await getOrganismes()).find((o) => o.slug === slug) ?? null;
 }
+
+/** Slug actuel d'une fiche dont l'ancien slug est demandé (repli de la 301 générée au build). */
+export async function getSlugActuel(ancien: string): Promise<string | null> {
+  const { data } = await supabasePublic()
+    .from("organismes_anciens_slugs")
+    .select("organismes(slug)")
+    .eq("slug", ancien)
+    .maybeSingle();
+  return data?.organismes?.slug ?? null;
+}

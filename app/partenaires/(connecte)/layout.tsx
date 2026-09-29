@@ -1,4 +1,5 @@
 import { Logo } from "@/components/public/Logo";
+import { MenuCompte } from "@/components/espace/MenuCompte";
 import { NavEspace } from "@/components/espace/NavEspace";
 import { getEspace } from "@/lib/supabase/queries/espace";
 
@@ -27,12 +28,7 @@ export default async function EspaceConnecteLayout({ children }: { children: Rea
             />
             {enLigne ? "En ligne" : organisme.statut === "suspendu" ? "Suspendue" : "Non publiée"}
           </span>
-          <span
-            title={compte.contact_nom ?? user.email}
-            className="flex size-[42px] items-center justify-center rounded-full bg-ink-900 font-mono text-xs text-white"
-          >
-            {initiales}
-          </span>
+          <MenuCompte initiales={initiales} nom={compte.contact_nom} email={user.email} />
         </span>
       </header>
       {children}

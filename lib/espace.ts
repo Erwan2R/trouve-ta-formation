@@ -9,6 +9,11 @@ export function estHoteEspace(hote: string | null): boolean {
   return !!hote && /^partenaires(-dev|-preprod)?\./.test(hote);
 }
 
+/** Espace admin (Sprint 9) : admin., admin-dev., admin-preprod. */
+export function estHoteAdmin(hote: string | null): boolean {
+  return !!hote && /^admin(-dev|-preprod)?./.test(hote);
+}
+
 /** Pages accessibles sans être connecté. */
 export const PAGES_PUBLIQUES_ESPACE = [
   "/connexion/",

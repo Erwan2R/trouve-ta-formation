@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ESPACE } from "@/lib/espace";
+import { estHoteAdmin, estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ESPACE } from "@/lib/espace";
 
 /**
  * Sous-domaine partenaires. → pages de app/partenaires/, avec rafraîchissement de la session Supabase
@@ -8,6 +8,8 @@ import { estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ESPACE } from "@/lib/esp
  */
 export async function middleware(requete: NextRequest) {
   const { pathname } = requete.nextUrl;
+  // Espace admin pas encore construit (Sprint 9) : jamais une copie du site public sur ce sous-domaine.
+  if (estHoteAdmin(requete.headers.get("host"))) return NextResponse.rewrite(new URL("/introuvable/", requete.url));
   if (!estHoteEspace(requete.headers.get("host"))) {
     if (pathname === PREFIXE_ESPACE || pathname.startsWith(`${PREFIXE_ESPACE}/`))
       return NextResponse.rewrite(new URL("/introuvable/", requete.url));

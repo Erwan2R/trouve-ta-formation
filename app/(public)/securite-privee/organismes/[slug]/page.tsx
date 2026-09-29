@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { BarreActions } from "@/components/public/organisme/BarreActions";
 import { CarteOrganisme } from "@/components/public/organisme/CarteOrganisme";
 import { ColonneFiche } from "@/components/public/organisme/ColonneFiche";
@@ -11,7 +11,7 @@ import { RANG_PALIER, estIndexable } from "@/lib/organismes/completude";
 import { autresOrganismes, faqFiche, metaFiche } from "@/lib/organismes/fiche";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl, buildMetadata } from "@/lib/seo/metadata";
-import { getOrganisme, getOrganismes } from "@/lib/supabase/queries/organismes";
+import { getOrganisme, getOrganismes, getSlugActuel } from "@/lib/supabase/queries/organismes";
 import { getDepartements, getTitres } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
 
@@ -44,8 +44,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 const h2 = "text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-bold tracking-[-0.02em]";
 
 export default async function FicheOrganisme({ params }: Props) {
-  const o = await getOrganisme((await params).slug);
-  if (!o) notFound();
+  const { slug } = await params;
+  const o = await getOrganisme(slug);
+  if (!o) {
+    // Ancien slug : entre un changement et le build suivant (qui génère la 301), redirection permanente ici.
+    const actuel = await getSlugActuel(slug);
+    if (actuel) permanentRedirect(`/securite-privee/organismes/${actuel}/`);
+    notFound();
+  }
   const [tous, titres, departements] = await Promise.all([getOrganismes(), getTitres(), getDepartements()]);
   const titresParSlug = new Map(titres.map((t) => [t.slug, t]));
   const titresAvecPage = o.offres.map((x) => titresParSlug.get(x.titre.slug)).filter((t) => t?.a_une_page);
