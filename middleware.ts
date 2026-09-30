@@ -1,26 +1,28 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { estHoteAdmin, estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ESPACE } from "@/lib/espace";
+import type { Database } from "@/lib/supabase/types";
+import { lireSessionAdmin, redirectionAdmin } from "@/lib/admin-acces";
+import { estHoteAdmin, estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ADMIN, PREFIXE_ESPACE } from "@/lib/espace";
 
 /**
- * Sous-domaine partenaires. → pages de app/partenaires/, avec rafraîchissement de la session Supabase
- * et accès réservé aux comptes connectés. Sur le site public, /partenaires/ n'existe pas.
+ * Sous-domaines partenaires. et admin. → pages de app/partenaires/ et app/admin/, avec rafraîchissement de la
+ * session Supabase et accès réservé. Sur le site public, /partenaires/ et /admin/ n'existent pas.
  */
 export async function middleware(requete: NextRequest) {
   const { pathname } = requete.nextUrl;
-  // Espace admin pas encore construit (Sprint 9) : jamais une copie du site public sur ce sous-domaine.
-  if (estHoteAdmin(requete.headers.get("host"))) return NextResponse.rewrite(new URL("/introuvable/", requete.url));
-  if (!estHoteEspace(requete.headers.get("host"))) {
-    if (pathname === PREFIXE_ESPACE || pathname.startsWith(`${PREFIXE_ESPACE}/`))
+  const hote = requete.headers.get("host");
+  const admin = estHoteAdmin(hote);
+  if (!admin && !estHoteEspace(hote)) {
+    if ([PREFIXE_ESPACE, PREFIXE_ADMIN].some((p) => pathname === p || pathname.startsWith(`${p}/`)))
       return NextResponse.rewrite(new URL("/introuvable/", requete.url));
     return NextResponse.next();
   }
 
   const cible = requete.nextUrl.clone();
-  cible.pathname = `${PREFIXE_ESPACE}${pathname}`;
+  cible.pathname = `${admin ? PREFIXE_ADMIN : PREFIXE_ESPACE}${pathname}`;
   let reponse = NextResponse.rewrite(cible);
 
-  const supabase = createServerClient(
+  const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -39,12 +41,21 @@ export async function middleware(requete: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const publique = PAGES_PUBLIQUES_ESPACE.some((p) => pathname === p || pathname === p.slice(0, -1));
   const redirection = (chemin: string) => {
     const r = NextResponse.redirect(new URL(chemin, requete.url));
     reponse.cookies.getAll().forEach((c) => r.cookies.set(c));
     return r;
   };
+
+  if (admin) {
+    const { etat } = await lireSessionAdmin(supabase, user);
+    // Compte non administrateur ou session de plus de 8 heures : déconnexion avant de revenir à la connexion.
+    if (etat === "refuse" || etat === "expire") await supabase.auth.signOut();
+    const vers = redirectionAdmin(etat, pathname);
+    return vers ? redirection(vers) : reponse;
+  }
+
+  const publique = PAGES_PUBLIQUES_ESPACE.some((p) => pathname === p || pathname === p.slice(0, -1));
   if (!user && !publique) return redirection("/connexion/");
   if (user && (pathname === "/" || pathname === "/connexion/" || pathname === "/inscription/"))
     return redirection("/dashboard/");

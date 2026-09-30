@@ -15,14 +15,21 @@ export const QUOTA = { intervalleMs: 2 * 60 * 1000, parJour: 5 };
 export const hacher = (jeton: string) => createHash("sha256").update(jeton).digest("hex");
 
 export type ResultatEnvoi = { ok: true } | { ok: false; erreur: string };
+/** Titulaire du lien : un compte organisme (compte_id) ou l'administrateur (admin_id, changement d'email seul). */
+export type Titulaire = "compte_id" | "admin_id";
 
-export async function envoyerLien(compteId: string, type: TypeLien, email: string): Promise<ResultatEnvoi> {
+export async function envoyerLien(
+  compteId: string,
+  type: TypeLien,
+  email: string,
+  titulaire: Titulaire = "compte_id",
+): Promise<ResultatEnvoi> {
   const admin = supabaseAdmin();
   const depuis = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
   const { data: recents } = await admin
     .from("liens_email")
     .select("created_at")
-    .eq("compte_id", compteId)
+    .eq(titulaire, compteId)
     .gte("created_at", depuis)
     .order("created_at", { ascending: false });
   if ((recents?.length ?? 0) >= QUOTA.parJour)
@@ -35,34 +42,46 @@ export async function envoyerLien(compteId: string, type: TypeLien, email: strin
   await admin
     .from("liens_email")
     .update({ utilise_le: new Date().toISOString() })
-    .eq("compte_id", compteId)
+    .eq(titulaire, compteId)
     .eq("type", type)
     .is("utilise_le", null);
-  const { error } = await admin.from("liens_email").insert({ compte_id: compteId, type, email, jeton_hash: hacher(jeton) });
+  const { error } = await admin
+    .from("liens_email")
+    .insert({
+      compte_id: titulaire === "compte_id" ? compteId : null,
+      admin_id: titulaire === "admin_id" ? compteId : null,
+      type,
+      email,
+      jeton_hash: hacher(jeton),
+    });
   if (error) {
     console.error("Lien email :", error.message);
     return { ok: false, erreur: "L'envoi a échoué. Réessayez dans un instant." };
   }
   const lien = `${await origineEspace()}/auth/verifier/?t=${jeton}`;
+  const espace = titulaire === "admin_id" ? "l'espace admin" : "votre espace organisme";
   const envoye = await envoyerEmail(
     type === "validation"
       ? { a: email, sujet: EMAIL_VALIDATION.sujet, html: EMAIL_VALIDATION.html(lien), texte: EMAIL_VALIDATION.texte(lien) }
       : {
           a: email,
           sujet: EMAIL_CHANGEMENT.sujet,
-          html: EMAIL_CHANGEMENT.html(lien, email),
-          texte: EMAIL_CHANGEMENT.texte(lien, email),
+          html: EMAIL_CHANGEMENT.html(lien, email, espace),
+          texte: EMAIL_CHANGEMENT.texte(lien, email, espace),
         },
   );
   return envoye ? { ok: true } : { ok: false, erreur: "L'envoi a échoué. Réessayez dans un instant." };
 }
 
 /** Changement d'email en attente (lien non utilisé et non expiré), pour l'afficher dans Paramètres. */
-export async function changementEnAttente(compteId: string): Promise<string | null> {
+export async function changementEnAttente(
+  compteId: string,
+  titulaire: Titulaire = "compte_id",
+): Promise<string | null> {
   const { data } = await supabaseAdmin()
     .from("liens_email")
     .select("email")
-    .eq("compte_id", compteId)
+    .eq(titulaire, compteId)
     .eq("type", "changement")
     .is("utilise_le", null)
     .gt("expire_le", new Date().toISOString())
@@ -72,11 +91,11 @@ export async function changementEnAttente(compteId: string): Promise<string | nu
   return data?.email ?? null;
 }
 
-export async function annulerChangement(compteId: string): Promise<void> {
+export async function annulerChangement(compteId: string, titulaire: Titulaire = "compte_id"): Promise<void> {
   await supabaseAdmin()
     .from("liens_email")
     .update({ utilise_le: new Date().toISOString() })
-    .eq("compte_id", compteId)
+    .eq(titulaire, compteId)
     .eq("type", "changement")
     .is("utilise_le", null);
 }

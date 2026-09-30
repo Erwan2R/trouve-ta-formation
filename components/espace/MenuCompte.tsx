@@ -2,10 +2,25 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { seDeconnecter } from "@/app/partenaires/(connecte)/parametres/actions";
+import { seDeconnecter as deconnexionOrganisme } from "@/app/partenaires/(connecte)/parametres/actions";
 
-/** Menu du compte (pastille aux initiales) : identité du compte, Paramètres, Se déconnecter. */
-export function MenuCompte({ initiales, nom, email }: { initiales: string; nom: string | null; email: string }) {
+/**
+ * Menu du compte (pastille aux initiales) : identité du compte, Paramètres, Se déconnecter.
+ * Espace admin : sa propre action de déconnexion et la pastille sombre de la barre noire.
+ */
+export function MenuCompte({
+  initiales,
+  nom,
+  email,
+  seDeconnecter = deconnexionOrganisme,
+  sombre = false,
+}: {
+  initiales: string;
+  nom: string | null;
+  email: string;
+  seDeconnecter?: () => Promise<void>;
+  sombre?: boolean;
+}) {
   const [ouvert, setOuvert] = useState(false);
   const [enCours, demarrer] = useTransition();
   const racine = useRef<HTMLDivElement>(null);
@@ -28,7 +43,7 @@ export function MenuCompte({ initiales, nom, email }: { initiales: string; nom: 
         aria-expanded={ouvert}
         aria-label="Menu du compte"
         onClick={() => setOuvert(!ouvert)}
-        className="flex size-[42px] cursor-pointer items-center justify-center rounded-full bg-ink-900 font-mono text-xs text-white hover:bg-brique-700"
+        className={`flex size-[42px] cursor-pointer items-center justify-center rounded-full font-mono text-xs text-white hover:bg-brique-700 ${sombre ? "bg-line-dark" : "bg-ink-900"}`}
       >
         {initiales}
       </button>

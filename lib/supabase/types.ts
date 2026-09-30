@@ -10,35 +10,66 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    PostgrestVersion: "14.18"
   }
   public: {
     Tables: {
+      administrateurs: {
+        Row: {
+          codes_generes_le: string | null
+          created_at: string
+          id: string
+          mdp_modifie_le: string | null
+          tfa_active_le: string | null
+        }
+        Insert: {
+          codes_generes_le?: string | null
+          created_at?: string
+          id: string
+          mdp_modifie_le?: string | null
+          tfa_active_le?: string | null
+        }
+        Update: {
+          codes_generes_le?: string | null
+          created_at?: string
+          id?: string
+          mdp_modifie_le?: string | null
+          tfa_active_le?: string | null
+        }
+        Relationships: []
+      }
+      codes_recuperation_admin: {
+        Row: {
+          admin_id: string
+          code_hash: string
+          created_at: string
+          id: number
+          utilise_le: string | null
+        }
+        Insert: {
+          admin_id: string
+          code_hash: string
+          created_at?: string
+          id?: never
+          utilise_le?: string | null
+        }
+        Update: {
+          admin_id?: string
+          code_hash?: string
+          created_at?: string
+          id?: never
+          utilise_le?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "codes_recuperation_admin_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "administrateurs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comptes_organisme: {
         Row: {
           contact_nom: string | null
@@ -192,7 +223,8 @@ export type Database = {
       }
       liens_email: {
         Row: {
-          compte_id: string
+          admin_id: string | null
+          compte_id: string | null
           created_at: string
           email: string
           expire_le: string
@@ -202,7 +234,8 @@ export type Database = {
           utilise_le: string | null
         }
         Insert: {
-          compte_id: string
+          admin_id?: string | null
+          compte_id?: string | null
           created_at?: string
           email: string
           expire_le?: string
@@ -212,7 +245,8 @@ export type Database = {
           utilise_le?: string | null
         }
         Update: {
-          compte_id?: string
+          admin_id?: string | null
+          compte_id?: string | null
           created_at?: string
           email?: string
           expire_le?: string
@@ -222,6 +256,13 @@ export type Database = {
           utilise_le?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "liens_email_admin_id_fkey"
+            columns: ["admin_id"]
+            isOneToOne: false
+            referencedRelation: "administrateurs"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "liens_email_compte_id_fkey"
             columns: ["compte_id"]
@@ -683,6 +724,7 @@ export type Database = {
         Args: { p_combinaison: string }
         Returns: undefined
       }
+      est_admin: { Args: never; Returns: boolean }
       maj_publication: { Args: never; Returns: string }
       maj_publication_organisme: { Args: { p_org: string }; Returns: string }
       mon_organisme: { Args: never; Returns: string }
@@ -817,9 +859,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {
       statut_demande: ["en_attente", "acceptee", "refusee"],

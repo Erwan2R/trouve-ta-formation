@@ -9,9 +9,11 @@ export function estHoteEspace(hote: string | null): boolean {
   return !!hote && /^partenaires(-dev|-preprod)?\./.test(hote);
 }
 
-/** Espace admin (Sprint 9) : admin., admin-dev., admin-preprod. */
+/** Espace admin : admin. (main) · admin-dev. · admin-preprod. · admin.localhost ; pages sous app/admin/. */
+export const PREFIXE_ADMIN = "/admin";
+
 export function estHoteAdmin(hote: string | null): boolean {
-  return !!hote && /^admin(-dev|-preprod)?./.test(hote);
+  return !!hote && /^admin(-dev|-preprod)?\./.test(hote);
 }
 
 /** Pages accessibles sans être connecté. */

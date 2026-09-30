@@ -45,17 +45,17 @@ export const EMAIL_VALIDATION = {
 
 export const EMAIL_CHANGEMENT = {
   sujet: "Confirmez votre nouvelle adresse de connexion",
-  html: (lien: string, email: string) =>
+  html: (lien: string, email: string, espace = "votre espace organisme") =>
     gabarit(
       "Confirmez votre nouvelle adresse de connexion",
-      `<p>Vous avez demandé à utiliser ${email} pour vous connecter à votre espace organisme. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée.</p>`,
+      `<p>Vous avez demandé à utiliser ${email} pour vous connecter à ${espace}. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée.</p>`,
       "Confirmer cette adresse",
       lien,
     ),
-  texte: (lien: string, email: string) =>
+  texte: (lien: string, email: string, espace = "votre espace organisme") =>
     texte(
       "Confirmez votre nouvelle adresse de connexion",
-      `Vous avez demandé à utiliser ${email} pour vous connecter à votre espace organisme. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée. Pour confirmer, ouvrez ce lien :`,
+      `Vous avez demandé à utiliser ${email} pour vous connecter à ${espace}. Votre adresse actuelle reste active tant que celle-ci n'est pas confirmée. Pour confirmer, ouvrez ce lien :`,
       lien,
     ),
 };

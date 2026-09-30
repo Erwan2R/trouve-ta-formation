@@ -4,7 +4,15 @@ import { useActionState, useEffect } from "react";
 import type { EtatFormulaire } from "@/app/partenaires/(acces)/actions";
 import { reinitialiserTurnstile, Turnstile } from "./Turnstile";
 
-type Champ = { nom: string; libelle: string; type: string; autocomplete: string; aide?: string; minLength?: number };
+type Champ = {
+  nom: string;
+  libelle: string;
+  type: string;
+  autocomplete: string;
+  aide?: string;
+  minLength?: number;
+  inputMode?: "numeric" | "text";
+};
 
 /** Formulaire d'accès : champs empilés, erreur sous le formulaire en brique, bouton plein. */
 export function FormulaireAcces({
@@ -39,6 +47,7 @@ export function FormulaireAcces({
             autoComplete={c.autocomplete}
             required
             minLength={c.minLength}
+            inputMode={c.inputMode}
             defaultValue={c.type === "password" ? undefined : etat?.valeurs?.[c.nom]}
             aria-describedby={c.aide ? `${c.nom}-aide` : undefined}
             className="rounded-[14px] border border-line-field bg-white px-[15px] py-3 text-[15px] text-ink-900 outline-none focus:border-ink-900"

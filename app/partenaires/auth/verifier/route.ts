@@ -20,11 +20,12 @@ export async function GET(requete: NextRequest) {
     .from("liens_email")
     .update({ utilise_le: maintenant })
     .eq("jeton_hash", hacher(jeton))
+    .not("compte_id", "is", null) // les liens de l'administrateur se consomment sur admin.
     .is("utilise_le", null)
     .gt("expire_le", maintenant)
     .select("compte_id, type, email, comptes_organisme (organisme_id)")
     .maybeSingle();
-  if (!lien) return vers("/connexion/?erreur=lien");
+  if (!lien?.compte_id || !lien.comptes_organisme) return vers("/connexion/?erreur=lien");
 
   const { data: u } = await admin.auth.admin.getUserById(lien.compte_id);
   if (!u.user) return vers("/connexion/?erreur=lien");
