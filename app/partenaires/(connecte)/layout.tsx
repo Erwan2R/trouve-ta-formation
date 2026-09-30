@@ -43,8 +43,7 @@ export default async function EspaceConnecteLayout({ children }: { children: Rea
             <a href={`mailto:${EMAIL_CONTACT}`} className="font-bold text-brique-400 hover:text-white">
               {EMAIL_CONTACT}
             </a>{" "}
-            pour demander sa réactivation. Elle restera invisible jusque-là
-            .
+            pour demander sa réactivation. Elle restera invisible jusque-là.
           </span>
         </div>
       )}
