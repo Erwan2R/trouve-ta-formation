@@ -1,4 +1,5 @@
 import "server-only";
+import { cumul, instantanes, parTranche, type Periode, tranches } from "@/lib/analytics";
 import { palier, type Palier } from "@/lib/organismes/completude";
 import { departementDuCodePostal } from "@/lib/organismes/libelles";
 import { supabaseAdmin } from "../serveur";
@@ -27,8 +28,7 @@ const SELECT = `*, lieux (code_postal, ville, est_siege),
 
 // ponytail: tout le parc en mémoire (quelques centaines de fiches en V1) ; paginer côté base au-delà de ~5 000.
 export async function getOrganismesAdmin(): Promise<OrganismeAdmin[]> {
-  const { data, error } = await supabaseAdmin().from("organismes").select(SELECT);
-  if (error) throw error;
+  const data = await toutLire((de, a) => supabaseAdmin().from("organismes").select(SELECT).order("id").range(de, a));
   return data
     .map(({ lieux, organisme_titres, comptes_organisme, ...o }) => {
       // Même calcul que l'espace organisme : seules les offres sur un titre actif comptent.
@@ -143,5 +143,93 @@ export async function getReferentielAdmin() {
       organisme: { id: d.organismes.id, nom: d.organismes.nom },
       email: emails[i],
     })),
+  };
+}
+
+/** Lecture complète malgré la limite de 1 000 lignes par requête de l'API Supabase. */
+async function toutLire<T>(page: (de: number, a: number) => PromiseLike<{ data: T[] | null; error: unknown }>) {
+  const lignes: T[] = [];
+  for (let de = 0; ; de += 1000) {
+    const { data, error } = await page(de, de + 999);
+    if (error) throw error;
+    lignes.push(...(data ?? []));
+    if (!data || data.length < 1000) return lignes;
+  }
+}
+
+/**
+ * Analytics (UX Analytics admin) : courbes et classements de la période. L'instantané des paliers du jour est
+ * enregistré à chaque consultation : c'est la seule donnée qui ne se reconstitue pas après coup.
+ */
+// ponytail: agrégation en mémoire ; passer à des requêtes SQL agrégées au-delà de ~100 000 événements par période.
+export async function getAnalytics(periode: Periode) {
+  const admin = supabaseAdmin();
+  const organismes = await getOrganismesAdmin();
+  const n = { basique: 0, correct: 0, optimal: 0 };
+  organismes.forEach((o) => n[o.palier]++);
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+  await admin.from("statistiques_quotidiennes").upsert({ jour: aujourdhui, ...n });
+
+  const maintenant = Date.now();
+  const ouverture = Math.min(maintenant, ...organismes.map((o) => new Date(o.inscritLe).getTime()));
+  const { debut, liste } = tranches(periode, maintenant, ouverture);
+  const depuis = new Date(debut).toISOString();
+  const [offres, evenements, { data: paliers }, { data: formulaire }, { data: sansResultat }] = await Promise.all([
+    toutLire((de, a) =>
+      admin
+        .from("organisme_titres")
+        .select("created_at, organismes (statut), titres_referentiel (statut)")
+        .range(de, a),
+    ),
+    toutLire((de, a) =>
+      admin
+        .from("evenements")
+        .select("type, organisme_id, created_at")
+        .gt("created_at", depuis)
+        .order("id")
+        .range(de, a),
+    ),
+    admin.from("statistiques_quotidiennes").select("jour, basique, correct, optimal"),
+    admin.from("formulaire_statistiques").select("cle, compteur"),
+    admin.from("recherches_sans_resultat").select("combinaison, compteur").order("compteur", { ascending: false }).limit(10),
+  ]);
+  const t = (iso: string) => new Date(iso).getTime();
+  const vues = evenements.filter((e) => e.type === "vue_page");
+  const snap = instantanes(paliers ?? [], liste, { jour: "", basique: 0, correct: 0, optimal: 0 });
+
+  const parOrganisme = new Map<string, { vues: number; telephone: number; email: number; site: number }>();
+  for (const e of evenements) {
+    if (!e.organisme_id) continue;
+    const c = parOrganisme.get(e.organisme_id) ?? { vues: 0, telephone: 0, email: 0, site: 0 };
+    if (e.type === "vue_page") c.vues++;
+    else c[e.type.replace("clic_", "") as "telephone" | "email" | "site"]++;
+    parOrganisme.set(e.organisme_id, c);
+  }
+  const noms = new Map(organismes.map((o) => [o.id, o]));
+  const classement = [...parOrganisme]
+    .filter(([id]) => noms.has(id))
+    .map(([id, c]) => ({ id, nom: noms.get(id)!.nom, lieu: noms.get(id)!.lieu, ...c, clics: c.telephone + c.email + c.site }));
+
+  return {
+    libelles: liste.map((x) => x.libelle),
+    parJour: periode === "7" || periode === "30",
+    organismes: cumul(organismes.map((o) => t(o.inscritLe)), liste),
+    paliers: { basique: snap.map((s) => s.basique), correct: snap.map((s) => s.correct), optimal: snap.map((s) => s.optimal) },
+    formations: cumul(
+      offres
+        .filter((o) => o.organismes.statut === "publie" && o.titres_referentiel.statut === "actif")
+        .map((o) => t(o.created_at)),
+      liste,
+    ),
+    trafic: parTranche(vues.map((e) => t(e.created_at)), liste, debut),
+    fichesVues: classement.filter((c) => c.vues).sort((a, b) => b.vues - a.vues).slice(0, 10),
+    clicsCta: classement.filter((c) => c.clics).sort((a, b) => b.clics - a.clics).slice(0, 10),
+    ctaTotaux: {
+      telephone: evenements.filter((e) => e.type === "clic_telephone").length,
+      email: evenements.filter((e) => e.type === "clic_email").length,
+      site: evenements.filter((e) => e.type === "clic_site").length,
+    },
+    formulaire: formulaire ?? [],
+    sansResultat: sansResultat ?? [],
   };
 }

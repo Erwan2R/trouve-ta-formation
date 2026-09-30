@@ -15,7 +15,7 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
       ? [
           [
             "Téléphone",
-            <a key="t" href={a.appeler} className="text-ink-900">
+            <a key="t" href={a.appeler} data-cta="telephone" className="text-ink-900">
               {o.telephone}
             </a>,
           ] as [string, React.ReactNode],
@@ -25,7 +25,7 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
       ? [
           [
             "Email",
-            <a key="e" href={`mailto:${o.email_contact}`} className="text-ink-900">
+            <a key="e" href={`mailto:${o.email_contact}`} data-cta="email" className="text-ink-900">
               {o.email_contact}
             </a>,
           ] as [string, React.ReactNode],
@@ -35,7 +35,7 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
       ? [
           [
             "Site internet",
-            <a key="s" href={o.site_web} rel="noopener" className="text-ink-900">
+            <a key="s" href={o.site_web} data-cta="site" rel="noopener" className="text-ink-900">
               {domaine(o.site_web)}
             </a>,
           ] as [string, React.ReactNode],
@@ -67,7 +67,7 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
         <div className="flex flex-col gap-3.5 rounded-[20px] border border-line bg-white p-[22px]">
           {a.appeler && (
             <a
-              href={a.appeler}
+              href={a.appeler} data-cta="telephone"
               className="flex items-center justify-center rounded-full bg-ink-900 px-[22px] py-4 text-base font-bold text-white hover:bg-brique-700 hover:text-white"
             >
               Appeler
@@ -76,7 +76,7 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
           {(a.site || a.itineraire) && (
             <div className="flex gap-2">
               {a.site && (
-                <a href={a.site} rel="noopener" className={secondaire}>
+                <a href={a.site} data-cta="site" rel="noopener" className={secondaire}>
                   Site web
                 </a>
               )}

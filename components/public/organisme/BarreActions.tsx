@@ -28,13 +28,13 @@ export function BarreActions({ organisme: o }: { organisme: Organisme }) {
             </a>
           )}
           {a.site && (
-            <a href={a.site} rel="noopener" className={secondaire}>
+            <a href={a.site} data-cta="site" rel="noopener" className={secondaire}>
               Site web
             </a>
           )}
           {a.appeler && (
             <a
-              href={a.appeler}
+              href={a.appeler} data-cta="telephone"
               className="rounded-full bg-ink-900 px-5 py-[11px] text-sm font-bold text-white hover:bg-brique-700 hover:text-white"
             >
               Appeler

@@ -200,6 +200,38 @@ export type Database = {
         }
         Relationships: []
       }
+      evenements: {
+        Row: {
+          chemin: string
+          created_at: string
+          id: number
+          organisme_id: string | null
+          type: string
+        }
+        Insert: {
+          chemin: string
+          created_at?: string
+          id?: never
+          organisme_id?: string | null
+          type: string
+        }
+        Update: {
+          chemin?: string
+          created_at?: string
+          id?: never
+          organisme_id?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evenements_organisme_id_fkey"
+            columns: ["organisme_id"]
+            isOneToOne: false
+            referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       exclusions_prospection: {
         Row: {
           created_at: string
@@ -716,6 +748,27 @@ export type Database = {
           compteur?: number
           derniere_le?: string
           premiere_le?: string
+        }
+        Relationships: []
+      }
+      statistiques_quotidiennes: {
+        Row: {
+          basique: number
+          correct: number
+          jour: string
+          optimal: number
+        }
+        Insert: {
+          basique: number
+          correct: number
+          jour: string
+          optimal: number
+        }
+        Update: {
+          basique?: number
+          correct?: number
+          jour?: string
+          optimal?: number
         }
         Relationships: []
       }

@@ -353,3 +353,44 @@ test("référentiel : ajout, modification, arbitrage des demandes", async ({ pag
   await db.auth.admin.deleteUser(cree.user!.id);
   await db.from("titres_referentiel").delete().in("libelle_court", intitules);
 });
+
+test("analytics : vues de fiche et clics CTA comptés sans cookie", async ({ browser }) => {
+  test.setTimeout(120_000);
+  const { data: org } = await db
+    .from("organismes")
+    .select("id, slug, nom, telephone")
+    .eq("statut", "publie")
+    .not("telephone", "is", null)
+    .limit(1)
+    .single();
+  const avant = (await db.from("evenements").select("id", { count: "exact", head: true }).eq("organisme_id", org!.id))
+    .count!;
+
+  // Visite publique d'un navigateur ordinaire (« HeadlessChrome » est écarté comme robot) : une vue, un clic « Appeler ».
+  const context = await browser.newContext({
+    baseURL: "http://localhost:3000",
+    userAgent:
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+  });
+  const page = await context.newPage();
+  await page.goto(`/securite-privee/organismes/${org!.slug}/`);
+  await page.evaluate(() =>
+    document.querySelectorAll("a[href^='tel:']").forEach((a) => a.addEventListener("click", (e) => e.preventDefault())),
+  );
+  await page.locator("a[data-cta='telephone']").first().click();
+  await expect
+    .poll(async () => (await db.from("evenements").select("type").eq("organisme_id", org!.id)).data!.length, {
+      timeout: 15_000,
+    })
+    .toBeGreaterThanOrEqual(avant + 2);
+  expect(await context.cookies("http://localhost:3000")).toHaveLength(0);
+
+  await connecterAdmin(page);
+  await page.goto(`${base}/analytics/?periode=7&onglet=organismes`);
+  await expect(page.getByRole("heading", { name: "Fiches les plus visitées" })).toBeVisible();
+  await expect(page.getByRole("link", { name: new RegExp(org!.nom) }).first()).toBeVisible();
+  await page.getByRole("link", { name: "Général" }).click();
+  await expect(page.getByRole("heading", { name: "Répartition par palier" })).toBeVisible();
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+  expect((await db.from("statistiques_quotidiennes").select("jour").eq("jour", aujourdhui)).data).toHaveLength(1);
+});
