@@ -350,6 +350,26 @@ test("référentiel : ajout, modification, arbitrage des demandes", async ({ pag
   // L'acceptation ne rattache aucune offre à l'organisme demandeur.
   expect((await db.from("organisme_titres").select("titre_id").eq("organisme_id", org)).data).toHaveLength(0);
 
+  // Archivage (jamais de suppression) : remplacé par le titre créé depuis la demande.
+  await page.getByRole("tab", { name: "Liste des titres" }).click();
+  await page.getByRole("button", { name: `Modifier ${intitules[1]}` }).click();
+  await page.getByText("Archiver ce titre").click();
+  await page.getByLabel("Remplacé par").selectOption({ label: intitules[2] });
+  await page.getByRole("button", { name: "Archiver le titre" }).click();
+  await expect(page.getByRole("status")).toContainText(`« ${intitules[1]} » archivé.`);
+  const { data: archive } = await db
+    .from("titres_referentiel")
+    .select("statut, remplace_par_id")
+    .eq("id", t!.id)
+    .single();
+  const { data: remplacant } = await db
+    .from("titres_referentiel")
+    .select("id")
+    .eq("libelle_court", intitules[2])
+    .single();
+  expect(archive).toEqual({ statut: "archive", remplace_par_id: remplacant!.id });
+  await expect(page.getByRole("button", { name: `Modifier ${intitules[1]}` })).toBeHidden();
+
   await db.auth.admin.deleteUser(cree.user!.id);
   await db.from("titres_referentiel").delete().in("libelle_court", intitules);
 });
@@ -393,4 +413,18 @@ test("analytics : vues de fiche et clics CTA comptés sans cookie", async ({ bro
   await expect(page.getByRole("heading", { name: "Répartition par palier" })).toBeVisible();
   const aujourdhui = new Date().toISOString().slice(0, 10);
   expect((await db.from("statistiques_quotidiennes").select("jour").eq("jour", aujourdhui)).data).toHaveLength(1);
+});
+
+test("réglages du site : un seuil se modifie depuis Paramètres", async ({ page }) => {
+  test.setTimeout(90_000);
+  const lire = async () =>
+    (await db.from("parametres").select("valeur").eq("cle", "seuil_proposition_elargissement").single()).data!.valeur;
+  const avant = (await lire()) as number;
+  await connecterAdmin(page);
+  await expect(page.getByRole("heading", { name: "Réglages du site" })).toBeVisible();
+  await page.getByLabel("Proposer d'élargir sous").fill(String(avant + 1));
+  await page.getByRole("button", { name: "Enregistrer", exact: true }).click();
+  await expect(page.getByText(/Enregistré à/)).toBeVisible();
+  expect(await lire()).toBe(avant + 1);
+  await db.from("parametres").update({ valeur: avant }).eq("cle", "seuil_proposition_elargissement");
 });

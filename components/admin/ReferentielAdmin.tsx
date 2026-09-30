@@ -28,6 +28,7 @@ type Actions = {
   modifierTitre: (id: number, s: Saisie) => Promise<RetourReferentiel>;
   accepterDemande: (id: number, s: Saisie) => Promise<RetourReferentiel>;
   refuserDemande: (id: number) => Promise<RetourReferentiel>;
+  archiverTitre: (id: number, d: { remplacePar: number | null; proche: number | null }) => Promise<RetourReferentiel>;
 };
 
 const champ =
@@ -145,6 +146,7 @@ export function ReferentielAdmin({
   const [ajout, setAjout] = useState<Saisie | null>(null);
   const [edition, setEdition] = useState<(Saisie & { id: number }) | null>(null);
   const [arbitrage, setArbitrage] = useState<{ id: number; mode: "accepter" | "refuser"; saisie: Saisie } | null>(null);
+  const [archivage, setArchivage] = useState({ remplacePar: "", proche: "" });
   const [erreur, setErreur] = useState("");
   const [toast, setToast] = useState("");
   const fermerToast = useCallback(() => setToast(""), []);
@@ -344,6 +346,66 @@ export function ReferentielAdmin({
                             Enregistrer
                           </button>
                         </span>
+                        {/* Archivage : hors maquette (décisions Erwan, section 5.2 de la note de passation). */}
+                        <details className="border-t border-line pt-3">
+                          <summary className="cursor-pointer text-[13px] font-bold text-brique-700">
+                            Archiver ce titre
+                          </summary>
+                          <div className="mt-3 flex flex-col gap-3">
+                            <p className="text-[13px] leading-[1.55] text-ink-700">
+                              Le titre disparaît des listes, des filtres et de Mes formations. Les offres déclarées
+                              {t.nbOrganismes
+                                ? ` (${t.nbOrganismes} organisme${t.nbOrganismes > 1 ? "s" : ""})`
+                                : ""}{" "}
+                              sont conservées mais masquées sur le site. Remplacé : sa page redirige définitivement vers
+                              le remplaçant. Sinon, elle indique que le titre n&apos;est plus délivré.
+                            </p>
+                            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-3">
+                              {(
+                                [
+                                  ["remplacePar", "Remplacé par"],
+                                  ["proche", "Titre proche (si aucun remplaçant)"],
+                                ] as const
+                              ).map(([k, l]) => (
+                                <label key={k} className="flex flex-col gap-[7px]">
+                                  <span className="text-[13px] font-bold">{l}</span>
+                                  <select
+                                    value={archivage[k]}
+                                    disabled={k === "proche" && !!archivage.remplacePar}
+                                    onChange={(e) => setArchivage({ ...archivage, [k]: e.target.value })}
+                                    className={champ}
+                                  >
+                                    <option value="">Aucun</option>
+                                    {titres
+                                      .filter((x) => x.id !== t.id)
+                                      .map((x) => (
+                                        <option key={x.id} value={x.id}>
+                                          {x.libelle_court}
+                                        </option>
+                                      ))}
+                                  </select>
+                                </label>
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              disabled={enCours}
+                              onClick={() =>
+                                lancer(
+                                  () =>
+                                    a.archiverTitre(t.id, {
+                                      remplacePar: archivage.remplacePar ? Number(archivage.remplacePar) : null,
+                                      proche: archivage.proche ? Number(archivage.proche) : null,
+                                    }),
+                                  () => setEdition(null),
+                                )
+                              }
+                              className={`${bPlein("bg-brique-700 hover:bg-ink-900")} self-start`}
+                            >
+                              Archiver le titre
+                            </button>
+                          </div>
+                        </details>
                       </div>
                     </div>
                   ) : (
@@ -373,6 +435,7 @@ export function ReferentielAdmin({
                         aria-label={`Modifier ${t.libelle_court}`}
                         onClick={() => (
                           setEdition({ id: t.id, intitule: t.libelle_court, categorie: t.categorie }),
+                          setArchivage({ remplacePar: "", proche: "" }),
                           setAjout(null),
                           setErreur("")
                         )}

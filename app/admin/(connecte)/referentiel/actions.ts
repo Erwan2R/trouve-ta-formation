@@ -147,3 +147,39 @@ export async function refuserDemande(id: number): Promise<RetourReferentiel> {
       : "Demande refusée. L'email n'a pas pu partir : prévenez l'organisme.",
   };
 }
+
+/**
+ * Archivage (décisions Erwan, Sprint 3) : jamais de suppression. Remplacé → 301 vers le titre actif final, générée au
+ * build : un nouveau build est demandé à Vercel (deploy hook de la branche). Sans remplaçant : la page reste, avec un
+ * lien vers le titre proche. Les offres sont conservées, masquées publiquement, signalées dans Mes formations.
+ */
+export async function archiverTitre(
+  id: number,
+  d: { remplacePar: number | null; proche: number | null },
+): Promise<RetourReferentiel> {
+  await exigerAdmin();
+  if (d.remplacePar === id || d.proche === id) return { ok: false, erreur: "Choisissez un autre titre." };
+  const { data: t, error } = await supabaseAdmin()
+    .from("titres_referentiel")
+    .update({
+      statut: "archive",
+      archive_le: new Date().toISOString(),
+      remplace_par_id: d.remplacePar,
+      titre_proche_id: d.remplacePar ? null : d.proche,
+    })
+    .eq("id", id)
+    .eq("statut", "actif")
+    .select("libelle_court")
+    .maybeSingle();
+  if (error || !t) {
+    console.error("Archivage :", error?.message);
+    return { ok: false, erreur: ECHEC };
+  }
+  const hook = process.env.VERCEL_DEPLOY_HOOK_URL;
+  const build = hook ? (await fetch(hook, { method: "POST" }).catch(() => null))?.ok : false;
+  rafraichir();
+  return {
+    ok: true,
+    message: `« ${t.libelle_court} » archivé.${d.remplacePar ? (build ? " La redirection définitive sera en place après le nouveau build (quelques minutes)." : " Redirection temporaire en place ; la définitive viendra au prochain build.") : ""}`,
+  };
+}

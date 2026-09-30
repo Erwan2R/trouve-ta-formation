@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { genererCodes } from "@/lib/codes-recuperation";
 import * as V from "@/lib/organismes/validation";
@@ -127,4 +128,45 @@ export async function regenererCodes(
 export async function seDeconnecter(): Promise<void> {
   const { supabase } = await exigerAdmin("a-configurer", "a-verifier");
   await supabase.auth.signOut();
+}
+
+export type Reglages = {
+  departement: { organismes: number; palier_min: string };
+  ville: { organismes: number; palier_min: string };
+  elargissement: number;
+  experience: { "ssiap-2": number; "ssiap-3": number };
+};
+
+/** Seuils du site (table parametres, note de passation §5.4), jusqu'ici provisoires et fixés en base. */
+export async function enregistrerReglages(r: Reglages): Promise<Retour> {
+  await exigerAdmin();
+  const entier = (n: number, min: number, max: number) => Number.isInteger(n) && n >= min && n <= max;
+  const palierOk = (p: string) => ["basique", "correct", "optimal"].includes(p);
+  if (
+    !entier(r.departement.organismes, 1, 100) ||
+    !entier(r.ville.organismes, 1, 100) ||
+    !palierOk(r.departement.palier_min) ||
+    !palierOk(r.ville.palier_min) ||
+    !entier(r.elargissement, 1, 50) ||
+    !entier(r.experience["ssiap-2"], 0, 20) ||
+    !entier(r.experience["ssiap-3"], 0, 20)
+  )
+    return { ok: false, erreur: "Une valeur est hors des limites autorisées." };
+  const admin = supabaseAdmin();
+  const lignes = [
+    ["seuil_page_departement", r.departement],
+    ["seuil_page_ville", r.ville],
+    ["seuil_proposition_elargissement", r.elargissement],
+    ["experience_encadrement", r.experience],
+  ] as const;
+  for (const [cle, valeur] of lignes) {
+    const { error } = await admin.from("parametres").update({ valeur }).eq("cle", cle);
+    if (error) {
+      console.error("Réglages :", error.message);
+      return { ok: false, erreur: ECHEC };
+    }
+  }
+  // Pages départements, formulaire, catalogue : tout le site public dépend de ces seuils.
+  revalidatePath("/", "layout");
+  return { ok: true, heure: heure() };
 }

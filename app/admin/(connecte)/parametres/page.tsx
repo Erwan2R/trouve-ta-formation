@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ParametresAdmin } from "@/components/admin/ParametresAdmin";
+import { ReglagesSite } from "@/components/admin/ReglagesSite";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { dateCourte } from "@/lib/format-date";
 import { changementEnAttente } from "@/lib/supabase/queries/liens-email";
@@ -12,7 +13,7 @@ type Props = { searchParams: Promise<{ email?: string }> };
 
 export default async function Parametres({ searchParams }: Props) {
   const { user, admin, etat } = await exigerAdmin("a-configurer");
-  const [{ count }, nouvelEmail, { email: retour }] = await Promise.all([
+  const [{ count }, nouvelEmail, { email: retour }, { data: parametres }] = await Promise.all([
     supabaseAdmin()
       .from("codes_recuperation_admin")
       .select("id", { count: "exact", head: true })
@@ -20,7 +21,9 @@ export default async function Parametres({ searchParams }: Props) {
       .is("utilise_le", null),
     changementEnAttente(user.id, "admin_id"),
     searchParams,
+    supabaseAdmin().from("parametres").select("cle, valeur"),
   ]);
+  const v = Object.fromEntries((parametres ?? []).map((p) => [p.cle, p.valeur])) as Record<string, never>;
   return (
     <>
       <section className="flex flex-col gap-2.5 px-[clamp(6px,1vw,12px)] pt-[clamp(18px,3vw,36px)] pb-[clamp(4px,1vw,10px)]">
@@ -45,6 +48,19 @@ export default async function Parametres({ searchParams }: Props) {
         }
         actions={{ ...actions }}
       />
+      {etat === "ok" && (
+        <div className="w-full max-w-[880px]">
+          <ReglagesSite
+            initial={{
+              departement: v.seuil_page_departement,
+              ville: v.seuil_page_ville,
+              elargissement: v.seuil_proposition_elargissement,
+              experience: v.experience_encadrement,
+            }}
+            enregistrer={actions.enregistrerReglages}
+          />
+        </div>
+      )}
     </>
   );
 }
