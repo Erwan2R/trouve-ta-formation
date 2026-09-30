@@ -61,3 +61,33 @@ export const EMAILS_RAPPEL: Record<TypeRappel, (nom: string, espace: string) => 
       `${espace}/dashboard/`,
     ),
 };
+
+/** Arbitrage d'une demande de titre (UX Référentiel des titres §4) : un email fixe par issue, toujours envoyé. */
+export const EMAIL_DEMANDE_ACCEPTEE = (demande: string, retenu: string, espace: string) =>
+  composer(
+    "Votre demande de titre est acceptée",
+    "Le titre que vous avez demandé est disponible",
+    [
+      "Bonjour,",
+      demande.trim() === retenu.trim()
+        ? `Le titre « ${retenu} », que vous avez demandé, figure désormais dans le référentiel des formations.`
+        : `Votre demande « ${demande} » est acceptée : le titre figure désormais dans le référentiel des formations sous l'intitulé « ${retenu} ».`,
+      "Il n'est pas encore rattaché à votre fiche : pour le déclarer, ouvrez Mes formations et cochez-le, comme n'importe quel autre titre.",
+    ],
+    "Déclarer cette formation",
+    `${espace}/formations/`,
+  );
+
+export const EMAIL_DEMANDE_REFUSEE = (demande: string, espace: string) =>
+  composer(
+    "Votre demande de titre n'a pas été retenue",
+    "Votre demande de titre n'a pas été retenue",
+    [
+      "Bonjour,",
+      `Le titre « ${demande} » ne sera pas ajouté au référentiel des formations.`,
+      "Le référentiel recense, sans doublon, les titres et certifications propres à la sécurité privée : la formation demandée n'en fait pas partie, ou elle y figure déjà sous un autre intitulé.",
+      "Pour toute question, répondez simplement à ce message.",
+    ],
+    "Voir mes formations",
+    `${espace}/formations/`,
+  );

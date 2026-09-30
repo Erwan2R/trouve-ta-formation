@@ -107,3 +107,41 @@ export async function getProspects() {
   if (error) throw error;
   return { prospects: data, empreintesExclues: count ?? 0 };
 }
+
+/** Référentiel des titres : titres actifs, nombre d'organismes par titre, demandes en attente et email du demandeur. */
+export async function getReferentielAdmin() {
+  const admin = supabaseAdmin();
+  const [{ data: titres, error }, { data: offres }, demandes] = await Promise.all([
+    admin
+      .from("titres_referentiel")
+      .select("id, slug, libelle_court, libelle_long, categorie, ordre")
+      .eq("statut", "actif")
+      .order("ordre"),
+    admin.from("organisme_titres").select("titre_id"),
+    admin
+      .from("demandes_titre")
+      .select("id, intitule, created_at, organismes (id, nom, comptes_organisme (id))")
+      .eq("statut", "en_attente")
+      .order("created_at"),
+  ]);
+  if (error) throw error;
+  if (demandes.error) throw demandes.error;
+  const nb = new Map<number, number>();
+  for (const o of offres ?? []) nb.set(o.titre_id, (nb.get(o.titre_id) ?? 0) + 1);
+  const emails = await Promise.all(
+    demandes.data.map(async (d) => {
+      const compte = d.organismes.comptes_organisme?.id;
+      return compte ? ((await admin.auth.admin.getUserById(compte)).data.user?.email ?? null) : null;
+    }),
+  );
+  return {
+    titres: titres.map((t) => ({ ...t, nbOrganismes: nb.get(t.id) ?? 0 })),
+    demandes: demandes.data.map((d, i) => ({
+      id: d.id,
+      intitule: d.intitule,
+      demandeLe: d.created_at,
+      organisme: { id: d.organismes.id, nom: d.organismes.nom },
+      email: emails[i],
+    })),
+  };
+}

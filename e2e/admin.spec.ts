@@ -290,3 +290,66 @@ test("prospection : import, compte rendu, exclusion définitive, passage à « i
   await db.auth.admin.deleteUser(cree.user!.id);
   await nettoyer();
 });
+
+test("référentiel : ajout, modification, arbitrage des demandes", async ({ page }) => {
+  test.setTimeout(120_000);
+  const n = Date.now();
+  const intitules = [`E2E Titre ${n}`, `E2E Titre corrigé ${n}`, `E2E Demande retenue ${n}`];
+  const { data: cree } = await db.auth.admin.createUser({
+    email: `delivered+titre-${n}@resend.dev`,
+    password: "e2e-organisme-2026",
+    email_confirm: true,
+    user_metadata: { nom_organisme: `E2E Demandeur ${n}` },
+  });
+  const { data: compte } = await db.from("comptes_organisme").select("organisme_id").eq("id", cree.user!.id).single();
+  const org = compte!.organisme_id;
+  await db.from("demandes_titre").insert([
+    { organisme_id: org, intitule: `e2e demande a retenir ${n}` },
+    { organisme_id: org, intitule: `E2E Demande a refuser ${n}` },
+  ]);
+  const { data: cat } = await db.from("titres_referentiel").select("categorie").eq("statut", "actif").limit(1).single();
+
+  await connecterAdmin(page);
+  await page.goto(`${base}/referentiel/`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Référentiel des titres");
+
+  // Ajout : titre disponible, slug définitif.
+  await page.getByRole("button", { name: "Ajouter un titre" }).click();
+  await page.getByPlaceholder("Libellé court, acronyme officiel").fill(intitules[0]);
+  await page.getByLabel("Catégorie de rattachement").selectOption(cat!.categorie);
+  await page.getByRole("button", { name: "Ajouter au référentiel" }).click();
+  await expect(page.getByRole("status")).toContainText(`« ${intitules[0]} » ajouté au référentiel`);
+  const { data: t } = await db.from("titres_referentiel").select("id, slug").eq("libelle_court", intitules[0]).single();
+  expect(t!.slug).toBe(`e2e-titre-${n}`);
+
+  // Modification : intitulé corrigé, slug conservé, aucune suppression possible.
+  await page.getByRole("button", { name: `Modifier ${intitules[0]}` }).click();
+  await expect(page.getByText("Un titre ne peut pas être supprimé.")).toBeVisible();
+  await page.getByLabel("Intitulé", { exact: true }).fill(intitules[1]);
+  await page.getByRole("button", { name: "Enregistrer" }).click();
+  await expect(page.getByRole("status")).toContainText(`« ${intitules[1]} » mis à jour`);
+  const { data: t2 } = await db.from("titres_referentiel").select("slug, libelle_long").eq("id", t!.id).single();
+  expect(t2).toEqual({ slug: `e2e-titre-${n}`, libelle_long: intitules[1] });
+
+  // Demandes : acceptation après réécriture, refus.
+  await page.getByRole("tab", { name: /Demandes en attente/ }).click();
+  const retenir = page.getByRole("article").filter({ hasText: `e2e demande a retenir ${n}` });
+  await retenir.getByRole("button", { name: "Accepter" }).click();
+  await retenir.getByLabel("Intitulé retenu").fill(intitules[2]);
+  await retenir.getByLabel("Catégorie de rattachement").selectOption(cat!.categorie);
+  await retenir.getByRole("button", { name: "Créer le titre et envoyer l'email" }).click();
+  await expect(page.getByRole("status")).toContainText(`« ${intitules[2]} » créé`);
+  await expect(page.getByRole("status")).toContainText("Email d'acceptation envoyé");
+  const refuser = page.getByRole("article").filter({ hasText: `E2E Demande a refuser ${n}` });
+  await refuser.getByRole("button", { name: "Refuser" }).click();
+  await refuser.getByRole("button", { name: "Refuser et envoyer l'email" }).click();
+  await expect(page.getByRole("status")).toContainText("Demande refusée. Email envoyé");
+
+  const { data: demandes } = await db.from("demandes_titre").select("statut").eq("organisme_id", org).order("id");
+  expect(demandes!.map((d) => d.statut)).toEqual(["acceptee", "refusee"]);
+  // L'acceptation ne rattache aucune offre à l'organisme demandeur.
+  expect((await db.from("organisme_titres").select("titre_id").eq("organisme_id", org)).data).toHaveLength(0);
+
+  await db.auth.admin.deleteUser(cree.user!.id);
+  await db.from("titres_referentiel").delete().in("libelle_court", intitules);
+});
