@@ -18,7 +18,7 @@ export function NavAdmin() {
   return (
     <nav
       aria-label="Espace admin"
-      className="flex min-w-0 flex-1 flex-nowrap gap-0.5 overflow-x-auto [scrollbar-width:none]"
+      className="flex min-w-0 flex-1 [scrollbar-width:none] flex-nowrap gap-0.5 overflow-x-auto"
     >
       {LIENS.map((l) => {
         const actif = chemin.startsWith(l.href);

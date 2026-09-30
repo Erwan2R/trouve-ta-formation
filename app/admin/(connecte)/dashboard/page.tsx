@@ -27,9 +27,11 @@ export default async function Dashboard() {
   organismes.forEach((o) => n[o.palier]++);
   const sansFormation = organismes.filter((o) => o.nbFormations === 0);
   const recoupement = sansFormation.filter((o) => o.palier === "basique").length;
-  const heure = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" }).format(
-    new Date(),
-  );
+  const heure = new Intl.DateTimeFormat("fr-FR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Paris",
+  }).format(new Date());
 
   return (
     <>

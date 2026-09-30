@@ -67,9 +67,7 @@ async function nouveauxCodes(adminId: string): Promise<string[]> {
   const codes = genererCodes();
   const admin = supabaseAdmin();
   await admin.from("codes_recuperation_admin").delete().eq("admin_id", adminId);
-  await admin
-    .from("codes_recuperation_admin")
-    .insert(codes.map((c) => ({ admin_id: adminId, code_hash: hacher(c) })));
+  await admin.from("codes_recuperation_admin").insert(codes.map((c) => ({ admin_id: adminId, code_hash: hacher(c) })));
   await admin.from("administrateurs").update({ codes_generes_le: new Date().toISOString() }).eq("id", adminId);
   return codes;
 }
@@ -83,7 +81,8 @@ export type Configuration = { ok: true; facteur: string; qr: string; cle: string
 export async function demarrerConfiguration(): Promise<Configuration> {
   const { supabase, user } = await exigerAdmin("a-configurer");
   // Configurations commencées puis abandonnées : sans effet, retirées avant d'en ouvrir une autre.
-  for (const f of user.factors ?? []) if (f.status === "unverified") await supabase.auth.mfa.unenroll({ factorId: f.id });
+  for (const f of user.factors ?? [])
+    if (f.status === "unverified") await supabase.auth.mfa.unenroll({ factorId: f.id });
   const { data, error } = await supabase.auth.mfa.enroll({
     factorType: "totp",
     issuer: "Trouve ta formation",
@@ -113,7 +112,9 @@ export async function verifierConfiguration(
 }
 
 /** Nouveaux codes de récupération, confirmés par un code de l'application. */
-export async function regenererCodes(code: string): Promise<{ ok: true; codes: string[] } | { ok: false; erreur: string }> {
+export async function regenererCodes(
+  code: string,
+): Promise<{ ok: true; codes: string[] } | { ok: false; erreur: string }> {
   if (!/^\d{6}$/.test(code)) return { ok: false, erreur: CODE_INCORRECT };
   const { supabase, user } = await exigerAdmin();
   const facteur = user.factors?.find((f) => f.factor_type === "totp" && f.status === "verified");

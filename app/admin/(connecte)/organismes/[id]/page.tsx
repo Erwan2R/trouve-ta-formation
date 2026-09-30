@@ -18,7 +18,8 @@ type Props = { params: Promise<{ id: string }> };
 const surtitre = "font-mono text-[10.5px] tracking-[0.1em] text-ink-400 uppercase";
 const carte = "flex flex-col rounded-[28px] border border-line bg-white p-[clamp(20px,3vw,30px)]";
 const titre2 = "text-xl font-extrabold tracking-[-0.02em]";
-const th = "border-b border-line px-3 py-2.5 text-left font-mono text-[10px] font-medium tracking-[0.1em] text-ink-400 uppercase";
+const th =
+  "border-b border-line px-3 py-2.5 text-left font-mono text-[10px] font-medium tracking-[0.1em] text-ink-400 uppercase";
 const td = "border-b border-[#F0ECE6] px-3 py-3.5 align-top";
 const absent = "text-ink-300";
 const PALIERS = ["basique", "correct", "optimal"] as const;
@@ -97,7 +98,9 @@ export default async function FicheClient({ params }: Props) {
           </span>
           <div className="flex min-w-0 flex-col gap-2">
             <span className="flex flex-wrap items-center gap-2.5">
-              <h1 className="text-[clamp(26px,3.2vw,40px)] leading-[1.02] font-extrabold tracking-[-0.04em]">{o.nom}</h1>
+              <h1 className="text-[clamp(26px,3.2vw,40px)] leading-[1.02] font-extrabold tracking-[-0.04em]">
+                {o.nom}
+              </h1>
               <span
                 className={`inline-flex items-center gap-[7px] rounded-full border-[1.5px] px-3 py-1.5 font-mono text-[10.5px] tracking-[0.1em] uppercase ${suspendu ? "border-brique-700 bg-brique-050 text-brique-700" : "border-ink-900 bg-ink-900 text-white"}`}
               >
@@ -274,11 +277,15 @@ export default async function FicheClient({ params }: Props) {
                           <td className={`${td} font-mono text-[12.5px] whitespace-nowrap ${p ? "" : absent}`}>
                             {p ?? "Non renseigné"}
                           </td>
-                          <td className={`${td} font-mono text-[12.5px] whitespace-nowrap ${of.duree_heures ? "" : absent}`}>
+                          <td
+                            className={`${td} font-mono text-[12.5px] whitespace-nowrap ${of.duree_heures ? "" : absent}`}
+                          >
                             {of.duree_heures ? `${of.duree_heures} h` : "Non renseignée"}
                           </td>
                           <td className={`${td} ${of.rythmes.length ? "" : absent}`}>
-                            {of.rythmes.length ? of.rythmes.map((r) => libelle(RYTHMES, r)).join(" · ") : "Non renseigné"}
+                            {of.rythmes.length
+                              ? of.rythmes.map((r) => libelle(RYTHMES, r)).join(" · ")
+                              : "Non renseigné"}
                           </td>
                           <td className={`${td} ${of.modalites ? "" : absent}`}>{of.modalites ?? "Non renseignées"}</td>
                           <td className={`${td} text-ink-700`}>{lieuxOffre.join(" · ") || "Siège"}</td>

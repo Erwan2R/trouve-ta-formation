@@ -1,0 +1,179 @@
+import { createHash } from "node:crypto";
+
+/**
+ * Import du fichier de prospection (CSV du scraping, décision Erwan 01/10/2026) : séparateur « ; », UTF-8 avec BOM,
+ * champs entre guillemets possibles (qui peuvent contenir des « ; »). Identifiant : SIRET, sinon SIREN.
+ */
+
+/** CSV → lignes de cellules (RFC 4180 : guillemets doublés, retours à la ligne dans un champ entre guillemets). */
+export function lireCsv(texte: string, sep = ";"): string[][] {
+  const lignes: string[][] = [];
+  let ligne: string[] = [];
+  let cellule = "";
+  let guillemets = false;
+  const t = texte.replace(/^\uFEFF/, "");
+  const finDeLigne = () => {
+    ligne.push(cellule);
+    if (ligne.some((x) => x !== "")) lignes.push(ligne);
+    ligne = [];
+    cellule = "";
+  };
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (guillemets) {
+      if (c === '"' && t[i + 1] === '"') {
+        cellule += '"';
+        i++;
+      } else if (c === '"') guillemets = false;
+      else cellule += c;
+    } else if (c === '"') guillemets = true;
+    else if (c === sep) {
+      ligne.push(cellule);
+      cellule = "";
+    } else if (c === "\n" || c === "\r") {
+      if (c === "\r" && t[i + 1] === "\n") i++;
+      finDeLigne();
+    } else cellule += c;
+  }
+  finDeLigne();
+  return lignes;
+}
+
+/** Domaine d'un site (« https://www.afc-idf.fr/formations » → « afc-idf.fr ») ; null si ce n'est pas une URL. */
+export function domaine(site: string | null | undefined): string | null {
+  if (!site?.trim()) return null;
+  try {
+    const u = new URL(/^https?:\/\//i.test(site.trim()) ? site.trim() : `https://${site.trim()}`);
+    return u.hostname.toLowerCase().replace(/^www\./, "") || null;
+  } catch {
+    return null;
+  }
+}
+
+// Messageries grand public : une adresse chez elles est probablement celle d'une personne, pas d'un organisme
+// (compte rendu d'import, pour valider la FAQ « D'où vient mon adresse email ? »).
+const MESSAGERIES_PERSONNELLES = new Set([
+  "gmail.com",
+  "googlemail.com",
+  "hotmail.com",
+  "hotmail.fr",
+  "outlook.com",
+  "outlook.fr",
+  "live.com",
+  "live.fr",
+  "msn.com",
+  "yahoo.com",
+  "yahoo.fr",
+  "icloud.com",
+  "me.com",
+  "aol.com",
+  "orange.fr",
+  "wanadoo.fr",
+  "free.fr",
+  "sfr.fr",
+  "neuf.fr",
+  "laposte.net",
+  "bbox.fr",
+  "gmx.fr",
+  "gmx.com",
+  "protonmail.com",
+  "proton.me",
+]);
+export const estMessageriePersonnelle = (email: string) =>
+  MESSAGERIES_PERSONNELLES.has(email.split("@")[1]?.toLowerCase() ?? "");
+
+export type TypeExclusion = "siret" | "siren" | "email" | "domaine";
+/** Empreinte stockée dans la liste d'exclusion : la valeur normalisée n'est jamais conservée en clair. */
+export const empreinte = (type: TypeExclusion, valeur: string) =>
+  createHash("sha256").update(`${type}:${valeur.trim().toLowerCase()}`).digest("hex");
+
+export type ProspectImport = {
+  identifiant: string;
+  siret: string | null;
+  siren: string;
+  nom: string;
+  raison_sociale: string | null;
+  email: string | null;
+  telephone: string | null;
+  site_web: string | null;
+  departements: string | null;
+  titres: string | null;
+  source: string | null;
+  scrape_le: string | null;
+};
+
+/** Empreintes à comparer à la liste d'exclusion (SIRET, SIREN, email, domaine du site). */
+export function empreintesDe(p: Pick<ProspectImport, "siret" | "siren" | "email" | "site_web">): string[] {
+  const d = domaine(p.site_web);
+  return [
+    p.siret && empreinte("siret", p.siret),
+    empreinte("siren", p.siren),
+    p.email && empreinte("email", p.email),
+    d && empreinte("domaine", d),
+  ].filter((x): x is string => !!x);
+}
+
+const chiffres = (s: string | undefined) => (s ?? "").replace(/\D/g, "");
+const texte = (s: string | undefined) => s?.replace(/\s+/g, " ").trim() || null;
+const EMAIL = /^[^\s@;,]+@[^\s@;,]+\.[^\s@;,]+$/;
+
+export function analyserCsv(contenu: string) {
+  const [entete, ...lignes] = lireCsv(contenu);
+  const col = (nom: string) => entete?.findIndex((h) => h.trim().toLowerCase() === nom) ?? -1;
+  const c = Object.fromEntries(
+    [
+      "nom_organisme",
+      "raison_sociale",
+      "siret",
+      "siren",
+      "departements",
+      "site_web",
+      "email",
+      "telephone",
+      "titres_prepares",
+      "url_source_principale",
+      "date_scraping",
+    ].map((n) => [n, col(n)]),
+  );
+  if (c.nom_organisme < 0 || (c.siret < 0 && c.siren < 0))
+    return {
+      erreur: "Colonnes attendues introuvables (nom_organisme, siret, siren) : est-ce le bon fichier ?",
+    } as const;
+
+  const parIdentifiant = new Map<string, ProspectImport>();
+  let sansIdentifiant = 0;
+  for (const l of lignes) {
+    const siret = chiffres(l[c.siret]);
+    const siren = chiffres(l[c.siren]) || siret.slice(0, 9);
+    const nom = texte(l[c.nom_organisme]);
+    if ((siret && siret.length !== 14) || siren.length !== 9 || !nom) {
+      sansIdentifiant++;
+      continue;
+    }
+    const email = texte(l[c.email])?.toLowerCase() ?? null;
+    const date = texte(l[c.date_scraping]);
+    parIdentifiant.set(siret || siren, {
+      identifiant: siret || siren,
+      siret: siret || null,
+      siren,
+      nom,
+      raison_sociale: texte(l[c.raison_sociale]),
+      email: email && EMAIL.test(email) ? email : null,
+      telephone: texte(l[c.telephone]),
+      site_web: domaine(l[c.site_web]) ? texte(l[c.site_web]) : null,
+      departements: texte(l[c.departements]),
+      titres: texte(l[c.titres_prepares]),
+      source: texte(l[c.url_source_principale]),
+      scrape_le: date && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : null,
+    });
+  }
+  const prospects = [...parIdentifiant.values()];
+  const emails = prospects.filter((p) => p.email);
+  return {
+    prospects,
+    lignes: lignes.length,
+    sansIdentifiant,
+    emails: emails.length,
+    emailsPersonnels: emails.filter((p) => estMessageriePersonnelle(p.email!)).length,
+  } as const;
+}

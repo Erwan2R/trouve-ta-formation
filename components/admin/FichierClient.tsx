@@ -26,15 +26,14 @@ const PASTILLE_PALIER = {
   correct: "bg-ink-900",
   optimal: "bg-brique-700",
 };
-const sansAccent = (s: string) =>
-  s
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase();
+const sansAccent = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const dateCourte = (iso: string) =>
-  new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/Paris" }).format(
-    new Date(iso),
-  );
+  new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "Europe/Paris",
+  }).format(new Date(iso));
 
 const th = "border-b border-line px-3 py-2.5 text-left font-mono text-[10px] font-medium tracking-[0.1em] uppercase";
 const td = "border-b border-[#F0ECE6] p-3";
@@ -53,7 +52,11 @@ function Segments({
   libelle: string;
 }) {
   return (
-    <span role="group" aria-label={libelle} className="flex gap-[3px] rounded-full border border-line bg-cream-100 p-[3px]">
+    <span
+      role="group"
+      aria-label={libelle}
+      className="flex gap-[3px] rounded-full border border-line bg-cream-100 p-[3px]"
+    >
       {options.map(([v, l]) => (
         <button
           key={v}
@@ -105,7 +108,9 @@ export function FichierClient({
           (!sans || o.nbFormations === 0),
       )
       .sort((a, b) =>
-        tri.cle === "date" ? tri.sens * a.inscritLe.localeCompare(b.inscritLe) : tri.sens * (a.nbFormations - b.nbFormations),
+        tri.cle === "date"
+          ? tri.sens * a.inscritLe.localeCompare(b.inscritLe)
+          : tri.sens * (a.nbFormations - b.nbFormations),
       );
   }, [organismes, q, palier, statut, dep, sans, tri]);
 
@@ -253,7 +258,10 @@ export function FichierClient({
                     </td>
                     <td className={td}>
                       <span className="inline-flex items-center gap-[7px] font-bold">
-                        <span aria-hidden="true" className={`block size-[9px] rounded-[3px] ${PASTILLE_PALIER[o.palier]}`} />
+                        <span
+                          aria-hidden="true"
+                          className={`block size-[9px] rounded-[3px] ${PASTILLE_PALIER[o.palier]}`}
+                        />
                         {LIBELLE_PALIER[o.palier]}
                       </span>
                     </td>

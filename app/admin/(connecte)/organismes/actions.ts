@@ -33,7 +33,8 @@ export async function envoyerRappel(id: string, type: TypeRappel): Promise<Retou
   const { data: u } = await admin.auth.admin.getUserById(org.comptes_organisme.id);
   if (!u.user?.email) return { ok: false, erreur: ECHEC };
   const email = EMAILS_RAPPEL[type](org.nom, URL_ESPACE_ORGANISME);
-  if (!(await envoyerEmail({ a: u.user.email, ...email }))) return { ok: false, erreur: "L'envoi a échoué. Réessayez." };
+  if (!(await envoyerEmail({ a: u.user.email, ...email })))
+    return { ok: false, erreur: "L'envoi a échoué. Réessayez." };
   await admin.from("rappels_organisme").insert({ organisme_id: id, type });
   revalidatePath(`/admin/organismes/${id}/`);
   return { ok: true, message: `${libelle} envoyé à ${org.nom}.` };
@@ -67,7 +68,8 @@ export async function supprimerOrganisme(id: string, confirmation: string): Prom
   await exigerAdmin();
   const org = await lireOrganisme(id);
   if (!org) return { ok: false, erreur: ECHEC };
-  if (confirmation.trim() !== org.nom.trim()) return { ok: false, erreur: "Saisissez exactement le nom de l'organisme." };
+  if (confirmation.trim() !== org.nom.trim())
+    return { ok: false, erreur: "Saisissez exactement le nom de l'organisme." };
   const admin = supabaseAdmin();
   const { data: fichiers } = await admin.storage.from("logos").list(id);
   if (fichiers?.length) await admin.storage.from("logos").remove(fichiers.map((f) => `${id}/${f.name}`));

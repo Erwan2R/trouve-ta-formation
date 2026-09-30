@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { expect, type Page, test } from "@playwright/test";
 import { createHmac } from "node:crypto";
+import { empreintesDe } from "../lib/prospection";
 
 // Accès admin sur admin.localhost (base de DEV) : mot de passe, 2FA obligatoire, codes de récupération.
 // Le test remet à zéro l'administrateur de dev (mot de passe, application d'authentification, codes).
@@ -43,6 +44,19 @@ async function reinitialiserAdmin() {
   await db.auth.admin.updateUserById(a.id, { password: MOT_DE_PASSE });
   await db.from("codes_recuperation_admin").delete().eq("admin_id", a.id);
   return { a, email: u.user!.email! };
+}
+
+/** Connexion avec un 2FA fraîchement configuré (espace admin entièrement ouvert). */
+async function connecterAdmin(page: Page) {
+  const { email } = await reinitialiserAdmin();
+  await connexion(page, email);
+  await page.waitForURL(`${base}/parametres/`);
+  const cle = await page.getByText(/^([A-Z2-7]{4} ?)+$/).innerText();
+  await page.getByLabel("Code à six chiffres").fill(totp(cle));
+  await page.getByRole("button", { name: "Vérifier et activer" }).click();
+  await page.getByLabel("J'ai conservé ces codes hors ligne. Ils ne seront plus affichés.").check();
+  await page.getByRole("button", { name: "Terminer" }).click();
+  await expect(page.getByText("Activée", { exact: true })).toBeVisible();
 }
 
 test.describe.configure({ mode: "serial" });
@@ -102,7 +116,9 @@ test("connexion admin : 2FA imposé, code TOTP, code de récupération", async (
   await expect(page).toHaveURL(`${base}/verification/`);
   await page.getByLabel("Code à six chiffres").fill("000000");
   await page.getByRole("button", { name: "Vérifier", exact: true }).click();
-  await expect(page.getByRole("alert").filter({ hasText: /./ })).toHaveText("Code incorrect. Vérifiez l'heure de votre appareil et réessayez.");
+  await expect(page.getByRole("alert").filter({ hasText: /./ })).toHaveText(
+    "Code incorrect. Vérifiez l'heure de votre appareil et réessayez.",
+  );
   await page.getByLabel("Code à six chiffres").fill(totp(cleTexte));
   await page.getByRole("button", { name: "Vérifier", exact: true }).click();
   await page.waitForURL(`${base}/dashboard/`);
@@ -136,14 +152,7 @@ test("modération : rappel, suspension, réactivation, suppression", async ({ pa
   const { data: compte } = await db.from("comptes_organisme").select("organisme_id").eq("id", cree.user!.id).single();
   const org = compte!.organisme_id;
 
-  const { email } = await reinitialiserAdmin();
-  await connexion(page, email);
-  await page.waitForURL(`${base}/parametres/`);
-  const cle = await page.getByText(/^([A-Z2-7]{4} ?)+$/).innerText();
-  await page.getByLabel("Code à six chiffres").fill(totp(cle));
-  await page.getByRole("button", { name: "Vérifier et activer" }).click();
-  await page.getByLabel("J'ai conservé ces codes hors ligne. Ils ne seront plus affichés.").check();
-  await page.getByRole("button", { name: "Terminer" }).click();
+  await connecterAdmin(page);
 
   // Tableau de bord → Fichier client filtré sur les fiches sans formation.
   await page.goto(`${base}/dashboard/`);
@@ -192,4 +201,92 @@ test("modération : rappel, suspension, réactivation, suppression", async ({ pa
   await expect(page.getByRole("heading", { name: "Compte supprimé" })).toBeVisible();
   expect((await db.from("organismes").select("id").eq("id", org)).data).toHaveLength(0);
   expect((await db.auth.admin.getUserById(cree.user!.id)).data.user).toBeNull();
+});
+
+test("prospection : import, compte rendu, exclusion définitive, passage à « inscrit »", async ({ page }) => {
+  test.setTimeout(120_000);
+  // Données fictives (SIRET inexistants) : jamais le fichier réel du scraping dans un test.
+  const A = {
+    siret: "99999999900011",
+    siren: "999999999",
+    email: "contact@e2e-prospect-a.fr",
+    site_web: "https://www.e2e-prospect-a.fr/",
+  };
+  const B = { siret: null, siren: "999999998", email: "e2e.prospect.b@gmail.com", site_web: null };
+  const nettoyer = async () => {
+    await db.from("prospects").delete().in("identifiant", [A.siret, B.siren]);
+    await db
+      .from("exclusions_prospection")
+      .delete()
+      .in("empreinte", [...empreintesDe(A), ...empreintesDe(B)]);
+  };
+  await nettoyer();
+  // Comme le fichier du scraping : BOM UTF-8, fins de ligne CRLF.
+  const csv = Buffer.from(
+    String.fromCharCode(0xfeff) +
+      [
+        "nom_organisme;raison_sociale;siret;siren;site_web;email;titres_prepares",
+        `E2E Prospect A;;${A.siret};${A.siren};${A.site_web};${A.email};"TFP APS ; SSIAP 1"`,
+        `E2E Prospect B;;;${B.siren};;${B.email};`,
+        "E2E Sans identifiant;;;;;;",
+      ].join(String.fromCharCode(13, 10)),
+  );
+  const importer = async () => {
+    await page
+      .getByLabel("Fichier CSV")
+      .setInputFiles({ name: "organismes_idf.csv", mimeType: "text/csv", buffer: csv });
+    await page.getByRole("button", { name: "Importer" }).click();
+    return page.getByRole("status").filter({ hasText: "Compte rendu" });
+  };
+
+  await connecterAdmin(page);
+  await page.goto(`${base}/prospection/`);
+  let rapport = await importer();
+  await expect(rapport).toContainText("2 ajoutés · 0 mis à jour");
+  await expect(rapport).toContainText("0 ignorés (liste d'exclusion)");
+  await expect(rapport).toContainText("1 lignes ignorées faute de SIRET ou de SIREN");
+  await expect(rapport).toContainText("1 adresses de messagerie personnelle (gmail, hotmail, outlook, orange…) sur 2");
+
+  await page.getByLabel("Rechercher un prospect").fill("E2E Prospect");
+  await expect(page.getByRole("heading", { name: "2 prospects" })).toBeVisible();
+  await page.getByLabel("Statut de E2E Prospect A").selectOption("contacte");
+  await expect
+    .poll(async () => (await db.from("prospects").select("statut").eq("identifiant", A.siret).single()).data?.statut)
+    .toBe("contacte");
+
+  // Demande de suppression : données effacées, identifiants exclus pour toujours.
+  await page.getByRole("button", { name: "Demande de suppression pour E2E Prospect A" }).click();
+  await page.getByRole("button", { name: "Enregistrer et effacer" }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Demande enregistrée" })).toContainText("1 prospect effacé");
+  expect((await db.from("prospects").select("id").eq("identifiant", A.siret)).data).toHaveLength(0);
+  const { data: exclusions } = await db
+    .from("exclusions_prospection")
+    .select("empreinte")
+    .in("empreinte", empreintesDe(A));
+  expect(exclusions).toHaveLength(4);
+
+  // Un nouvel import ne le réintègre pas ; le prospect B est mis à jour sans perdre son statut.
+  rapport = await importer();
+  await expect(rapport).toContainText("0 ajoutés · 1 mis à jour");
+  await expect(rapport).toContainText("1 ignorés (liste d'exclusion)");
+  expect((await db.from("prospects").select("id").eq("identifiant", A.siret)).data).toHaveLength(0);
+
+  // Un organisme inscrit renseigne un SIRET de ce SIREN : le prospect passe à « inscrit ».
+  const { data: cree } = await db.auth.admin.createUser({
+    email: `delivered+prospect-${Date.now()}@resend.dev`,
+    password: "e2e-organisme-2026",
+    email_confirm: true,
+    user_metadata: { nom_organisme: "E2E Inscrit depuis la prospection" },
+  });
+  const { data: compte } = await db.from("comptes_organisme").select("organisme_id").eq("id", cree.user!.id).single();
+  await db
+    .from("organismes")
+    .update({ siret: `${B.siren}00017` })
+    .eq("id", compte!.organisme_id);
+  expect((await db.from("prospects").select("statut").eq("identifiant", B.siren).single()).data!.statut).toBe(
+    "inscrit",
+  );
+
+  await db.auth.admin.deleteUser(cree.user!.id);
+  await nettoyer();
 });

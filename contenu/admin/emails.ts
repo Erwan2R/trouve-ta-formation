@@ -10,7 +10,8 @@ Pour nous écrire : ${EMAIL_CONTACT}
 Trouve ta formation — annuaire indépendant des organismes de formation.
 `;
 
-const echapper = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+const echapper = (s: string) =>
+  s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
 type Email = { sujet: string; html: string; texte: string };
 

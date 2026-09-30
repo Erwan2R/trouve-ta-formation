@@ -200,6 +200,27 @@ export type Database = {
         }
         Relationships: []
       }
+      exclusions_prospection: {
+        Row: {
+          created_at: string
+          empreinte: string
+          id: number
+          type: string
+        }
+        Insert: {
+          created_at?: string
+          empreinte: string
+          id?: never
+          type: string
+        }
+        Update: {
+          created_at?: string
+          empreinte?: string
+          id?: never
+          type?: string
+        }
+        Relationships: []
+      }
       formulaire_statistiques: {
         Row: {
           cle: string
@@ -591,6 +612,63 @@ export type Database = {
         }
         Relationships: []
       }
+      prospects: {
+        Row: {
+          created_at: string
+          departements: string | null
+          email: string | null
+          id: number
+          identifiant: string
+          nom: string
+          raison_sociale: string | null
+          scrape_le: string | null
+          siren: string
+          siret: string | null
+          site_web: string | null
+          source: string | null
+          statut: Database["public"]["Enums"]["statut_prospect"]
+          telephone: string | null
+          titres: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          departements?: string | null
+          email?: string | null
+          id?: never
+          identifiant: string
+          nom: string
+          raison_sociale?: string | null
+          scrape_le?: string | null
+          siren: string
+          siret?: string | null
+          site_web?: string | null
+          source?: string | null
+          statut?: Database["public"]["Enums"]["statut_prospect"]
+          telephone?: string | null
+          titres?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          departements?: string | null
+          email?: string | null
+          id?: never
+          identifiant?: string
+          nom?: string
+          raison_sociale?: string | null
+          scrape_le?: string | null
+          siren?: string
+          siret?: string | null
+          site_web?: string | null
+          source?: string | null
+          statut?: Database["public"]["Enums"]["statut_prospect"]
+          telephone?: string | null
+          titres?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       rappels_organisme: {
         Row: {
           envoye_le: string
@@ -762,6 +840,7 @@ export type Database = {
     Enums: {
       statut_demande: "en_attente" | "acceptee" | "refusee"
       statut_organisme: "brouillon" | "publie" | "suspendu"
+      statut_prospect: "a_contacter" | "contacte" | "inscrit" | "exclu"
       statut_titre: "actif" | "archive"
     }
     CompositeTypes: {
@@ -892,6 +971,7 @@ export const Constants = {
     Enums: {
       statut_demande: ["en_attente", "acceptee", "refusee"],
       statut_organisme: ["brouillon", "publie", "suspendu"],
+      statut_prospect: ["a_contacter", "contacte", "inscrit", "exclu"],
       statut_titre: ["actif", "archive"],
     },
   },

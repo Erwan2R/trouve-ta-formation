@@ -96,3 +96,14 @@ export async function getDepartements() {
   const { data } = await supabaseAdmin().from("departements").select("code, nom").order("code");
   return data ?? [];
 }
+
+/** Prospection : fichier issu du scraping, jamais relié aux fiches publiques ni au Fichier client. */
+export async function getProspects() {
+  const admin = supabaseAdmin();
+  const [{ data, error }, { count }] = await Promise.all([
+    admin.from("prospects").select("*").order("nom"),
+    admin.from("exclusions_prospection").select("id", { count: "exact", head: true }),
+  ]);
+  if (error) throw error;
+  return { prospects: data, empreintesExclues: count ?? 0 };
+}

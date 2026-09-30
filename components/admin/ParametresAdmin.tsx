@@ -442,7 +442,12 @@ export function ParametresAdmin({
                   {config ? (
                     // QR code SVG fourni par Supabase (data URI) : pas d'optimisation d'image à faire.
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={config.qr} alt="QR code à scanner avec l'application d'authentification" width={164} height={164} />
+                    <img
+                      src={config.qr}
+                      alt="QR code à scanner avec l'application d'authentification"
+                      width={164}
+                      height={164}
+                    />
                   ) : (
                     <span className="font-mono text-[11px] text-ink-500">QR code</span>
                   )}
@@ -462,7 +467,9 @@ export function ParametresAdmin({
                   </span>
                 </span>
                 <label className="flex flex-col gap-[7px]">
-                  <span className="text-[13.5px] font-bold">Étape 2 · Code à six chiffres affiché par l&apos;application</span>
+                  <span className="text-[13.5px] font-bold">
+                    Étape 2 · Code à six chiffres affiché par l&apos;application
+                  </span>
                   <ChampCode valeur={otp} erreur={erreurOtp} onChange={(v) => (setOtp(v), setErreurOtp(""))} />
                 </label>
                 <span className="flex flex-wrap gap-2">
@@ -470,7 +477,9 @@ export function ParametresAdmin({
                     type="button"
                     disabled={!otpOk || !config || enCours}
                     className={bPlein}
-                    onClick={() => demarrer(async () => recevoirCodes(await a.verifierConfiguration(config!.facteur, otp)))}
+                    onClick={() =>
+                      demarrer(async () => recevoirCodes(await a.verifierConfiguration(config!.facteur, otp)))
+                    }
                   >
                     Vérifier et activer
                   </button>

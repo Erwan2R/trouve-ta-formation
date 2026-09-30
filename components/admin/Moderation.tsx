@@ -72,10 +72,7 @@ export function ModaleModeration({
   const titre = "text-[22px] font-extrabold tracking-[-0.025em]";
 
   return (
-    <div
-      onClick={onFermer}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-900/55 p-4"
-    >
+    <div onClick={onFermer} className="fixed inset-0 z-[100] flex items-center justify-center bg-ink-900/55 p-4">
       <div
         role="dialog"
         aria-modal="true"

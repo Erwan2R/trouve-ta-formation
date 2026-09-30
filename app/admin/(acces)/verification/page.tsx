@@ -42,9 +42,7 @@ export default function Verification() {
           <FormulaireAcces
             action={utiliserCodeRecuperation}
             bouton="Utiliser ce code"
-            champs={[
-              { nom: "code_recuperation", libelle: "Code de récupération", type: "text", autocomplete: "off" },
-            ]}
+            champs={[{ nom: "code_recuperation", libelle: "Code de récupération", type: "text", autocomplete: "off" }]}
           />
         </div>
       </details>
