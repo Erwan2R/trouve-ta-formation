@@ -1,6 +1,6 @@
 # État du projet — Trouve ta formation
 
-> Note de passation au 30 septembre 2026, fin du Sprint 8. À lire en entier avant de lancer le Sprint 9.
+> Note de passation au 1er octobre 2026, fin du Sprint 9. À lire en entier avant de lancer le Sprint 10.
 > Elle complète [CLAUDE.md](../CLAUDE.md) (brief technique), [Plan_Sprints.md](../Plan_Sprints.md) (plan) et
 > [README.md](../README.md) (environnements, commandes). En cas de contradiction avec une spec du dossier
 > `design_handoff_trouve_ta_formation/`, les **décisions d'Erwan listées ici font foi** : elles sont postérieures.
@@ -9,11 +9,11 @@
 
 ## 1. En bref
 
-- **Sprints 0 à 8 terminés** sur la branche `dev` (dev.trouve-ta-formation.fr). La production (`main`) est restée à la
+- **Sprints 0 à 9 terminés** sur la branche `dev` (dev.trouve-ta-formation.fr). La production (`main`) est restée à la
   fin du Sprint 1 ; `preprod` aussi.
-- **La mise en production du Sprint 8 est bloquée** par cinq points (section 7), dont les textes légaux que rédige
-  une société tierce.
-- **Prochaine étape : Sprint 9, espace admin**, sur `dev`. Préparation en section 8.
+- **La mise en production des Sprints 8 et 9 est bloquée** par les points de la section 7, dont les textes légaux que
+  rédige une société tierce.
+- **Prochaine étape : Sprint 10, blog public et blog admin**, sur `dev`. Préparation en section 8.
 
 ---
 
@@ -42,10 +42,10 @@
 
 | Branche | Site public | Espace organisme | Admin (Sprint 9) | Base Supabase |
 |---|---|---|---|---|
-| `dev` | dev.trouve-ta-formation.fr | partenaires-dev.trouve-ta-formation.fr | admin-dev. (404 pour l'instant) | `trouve-ta-formation-dev` |
-| `preprod` | preprod.trouve-ta-formation.fr | partenaires-preprod.… | admin-preprod. (404) | `trouve-ta-formation-dev` |
+| `dev` | dev.trouve-ta-formation.fr | partenaires-dev.trouve-ta-formation.fr | admin-dev.trouve-ta-formation.fr | `trouve-ta-formation-dev` |
+| `preprod` | preprod.trouve-ta-formation.fr | partenaires-preprod.… | admin-preprod.… | `trouve-ta-formation-dev` |
 | `main` | trouve-ta-formation.fr | partenaires.… (**redirigé en 307** vers le site, temporaire) | admin. (**redirigé en 307**) | `Trouve ta formation` |
-| local | localhost:3000 | partenaires.localhost:3000 | — | `trouve-ta-formation-dev` |
+| local | localhost:3000 | partenaires.localhost:3000 | admin.localhost:3000 | `trouve-ta-formation-dev` |
 
 - dev et preprod sont protégés par Vercel (connexion Vercel, ou en-tête `x-vercel-protection-bypass` avec
   `VERCEL_BYPASS`) et **jamais indexés** (`robots.txt` bloquant + `X-Robots-Tag: noindex, nofollow`).
@@ -82,18 +82,20 @@
 - **Variables Vercel** : production = base prod ; branches `dev` et `preprod` = base dev (variables propres à la
   branche, qui priment sur les variables « preview »). `RESEND_SENDING_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` et
   `TURNSTILE_SECRET_KEY` existent **pour dev et preprod seulement** : à ajouter en production (avec accord).
+  `VERCEL_DEPLOY_HOOK_URL` (deploy hook « archivage-titre-dev ») existe **pour dev seulement**.
 
 ### Commandes
 
 ```
 npm run dev / npm test / npm run build / npm run lint / npm run typecheck
-npm run test:e2e        # 3 parcours Playwright (formulaire ×2, inscription → publication), base de dev
+npm run test:e2e        # parcours Playwright (formulaire ×2, inscription, admin ×7), base de dev
 npm run db:types        # types depuis le projet lié (prod ; schéma identique à dev)
 npx supabase db push -p <mot de passe prod>                        # migrations → PROD (avec accord)
 npx supabase db push --db-url "postgresql://postgres.livkbehsovponxhbctac:<mdp encodé>@aws-1-eu-west-3.pooler.supabase.com:5432/postgres" --include-all   # → DEV
 node --env-file=… scripts/config-auth-supabase.mjs --projet=dev|prod --smtp --emails   # réglages d'authentification
 node --env-file=… scripts/seed-organismes-test.mjs     # 7 organismes fictifs (est_test)
 node --env-file=… scripts/compte-test.mjs              # compte organisme de test (recréé à neuf)
+node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…   # compte admin unique
 ```
 
 **Ordre pour une migration** : l'appliquer à la base de dev, tester, puis à la production au moment de la mise en ligne.
@@ -113,8 +115,8 @@ node --env-file=… scripts/compte-test.mjs              # compte organisme de t
 | 6 | Pages départements | ✅ gabarit — **1 brouillon sur 8 (Seine-Saint-Denis), aucun publié** |
 | 7 | Formulaire d'affinage | ✅ |
 | 8 | Inscription, accompagnement, espace organisme, landing organismes | ✅ en dev — **mise en prod bloquée** (section 7) |
-| 9 | Espace admin | À faire (section 8) |
-| 10 | Blog public | À faire (liens « Blog » déjà présents dans les menus → 404 d'ici là) |
+| 9 | Espace admin | ✅ en dev — **mise en prod bloquée** (section 7) |
+| 10 | Blog public et blog admin | À faire (liens « Blog » déjà présents dans les menus → 404 d'ici là) |
 | 11 | Durcissement SEO et lancement | À faire |
 
 ### 4.1 Sprints 0–2 — fondations, layout, accueil
@@ -152,6 +154,14 @@ node --env-file=… scripts/compte-test.mjs              # compte organisme de t
   Mes formations, Paramètres, écran « compte supprimé ».
 - Landing publique `/securite-privee/referencer-mon-organisme/` (indexable, dans le sitemap), pages légales
   `/mentions-legales/` et `/confidentialite/` (à compléter).
+
+### 4.8 Sprint 9 — espace admin (`admin.`)
+- Pages (URL des specs) : `/connexion/`, `/verification/` (code TOTP ou code de récupération), `/dashboard/`,
+  `/organismes/` (Fichier client), `/organismes/[id]/` (Fiche client), `/prospection/`, `/referentiel/`,
+  `/analytics/`, `/parametres/`. Code dans `app/admin/`, requêtes dans `lib/supabase/queries/admin.ts`.
+- Compte admin de dev : `admin-dev@trouve-ta-formation.fr` (mot de passe : celui du test `e2e/admin.spec.ts`, remis à
+  zéro à chaque passage du test, 2FA compris).
+- Tests : `e2e/admin.spec.ts` (7 parcours : accès et 2FA, modération, prospection, référentiel, analytics, réglages).
 
 ---
 
@@ -292,6 +302,34 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 - « Cinq minutes » : validé par un essai réel d'Erwan.
 - Mobile : les ancres de navigation de l'en-tête sont masquées.
 
+### 5.12 Espace admin (Sprint 9)
+- **Accès** : sous-domaine `admin.`, compte **unique** (contrainte en base), mot de passe (12 caractères) puis code
+  TOTP obligatoire (Supabase MFA). Tant que le 2FA n'est pas configuré, seule la page Paramètres s'ouvre.
+  **Session de 8 heures** au plus depuis la saisie du mot de passe. Règle unique dans `lib/admin-acces.ts`, appliquée
+  par le middleware et, sur chaque page et action, par `exigerAdmin()` (`lib/admin-serveur.ts`).
+- **Codes de récupération** : 10, format XXXX-XXXX, stockés hachés, affichés une seule fois. En utiliser un retire
+  l'application d'authentification : il faut la configurer de nouveau (10 nouveaux codes sont alors générés).
+- **Lecture seule** sur le contenu des fiches ; écritures : rappel, suspension, suppression (et référentiel,
+  prospection, seuils).
+- **Suspension** : fiche invisible du public ; l'organisme se connecte et voit un bandeau. Réversible (publication
+  recalculée à la réactivation).
+- **Rappels** : 2 types (ajout de formation, complétion de fiche), email fixe, aucun type par défaut ; historique sur
+  la Fiche client (table `rappels_organisme`).
+- **Fichier client** = tous les organismes, y compris ceux créés en base sans compte (rappel impossible pour eux).
+- **Prospection** (page hors maquette, minimale) : table `prospects`, jamais reliée aux fiches ni au Fichier client.
+  Import du CSV du scraping, identifiant SIRET sinon SIREN, un prospect connu garde son statut. **Liste d'exclusion** :
+  SIRET, SIREN, email et domaine du site stockés **en empreintes SHA-256** seulement (on reconnaît l'organisme sans
+  garder ses données) ; l'exclusion d'un SIREN écarte tous ses établissements. Un organisme qui renseigne un SIRET
+  prospecté fait passer le prospect à « inscrit » (déclencheur).
+- **Référentiel** : ajout, modification (intitulé, catégorie ; le slug ne change jamais), archivage (jamais de
+  suppression) ; libellé long provisoire = intitulé. Demandes : relecture puis acceptation, ou refus ; un email à
+  chaque fois ; aucune offre rattachée automatiquement.
+- **Analytics** : suivi interne sans cookie ni IP (table `evenements`, envoi par `sendBeacon` depuis
+  `components/public/Mesure.tsx`, robots écartés) ; CTA suivis : téléphone, email, **site web** (lien principal
+  configurable reporté). Paliers : un instantané par jour de consultation (`statistiques_quotidiennes`). Onglet Blog
+  vide jusqu'au Sprint 10.
+- **Seuils** (table `parametres`) éditables dans Paramètres, section 03.
+
 ---
 
 ## 6. Pièges techniques connus
@@ -312,6 +350,16 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 - **Windows / Git Bash** : pas d'apostrophes dans un heredoc non protégé ; chemins Windows (`C:/…`) pour Node ;
   `.env.local` a des fins de ligne CRLF (`tr -d '\r'`).
 - `next.config.ts` n'accepte pas l'alias `@/` : imports relatifs (contenus légaux, piliers).
+- **`trailingSlash: true`** vaut aussi pour les routes API : appeler `/api/evenements/` (sans barre finale : 308, que
+  `sendBeacon` ne suit pas).
+- **Limite de 1 000 lignes** par requête Supabase : lire par pages (`toutLire` dans `queries/admin.ts`).
+- **Suppression depuis une page** : la revalidation relance le rendu de la page de l'élément supprimé → `notFound()` ;
+  la Fiche client a donc son propre `not-found.tsx` (écran « Compte supprimé »).
+- **Playwright** : le navigateur sans interface se présente comme « HeadlessChrome », écarté du suivi comme un robot ;
+  le test Analytics prend un User-Agent ordinaire. Sous `next dev`, la première ouverture d'une page compile
+  lentement : attendre la navigation (`waitForURL`, 30 s).
+- **Séquences d'échappement** (`\uFEFF`, `\r\n`) : l'écriture de fichiers par l'outil les transforme parfois en
+  caractères réels ; vérifier avec `od -c`. Les longs scripts Python passent mieux par un fichier que par un heredoc.
 
 ---
 
@@ -329,38 +377,28 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 4. **Variables Vercel de production** : `RESEND_SENDING_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY`,
    `TURNSTILE_SECRET_KEY` (le jeton Cloudflare expire le 8 octobre ; ensuite, la clé secrète se lit dans le tableau de
    bord Cloudflare). Sans clé Turnstile, l'inscription est refusée en production.
-5. **Retirer la redirection 307 de `partenaires.trouve-ta-formation.fr`** dans Vercel (celle de `admin.` au Sprint 9).
-6. Fusion `dev` → `preprod` → vérification → `main`.
+5. **Retirer les redirections 307** de `partenaires.` et `admin.trouve-ta-formation.fr` dans Vercel.
+6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261018` (administrateur, rappels,
+   prospection, analytics) ; créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), puis
+   configurer le 2FA à la première connexion ; créer un deploy hook pour `main` et la variable
+   `VERCEL_DEPLOY_HOOK_URL` de production.
+7. Fusion `dev` → `preprod` → vérification → `main`.
 
 Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la mise en ligne) : valider la réponse
 « D'où vient mon adresse email ? » contre le fonctionnement réel du scraping et juridiquement ; domaine d'envoi dédié.
 
 ---
 
-## 8. Préparer le Sprint 9 (espace admin)
+## 8. Préparer le Sprint 10 (blog)
 
-**Specs à relire d'abord** : `UX_Dashboard_Admin.md`, `UX_Fiche_Client.md`, `UX_Referentiel_Titres.md`,
-`UX_Blog_Admin.md`, `UX_Analytics_Admin.md`, `UX_Parametres_Admin.md`, README handoff §7.3, §9-10, et les prototypes
-correspondants. (Pas de `UX_Fichier_Client.md` dans le dossier : le prototype « Fichier Client » fait foi, à signaler.)
+**Specs à relire** : `UX_Blog_Admin.md`, specs du blog public, prototypes « Blog Admin » et « Editeur Article ».
+Éditeur riche : **Tiptap**, accepté par Erwan.
 
-**Déjà en place, à réutiliser**
-- Sous-domaines `admin.`, `admin-dev.`, `admin-preprod.` déclarés chez Vercel et en DNS ; `estHoteAdmin()` dans
-  `lib/espace.ts` ; le middleware y renvoie aujourd'hui une 404, à remplacer par le routage vers `app/admin/`
-  (même mécanique que `partenaires.`).
-- Table `demandes_titre` (demandes d'ajout de titre des organismes, statut `en_attente` / `acceptee` / `refusee`).
-- Table `parametres` (seuils, section 5.4) ; tables `recherches_sans_resultat` et `formulaire_statistiques` (analytics
-  anonymes) ; `palier` et `palier_max` par organisme ; `organismes_anciens_slugs`.
-- Fonction `maj_publication_organisme(org)` ; statut `suspendu` déjà respecté par la publication.
-
-**Décisions déjà prises pour le Sprint 9**
-- Compte admin **unique**, **2FA TOTP obligatoire** (pas de SMS), mot de passe de 12 caractères minimum, codes de
-  récupération affichés une seule fois.
-- Fichier de prospection alimenté par le scraping, **jamais** par le catalogue ; une **demande de suppression ajoute
-  l'organisme à une liste d'exclusion permanente** qu'aucun nouveau scraping ne peut contourner.
-- Éditeur des paramètres (seuils), visualisation des recherches sans résultat et des abandons du formulaire.
-- Référentiel : aucune suppression ; « remplacé par » ni archivé ni lui-même ; déclencher un nouveau build (deploy hook)
-  à l'archivage pour générer la 301.
-- Retirer la redirection 307 de `admin.trouve-ta-formation.fr` à la mise en production du Sprint 9 (avec accord).
+**Déjà en place**
+- Lien « Blog » de la barre admin : **retiré** en attendant (`components/admin/NavAdmin.tsx`), à remettre.
+- Analytics : onglet Blog vide ; ajouter le type d'événement `vue_article` (contrainte de `evenements.type`) et le
+  classement des articles (liens vers l'éditeur).
+- Table `articles_blog` prévue dans CLAUDE.md §7, pas encore créée.
 
 ---
 
@@ -378,11 +416,21 @@ correspondants. (Pas de `UX_Fichier_Client.md` dans le dossier : le prototype «
   archivé, demande d'ajout de titre, emails (validation, changement d'adresse, notifications), textes de
   l'accompagnement en 7 étapes, pages légales (parties factuelles).
 
+- **Textes du Sprint 9 rédigés par Claude, à valider** : 4 emails (`contenu/admin/emails.ts` : rappel d'ajout de
+  formation, rappel de complétion, demande de titre acceptée, refusée), bandeau de suspension côté organisme, pages
+  Connexion et Vérification admin, page Prospection, section « Réglages du site », état « Non publiée » de la Fiche
+  client, libellés des écrans du formulaire dans Analytics.
+- **Prospection** : 52 lignes sur 142 du fichier du scraping n'ont ni SIRET ni SIREN et sont ignorées à l'import
+  (règle validée). Si elles doivent entrer, choisir un autre identifiant (domaine du site ?).
+
 ### Décisions produit en attente
 - Seuil d'affichage des compteurs (`seuilCompteurs`).
 - Seuils provisoires à confirmer : page département (3 au palier Correct), page ville (5), élargissement (3).
 - Note Google des organismes : reportée après le lancement.
 - Carte des lieux (géocodage) : non construite.
+- Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
+  construit) ; un compte suspendu peut encore modifier sa fiche (sans effet public) — faut-il le bloquer ? ; durée de
+  conservation des événements Analytics (aucune purge aujourd'hui) ; lien CTA principal configurable (reporté).
 
 ### Technique
 - Aucun suivi des 404 ni propriété Search Console (Sprint 11).
