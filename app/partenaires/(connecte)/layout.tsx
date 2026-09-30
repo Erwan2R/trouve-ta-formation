@@ -1,6 +1,7 @@
 import { Logo } from "@/components/public/Logo";
 import { MenuCompte } from "@/components/espace/MenuCompte";
 import { NavEspace } from "@/components/espace/NavEspace";
+import { EMAIL_CONTACT } from "@/lib/config/contact";
 import { getEspace } from "@/lib/supabase/queries/espace";
 
 /** Pages connectées : barre de navigation en pilule, statut de publication, initiales du compte. */
@@ -31,6 +32,20 @@ export default async function EspaceConnecteLayout({ children }: { children: Rea
           <MenuCompte initiales={initiales} nom={compte.contact_nom} email={user.email} />
         </span>
       </header>
+      {organisme.statut === "suspendu" && (
+        // Décision Erwan (Sprint 9) : un compte suspendu se connecte et voit ce message. Texte Claude, à valider.
+        <div role="alert" className="flex flex-col gap-1.5 rounded-[22px] bg-ink-900 px-[22px] py-[18px] text-white">
+          <span className="font-mono text-[10.5px] tracking-[0.12em] text-brique-400 uppercase">Fiche suspendue</span>
+          <span className="text-[15px] leading-[1.55] text-pretty text-line">
+            Votre fiche a été suspendue par l&apos;équipe de Trouve ta formation : elle n&apos;est plus visible sur le
+            site. Pour en connaître la raison, écrivez-nous à{" "}
+            <a href={`mailto:${EMAIL_CONTACT}`} className="font-bold text-brique-400 hover:text-white">
+              {EMAIL_CONTACT}
+            </a>
+            .
+          </span>
+        </div>
+      )}
       {children}
     </div>
   );

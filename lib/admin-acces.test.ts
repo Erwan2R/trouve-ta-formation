@@ -23,11 +23,11 @@ describe("redirectionAdmin", () => {
     expect(redirectionAdmin("anonyme", "/dashboard/")).toBe("/connexion/");
     expect(redirectionAdmin("anonyme", "/connexion/")).toBeNull();
     expect(redirectionAdmin("expire", "/dashboard/")).toBe("/connexion/?erreur=expire");
-    expect(redirectionAdmin("a-configurer", "/fichier-client/")).toBe("/parametres/");
+    expect(redirectionAdmin("a-configurer", "/organismes/")).toBe("/parametres/");
     expect(redirectionAdmin("a-configurer", "/parametres/")).toBeNull();
     expect(redirectionAdmin("a-verifier", "/parametres/")).toBe("/verification/");
     expect(redirectionAdmin("ok", "/connexion/")).toBe("/dashboard/");
-    expect(redirectionAdmin("ok", "/fichier-client/")).toBeNull();
+    expect(redirectionAdmin("ok", "/organismes/")).toBeNull();
     expect(redirectionAdmin("anonyme", "/auth/verifier/")).toBeNull();
   });
 });

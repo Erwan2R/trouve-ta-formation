@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 // Maquette « Navigation admin ». Blog : avec le Sprint 10. Prospection : page ajoutée (décision Erwan, hors maquette).
 const LIENS = [
   { href: "/dashboard/", libelle: "Tableau de bord" },
-  { href: "/fichier-client/", libelle: "Fichier client" },
+  { href: "/organismes/", libelle: "Fichier client" },
   { href: "/prospection/", libelle: "Prospection" },
-  { href: "/referentiel-titres/", libelle: "Référentiel des titres" },
+  { href: "/referentiel/", libelle: "Référentiel des titres" },
   { href: "/analytics/", libelle: "Analytics" },
   { href: "/parametres/", libelle: "Paramètres" },
 ];
@@ -21,7 +21,7 @@ export function NavAdmin() {
       className="flex min-w-0 flex-1 flex-nowrap gap-0.5 overflow-x-auto [scrollbar-width:none]"
     >
       {LIENS.map((l) => {
-        const actif = chemin.startsWith(l.href) || (l.href === "/fichier-client/" && chemin.startsWith("/fiche-client/"));
+        const actif = chemin.startsWith(l.href);
         return (
           <Link
             key={l.href}

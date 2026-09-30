@@ -591,6 +591,35 @@ export type Database = {
         }
         Relationships: []
       }
+      rappels_organisme: {
+        Row: {
+          envoye_le: string
+          id: number
+          organisme_id: string
+          type: string
+        }
+        Insert: {
+          envoye_le?: string
+          id?: never
+          organisme_id: string
+          type: string
+        }
+        Update: {
+          envoye_le?: string
+          id?: never
+          organisme_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rappels_organisme_organisme_id_fkey"
+            columns: ["organisme_id"]
+            isOneToOne: false
+            referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recherches_sans_resultat: {
         Row: {
           combinaison: string
