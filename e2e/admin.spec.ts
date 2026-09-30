@@ -7,6 +7,10 @@ import { empreintesDe } from "../lib/prospection";
 // Le test remet à zéro l'administrateur de dev (mot de passe, application d'authentification, codes).
 const base = "http://admin.localhost:3000";
 const MOT_DE_PASSE = "e2e-admin-Sprint9-!";
+// Double verrou (voir playwright.config.ts) : ce fichier remet le compte admin à zéro avec MOT_DE_PASSE ; il ne doit
+// jamais toucher la base de production. Arrêt immédiat si la base n'est pas celle de dev.
+if (new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://x").hostname !== "livkbehsovponxhbctac.supabase.co")
+  throw new Error("Tests admin refusés : la base configurée n'est pas celle de dev.");
 const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
   auth: { persistSession: false },
 });
@@ -213,12 +217,15 @@ test("prospection : import, compte rendu, exclusion définitive, passage à « i
     site_web: "https://www.e2e-prospect-a.fr/",
   };
   const B = { siret: null, siren: "999999998", email: "e2e.prospect.b@gmail.com", site_web: null };
+  // Sans SIRET ni SIREN (et sans adresse : aucune recherche de SIRET) : gardé, dédoublonné par ses contacts.
+  const C = { siret: null, siren: null, email: "contact@e2e-prospect-c.fr", site_web: "https://e2e-prospect-c.fr/" };
   const nettoyer = async () => {
     await db.from("prospects").delete().in("identifiant", [A.siret, B.siren]);
+    await db.from("prospects").delete().eq("email", C.email);
     await db
       .from("exclusions_prospection")
       .delete()
-      .in("empreinte", [...empreintesDe(A), ...empreintesDe(B)]);
+      .in("empreinte", [...empreintesDe(A), ...empreintesDe(B), ...empreintesDe(C)]);
   };
   await nettoyer();
   // Comme le fichier du scraping : BOM UTF-8, fins de ligne CRLF.
@@ -228,7 +235,9 @@ test("prospection : import, compte rendu, exclusion définitive, passage à « i
         "nom_organisme;raison_sociale;siret;siren;site_web;email;titres_prepares",
         `E2E Prospect A;;${A.siret};${A.siren};${A.site_web};${A.email};"TFP APS ; SSIAP 1"`,
         `E2E Prospect B;;;${B.siren};;${B.email};`,
-        "E2E Sans identifiant;;;;;;",
+        `E2E Prospect C;;;;${C.site_web};${C.email};`,
+        "E2E Prospect C bis;;;;https://www.e2e-prospect-c.fr;;",
+        "E2E Sans rien;;;;;;",
       ].join(String.fromCharCode(13, 10)),
   );
   const importer = async () => {
@@ -242,13 +251,16 @@ test("prospection : import, compte rendu, exclusion définitive, passage à « i
   await connecterAdmin(page);
   await page.goto(`${base}/prospection/`);
   let rapport = await importer();
-  await expect(rapport).toContainText("2 ajoutés · 0 mis à jour");
+  await expect(rapport).toContainText("3 ajoutés · 0 mis à jour");
   await expect(rapport).toContainText("0 ignorés (liste d'exclusion)");
-  await expect(rapport).toContainText("1 lignes ignorées faute de SIRET ou de SIREN");
-  await expect(rapport).toContainText("1 adresses de messagerie personnelle (gmail, hotmail, outlook, orange…) sur 2");
+  await expect(rapport).toContainText("1 prospects sans SIRET");
+  await expect(rapport).toContainText("1 lignes ignorées (ni SIRET, ni email, ni site, ni téléphone)");
+  await expect(rapport).toContainText("1 adresses de messagerie personnelle (gmail, hotmail, outlook, orange…) sur 3");
 
+  // « C bis » a le même domaine que C : une seule ligne, avec le badge « SIRET manquant ».
   await page.getByLabel("Rechercher un prospect").fill("E2E Prospect");
-  await expect(page.getByRole("heading", { name: "2 prospects" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "3 prospects" })).toBeVisible();
+  await expect(page.getByRole("row").filter({ hasText: "E2E Prospect C" })).toContainText("SIRET manquant");
   await page.getByLabel("Statut de E2E Prospect A").selectOption("contacte");
   await expect
     .poll(async () => (await db.from("prospects").select("statut").eq("identifiant", A.siret).single()).data?.statut)
@@ -265,11 +277,17 @@ test("prospection : import, compte rendu, exclusion définitive, passage à « i
     .in("empreinte", empreintesDe(A));
   expect(exclusions).toHaveLength(4);
 
-  // Un nouvel import ne le réintègre pas ; le prospect B est mis à jour sans perdre son statut.
+  // Sans SIRET, l'exclusion passe par l'email et le domaine.
+  await page.getByRole("button", { name: "Demande de suppression pour E2E Prospect C" }).click();
+  await page.getByRole("button", { name: "Enregistrer et effacer" }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Demande enregistrée" })).toContainText("1 prospect effacé");
+
+  // Un nouvel import ne réintègre ni A ni C (ni « C bis », même domaine) ; B est mis à jour sans perdre son statut.
   rapport = await importer();
   await expect(rapport).toContainText("0 ajoutés · 1 mis à jour");
-  await expect(rapport).toContainText("1 ignorés (liste d'exclusion)");
+  await expect(rapport).toContainText("2 ignorés (liste d'exclusion)");
   expect((await db.from("prospects").select("id").eq("identifiant", A.siret)).data).toHaveLength(0);
+  expect((await db.from("prospects").select("id").ilike("nom", "E2E Prospect C%")).data).toHaveLength(0);
 
   // Un organisme inscrit renseigne un SIRET de ce SIREN : le prospect passe à « inscrit ».
   const { data: cree } = await db.auth.admin.createUser({

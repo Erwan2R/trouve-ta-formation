@@ -650,11 +650,11 @@ export type Database = {
           departements: string | null
           email: string | null
           id: number
-          identifiant: string
+          identifiant: string | null
           nom: string
           raison_sociale: string | null
           scrape_le: string | null
-          siren: string
+          siren: string | null
           siret: string | null
           site_web: string | null
           source: string | null
@@ -668,11 +668,11 @@ export type Database = {
           departements?: string | null
           email?: string | null
           id?: never
-          identifiant: string
+          identifiant?: string | null
           nom: string
           raison_sociale?: string | null
           scrape_le?: string | null
-          siren: string
+          siren?: string | null
           siret?: string | null
           site_web?: string | null
           source?: string | null
@@ -686,11 +686,11 @@ export type Database = {
           departements?: string | null
           email?: string | null
           id?: never
-          identifiant?: string
+          identifiant?: string | null
           nom?: string
           raison_sociale?: string | null
           scrape_le?: string | null
-          siren?: string
+          siren?: string | null
           siret?: string | null
           site_web?: string | null
           source?: string | null

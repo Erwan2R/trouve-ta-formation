@@ -2,7 +2,16 @@
 
 import { revalidatePath } from "next/cache";
 import { exigerAdmin } from "@/lib/admin-serveur";
-import { analyserCsv, domaine, empreinte, empreintesDe } from "@/lib/prospection";
+import {
+  analyserCsv,
+  clesContact,
+  domaine,
+  empreinte,
+  empreintesDe,
+  type ProspectImport,
+  type ReponseRechercheEntreprises,
+  siretSansAmbiguite,
+} from "@/lib/prospection";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 import type { Enums } from "@/lib/supabase/types";
 
@@ -12,7 +21,9 @@ export type CompteRendu = {
   ajoutes: number;
   misAJour: number;
   exclus: number;
-  sansIdentifiant: number;
+  siretRetrouves: number;
+  sansSiret: number;
+  ignorees: number;
   emails: number;
   emailsPersonnels: number;
 };
@@ -22,9 +33,29 @@ async function empreintesExclues(): Promise<Set<string>> {
   return new Set((data ?? []).map((e) => e.empreinte));
 }
 
+const pause = (ms: number) => new Promise((ok) => setTimeout(ok, ms));
+
 /**
- * Import du CSV du scraping. Les organismes de la liste d'exclusion sont écartés avant toute écriture ; un prospect
- * déjà connu garde son statut (seules ses coordonnées sont mises à jour).
+ * API publique Recherche d'entreprises : un appel par ligne sans SIRET, espacés ; en cas de limite de débit (429),
+ * nouvelles tentatives de plus en plus espacées. Aucune réponse exploitable : la ligne reste « SIRET manquant ».
+ */
+async function chercherSiret(nom: string, cp: string): Promise<string | null> {
+  const url = `https://recherche-entreprises.api.gouv.fr/search?q=${encodeURIComponent(nom)}&code_postal=${cp}&per_page=5`;
+  for (let essai = 1; essai <= 4; essai++) {
+    const r = await fetch(url, { signal: AbortSignal.timeout(8000) }).catch(() => null);
+    await pause(r?.status === 429 ? 1500 * essai : 350);
+    if (r?.status === 429) continue;
+    if (!r?.ok) return null;
+    return siretSansAmbiguite((await r.json()) as ReponseRechercheEntreprises, nom, cp);
+  }
+  return null;
+}
+
+/**
+ * Import du CSV du scraping (décisions Erwan 01/10/2026) :
+ * 1. lignes sans SIRET ni SIREN : SIRET cherché par l'API Recherche d'entreprises, retenu seulement sans ambiguïté ;
+ * 2. liste d'exclusion appliquée avant toute écriture (SIRET, SIREN, email, domaine : toujours actifs) ;
+ * 3. dédoublonnage : par identifiant, sinon par email, domaine ou téléphone ; un prospect connu garde son statut.
  */
 export async function importerProspects(
   donnees: FormData,
@@ -36,12 +67,23 @@ export async function importerProspects(
   const analyse = analyserCsv(await fichier.text());
   if ("erreur" in analyse) return { ok: false, erreur: analyse.erreur ?? ECHEC };
 
+  let siretRetrouves = 0;
+  for (const p of analyse.prospects) {
+    if (p.identifiant || !p.codePostal) continue;
+    const siret = await chercherSiret(p.nom, p.codePostal);
+    if (!siret) continue;
+    Object.assign(p, { identifiant: siret, siret, siren: siret.slice(0, 9) });
+    siretRetrouves++;
+  }
+  // Un SIRET retrouvé peut être celui d'une autre ligne du fichier : une seule ligne par identifiant.
+  const vus = new Set<string>();
+  const lignes = analyse.prospects.filter((p) => !p.identifiant || (!vus.has(p.identifiant) && vus.add(p.identifiant)));
+
   const exclues = await empreintesExclues();
-  const admis = analyse.prospects.filter((p) => !empreintesDe(p).some((e) => exclues.has(e)));
+  const admis = lignes.filter((p) => !empreintesDe(p).some((e) => exclues.has(e)));
   const admin = supabaseAdmin();
-  const identifiants = admis.map((p) => p.identifiant);
   const [{ data: connus }, { data: inscrits }] = await Promise.all([
-    admin.from("prospects").select("identifiant").in("identifiant", identifiants),
+    admin.from("prospects").select("id, identifiant, email, site_web, telephone"),
     admin
       .from("organismes")
       .select("siret")
@@ -50,26 +92,49 @@ export async function importerProspects(
         admis.flatMap((p) => (p.siret ? [p.siret] : [])),
       ),
   ]);
-  const dejaConnus = new Set((connus ?? []).map((c) => c.identifiant));
+  const existants = connus ?? [];
   const sirets = new Set((inscrits ?? []).map((o) => o.siret));
-  const nouveaux = admis.filter((p) => !dejaConnus.has(p.identifiant));
-  const existants = admis.filter((p) => dejaConnus.has(p.identifiant));
+  const retrouver = (p: (typeof admis)[number]) => {
+    const parId = p.identifiant && existants.find((e) => e.identifiant === p.identifiant);
+    if (parId) return parId;
+    const cles = clesContact(p);
+    // Un prospect identifié ne fusionne qu'avec un prospect encore sans SIRET (jamais deux SIRET différents).
+    return existants.find((e) => (!p.identifiant || !e.identifiant) && clesContact(e).some((k) => cles.includes(k)));
+  };
 
-  const [a, b] = await Promise.all([
+  const nouveaux: ProspectImport[] = [];
+  const miseAJour: { id: number; p: ProspectImport }[] = [];
+  for (const { codePostal: _cp, ...p } of admis) {
+    const e = retrouver({ ...p, codePostal: null });
+    if (e) miseAJour.push({ id: e.id, p });
+    else nouveaux.push(p);
+  }
+  const erreurs = [
     nouveaux.length
-      ? admin
-          .from("prospects")
-          .insert(
+      ? (
+          await admin.from("prospects").insert(
             nouveaux.map((p) => ({
               ...p,
               statut: p.siret && sirets.has(p.siret) ? ("inscrit" as const) : ("a_contacter" as const),
             })),
           )
-      : { error: null },
-    existants.length ? admin.from("prospects").upsert(existants, { onConflict: "identifiant" }) : { error: null },
-  ]);
-  if (a.error || b.error) {
-    console.error("Import prospection :", a.error?.message ?? b.error?.message);
+        ).error
+      : null,
+    ...(
+      await Promise.all(
+        // Coordonnées mises à jour, statut conservé ; un SIRET déjà connu n'est jamais effacé par une ligne sans SIRET.
+        miseAJour.map(({ id, p }) => {
+          const { identifiant, siret, siren, ...reste } = p;
+          return admin
+            .from("prospects")
+            .update(identifiant ? { ...reste, identifiant, siret, siren } : reste)
+            .eq("id", id);
+        }),
+      )
+    ).map((r) => r.error),
+  ].filter(Boolean);
+  if (erreurs.length) {
+    console.error("Import prospection :", erreurs[0]?.message);
     return { ok: false, erreur: ECHEC };
   }
   revalidatePath("/admin/prospection/");
@@ -77,9 +142,11 @@ export async function importerProspects(
     ok: true,
     compteRendu: {
       ajoutes: nouveaux.length,
-      misAJour: existants.length,
-      exclus: analyse.prospects.length - admis.length,
-      sansIdentifiant: analyse.sansIdentifiant,
+      misAJour: miseAJour.length,
+      exclus: lignes.length - admis.length,
+      siretRetrouves,
+      sansSiret: admis.filter((p) => !p.identifiant).length,
+      ignorees: analyse.ignorees,
       emails: analyse.emails,
       emailsPersonnels: analyse.emailsPersonnels,
     },
@@ -113,7 +180,7 @@ export async function enregistrerSuppression(
     const dom = domaine(p.site_web);
     empreintes = [
       ...(p.siret ? [{ type: "siret" as const, empreinte: empreinte("siret", p.siret) }] : []),
-      { type: "siren" as const, empreinte: empreinte("siren", p.siren) },
+      ...(p.siren ? [{ type: "siren" as const, empreinte: empreinte("siren", p.siren) }] : []),
       ...(p.email ? [{ type: "email" as const, empreinte: empreinte("email", p.email) }] : []),
       ...(dom ? [{ type: "domaine" as const, empreinte: empreinte("domaine", dom) }] : []),
     ];

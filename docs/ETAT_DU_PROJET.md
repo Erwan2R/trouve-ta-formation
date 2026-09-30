@@ -161,7 +161,10 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
   `/analytics/`, `/parametres/`. Code dans `app/admin/`, requêtes dans `lib/supabase/queries/admin.ts`.
 - Compte admin de dev : `admin-dev@trouve-ta-formation.fr` (mot de passe : celui du test `e2e/admin.spec.ts`, remis à
   zéro à chaque passage du test, 2FA compris).
-- Tests : `e2e/admin.spec.ts` (7 parcours : accès et 2FA, modération, prospection, référentiel, analytics, réglages).
+- Tests : `e2e/admin.spec.ts` (6 parcours : accès et 2FA, modération, prospection, référentiel, analytics, réglages).
+  **Verrou** : `playwright.config.ts` et `e2e/admin.spec.ts` s'arrêtent immédiatement si la base configurée n'est pas
+  celle de dev ; le mot de passe de test n'existe donc que sur dev. Chaque passage **dissocie l'application
+  d'authentification** du compte admin de dev : la reconfigurer ensuite.
 
 ---
 
@@ -311,13 +314,17 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
   l'application d'authentification : il faut la configurer de nouveau (10 nouveaux codes sont alors générés).
 - **Lecture seule** sur le contenu des fiches ; écritures : rappel, suspension, suppression (et référentiel,
   prospection, seuils).
-- **Suspension** : fiche invisible du public ; l'organisme se connecte et voit un bandeau. Réversible (publication
-  recalculée à la réactivation).
+- **Suspension** : fiche invisible du public ; l'organisme se connecte, voit un bandeau et **peut modifier sa fiche**
+  (sans effet public). Seul l'admin réactive (l'organisme n'a pas le droit d'écrire le statut) ; publication
+  recalculée à la réactivation.
 - **Rappels** : 2 types (ajout de formation, complétion de fiche), email fixe, aucun type par défaut ; historique sur
   la Fiche client (table `rappels_organisme`).
 - **Fichier client** = tous les organismes, y compris ceux créés en base sans compte (rappel impossible pour eux).
 - **Prospection** (page hors maquette, minimale) : table `prospects`, jamais reliée aux fiches ni au Fichier client.
-  Import du CSV du scraping, identifiant SIRET sinon SIREN, un prospect connu garde son statut. **Liste d'exclusion** :
+  Import du CSV du scraping, identifiant SIRET sinon SIREN, un prospect connu garde son statut. **Lignes sans SIRET**
+  (décision Erwan 01/10/2026) : gardées ; SIRET cherché par l'API Recherche d'entreprises (nom + code postal), retenu
+  seulement si une seule entreprise, un seul établissement actif à ce code postal et un nom concordant ; sinon badge
+  « SIRET manquant », dédoublonnage par email, domaine ou téléphone. **Liste d'exclusion** :
   SIRET, SIREN, email et domaine du site stockés **en empreintes SHA-256** seulement (on reconnaît l'organisme sans
   garder ses données) ; l'exclusion d'un SIREN écarte tous ses établissements. Un organisme qui renseigne un SIRET
   prospecté fait passer le prospect à « inscrit » (déclencheur).
@@ -358,6 +365,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 - **Playwright** : le navigateur sans interface se présente comme « HeadlessChrome », écarté du suivi comme un robot ;
   le test Analytics prend un User-Agent ordinaire. Sous `next dev`, la première ouverture d'une page compile
   lentement : attendre la navigation (`waitForURL`, 30 s).
+- **Python sous Windows** écrit en CRLF par défaut : ouvrir les fichiers avec `newline=''` (le dépôt est en LF).
+- **API Recherche d'entreprises** : limite de débit (429) vite atteinte ; appels espacés et nouvelles tentatives.
 - **Séquences d'échappement** (`\uFEFF`, `\r\n`) : l'écriture de fichiers par l'outil les transforme parfois en
   caractères réels ; vérifier avec `od -c`. Les longs scripts Python passent mieux par un fichier que par un heredoc.
 
@@ -420,8 +429,8 @@ Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la 
   formation, rappel de complétion, demande de titre acceptée, refusée), bandeau de suspension côté organisme, pages
   Connexion et Vérification admin, page Prospection, section « Réglages du site », état « Non publiée » de la Fiche
   client, libellés des écrans du formulaire dans Analytics.
-- **Prospection** : 52 lignes sur 142 du fichier du scraping n'ont ni SIRET ni SIREN et sont ignorées à l'import
-  (règle validée). Si elles doivent entrer, choisir un autre identifiant (domaine du site ?).
+- **Fichier du scraping** (142 lignes) : 107 organismes distincts, dont 17 sans SIRET ni SIREN (52 lignes, beaucoup de
+  doublons) ; l'API en retrouve 4 sans ambiguïté.
 
 ### Décisions produit en attente
 - Seuil d'affichage des compteurs (`seuilCompteurs`).
@@ -429,7 +438,7 @@ Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la 
 - Note Google des organismes : reportée après le lancement.
 - Carte des lieux (géocodage) : non construite.
 - Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
-  construit) ; un compte suspendu peut encore modifier sa fiche (sans effet public) — faut-il le bloquer ? ; durée de
+  construit) ; durée de
   conservation des événements Analytics (aucune purge aujourd'hui) ; lien CTA principal configurable (reporté).
 
 ### Technique

@@ -6,6 +6,8 @@ import * as actions from "./actions";
 
 export const metadata: Metadata = { title: "Prospection" };
 export const dynamic = "force-dynamic";
+// Import : une recherche de SIRET par ligne qui n'en a pas (API Recherche d'entreprises, ~3 par seconde).
+export const maxDuration = 120;
 
 /**
  * Prospection (décision Erwan 01/10/2026, page hors maquette, minimale) : le fichier du scraping. Il ne crée jamais

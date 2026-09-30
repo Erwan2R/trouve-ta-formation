@@ -61,7 +61,7 @@ export function ProspectionAdmin({
     return prospects.filter(
       (p) =>
         (!statut || p.statut === statut) &&
-        (!nq || sansAccent(`${p.nom} ${p.raison_sociale ?? ""} ${p.identifiant} ${p.email ?? ""}`).includes(nq)),
+        (!nq || sansAccent(`${p.nom} ${p.raison_sociale ?? ""} ${p.identifiant ?? ""} ${p.email ?? ""}`).includes(nq)),
     );
   }, [prospects, q, statut]);
   const compte = (s: Statut) => prospects.filter((p) => p.statut === s).length;
@@ -125,8 +125,14 @@ export function ProspectionAdmin({
                   <strong>{compteRendu.exclus}</strong> ignorés (liste d&apos;exclusion)
                 </li>
                 <li>
-                  <strong>{compteRendu.sansIdentifiant}</strong> lignes ignorées faute de SIRET ou de SIREN
+                  <strong>{compteRendu.siretRetrouves}</strong> SIRET retrouvés (Recherche d&apos;entreprises) ·{" "}
+                  <strong>{compteRendu.sansSiret}</strong> prospects sans SIRET
                 </li>
+                {compteRendu.ignorees > 0 && (
+                  <li>
+                    <strong>{compteRendu.ignorees}</strong> lignes ignorées (ni SIRET, ni email, ni site, ni téléphone)
+                  </li>
+                )}
                 <li>
                   <strong>{compteRendu.emailsPersonnels}</strong> adresses de messagerie personnelle (gmail, hotmail,
                   outlook, orange…) sur <strong>{compteRendu.emails}</strong> adresses email
@@ -248,7 +254,13 @@ export function ProspectionAdmin({
                         {p.departements && <span className="text-xs text-ink-400">{p.departements}</span>}
                       </span>
                     </td>
-                    <td className={`${td} font-mono text-[12.5px] whitespace-nowrap`}>{p.identifiant}</td>
+                    <td className={`${td} font-mono text-[12.5px] whitespace-nowrap`}>
+                      {p.identifiant ?? (
+                        <span className="inline-flex rounded-full border-[1.5px] border-dashed border-brique-700 px-2.5 py-1 font-mono text-[10px] tracking-[0.08em] text-brique-700 uppercase">
+                          SIRET manquant
+                        </span>
+                      )}
+                    </td>
                     <td className={td}>
                       <span className="flex flex-col gap-0.5 text-[13px] [overflow-wrap:anywhere]">
                         {p.email && <a href={`mailto:${p.email}`}>{p.email}</a>}

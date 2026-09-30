@@ -33,15 +33,17 @@ export default async function EspaceConnecteLayout({ children }: { children: Rea
         </span>
       </header>
       {organisme.statut === "suspendu" && (
-        // Décision Erwan (Sprint 9) : un compte suspendu se connecte et voit ce message. Texte Claude, à valider.
+        // Décision Erwan : un compte suspendu se connecte, peut modifier sa fiche (sans effet public) ; seul l'admin
+        // réactive (le statut n'est pas modifiable par l'organisme). Texte Claude, à valider.
         <div role="alert" className="flex flex-col gap-1.5 rounded-[22px] bg-ink-900 px-[22px] py-[18px] text-white">
           <span className="font-mono text-[10.5px] tracking-[0.12em] text-brique-400 uppercase">Fiche suspendue</span>
           <span className="text-[15px] leading-[1.55] text-pretty text-line">
             Votre fiche a été suspendue par l&apos;équipe de Trouve ta formation : elle n&apos;est plus visible sur le
-            site. Pour en connaître la raison, écrivez-nous à{" "}
+            site. Vous pouvez la modifier : corrigez-la, puis écrivez-nous à{" "}
             <a href={`mailto:${EMAIL_CONTACT}`} className="font-bold text-brique-400 hover:text-white">
               {EMAIL_CONTACT}
-            </a>
+            </a>{" "}
+            pour demander sa réactivation. Elle restera invisible jusque-là
             .
           </span>
         </div>
