@@ -1,10 +1,23 @@
 // Configuration de l'authentification Supabase (espace organisme, Sprint 8). Idempotent.
-// Usage : node --env-file=.env.local scripts/config-auth-supabase.mjs [--smtp] [--emails]
+// Usage : node --env-file=.env.local scripts/config-auth-supabase.mjs --projet=dev|prod [--smtp] [--emails]
+// --projet : dev (dev et preprod, local) ou prod. Obligatoire : jamais la production par défaut.
 // --smtp   : branche l'envoi sur Resend (clé RESEND_SENDING_KEY, « Sending access » limitée au domaine).
 // --emails : applique les modèles d'emails en français (exige l'envoi SMTP branché).
 import { readFileSync } from "node:fs";
 
-const PROJET = "fuwfzxxgosgxmwtdevzh";
+// Deux projets Supabase (décision Erwan 29/09/2026) : dev et preprod d'un côté, production de l'autre.
+const PROJETS = {
+  dev: {
+    ref: "livkbehsovponxhbctac",
+    site: "https://partenaires-dev.trouve-ta-formation.fr",
+    autorises: ["partenaires-dev", "partenaires-preprod"],
+    local: true,
+  },
+  prod: { ref: "fuwfzxxgosgxmwtdevzh", site: "https://partenaires.trouve-ta-formation.fr", autorises: ["partenaires"] },
+};
+const cible = PROJETS[process.argv.find((a) => a.startsWith("--projet="))?.slice(9)];
+if (!cible) throw new Error("Préciser --projet=dev ou --projet=prod");
+const PROJET = cible.ref;
 // Adresse de contact publique : réglage unique dans lib/config/contact.ts (Supabase n'a pas de Reply-To).
 const EMAIL_CONTACT = readFileSync(new URL("../lib/config/contact.ts", import.meta.url), "utf8").match(
   /EMAIL_CONTACT = "([^"]+)"/,
@@ -23,13 +36,11 @@ const notification = (titre, corps) =>
 <p style="font-weight:bold;font-size:18px">${titre}</p>${corps}
 ${pied("Si vous n'êtes pas à l'origine de ce changement, réinitialisez votre mot de passe depuis la page de connexion de votre espace organisme.")}</div>`;
 
-const espace = ["partenaires", "partenaires-dev", "partenaires-preprod"].map(
-  (s) => `https://${s}.trouve-ta-formation.fr/**`,
-);
+const espace = cible.autorises.map((s) => `https://${s}.trouve-ta-formation.fr/**`);
 
 const reglages = {
-  site_url: "https://partenaires.trouve-ta-formation.fr",
-  uri_allow_list: [...espace, "http://partenaires.localhost:3000/**"].join(","),
+  site_url: cible.site,
+  uri_allow_list: [...espace, ...(cible.local ? ["http://partenaires.localhost:3000/**"] : [])].join(","),
   // Spec Inscription §4 : accès immédiat. Le réglage « connexion avant validation » de Supabase ne fonctionne pas
   // sur ce projet : la validation de l'email est gérée par l'application (comptes_organisme.email_verifie_le,
   // liens envoyés par Resend) et Supabase ne l'exige plus (décision Erwan 29/09/2026).
