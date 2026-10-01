@@ -1,6 +1,6 @@
 # État du projet — Trouve ta formation
 
-> Note de passation au 1er octobre 2026, fin du Sprint 9. À lire en entier avant de lancer le Sprint 10.
+> Note de passation au 1er octobre 2026, fin du Sprint 10. À lire en entier avant de poursuivre le Sprint 11.
 > Elle complète [CLAUDE.md](../CLAUDE.md) (brief technique), [Plan_Sprints.md](../Plan_Sprints.md) (plan) et
 > [README.md](../README.md) (environnements, commandes). En cas de contradiction avec une spec du dossier
 > `design_handoff_trouve_ta_formation/`, les **décisions d'Erwan listées ici font foi** : elles sont postérieures.
@@ -9,11 +9,12 @@
 
 ## 1. En bref
 
-- **Sprints 0 à 9 terminés** sur la branche `dev` (dev.trouve-ta-formation.fr). La production (`main`) est restée à la
-  fin du Sprint 1 ; `preprod` aussi.
-- **La mise en production des Sprints 8 et 9 est bloquée** par les points de la section 7, dont les textes légaux que
-  rédige une société tierce.
-- **Prochaine étape : Sprint 10, blog public et blog admin**, sur `dev`. Préparation en section 8.
+- **Sprints 0 à 10 terminés** sur la branche `dev` (dev.trouve-ta-formation.fr). La production (`main`) est restée à la
+  fin du Sprint 1 ; `preprod` aussi. Erwan a choisi de faire **la mise en production à la fin** (après le Sprint 12).
+- **Sprint 11 en cours : conformité RGPD et légale.** L'audit se trouve dans `docs/AUDIT_RGPD.md` ; aucune
+  correction n'est faite avant le retour d'Erwan sur ce compte rendu.
+- La mise en production est bloquée par les points de la section 7 (pages légales de la future société d'Erwan,
+  base de production à préparer, migrations, réglages).
 
 ---
 
@@ -360,10 +361,20 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 - Accroche de fin d'article : contextuelle, saisie par article (question, phrase, lien, page) ; le générique
   « Vous cherchez la formation qui vous correspond ? / Trouver ma formation » seulement si les champs sont vides.
 - Dépublication : page de remplacement → 301 ; sinon 410 (page « article retiré ») ; jamais de 404. Slug modifié
-  après publication → 301. Géré dans le middleware (`resolution_article`).
+  après publication → 301. Géré dans le middleware (`resolution_article`), **toujours directement vers la destination
+  finale** : changements de slug successifs, remplacement lui-même renommé ou dépublié, ancienne adresse d'un article
+  dépublié ; une boucle de remplacements répond 410 (test « redirections directes » de `e2e/admin.spec.ts`).
 - Audit anti-concurrence obligatoire avant publication (case dans l'éditeur, contrainte en base).
 - Le blog démarre vide : la liste est `noindex` et hors sitemap tant qu'aucun article n'est publié.
 - Article : colonne de lecture de 700 px, « Dans cet article » à droite et fixe sur ordinateur, en haut sur mobile.
+- Pas de photo d'auteur pour l'instant ; confirmation avant publication (fenêtre) ; textes d'interface validés.
+
+### 5.14 Prospection (décisions Erwan 01/10/2026)
+- Ordre : **appel téléphonique d'abord**, email seulement si personne ne répond. Statuts : À contacter → Appelé sans
+  réponse → Email envoyé → Contacté → Inscrit / Exclu.
+- FAQ « D'où vient mon adresse email ? » alignée sur les sources réelles du scraping : « Selon les cas, de votre fiche
+  Google, du catalogue Mon Compte Formation ou de votre site internet. Nous ne collectons que les adresses que les
+  organismes publient pour leur activité professionnelle… ». Les 5 adresses de messagerie personnelle sont gardées.
 
 ---
 
@@ -408,12 +419,10 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 
 À faire **avec l'accord d'Erwan** (production), dans cet ordre :
 
-1. **Pages légales** : rédigées le 1er octobre 2026 avec l'entreprise individuelle d'Erwan (SIREN 882 911 399, ville
-   seule, sans téléphone) en attendant sa société ; plus aucun marqueur, le build de production n'est plus bloqué.
-   **Relecture juridique conseillée** (prospection, durées) ; à mettre à jour à la création de la société.
-   Engagement pris dans la politique : prospects conservés **3 ans au plus après le dernier contact** → purge
-   automatique à construire avant la première campagne (Sprint 11). Domiciliation : Bois-Colombes, sans adresse
-   complète (décision Erwan) ; pas de numéro de TVA.
+1. **Pages légales** : à finaliser au Sprint 11 avec la **société d'Erwan** (en cours de création). Décision du
+   1er octobre 2026 : informations de la société en `[à compléter]` → **le build de production reste bloqué** tant
+   qu'elles manquent (`next.config.ts`). Version provisoire actuelle : entreprise individuelle (SIREN 882 911 399,
+   Bois-Colombes, sans téléphone ni TVA). Relecture juridique conseillée.
 2. **Vider la base de production** : compte `espace-test@trouve-ta-formation.fr`, 7 organismes `est_test`, contenus
    des tables `liens_email`, `formulaire_statistiques`, `recherches_sans_resultat`. Appliquer d'abord les migrations
    éventuellement créées depuis.
@@ -423,22 +432,32 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    `TURNSTILE_SECRET_KEY` (le jeton Cloudflare expire le 8 octobre ; ensuite, la clé secrète se lit dans le tableau de
    bord Cloudflare). Sans clé Turnstile, l'inscription est refusée en production.
 5. **Retirer les redirections 307** de `partenaires.` et `admin.trouve-ta-formation.fr` dans Vercel.
-6. **Admin et blog** : appliquer à la base de production les migrations `20261015` à `20261025` (administrateur, rappels,
-   prospection, analytics) ; créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), puis
-   configurer le 2FA à la première connexion ; créer un deploy hook pour `main` et la variable
-   `VERCEL_DEPLOY_HOOK_URL` de production.
+6. **Migrations à appliquer en production** (toutes déjà appliquées et testées sur la base de dev), dans l'ordre :
+   - `20261015_administrateur` — compte admin unique, codes de récupération, liens de changement d'email admin ;
+   - `20261016_rappels` — historique des rappels ;
+   - `20261017_prospection` — prospects, liste d'exclusion, passage automatique à « inscrit » ;
+   - `20261018_analytics` — événements, instantanés quotidiens des paliers ;
+   - `20261019_prospects_sans_siret` — prospects sans SIRET ;
+   - `20261020_desabonnement_et_admin_test` — désabonnement des rappels, motif de refus, compte admin de test ;
+   - `20261021_statuts_prospection` — « Appelé sans réponse », « Email envoyé » ;
+   - `20261022_blog` — articles, auteurs (dont Erwan), dépublication ;
+   - `20261023_blog_audit` — audit anti-concurrence obligatoire ;
+   - `20261024_blog_images` — stockage des images du blog ;
+   - `20261025_resolution_article_finale` — redirections du blog sans chaîne.
+   Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
+   première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
+   Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).
 7. Fusion `dev` → `preprod` → vérification → `main`.
 
-Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la mise en ligne) : valider la réponse
-« D'où vient mon adresse email ? » contre le fonctionnement réel du scraping et juridiquement ; domaine d'envoi dédié.
+Avant la **première campagne de prospection** (pas bloquant pour la mise en ligne) : conclusions de l'audit RGPD
+(information des personnes au premier contact, purge à 3 ans), domaine d'envoi dédié, relecture juridique.
 
 ---
 
 ## 8. Préparer le Sprint 11 (conformité RGPD et légale)
 
-Voir `Plan_Sprints.md` : audit complet (rapport), puis mise en conformité. Points déjà connus : purge des prospects
-3 ans après le dernier contact et des comptes jamais validés à 30 jours (engagements pris), mention d'information à
-l'inscription et dans les emails de prospection, registre des traitements, Bloctel pour la prospection téléphonique.
+Audit livré : `docs/AUDIT_RGPD.md` (registre des traitements, durées, sous-traitants, bases légales, cookies, pages
+légales proposées). Étape suivante : retour d'Erwan, puis mise en conformité selon les décisions prises.
 
 ---
 
@@ -450,18 +469,20 @@ l'inscription et dans les emails de prospection, registre des traitements, Bloct
 - Pages départements : 7 textes de 300 mots à écrire, 1 brouillon (Seine-Saint-Denis).
 - Référentiel : durées et RNCP marqués `[À VÉRIFIER]` (TFP ASA notamment).
 - Formulaire : parcours de renouvellement d'une carte ASA, conditions d'expérience SSIAP 2 et 3.
-- Mentions légales et politique de confidentialité : rédigées (entreprise individuelle), relecture juridique conseillée.
-- Réponse « D'où vient mon adresse email ? » (landing) à valider.
-- Textes rédigés par Claude, en relecture chez Erwan : messages « fiche non publiée / suspendue », avertissement titre
-  archivé, demande d'ajout de titre, emails (validation, changement d'adresse, notifications), textes de
-  l'accompagnement en 7 étapes, pages légales (parties factuelles).
+- Pages légales : informations de la société d'Erwan, relecture juridique (Sprint 11).
+- Proposition de Claude (accord d'Erwan sur le principe) : rédiger les contenus en attente avec sources officielles
+  citées, faits non vérifiables marqués `[à vérifier]`.
 
-- **Textes du Sprint 9** : emails, bandeau de suspension et page Prospection **validés par Erwan** (01/10/2026). Restent
-  à relire : page « Ne plus recevoir ces rappels », pages Connexion et Vérification admin, section « Réglages du
-  site », état « Non publiée » de la Fiche client, libellés des écrans du formulaire dans Analytics.
-- **Fichier du scraping** (142 lignes) : 107 organismes distincts, dont 17 sans SIRET ni SIREN (52 lignes, beaucoup de
-  doublons) ; l'API en retrouve 4 sans ambiguïté. 83 emails, dont 5 de messagerie personnelle (gmail ×2, yahoo,
-  orange, outlook) : la FAQ « D'où vient mon adresse email ? » parle d'adresses professionnelles, à valider.
+### Textes validés par Erwan (1er octobre 2026)
+- Sprint 9 : les 4 emails (rappels avec lien « Ne plus recevoir ces rappels », demande de titre acceptée, refusée
+  avec motif), bandeau de suspension, page Prospection, page de désabonnement, pages Connexion et Vérification admin,
+  « Réglages du site », états de la Fiche client (Indexable / Non indexable / Non publiée / Dépubliée), libellés
+  Analytics.
+- Sprint 10 : textes du blog, page liste vide, article retiré, textes d'interface de l'éditeur ; 404 et racine
+  (copy).
+- Restent en relecture chez Erwan (sprints précédents) : messages « fiche non publiée / suspendue » de l'espace
+  organisme, avertissement titre archivé, demande d'ajout de titre, emails de validation et de changement d'adresse,
+  textes de l'accompagnement en 7 étapes.
 
 ### Décisions produit en attente
 - Seuil d'affichage des compteurs (`seuilCompteurs`).
@@ -469,10 +490,11 @@ l'inscription et dans les emails de prospection, registre des traitements, Bloct
 - Note Google des organismes : reportée après le lancement.
 - Carte des lieux (géocodage) : non construite.
 - Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
-  construit) ; durée de
-  conservation des événements Analytics (aucune purge aujourd'hui) ; lien CTA principal configurable (reporté).
+  construit) ; lien CTA principal configurable (reporté) ; photo des auteurs (plus tard).
+- Durées de conservation à arrêter avec l'audit RGPD (événements Analytics, journaux, liste d'exclusion).
+- Blog : fréquence de publication cible, calendrier de révision des articles réglementaires.
 
 ### Technique
-- Aucun suivi des 404 ni propriété Search Console (Sprint 11).
-- `llms.txt` à mettre à jour au lancement (landing organismes, espace organisme).
+- Suivi des 404 et propriété Search Console : Sprint 12.
+- `llms.txt` à mettre à jour au lancement (blog, landing organismes, espace organisme).
 - Jeton Cloudflare à supprimer par Erwan une fois les clés Turnstile de production posées.
