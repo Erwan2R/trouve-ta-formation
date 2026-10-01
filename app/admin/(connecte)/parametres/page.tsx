@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { ParametresAdmin } from "@/components/admin/ParametresAdmin";
+import { AuteursBlog } from "@/components/admin/AuteursBlog";
 import { ReglagesSite } from "@/components/admin/ReglagesSite";
 import { exigerAdmin } from "@/lib/admin-serveur";
+import { EST_PRODUCTION } from "@/lib/env";
 import { dateCourte } from "@/lib/format-date";
+import { getAuteurs } from "@/lib/supabase/queries/admin";
 import { changementEnAttente } from "@/lib/supabase/queries/liens-email";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 import * as actions from "./actions";
@@ -13,7 +16,7 @@ type Props = { searchParams: Promise<{ email?: string }> };
 
 export default async function Parametres({ searchParams }: Props) {
   const { user, admin, etat } = await exigerAdmin("a-configurer");
-  const [{ count }, nouvelEmail, { email: retour }, { data: parametres }] = await Promise.all([
+  const [{ count }, nouvelEmail, { email: retour }, { data: parametres }, auteurs] = await Promise.all([
     supabaseAdmin()
       .from("codes_recuperation_admin")
       .select("id", { count: "exact", head: true })
@@ -22,6 +25,7 @@ export default async function Parametres({ searchParams }: Props) {
     changementEnAttente(user.id, "admin_id"),
     searchParams,
     supabaseAdmin().from("parametres").select("cle, valeur"),
+    getAuteurs(),
   ]);
   const v = Object.fromEntries((parametres ?? []).map((p) => [p.cle, p.valeur])) as Record<string, never>;
   return (
@@ -59,6 +63,15 @@ export default async function Parametres({ searchParams }: Props) {
             }}
             enregistrer={actions.enregistrerReglages}
           />
+          <div className="mt-3.5">
+            <AuteursBlog
+              auteurs={auteurs
+                .filter((x) => !(EST_PRODUCTION && x.est_test))
+                .map((x) => ({ ...x, biographie: x.biographie ?? "" }))}
+              enregistrer={actions.enregistrerAuteur}
+              supprimer={actions.supprimerAuteur}
+            />
+          </div>
         </div>
       )}
     </>

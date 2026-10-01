@@ -177,7 +177,8 @@ export async function getAnalytics(periode: Periode) {
   const ouverture = Math.min(maintenant, ...organismes.map((o) => new Date(o.inscritLe).getTime()));
   const { debut, liste } = tranches(periode, maintenant, ouverture);
   const depuis = new Date(debut).toISOString();
-  const [offres, evenements, { data: paliers }, { data: formulaire }, { data: sansResultat }] = await Promise.all([
+  const [offres, evenements, { data: paliers }, { data: formulaire }, { data: sansResultat }, { data: articles }] =
+    await Promise.all([
     toutLire((de, a) =>
       admin
         .from("organisme_titres")
@@ -187,7 +188,7 @@ export async function getAnalytics(periode: Periode) {
     toutLire((de, a) =>
       admin
         .from("evenements")
-        .select("type, organisme_id, created_at")
+        .select("type, organisme_id, chemin, created_at")
         .gt("created_at", depuis)
         .order("id")
         .range(de, a),
@@ -195,6 +196,7 @@ export async function getAnalytics(periode: Periode) {
     admin.from("statistiques_quotidiennes").select("jour, basique, correct, optimal"),
     admin.from("formulaire_statistiques").select("cle, compteur"),
     admin.from("recherches_sans_resultat").select("combinaison, compteur").order("compteur", { ascending: false }).limit(10),
+    admin.from("articles_blog").select("id, slug, titre"),
   ]);
   const t = (iso: string) => new Date(iso).getTime();
   const vues = evenements.filter((e) => e.type === "vue_page");
@@ -208,6 +210,18 @@ export async function getAnalytics(periode: Periode) {
     else c[e.type.replace("clic_", "") as "telephone" | "email" | "site"]++;
     parOrganisme.set(e.organisme_id, c);
   }
+  // Blog : vues des pages d'article (/securite-privee/blog/<slug>/), y compris d'anciens slugs encore référencés.
+  const vuesBlog = vues.filter((e) => e.chemin.startsWith("/securite-privee/blog/"));
+  const parSlug = new Map<string, number>();
+  for (const e of vuesBlog) {
+    const slug = e.chemin.match(/^\/securite-privee\/blog\/([a-z0-9-]+)\/?$/)?.[1];
+    if (slug && slug !== "article-retire") parSlug.set(slug, (parSlug.get(slug) ?? 0) + 1);
+  }
+  const articlesVus = (articles ?? [])
+    .filter((x) => parSlug.has(x.slug))
+    .map((x) => ({ id: x.id, titre: x.titre, vues: parSlug.get(x.slug)! }))
+    .sort((x, y) => y.vues - x.vues)
+    .slice(0, 10);
   const noms = new Map(organismes.map((o) => [o.id, o]));
   const classement = [...parOrganisme]
     .filter(([id]) => noms.has(id))
@@ -225,6 +239,11 @@ export async function getAnalytics(periode: Periode) {
       liste,
     ),
     trafic: parTranche(vues.map((e) => t(e.created_at)), liste, debut),
+    blog: {
+      courbe: parTranche(vuesBlog.map((e) => t(e.created_at)), liste, debut),
+      total: vuesBlog.length,
+      articles: articlesVus,
+    },
     fichesVues: classement.filter((c) => c.vues).sort((a, b) => b.vues - a.vues).slice(0, 10),
     clicsCta: classement.filter((c) => c.clics).sort((a, b) => b.clics - a.clics).slice(0, 10),
     ctaTotaux: {
@@ -235,4 +254,29 @@ export async function getAnalytics(periode: Periode) {
     formulaire: formulaire ?? [],
     sansResultat: sansResultat ?? [],
   };
+}
+
+/** Blog : tous les articles (brouillons, publiés, dépubliés), du plus récemment modifié au plus ancien. */
+export async function getArticlesAdmin() {
+  const { data, error } = await supabaseAdmin()
+    .from("articles_blog")
+    .select("id, slug, titre, categorie, statut, updated_at, publie_le, auteur:auteurs_blog (nom)")
+    .order("updated_at", { ascending: false });
+  if (error) throw error;
+  return data;
+}
+
+export async function getArticleAdmin(id: string) {
+  const { data } = await supabaseAdmin().from("articles_blog").select("*").eq("id", id).maybeSingle();
+  return data;
+}
+
+/** Auteurs du blog. Production : jamais l'auteur de démonstration (il n'existe que sur dev). */
+export async function getAuteurs() {
+  const { data, error } = await supabaseAdmin()
+    .from("auteurs_blog")
+    .select("id, nom, qualification, biographie, est_test, articles_blog (count)")
+    .order("id");
+  if (error) throw error;
+  return data.map(({ articles_blog, ...a }) => ({ ...a, nbArticles: articles_blog[0]?.count ?? 0 }));
 }

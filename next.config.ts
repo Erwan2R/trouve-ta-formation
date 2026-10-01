@@ -16,7 +16,10 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/webp"],
     // Logos déposés par les organismes (stockage Supabase, déjà convertis en WebP).
-    remotePatterns: [{ protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/logos/**" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/logos/**" },
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/blog/**" },
+    ],
   },
   // Logo de l'espace organisme : 2 Mo maximum (UX Ma fiche §3.2), plus l'enveloppe du formulaire.
   experimental: { serverActions: { bodySizeLimit: "3mb" } },

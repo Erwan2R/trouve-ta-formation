@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Maquette « Navigation admin ». Blog : avec le Sprint 10. Prospection : page ajoutée (décision Erwan, hors maquette).
+// Maquette « Navigation admin ». Prospection : page ajoutée (décision Erwan, hors maquette).
 const LIENS = [
   { href: "/dashboard/", libelle: "Tableau de bord" },
   { href: "/organismes/", libelle: "Fichier client" },
   { href: "/prospection/", libelle: "Prospection" },
   { href: "/referentiel/", libelle: "Référentiel des titres" },
+  { href: "/blog/", libelle: "Blog" },
   { href: "/analytics/", libelle: "Analytics" },
   { href: "/parametres/", libelle: "Paramètres" },
 ];

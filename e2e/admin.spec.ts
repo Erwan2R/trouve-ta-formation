@@ -491,3 +491,104 @@ test("réglages du site : un seuil se modifie depuis Paramètres", async ({ page
   expect(await lire()).toBe(avant + 1);
   await db.from("parametres").update({ valeur: avant }).eq("cle", "seuil_proposition_elargissement");
 });
+
+test("blog : rédaction, audit obligatoire, publication, dépublication en 301", async ({ page, request }) => {
+  test.setTimeout(180_000);
+  const n = Date.now();
+  const titre = `E2E article ${n}`;
+  await connecterAdmin(page);
+  await page.goto(`${base}/blog/`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Articles du blog");
+  await page.getByRole("button", { name: "Nouvel article" }).click();
+  await page.waitForURL(/\/blog\/[0-9a-f-]{36}\/$/, { timeout: 30_000 });
+  const id = page.url().match(/blog\/([0-9a-f-]{36})/)![1];
+
+  await page.getByLabel("Titre de l'article H1").fill(titre);
+  await page.getByLabel("Meta description").fill("Article de test de bout en bout.");
+  await page.getByLabel("Extrait des cartes").fill("Extrait de test.");
+  const corps = page.locator(".ProseMirror");
+  await corps.click();
+  await page.keyboard.type("Réponse à la question du titre, en deux phrases.");
+  await page.getByRole("button", { name: "H2", exact: true }).click();
+  await page.keyboard.press("End");
+  await page.keyboard.press("Enter");
+  await page.getByRole("button", { name: "H2", exact: true }).click();
+  await page.keyboard.type("Un intertitre");
+  await page.keyboard.press("Enter");
+  await page.keyboard.type("Voir la page du catalogue.");
+  // Lien interne choisi dans la liste des pages (jamais saisi à la main).
+  await page.keyboard.press("Shift+Home");
+  await page.getByRole("button", { name: "Lien", exact: true }).click();
+  await page.getByPlaceholder("Rechercher une page").fill("organismes");
+  await page.getByRole("button", { name: /Tous les organismes/ }).click();
+  await page.getByRole("button", { name: "Insérer le lien" }).click();
+
+  // Publication refusée tant que l'audit anti-concurrence n'est pas validé.
+  await page.getByRole("button", { name: "Publier", exact: true }).click();
+  await page.getByRole("button", { name: "Publier maintenant" }).click();
+  await expect(page.getByRole("alert").filter({ hasText: "À corriger" })).toContainText(
+    "Validez l'audit anti-concurrence avant de publier.",
+  );
+  await page.getByLabel("J'ai vérifié ces trois points").check();
+  await page.getByRole("button", { name: "Publier", exact: true }).click();
+  await page.getByRole("button", { name: "Publier maintenant" }).click();
+  await expect(page.getByRole("status")).toContainText("Article publié.");
+
+  const { data: a } = await db.from("articles_blog").select("slug, statut, publie_le, corps").eq("id", id).single();
+  expect(a!.statut).toBe("publie");
+  expect(a!.publie_le).not.toBeNull();
+  expect(JSON.stringify(a!.corps)).toContain('"href":"/securite-privee/organismes/"');
+  const publique = await request.get(`/securite-privee/blog/${a!.slug}/`);
+  expect(publique.status()).toBe(200);
+  expect(await publique.text()).toContain(titre);
+
+  // Dépublication avec remplacement : l'ancienne adresse redirige en 301.
+  await page.getByRole("button", { name: "Dépublier" }).click();
+  await page.getByLabel("Rediriger vers une page de remplacement (301)").check();
+  await page.getByRole("dialog").getByPlaceholder("Rechercher une page").fill("organismes");
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: /Tous les organismes/ })
+    .click();
+  await page.getByRole("dialog").getByRole("button", { name: "Dépublier" }).click();
+  await expect(page.getByRole("status")).toContainText("Article dépublié");
+  const redirigee = await request.get(`/securite-privee/blog/${a!.slug}/`, { maxRedirects: 0 });
+  expect(redirigee.status()).toBe(301);
+  expect(redirigee.headers().location).toContain("/securite-privee/organismes/");
+
+  await db.from("articles_blog").delete().eq("id", id);
+});
+
+test("blog : auteurs gérés dans Paramètres", async ({ page }) => {
+  test.setTimeout(90_000);
+  const nom = `E2E Auteur ${Date.now()}`;
+  await connecterAdmin(page);
+  await page.getByRole("button", { name: "+ Ajouter un auteur" }).click();
+  await page.getByLabel("Nom affiché").fill(nom);
+  await page.getByLabel("Qualification (une ligne)").fill("Qualification de test");
+  await page.getByRole("button", { name: "Enregistrer", exact: true }).last().click();
+  await expect(page.getByText(nom)).toBeVisible();
+  const { data } = await db.from("auteurs_blog").select("id").eq("nom", nom).single();
+  page.once("dialog", (d) => d.accept());
+  await page.getByRole("listitem").filter({ hasText: nom }).getByRole("button", { name: "Supprimer" }).click();
+  await expect(page.getByText(nom)).toBeHidden();
+  expect((await db.from("auteurs_blog").select("id").eq("id", data!.id)).data).toHaveLength(0);
+});
+
+// Captures d'écran à soumettre à Erwan : CAPTURES_DIR=chemin npx playwright test -g "captures"
+test("captures de l'admin du blog", async ({ page }) => {
+  test.skip(!process.env.CAPTURES_DIR, "Captures uniquement sur demande");
+  test.setTimeout(120_000);
+  const dir = process.env.CAPTURES_DIR!;
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await connecterAdmin(page);
+  await page.goto(`${base}/blog/`);
+  await page.screenshot({ path: `${dir}/admin-blog-liste.png`, fullPage: true });
+  const { data } = await db.from("articles_blog").select("id").eq("slug", "demo-quotidien-agent-de-securite").single();
+  await page.goto(`${base}/blog/${data!.id}/`, { waitUntil: "networkidle" });
+  await page.screenshot({ path: `${dir}/admin-blog-editeur.png` });
+  await page.screenshot({ path: `${dir}/admin-blog-editeur-complet.png`, fullPage: true });
+  await page.goto(`${base}/parametres/`);
+  await page.getByRole("heading", { name: "Auteurs du blog" }).scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `${dir}/admin-auteurs.png` });
+});

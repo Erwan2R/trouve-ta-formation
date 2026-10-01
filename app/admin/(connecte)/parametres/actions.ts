@@ -170,3 +170,37 @@ export async function enregistrerReglages(r: Reglages): Promise<Retour> {
   revalidatePath("/", "layout");
   return { ok: true, heure: heure() };
 }
+
+export type SaisieAuteur = { nom: string; qualification: string; biographie: string };
+
+/** Auteurs du blog (décision Erwan 01/10/2026) : plusieurs possibles, gérés ici. Pas de photo pour l'instant. */
+export async function enregistrerAuteur(id: number | null, a: SaisieAuteur): Promise<Retour> {
+  await exigerAdmin();
+  const nom = a.nom.trim();
+  const qualification = a.qualification.trim();
+  const biographie = a.biographie.trim() || null;
+  if (nom.length < 2 || nom.length > 80) return { ok: false, erreur: "Le nom compte de 2 à 80 caractères." };
+  if (qualification.length < 2 || qualification.length > 120)
+    return { ok: false, erreur: "La qualification compte de 2 à 120 caractères." };
+  if (biographie && biographie.length > 300) return { ok: false, erreur: "La biographie dépasse 300 caractères." };
+  const admin = supabaseAdmin();
+  const { error } = id
+    ? await admin.from("auteurs_blog").update({ nom, qualification, biographie }).eq("id", id)
+    : await admin.from("auteurs_blog").insert({ nom, qualification, biographie });
+  if (error) {
+    console.error("Auteur :", error.message);
+    return { ok: false, erreur: ECHEC };
+  }
+  revalidatePath("/securite-privee/blog", "layout");
+  return { ok: true, heure: heure() };
+}
+
+/** Suppression possible seulement pour un auteur sans article (le bloc auteur d'un article publié ne disparaît jamais). */
+export async function supprimerAuteur(id: number): Promise<Retour> {
+  await exigerAdmin();
+  const admin = supabaseAdmin();
+  const { count } = await admin.from("articles_blog").select("id", { count: "exact", head: true }).eq("auteur_id", id);
+  if (count) return { ok: false, erreur: "Cet auteur signe des articles : réattribuez-les avant de le supprimer." };
+  const { error } = await admin.from("auteurs_blog").delete().eq("id", id);
+  return error ? { ok: false, erreur: ECHEC } : { ok: true, heure: heure() };
+}

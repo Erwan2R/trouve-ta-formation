@@ -262,9 +262,56 @@ export default async function Analytics({ searchParams }: Props) {
         </>
       )}
 
-      {onglet === "blog" &&
-        // Le blog et son suivi ouvrent au Sprint 10 (décision Erwan) : l'onglet reste visible, vide.
-        vide("Le blog ouvre au Sprint 10 : les vues d'articles et leur classement apparaîtront ici.")}
+      {/* Onglet Blog (UX Analytics §4) : vues totales et articles les plus vus, liens vers l'éditeur. */}
+      {onglet === "blog" && (
+        <div className="flex flex-wrap items-start gap-3.5">
+          <section className="flex min-w-0 flex-[1_1_360px] flex-col gap-3.5 rounded-[26px] bg-ink-900 p-[clamp(20px,2.5vw,26px)] text-white">
+            <span className="font-mono text-[10.5px] tracking-[0.12em] text-brique-400 uppercase">
+              Vues totales du blog
+            </span>
+            <span className="font-mono text-[clamp(48px,6vw,72px)] leading-[0.9] tracking-[-0.05em]">
+              {fr(a.blog.total)}
+            </span>
+            <span className="text-[13px] text-on-dark">{libellePeriode}</span>
+            <Courbe
+              series={[{ nom: "Vues", valeurs: a.blog.courbe, couleur: "#E19D8B" }]}
+              libelles={a.libelles}
+              sombre
+              hauteur={150}
+            />
+          </section>
+          <section className={`${carte} min-w-0 flex-[1.6_1_520px] gap-2.5`}>
+            <span className="flex items-baseline justify-between gap-2.5">
+              <h2 className="text-[17px] font-extrabold tracking-[-0.02em]">Articles les plus vus</h2>
+              <span className={mono}>Top 10</span>
+            </span>
+            {a.blog.articles.length === 0 ? (
+              vide("Aucune vue d'article sur la période.")
+            ) : (
+              <ol className="flex flex-col border-t border-[#F0ECE6]">
+                {a.blog.articles.map((x, i) => (
+                  <li key={x.id}>
+                    <Link
+                      href={`/blog/${x.id}/`}
+                      className={`${ligneClassement} grid-cols-[28px_minmax(0,1fr)_minmax(70px,140px)_64px]`}
+                    >
+                      <span className="font-mono text-xs text-brique-700">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="text-sm leading-[1.35] font-semibold">{x.titre}</span>
+                      <span className="block h-2 overflow-hidden rounded-full bg-cream-200">
+                        <span
+                          className={`block h-full rounded-full ${i === 0 ? "bg-brique-700" : "bg-ink-900"}`}
+                          style={{ width: `${(x.vues / a.blog.articles[0].vues) * 100}%` }}
+                        />
+                      </span>
+                      <span className="text-right font-mono text-[13px]">{fr(x.vues)}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
+        </div>
+      )}
 
       {onglet === "organismes" && (
         <div className="flex flex-col gap-3.5">

@@ -48,6 +48,8 @@ export type Database = {
           accroche_lien: string | null
           accroche_phrase: string | null
           accroche_question: string | null
+          audit_note: string | null
+          audit_valide_le: string | null
           auteur_id: number | null
           categorie: string
           corps: Json
@@ -79,6 +81,8 @@ export type Database = {
           accroche_lien?: string | null
           accroche_phrase?: string | null
           accroche_question?: string | null
+          audit_note?: string | null
+          audit_valide_le?: string | null
           auteur_id?: number | null
           categorie: string
           corps?: Json
@@ -110,6 +114,8 @@ export type Database = {
           accroche_lien?: string | null
           accroche_phrase?: string | null
           accroche_question?: string | null
+          audit_note?: string | null
+          audit_valide_le?: string | null
           auteur_id?: number | null
           categorie?: string
           corps?: Json

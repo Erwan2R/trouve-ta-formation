@@ -116,7 +116,7 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
 | 7 | Formulaire d'affinage | ✅ |
 | 8 | Inscription, accompagnement, espace organisme, landing organismes | ✅ en dev — **mise en prod bloquée** (section 7) |
 | 9 | Espace admin | ✅ en dev — **mise en prod bloquée** (section 7) |
-| 10 | Blog public et blog admin | À faire (liens « Blog » déjà présents dans les menus → 404 d'ici là) |
+| 10 | Blog public et blog admin, 404 et racine | ✅ en dev — le blog démarre vide (noindex, hors sitemap) |
 | 11 | Conformité RGPD et légale (audit complet puis mise en conformité) | À faire (ajouté par Erwan, 01/10/2026) |
 | 12 | Durcissement SEO et lancement | À faire |
 
@@ -169,6 +169,15 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
   d'Erwan. Le compte unique reste la règle pour les vrais comptes (index unique sur les comptes non test).
 
 ---
+
+### 4.9 Sprint 10 — blog, 404, racine
+- Public : `/securite-privee/blog/` (liste) et `/securite-privee/blog/[slug]/` (article), `/securite-privee/blog/article-retire/`
+  (servie en 410). Admin : `/blog/` (liste), `/blog/[id]/` (éditeur Tiptap), auteurs dans Paramètres (section 04),
+  onglet Blog d'Analytics.
+- Contenu d'un article : document JSON de l'éditeur, contrôlé à l'enregistrement (`lib/blog/validation.ts`) et rendu
+  côté serveur (`components/public/blog/CorpsArticle.tsx`).
+- Articles et auteur de démonstration : `scripts/seed-blog-test.mjs`, base de dev uniquement (`est_test`).
+- 404 (gabarits silo et racine) et racine du domaine alignées sur `Copy_Blog_404_Racine.md`.
 
 ## 5. Décisions et leurs raisons
 
@@ -344,6 +353,18 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
   vide jusqu'au Sprint 10.
 - **Seuils** (table `parametres`) éditables dans Paramètres, section 03.
 
+### 5.13 Blog (Sprint 10, décisions Erwan 01/10/2026)
+- Catégories : Le métier · Se former · Conditions d'accès · Actualités (pas de « Formations » ni « Réglementation »).
+- Auteurs : plusieurs possibles ; au lancement, Erwan seul (« Fondateur de Trouve ta formation » + biographie), sans
+  photo (monogramme). L'auteur fictif n'existe que sur dev.
+- Accroche de fin d'article : contextuelle, saisie par article (question, phrase, lien, page) ; le générique
+  « Vous cherchez la formation qui vous correspond ? / Trouver ma formation » seulement si les champs sont vides.
+- Dépublication : page de remplacement → 301 ; sinon 410 (page « article retiré ») ; jamais de 404. Slug modifié
+  après publication → 301. Géré dans le middleware (`resolution_article`).
+- Audit anti-concurrence obligatoire avant publication (case dans l'éditeur, contrainte en base).
+- Le blog démarre vide : la liste est `noindex` et hors sitemap tant qu'aucun article n'est publié.
+- Article : colonne de lecture de 700 px, « Dans cet article » à droite et fixe sur ordinateur, en haut sur mobile.
+
 ---
 
 ## 6. Pièges techniques connus
@@ -372,6 +393,10 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 - **Playwright** : le navigateur sans interface se présente comme « HeadlessChrome », écarté du suivi comme un robot ;
   le test Analytics prend un User-Agent ordinaire. Sous `next dev`, la première ouverture d'une page compile
   lentement : attendre la navigation (`waitForURL`, 30 s).
+- **Tiptap → action serveur** : passer `JSON.parse(JSON.stringify(editor.getJSON()))`, sinon « Cannot access … on the
+  server » (objets non transmissibles).
+- **Serveur local** : un ancien `next dev` peut rester sur le port 3000 (le nouveau prend 3001 et les tests visent
+  3000) ; arrêter les processus sur 3000/3001 et supprimer `.next` en cas d'erreur « Cannot find module ».
 - **Python sous Windows** écrit en CRLF par défaut : ouvrir les fichiers avec `newline=''` (le dépôt est en LF).
 - **API Recherche d'entreprises** : limite de débit (429) vite atteinte ; appels espacés et nouvelles tentatives.
 - **Séquences d'échappement** (`\uFEFF`, `\r\n`) : l'écriture de fichiers par l'outil les transforme parfois en
@@ -398,7 +423,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    `TURNSTILE_SECRET_KEY` (le jeton Cloudflare expire le 8 octobre ; ensuite, la clé secrète se lit dans le tableau de
    bord Cloudflare). Sans clé Turnstile, l'inscription est refusée en production.
 5. **Retirer les redirections 307** de `partenaires.` et `admin.trouve-ta-formation.fr` dans Vercel.
-6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261021` (administrateur, rappels,
+6. **Admin et blog** : appliquer à la base de production les migrations `20261015` à `20261024` (administrateur, rappels,
    prospection, analytics) ; créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), puis
    configurer le 2FA à la première connexion ; créer un deploy hook pour `main` et la variable
    `VERCEL_DEPLOY_HOOK_URL` de production.
@@ -409,16 +434,11 @@ Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la 
 
 ---
 
-## 8. Préparer le Sprint 10 (blog)
+## 8. Préparer le Sprint 11 (conformité RGPD et légale)
 
-**Specs à relire** : `UX_Blog_Admin.md`, specs du blog public, prototypes « Blog Admin » et « Editeur Article ».
-Éditeur riche : **Tiptap**, accepté par Erwan.
-
-**Déjà en place**
-- Lien « Blog » de la barre admin : **retiré** en attendant (`components/admin/NavAdmin.tsx`), à remettre.
-- Analytics : onglet Blog vide ; ajouter le type d'événement `vue_article` (contrainte de `evenements.type`) et le
-  classement des articles (liens vers l'éditeur).
-- Table `articles_blog` prévue dans CLAUDE.md §7, pas encore créée.
+Voir `Plan_Sprints.md` : audit complet (rapport), puis mise en conformité. Points déjà connus : purge des prospects
+3 ans après le dernier contact et des comptes jamais validés à 30 jours (engagements pris), mention d'information à
+l'inscription et dans les emails de prospection, registre des traitements, Bloctel pour la prospection téléphonique.
 
 ---
 
