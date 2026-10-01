@@ -192,7 +192,7 @@ export const REFERENCER = {
         // scraping (sources citées, nature des adresses) et juridiquement, avant le premier envoi de prospection.
         question: "D'où vient mon adresse email ?",
         reponse:
-          "De sources professionnelles publiques : votre site internet, les registres publics d'organismes de formation, les annuaires professionnels du secteur. Nous ne collectons que des adresses professionnelles, et nous vous contactons à propos de votre activité d'organisme de formation.",
+          "De sources professionnelles publiques : votre site internet, les registres publics d'organismes de formation, les annuaires professionnels du secteur. Nous ne collectons que les adresses que les organismes publient pour leur activité professionnelle, et nous vous contactons à propos de votre activité d'organisme de formation.",
         suite: `Vous pouvez demander la suppression de vos données de notre base à tout moment, en écrivant à ${EMAIL_CONTACT}. La demande est traitée sans condition et sans relance.`,
         ouverte: true,
       },

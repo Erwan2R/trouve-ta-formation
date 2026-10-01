@@ -38,8 +38,8 @@ export default async function Desabonnement({ searchParams }: Props) {
       ) : (
         <>
           <p className={texte}>
-            Nous ne vous enverrons plus de rappels pour compléter la fiche de {o.nom}. Votre fiche reste en ligne, sans
-            aucun changement.
+            Nous ne vous enverrons plus de rappels pour compléter la fiche de {o.nom}. Votre fiche n&apos;est pas
+            modifiée.
           </p>
           <form method="post" action={`/desabonnement/confirmer/?t=${encodeURIComponent(t!)}`}>
             <button
