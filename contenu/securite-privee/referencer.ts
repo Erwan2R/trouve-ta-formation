@@ -188,11 +188,10 @@ export const REFERENCER = {
           "Oui, depuis votre espace, sans avoir à nous écrire ni à justifier votre décision. La fiche disparaît du site.",
       },
       {
-        // Toujours déplié (Copy §10). Texte provisoire (Erwan 30/09/2026) : à valider contre le fonctionnement réel du
-        // scraping (sources citées, nature des adresses) et juridiquement, avant le premier envoi de prospection.
+        // Toujours déplié (Copy §10). Sources alignées sur le scraping réel (Erwan 01/10/2026) ; relecture juridique conseillée.
         question: "D'où vient mon adresse email ?",
         reponse:
-          "De sources professionnelles publiques : votre site internet, les registres publics d'organismes de formation, les annuaires professionnels du secteur. Nous ne collectons que les adresses que les organismes publient pour leur activité professionnelle, et nous vous contactons à propos de votre activité d'organisme de formation.",
+          "De sources publiques : votre fiche Google, le catalogue Mon Compte Formation et votre site internet. Nous ne collectons que les adresses que les organismes publient pour leur activité professionnelle, et nous vous contactons à propos de votre activité d'organisme de formation.",
         suite: `Vous pouvez demander la suppression de vos données de notre base à tout moment, en écrivant à ${EMAIL_CONTACT}. La demande est traitée sans condition et sans relance.`,
         ouverte: true,
       },
