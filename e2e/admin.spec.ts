@@ -592,3 +592,39 @@ test("captures de l'admin du blog", async ({ page }) => {
   await page.getByRole("heading", { name: "Auteurs du blog" }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: `${dir}/admin-auteurs.png` });
 });
+
+test("blog : redirections directes vers la destination finale, jamais de chaîne", async () => {
+  const n = Date.now().toString(36);
+  const s = (x: string) => `e2e-redir-${x}-${n}`;
+  const creer = async (slug: string, champs: Record<string, unknown> = {}) =>
+    (
+      await db
+        .from("articles_blog")
+        .insert({ slug, titre: slug, categorie: "le-metier", est_test: true, statut: "publie", ...champs })
+        .select("id")
+        .single()
+    ).data!.id;
+  const chemin = (x: string) => `/securite-privee/blog/${s(x)}/`;
+  const x = await creer(s("x3"));
+  await db.from("articles_blog_anciens_slugs").insert([
+    { slug: s("x1"), article_id: x },
+    { slug: s("x2"), article_id: x },
+  ]);
+  await creer(s("y"), { statut: "depublie", remplacement: chemin("x1") });
+  await creer(s("z"), { statut: "depublie", remplacement: chemin("y") });
+  const w = await creer(s("w2"), { statut: "depublie" });
+  await db.from("articles_blog_anciens_slugs").insert({ slug: s("w1"), article_id: w });
+  await creer(s("l1"), { statut: "depublie", remplacement: chemin("l2") });
+  await creer(s("l2"), { statut: "depublie", remplacement: chemin("l1") });
+  const r = async (x: string) => (await db.rpc("resolution_article", { p_slug: s(x) })).data;
+
+  expect(await r("x3")).toEqual([]); // publié : servi tel quel
+  expect(await r("x1")).toEqual([{ statut: "deplace", destination: chemin("x3") }]); // ancien slug → actuel
+  expect(await r("y")).toEqual([{ statut: "deplace", destination: chemin("x3") }]); // remplacement renommé
+  expect(await r("z")).toEqual([{ statut: "deplace", destination: chemin("x3") }]); // deux remplacements
+  expect(await r("w1")).toEqual([{ statut: "depublie", destination: null }]); // ancien slug d'un dépublié → 410
+  expect(await r("l1")).toEqual([{ statut: "depublie", destination: null }]); // boucle → 410
+  expect(await r("jamais")).toEqual([]); // adresse jamais attribuée → 404 normale
+
+  await db.from("articles_blog").delete().like("slug", `e2e-redir-%-${n}`);
+});
