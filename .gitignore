@@ -52,3 +52,6 @@ supabase/.branches/
 # scrapping
 scrapping/__pycache__/
 scrapping/data/
+
+# Captures d'écran soumises à Erwan (non versionnées)
+docs/captures/

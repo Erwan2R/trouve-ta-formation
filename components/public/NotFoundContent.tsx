@@ -8,21 +8,24 @@ import { Card } from "@/components/ui/Card";
 export function NotFoundContent({
   accueil,
   raccourcis,
+  surtitre = "Erreur 404",
+  titre = "Cette page n'existe pas ou a été déplacée",
+  texte = "L'adresse est peut-être mal saisie, ou la page a été retirée de l'annuaire. Les informations que vous cherchez sont probablement accessibles depuis l'une des entrées ci-dessous.",
 }: {
+  surtitre?: string;
+  titre?: string;
+  texte?: string;
   accueil: { href: string; libelle: string };
   raccourcis: { href: string; titre: string; description: string }[];
 }) {
   return (
     <main className="container-public py-[clamp(56px,9vw,88px)]">
       <div className="max-w-[900px]">
-        <p className="eyebrow text-brique-700">Erreur 404</p>
+        <p className="eyebrow text-brique-700">{surtitre}</p>
         <h1 className="mt-4 max-w-[22ch] text-[clamp(32px,4.4vw,54px)] leading-[1.06] font-bold tracking-[-0.03em] text-balance">
-          Cette page n&apos;existe pas ou a été déplacée
+          {titre}
         </h1>
-        <p className="mt-5 max-w-[620px] text-[16.5px] leading-[1.6] text-ink-500">
-          L&apos;adresse est peut-être mal saisie, ou la page a été retirée de l&apos;annuaire. Les informations que
-          vous cherchez sont probablement accessibles depuis l&apos;une des entrées ci-dessous.
-        </p>
+        <p className="mt-5 max-w-[620px] text-[16.5px] leading-[1.6] text-ink-500">{texte}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <ButtonLink href={accueil.href}>{accueil.libelle}</ButtonLink>
         </div>

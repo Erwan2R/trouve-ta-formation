@@ -15,6 +15,9 @@ export async function middleware(requete: NextRequest) {
   if (!admin && !estHoteEspace(hote)) {
     if ([PREFIXE_ESPACE, PREFIXE_ADMIN].some((p) => pathname === p || pathname.startsWith(`${p}/`)))
       return NextResponse.rewrite(new URL("/introuvable/", requete.url));
+    const article = pathname.match(/^\/securite-privee\/blog\/([a-z0-9-]+)\/?$/)?.[1];
+    if (article && article !== "article-retire")
+      return (await resoudreArticle(article, requete)) ?? NextResponse.next();
     return NextResponse.next();
   }
 
@@ -61,6 +64,23 @@ export async function middleware(requete: NextRequest) {
     return redirection("/dashboard/");
   if (!user && pathname === "/") return redirection("/connexion/");
   return reponse;
+}
+
+/**
+ * Article absent (décision Erwan 01/10/2026) : ancien slug → 301 vers le nouveau ; dépublié → 301 vers sa page de
+ * remplacement, sinon 410 (« supprimé »). Jamais de 404 pour un article qui a existé.
+ */
+// ponytail: une requête Supabase par affichage d'article ; mettre en cache si le blog devient très consulté.
+async function resoudreArticle(slug: string, requete: NextRequest): Promise<NextResponse | null> {
+  const r = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/rpc/resolution_article`, {
+    method: "POST",
+    headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, "Content-Type": "application/json" },
+    body: JSON.stringify({ p_slug: slug }),
+  }).catch(() => null);
+  const [ligne] = ((await r?.json().catch(() => null)) ?? []) as { statut: string; destination: string | null }[];
+  if (!ligne) return null;
+  if (ligne.destination) return NextResponse.redirect(new URL(ligne.destination, requete.url), 301);
+  return NextResponse.rewrite(new URL("/securite-privee/blog/article-retire/", requete.url), { status: 410 });
 }
 
 export const config = {

@@ -67,7 +67,8 @@ export function ColonneFiche({ organisme: o }: { organisme: Organisme }) {
         <div className="flex flex-col gap-3.5 rounded-[20px] border border-line bg-white p-[22px]">
           {a.appeler && (
             <a
-              href={a.appeler} data-cta="telephone"
+              href={a.appeler}
+              data-cta="telephone"
               className="flex items-center justify-center rounded-full bg-ink-900 px-[22px] py-4 text-base font-bold text-white hover:bg-brique-700 hover:text-white"
             >
               Appeler

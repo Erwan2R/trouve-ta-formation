@@ -41,6 +41,163 @@ export type Database = {
         }
         Relationships: []
       }
+      articles_blog: {
+        Row: {
+          a_retenir: string[]
+          accroche_cible: string | null
+          accroche_lien: string | null
+          accroche_phrase: string | null
+          accroche_question: string | null
+          auteur_id: number | null
+          categorie: string
+          corps: Json
+          couverture_alt: string | null
+          couverture_legende: string | null
+          couverture_url: string | null
+          created_at: string
+          essentiel: string[]
+          est_test: boolean
+          extrait: string | null
+          id: string
+          lies: string[]
+          maj_le: string | null
+          meta_description: string | null
+          mis_en_avant: boolean
+          publie_le: string | null
+          reglementaire: boolean
+          remplacement: string | null
+          slug: string
+          statut: Database["public"]["Enums"]["statut_article"]
+          titre: string
+          titre_seo: string | null
+          updated_at: string
+          verifie_le: string | null
+        }
+        Insert: {
+          a_retenir?: string[]
+          accroche_cible?: string | null
+          accroche_lien?: string | null
+          accroche_phrase?: string | null
+          accroche_question?: string | null
+          auteur_id?: number | null
+          categorie: string
+          corps?: Json
+          couverture_alt?: string | null
+          couverture_legende?: string | null
+          couverture_url?: string | null
+          created_at?: string
+          essentiel?: string[]
+          est_test?: boolean
+          extrait?: string | null
+          id?: string
+          lies?: string[]
+          maj_le?: string | null
+          meta_description?: string | null
+          mis_en_avant?: boolean
+          publie_le?: string | null
+          reglementaire?: boolean
+          remplacement?: string | null
+          slug: string
+          statut?: Database["public"]["Enums"]["statut_article"]
+          titre: string
+          titre_seo?: string | null
+          updated_at?: string
+          verifie_le?: string | null
+        }
+        Update: {
+          a_retenir?: string[]
+          accroche_cible?: string | null
+          accroche_lien?: string | null
+          accroche_phrase?: string | null
+          accroche_question?: string | null
+          auteur_id?: number | null
+          categorie?: string
+          corps?: Json
+          couverture_alt?: string | null
+          couverture_legende?: string | null
+          couverture_url?: string | null
+          created_at?: string
+          essentiel?: string[]
+          est_test?: boolean
+          extrait?: string | null
+          id?: string
+          lies?: string[]
+          maj_le?: string | null
+          meta_description?: string | null
+          mis_en_avant?: boolean
+          publie_le?: string | null
+          reglementaire?: boolean
+          remplacement?: string | null
+          slug?: string
+          statut?: Database["public"]["Enums"]["statut_article"]
+          titre?: string
+          titre_seo?: string | null
+          updated_at?: string
+          verifie_le?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "articles_blog_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "auteurs_blog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      articles_blog_anciens_slugs: {
+        Row: {
+          article_id: string
+          slug: string
+        }
+        Insert: {
+          article_id: string
+          slug: string
+        }
+        Update: {
+          article_id?: string
+          slug?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "articles_blog_anciens_slugs_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles_blog"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auteurs_blog: {
+        Row: {
+          biographie: string | null
+          created_at: string
+          est_test: boolean
+          id: number
+          nom: string
+          photo_url: string | null
+          qualification: string
+        }
+        Insert: {
+          biographie?: string | null
+          created_at?: string
+          est_test?: boolean
+          id?: never
+          nom: string
+          photo_url?: string | null
+          qualification: string
+        }
+        Update: {
+          biographie?: string | null
+          created_at?: string
+          est_test?: boolean
+          id?: never
+          nom?: string
+          photo_url?: string | null
+          qualification?: string
+        }
+        Relationships: []
+      }
       codes_recuperation_admin: {
         Row: {
           admin_id: string
@@ -907,9 +1064,17 @@ export type Database = {
       maj_publication: { Args: never; Returns: string }
       maj_publication_organisme: { Args: { p_org: string }; Returns: string }
       mon_organisme: { Args: never; Returns: string }
+      resolution_article: {
+        Args: { p_slug: string }
+        Returns: {
+          destination: string
+          statut: string
+        }[]
+      }
       slug_organisme: { Args: { p_nom: string }; Returns: string }
     }
     Enums: {
+      statut_article: "brouillon" | "publie" | "depublie"
       statut_demande: "en_attente" | "acceptee" | "refusee"
       statut_organisme: "brouillon" | "publie" | "suspendu"
       statut_prospect:
@@ -1047,6 +1212,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      statut_article: ["brouillon", "publie", "depublie"],
       statut_demande: ["en_attente", "acceptee", "refusee"],
       statut_organisme: ["brouillon", "publie", "suspendu"],
       statut_prospect: [

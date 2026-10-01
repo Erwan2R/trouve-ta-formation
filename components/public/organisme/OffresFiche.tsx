@@ -53,7 +53,8 @@ export function OffresFiche({
         </p>
         {appeler && (
           <a
-            href={appeler} data-cta="telephone"
+            href={appeler}
+            data-cta="telephone"
             className="self-start rounded-full bg-ink-900 px-[22px] py-[13px] text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
           >
             Appeler l&apos;organisme
@@ -193,7 +194,8 @@ export function OffresFiche({
                       </p>
                       {appeler && (
                         <a
-                          href={appeler} data-cta="telephone"
+                          href={appeler}
+                          data-cta="telephone"
                           className="mt-1 self-start rounded-full bg-ink-900 px-[22px] py-[13px] text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
                         >
                           Appeler l&apos;organisme
