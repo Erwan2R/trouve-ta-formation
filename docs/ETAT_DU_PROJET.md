@@ -382,8 +382,11 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 
 À faire **avec l'accord d'Erwan** (production), dans cet ordre :
 
-1. **Pages légales complètes.** L'éditeur sera une autre société ; Erwan envoie les textes. Tant qu'un `[à compléter]`
-   reste dans `contenu/legal/`, **le build de production échoue** (`next.config.ts`).
+1. **Pages légales** : rédigées le 1er octobre 2026 avec l'entreprise individuelle d'Erwan (SIREN 882 911 399, ville
+   seule, sans téléphone) en attendant sa société ; plus aucun marqueur, le build de production n'est plus bloqué.
+   **Relecture juridique conseillée** (prospection, durées) ; à mettre à jour à la création de la société.
+   Engagement pris dans la politique : prospects conservés **3 ans au plus après le dernier contact** → purge
+   automatique à construire avant la première campagne.
 2. **Vider la base de production** : compte `espace-test@trouve-ta-formation.fr`, 7 organismes `est_test`, contenus
    des tables `liens_email`, `formulaire_statistiques`, `recherches_sans_resultat`. Appliquer d'abord les migrations
    éventuellement créées depuis.
@@ -425,7 +428,7 @@ Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la 
 - Pages départements : 7 textes de 300 mots à écrire, 1 brouillon (Seine-Saint-Denis).
 - Référentiel : durées et RNCP marqués `[À VÉRIFIER]` (TFP ASA notamment).
 - Formulaire : parcours de renouvellement d'une carte ASA, conditions d'expérience SSIAP 2 et 3.
-- Mentions légales et politique de confidentialité (société éditrice).
+- Mentions légales et politique de confidentialité : rédigées (entreprise individuelle), relecture juridique conseillée.
 - Réponse « D'où vient mon adresse email ? » (landing) à valider.
 - Textes rédigés par Claude, en relecture chez Erwan : messages « fiche non publiée / suspendue », avertissement titre
   archivé, demande d'ajout de titre, emails (validation, changement d'adresse, notifications), textes de

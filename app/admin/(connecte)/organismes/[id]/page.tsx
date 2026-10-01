@@ -58,8 +58,12 @@ export default async function FicheClient({ params }: Props) {
       ? // Cas absent de la maquette (texte Claude) : email non validé ou minimum publiable non rempli.
         { label: "Non publiée", phrase: "La fiche n'est pas encore en ligne : email non validé ou minimum non rempli." }
       : f.palier === "basique"
-        ? { label: "Non indexée", phrase: "La fiche n'apparaît pas dans les résultats de recherche." }
-        : { label: "Indexée", phrase: "La fiche apparaît dans les résultats de recherche." };
+        ? {
+            label: "Non indexable",
+            // Texte d'Erwan ; au palier Basique avec des formations, la cause est l'absence de financements et de présentation.
+            phrase: `La fiche est en ligne mais exclue des moteurs de recherche (noindex) : ${f.nbFormations === 0 ? "aucune formation déclarée" : "ni financements ni présentation renseignés"}.`,
+          }
+        : { label: "Indexable", phrase: "La fiche est en ligne et peut être référencée par les moteurs de recherche." };
 
   const identite: [string, string | null][] = [
     ["Raison sociale", o.raison_sociale],

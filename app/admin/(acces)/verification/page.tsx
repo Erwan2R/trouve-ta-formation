@@ -36,8 +36,8 @@ export default function Verification() {
         </summary>
         <div className="mt-4 flex flex-col gap-4">
           <p className="text-[13.5px] leading-[1.6] text-ink-600">
-            Chaque code ne sert qu&apos;une fois. L&apos;application d&apos;authentification devra ensuite être
-            configurée à nouveau, sur votre nouvel appareil.
+            Saisissez l&apos;un de vos codes de récupération. Chaque code ne sert qu&apos;une fois. L&apos;application
+            d&apos;authentification devra ensuite être configurée à nouveau, sur votre nouvel appareil.
           </p>
           <FormulaireAcces
             action={utiliserCodeRecuperation}

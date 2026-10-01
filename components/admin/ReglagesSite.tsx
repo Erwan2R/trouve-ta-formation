@@ -106,8 +106,8 @@ export function ReglagesSite({
         </span>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-3">
           <Nombre
-            libelle="Proposer d'élargir sous"
-            aide="organismes trouvés (et au-dessus de zéro)"
+            libelle="Proposer d'élargir la recherche quand elle trouve moins de"
+            aide="organismes. À zéro résultat, l'élargissement est automatique."
             valeur={r.elargissement}
             onChange={(n) => setR({ ...r, elargissement: n })}
           />

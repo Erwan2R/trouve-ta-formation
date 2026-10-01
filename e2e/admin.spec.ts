@@ -485,7 +485,7 @@ test("réglages du site : un seuil se modifie depuis Paramètres", async ({ page
   const avant = (await lire()) as number;
   await connecterAdmin(page);
   await expect(page.getByRole("heading", { name: "Réglages du site" })).toBeVisible();
-  await page.getByLabel("Proposer d'élargir sous").fill(String(avant + 1));
+  await page.getByLabel("Proposer d'élargir la recherche quand elle trouve moins de").fill(String(avant + 1));
   await page.getByRole("button", { name: "Enregistrer", exact: true }).click();
   await expect(page.getByText(/Enregistré à/)).toBeVisible();
   expect(await lire()).toBe(avant + 1);
