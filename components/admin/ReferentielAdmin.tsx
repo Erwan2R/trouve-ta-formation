@@ -27,7 +27,10 @@ type Actions = {
   ajouterTitre: (s: Saisie) => Promise<RetourReferentiel>;
   modifierTitre: (id: number, s: Saisie) => Promise<RetourReferentiel>;
   accepterDemande: (id: number, s: Saisie) => Promise<RetourReferentiel>;
-  refuserDemande: (id: number) => Promise<RetourReferentiel>;
+  refuserDemande: (
+    id: number,
+    r: { motif: "deja_present" | "hors_perimetre"; existantId: number | null },
+  ) => Promise<RetourReferentiel>;
   archiverTitre: (id: number, d: { remplacePar: number | null; proche: number | null }) => Promise<RetourReferentiel>;
 };
 
@@ -147,6 +150,10 @@ export function ReferentielAdmin({
   const [edition, setEdition] = useState<(Saisie & { id: number }) | null>(null);
   const [arbitrage, setArbitrage] = useState<{ id: number; mode: "accepter" | "refuser"; saisie: Saisie } | null>(null);
   const [archivage, setArchivage] = useState({ remplacePar: "", proche: "" });
+  const [refus, setRefus] = useState<{ motif: "" | "deja_present" | "hors_perimetre"; existant: string }>({
+    motif: "",
+    existant: "",
+  });
   const [erreur, setErreur] = useState("");
   const [toast, setToast] = useState("");
   const fermerToast = useCallback(() => setToast(""), []);
@@ -516,6 +523,7 @@ export function ReferentielAdmin({
                         type="button"
                         onClick={() => (
                           setArbitrage({ id: d.id, mode: "refuser", saisie: { intitule: "", categorie: "" } }),
+                          setRefus({ motif: "", existant: "" }),
                           setErreur("")
                         )}
                         className={bContour}
@@ -571,22 +579,69 @@ export function ReferentielAdmin({
                   </div>
                 )}
                 {ouvert?.mode === "refuser" && (
-                  <div className="flex flex-wrap items-center gap-3.5 border-t border-line pt-[18px]">
-                    <p className="flex-[1_1_360px] text-sm leading-[1.55] text-pretty text-ink-700">
+                  <div className="flex flex-col gap-3.5 border-t border-line pt-[18px]">
+                    <span className="text-base font-extrabold">Motif du refus</span>
+                    <div role="radiogroup" aria-label="Motif du refus" className="flex flex-col gap-2">
+                      {(
+                        [
+                          ["deja_present", "Déjà présent au référentiel, sous un autre intitulé"],
+                          ["hors_perimetre", "Hors périmètre de la sécurité privée"],
+                        ] as const
+                      ).map(([m, l]) => (
+                        <button
+                          key={m}
+                          type="button"
+                          role="radio"
+                          aria-checked={refus.motif === m}
+                          onClick={() => setRefus({ ...refus, motif: m })}
+                          className={`flex cursor-pointer items-center gap-3.5 rounded-[14px] border-[1.5px] px-4 py-3 text-left text-[14.5px] font-bold ${refus.motif === m ? "border-ink-900 bg-white" : "border-line bg-cream-100"}`}
+                        >
+                          <span
+                            className={`flex size-5 flex-none items-center justify-center rounded-full border-[1.5px] ${refus.motif === m ? "border-ink-900" : "border-line-heavy"}`}
+                          >
+                            <span className={`block size-2.5 rounded-full ${refus.motif === m ? "bg-ink-900" : ""}`} />
+                          </span>
+                          {l}
+                        </button>
+                      ))}
+                    </div>
+                    {refus.motif === "deja_present" && (
+                      <label className="flex flex-col gap-[7px]">
+                        <span className="text-[13px] font-bold">Titre déjà présent</span>
+                        <select
+                          value={refus.existant}
+                          onChange={(e) => setRefus({ ...refus, existant: e.target.value })}
+                          className={champ}
+                        >
+                          <option value="">Choisir le titre</option>
+                          {titres.map((t) => (
+                            <option key={t.id} value={t.id}>
+                              {t.libelle_court}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                    <p className="text-sm leading-[1.55] text-pretty text-ink-700">
                       La demande sera classée refusée et aucun titre ne sera créé. Email de refus envoyé à{" "}
                       <span className="font-mono text-[12.5px] text-ink-900">{email}</span>
                     </p>
                     <Erreur />
-                    <span className="flex flex-wrap gap-2.5">
+                    <span className="flex flex-wrap justify-end gap-2.5">
                       <button type="button" className={bContour} onClick={() => setArbitrage(null)}>
                         Annuler
                       </button>
                       <button
                         type="button"
-                        disabled={enCours}
+                        disabled={enCours || !refus.motif || (refus.motif === "deja_present" && !refus.existant)}
                         onClick={() =>
+                          refus.motif &&
                           lancer(
-                            () => a.refuserDemande(d.id),
+                            () =>
+                              a.refuserDemande(d.id, {
+                                motif: refus.motif as "deja_present" | "hors_perimetre",
+                                existantId: refus.existant ? Number(refus.existant) : null,
+                              }),
                             () => setArbitrage(null),
                           )
                         }

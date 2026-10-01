@@ -2,7 +2,14 @@ import "server-only";
 import { EMAIL_CONTACT, EXPEDITEUR_EMAILS } from "@/lib/config/contact";
 
 /** Envoi transactionnel par l'API Resend (clé « Sending access » limitée au domaine). */
-export async function envoyerEmail(d: { a: string; sujet: string; html: string; texte: string }): Promise<boolean> {
+export async function envoyerEmail(d: {
+  a: string;
+  sujet: string;
+  html: string;
+  texte: string;
+  /** En-têtes supplémentaires (List-Unsubscribe des rappels). */
+  entetes?: Record<string, string>;
+}): Promise<boolean> {
   const cle = process.env.RESEND_SENDING_KEY;
   if (!cle) {
     console.error("RESEND_SENDING_KEY manquante : email non envoyé");
@@ -19,6 +26,7 @@ export async function envoyerEmail(d: { a: string; sujet: string; html: string; 
       subject: d.sujet,
       html: d.html,
       text: d.texte,
+      ...(d.entetes && { headers: d.entetes }),
     }),
     signal: AbortSignal.timeout(10000),
   }).catch((e: Error) => (console.error("Resend :", e.message), null));

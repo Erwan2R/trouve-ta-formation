@@ -163,8 +163,9 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
   zéro à chaque passage du test, 2FA compris).
 - Tests : `e2e/admin.spec.ts` (6 parcours : accès et 2FA, modération, prospection, référentiel, analytics, réglages).
   **Verrou** : `playwright.config.ts` et `e2e/admin.spec.ts` s'arrêtent immédiatement si la base configurée n'est pas
-  celle de dev ; le mot de passe de test n'existe donc que sur dev. Chaque passage **dissocie l'application
-  d'authentification** du compte admin de dev : la reconfigurer ensuite.
+  celle de dev ; le mot de passe de test n'existe donc que sur dev. Les tests utilisent leur **propre compte admin**
+  (`e2e-admin@trouve-ta-formation.fr`, `administrateurs.est_test`, base de dev seulement) et ne touchent jamais celui
+  d'Erwan. Le compte unique reste la règle pour les vrais comptes (index unique sur les comptes non test).
 
 ---
 
@@ -318,7 +319,12 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
   (sans effet public). Seul l'admin réactive (l'organisme n'a pas le droit d'écrire le statut) ; publication
   recalculée à la réactivation.
 - **Rappels** : 2 types (ajout de formation, complétion de fiche), email fixe, aucun type par défaut ; historique sur
-  la Fiche client (table `rappels_organisme`).
+  la Fiche client (table `rappels_organisme`). Lien « Ne plus recevoir ces rappels » (promesse de la FAQ) : jeton signé
+  (HMAC, `lib/desabonnement.ts`), page `/desabonnement/` de l'espace organisme avec un bouton (les antivirus des
+  messageries ouvrent les liens : un simple clic désabonnerait à leur insu) et désabonnement en un clic depuis la
+  messagerie (en-têtes `List-Unsubscribe` / `List-Unsubscribe-Post`). Désabonné : bouton de rappel grisé, envoi refusé.
+- **Refus d'une demande de titre** : motif obligatoire (« déjà présent », avec le titre existant, ou « hors
+  périmètre »), un email par motif.
 - **Fichier client** = tous les organismes, y compris ceux créés en base sans compte (rappel impossible pour eux).
 - **Prospection** (page hors maquette, minimale) : table `prospects`, jamais reliée aux fiches ni au Fichier client.
   Import du CSV du scraping, identifiant SIRET sinon SIREN, un prospect connu garde son statut. **Lignes sans SIRET**
@@ -387,7 +393,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    `TURNSTILE_SECRET_KEY` (le jeton Cloudflare expire le 8 octobre ; ensuite, la clé secrète se lit dans le tableau de
    bord Cloudflare). Sans clé Turnstile, l'inscription est refusée en production.
 5. **Retirer les redirections 307** de `partenaires.` et `admin.trouve-ta-formation.fr` dans Vercel.
-6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261018` (administrateur, rappels,
+6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261020` (administrateur, rappels,
    prospection, analytics) ; créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), puis
    configurer le 2FA à la première connexion ; créer un deploy hook pour `main` et la variable
    `VERCEL_DEPLOY_HOOK_URL` de production.
@@ -425,12 +431,12 @@ Avant l'envoi de la **première campagne de prospection** (pas bloquant pour la 
   archivé, demande d'ajout de titre, emails (validation, changement d'adresse, notifications), textes de
   l'accompagnement en 7 étapes, pages légales (parties factuelles).
 
-- **Textes du Sprint 9 rédigés par Claude, à valider** : 4 emails (`contenu/admin/emails.ts` : rappel d'ajout de
-  formation, rappel de complétion, demande de titre acceptée, refusée), bandeau de suspension côté organisme, pages
-  Connexion et Vérification admin, page Prospection, section « Réglages du site », état « Non publiée » de la Fiche
-  client, libellés des écrans du formulaire dans Analytics.
+- **Textes du Sprint 9** : emails, bandeau de suspension et page Prospection **validés par Erwan** (01/10/2026). Restent
+  à relire : page « Ne plus recevoir ces rappels », pages Connexion et Vérification admin, section « Réglages du
+  site », état « Non publiée » de la Fiche client, libellés des écrans du formulaire dans Analytics.
 - **Fichier du scraping** (142 lignes) : 107 organismes distincts, dont 17 sans SIRET ni SIREN (52 lignes, beaucoup de
-  doublons) ; l'API en retrouve 4 sans ambiguïté.
+  doublons) ; l'API en retrouve 4 sans ambiguïté. 83 emails, dont 5 de messagerie personnelle (gmail ×2, yahoo,
+  orange, outlook) : la FAQ « D'où vient mon adresse email ? » parle d'adresses professionnelles, à valider.
 
 ### Décisions produit en attente
 - Seuil d'affichage des compteurs (`seuilCompteurs`).

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { EMAIL_DEMANDE_ACCEPTEE, EMAIL_DEMANDE_REFUSEE } from "@/contenu/admin/emails";
+import { EMAIL_DEMANDE_ACCEPTEE, EMAIL_DEMANDE_REFUSEE, type MotifRefus } from "@/contenu/admin/emails";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { envoyerEmail } from "@/lib/email/resend";
 import { URL_ESPACE_ORGANISME } from "@/lib/espace";
@@ -111,7 +111,7 @@ async function lireDemande(id: number) {
   return { ...d, email };
 }
 
-const clore = (id: number, statut: "acceptee" | "refusee") =>
+const clore = (id: number, statut: "acceptee") =>
   supabaseAdmin().from("demandes_titre").update({ statut, traitee_le: new Date().toISOString() }).eq("id", id);
 
 /** Acceptation après relecture : le titre est créé, aucune offre n'est rattachée, l'organisme est prévenu. */
@@ -132,13 +132,43 @@ export async function accepterDemande(id: number, s: Saisie): Promise<RetourRefe
   };
 }
 
-export async function refuserDemande(id: number): Promise<RetourReferentiel> {
+/**
+ * Refus avec motif choisi par l'admin (décision Erwan 01/10/2026) : titre déjà présent sous un autre intitulé (l'admin
+ * désigne lequel, l'organisme peut le déclarer tout de suite) ou hors périmètre. Un email par motif.
+ */
+export async function refuserDemande(
+  id: number,
+  r: { motif: MotifRefus; existantId: number | null },
+): Promise<RetourReferentiel> {
   await exigerAdmin();
   const d = await lireDemande(id);
   if (!d) return { ok: false, erreur: "Cette demande a déjà été traitée." };
-  await clore(id, "refusee");
+  let existant: string | undefined;
+  if (r.motif === "deja_present") {
+    const { data: t } = await supabaseAdmin()
+      .from("titres_referentiel")
+      .select("libelle_court")
+      .eq("id", r.existantId ?? -1)
+      .eq("statut", "actif")
+      .maybeSingle();
+    if (!t) return { ok: false, erreur: "Choisissez le titre déjà présent au référentiel." };
+    existant = t.libelle_court;
+  } else if (r.motif !== "hors_perimetre") return { ok: false, erreur: "Choisissez un motif de refus." };
+  await supabaseAdmin()
+    .from("demandes_titre")
+    .update({
+      statut: "refusee",
+      traitee_le: new Date().toISOString(),
+      motif_refus: r.motif,
+      titre_existant_id: r.motif === "deja_present" ? r.existantId : null,
+    })
+    .eq("id", id);
   const envoye =
-    !!d.email && (await envoyerEmail({ a: d.email, ...EMAIL_DEMANDE_REFUSEE(d.intitule, URL_ESPACE_ORGANISME) }));
+    !!d.email &&
+    (await envoyerEmail({
+      a: d.email,
+      ...EMAIL_DEMANDE_REFUSEE(r.motif, d.intitule, URL_ESPACE_ORGANISME, existant),
+    }));
   revalidatePath("/admin/referentiel/");
   return {
     ok: true,

@@ -294,10 +294,12 @@ export function FichierClient({
                         <button
                           type="button"
                           aria-label={`Envoyer un rappel à ${o.nom}`}
+                          disabled={o.desabonne}
+                          title={o.desabonne ? "L'organisme ne souhaite plus recevoir de rappels" : undefined}
                           onClick={() => setModale({ mode: "rappel", id: o.id })}
-                          className={`${bAction} border-line-strong`}
+                          className={`${bAction} border-line-strong disabled:cursor-not-allowed disabled:border-line disabled:text-ink-300 disabled:hover:border-line`}
                         >
-                          Rappel
+                          {o.desabonne ? "Désabonné" : "Rappel"}
                         </button>
                         <button
                           type="button"

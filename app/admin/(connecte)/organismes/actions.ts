@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { EMAILS_RAPPEL, TYPES_RAPPEL, type TypeRappel } from "@/contenu/admin/emails";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { envoyerEmail } from "@/lib/email/resend";
+import { liensDesabonnement } from "@/lib/desabonnement";
 import { URL_ESPACE_ORGANISME } from "@/lib/espace";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 
@@ -13,7 +14,7 @@ const ECHEC = "L'opération a échoué. Réessayez dans un instant.";
 async function lireOrganisme(id: string) {
   const { data } = await supabaseAdmin()
     .from("organismes")
-    .select("id, nom, statut, comptes_organisme (id)")
+    .select("id, nom, statut, rappels_desabonne_le, comptes_organisme (id)")
     .eq("id", id)
     .maybeSingle();
   return data;
@@ -29,11 +30,15 @@ export async function envoyerRappel(id: string, type: TypeRappel): Promise<Retou
   if (!libelle) return { ok: false, erreur: "Choisissez un type de rappel." };
   const org = await lireOrganisme(id);
   if (!org?.comptes_organisme) return { ok: false, erreur: "Cet organisme n'a pas de compte de connexion." };
+  if (org.rappels_desabonne_le) return { ok: false, erreur: "Cet organisme ne souhaite plus recevoir de rappels." };
   const admin = supabaseAdmin();
   const { data: u } = await admin.auth.admin.getUserById(org.comptes_organisme.id);
   if (!u.user?.email) return { ok: false, erreur: ECHEC };
-  const email = EMAILS_RAPPEL[type](org.nom, URL_ESPACE_ORGANISME);
-  if (!(await envoyerEmail({ a: u.user.email, ...email })))
+  const liens = liensDesabonnement(id);
+  const email = EMAILS_RAPPEL[type](org.nom, URL_ESPACE_ORGANISME, liens.page);
+  // Désabonnement en un clic depuis la messagerie (RFC 8058) : Gmail, Apple Mail, Outlook affichent un bouton.
+  const entetes = { "List-Unsubscribe": `<${liens.unClic}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" };
+  if (!(await envoyerEmail({ a: u.user.email, ...email, entetes })))
     return { ok: false, erreur: "L'envoi a échoué. Réessayez." };
   await admin.from("rappels_organisme").insert({ organisme_id: id, type });
   revalidatePath(`/admin/organismes/${id}/`);

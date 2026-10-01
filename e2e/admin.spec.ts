@@ -40,9 +40,22 @@ async function deconnexion(page: Page) {
   await page.waitForURL(`${base}/connexion/`);
 }
 
-/** Administrateur de dev remis à zéro : mot de passe connu, aucune application, aucun code. */
+// Compte admin de TEST, distinct du compte d'Erwan (décision 01/10/2026) : les tests ne touchent jamais au sien.
+const EMAIL_ADMIN_TEST = "e2e-admin@trouve-ta-formation.fr";
+
+/** Administrateur de test (créé au besoin), remis à zéro : mot de passe connu, aucune application, aucun code. */
 async function reinitialiserAdmin() {
-  const a = (await db.from("administrateurs").select("id").single()).data!;
+  let a = (await db.from("administrateurs").select("id").eq("est_test", true).maybeSingle()).data;
+  if (!a) {
+    const { data: cree, error } = await db.auth.admin.createUser({
+      email: EMAIL_ADMIN_TEST,
+      password: MOT_DE_PASSE,
+      email_confirm: true,
+    });
+    if (error) throw error;
+    a = { id: cree.user.id };
+    await db.from("administrateurs").insert({ id: a.id, est_test: true });
+  }
   const { data: u } = await db.auth.admin.getUserById(a.id);
   for (const f of u.user!.factors ?? []) await db.auth.admin.mfa.deleteFactor({ id: f.id, userId: a.id });
   await db.auth.admin.updateUserById(a.id, { password: MOT_DE_PASSE });
@@ -176,6 +189,24 @@ test("modération : rappel, suspension, réactivation, suppression", async ({ pa
   await expect(page.getByRole("status")).toContainText(`Rappel d'ajout de formation envoyé à ${nom}.`);
   const { data: rappels } = await db.from("rappels_organisme").select("type").eq("organisme_id", org);
   expect(rappels).toEqual([{ type: "ajout_formation" }]);
+
+  // « Ne plus recevoir ces rappels » : page sans connexion, un bouton ; le rappel devient impossible côté admin.
+  const signature = createHmac("sha256", process.env.SUPABASE_SERVICE_ROLE_KEY!)
+    .update(`desabonnement:${org}`)
+    .digest("base64url");
+  const espace = await page.context().browser()!.newPage();
+  await espace.goto(`http://partenaires.localhost:3000/desabonnement/?t=${org}.${signature}`);
+  await espace.getByRole("button", { name: "Ne plus recevoir ces rappels" }).click();
+  await expect(espace.getByRole("heading", { level: 1 })).toHaveText("C'est noté");
+  await espace.goto(`http://partenaires.localhost:3000/desabonnement/?t=${org}.faux`);
+  await expect(espace.getByText("Ce lien n'est pas valable.")).toBeVisible();
+  await espace.close();
+  expect(
+    (await db.from("organismes").select("rappels_desabonne_le").eq("id", org).single()).data!.rappels_desabonne_le,
+  ).not.toBeNull();
+  await page.reload();
+  await expect(page.getByRole("button", { name: `Envoyer un rappel à ${nom}` })).toBeDisabled();
+  await expect(page.getByRole("button", { name: `Envoyer un rappel à ${nom}` })).toHaveText("Désabonné");
 
   // Suspension en confirmation simple.
   await page.getByRole("button", { name: `Suspendre ${nom}` }).click();
@@ -360,11 +391,24 @@ test("référentiel : ajout, modification, arbitrage des demandes", async ({ pag
   await expect(page.getByRole("status")).toContainText("Email d'acceptation envoyé");
   const refuser = page.getByRole("article").filter({ hasText: `E2E Demande a refuser ${n}` });
   await refuser.getByRole("button", { name: "Refuser" }).click();
+  // Motif obligatoire ; « déjà présent » exige de désigner le titre existant.
+  await expect(refuser.getByRole("button", { name: "Refuser et envoyer l'email" })).toBeDisabled();
+  await refuser.getByRole("radio", { name: /Déjà présent/ }).click();
+  await expect(refuser.getByRole("button", { name: "Refuser et envoyer l'email" })).toBeDisabled();
+  await refuser.getByLabel("Titre déjà présent").selectOption({ label: intitules[2] });
   await refuser.getByRole("button", { name: "Refuser et envoyer l'email" }).click();
   await expect(page.getByRole("status")).toContainText("Demande refusée. Email envoyé");
 
   const { data: demandes } = await db.from("demandes_titre").select("statut").eq("organisme_id", org).order("id");
   expect(demandes!.map((d) => d.statut)).toEqual(["acceptee", "refusee"]);
+  const { data: refusee } = await db
+    .from("demandes_titre")
+    .select("motif_refus, titre_existant_id")
+    .eq("organisme_id", org)
+    .eq("statut", "refusee")
+    .single();
+  const { data: retenu } = await db.from("titres_referentiel").select("id").eq("libelle_court", intitules[2]).single();
+  expect(refusee).toEqual({ motif_refus: "deja_present", titre_existant_id: retenu!.id });
   // L'acceptation ne rattache aucune offre à l'organisme demandeur.
   expect((await db.from("organisme_titres").select("titre_id").eq("organisme_id", org)).data).toHaveLength(0);
 
@@ -412,6 +456,7 @@ test("analytics : vues de fiche et clics CTA comptés sans cookie", async ({ bro
   });
   const page = await context.newPage();
   await page.goto(`/securite-privee/organismes/${org!.slug}/`);
+  await page.waitForLoadState("networkidle"); // suivi des clics actif une fois la page hydratée
   await page.evaluate(() =>
     document.querySelectorAll("a[href^='tel:']").forEach((a) => a.addEventListener("click", (e) => e.preventDefault())),
   );

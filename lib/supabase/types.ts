@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           codes_generes_le: string | null
           created_at: string
+          est_test: boolean
           id: string
           mdp_modifie_le: string | null
           tfa_active_le: string | null
@@ -25,6 +26,7 @@ export type Database = {
         Insert: {
           codes_generes_le?: string | null
           created_at?: string
+          est_test?: boolean
           id: string
           mdp_modifie_le?: string | null
           tfa_active_le?: string | null
@@ -32,6 +34,7 @@ export type Database = {
         Update: {
           codes_generes_le?: string | null
           created_at?: string
+          est_test?: boolean
           id?: string
           mdp_modifie_le?: string | null
           tfa_active_le?: string | null
@@ -113,24 +116,30 @@ export type Database = {
           created_at: string
           id: number
           intitule: string
+          motif_refus: string | null
           organisme_id: string
           statut: Database["public"]["Enums"]["statut_demande"]
+          titre_existant_id: number | null
           traitee_le: string | null
         }
         Insert: {
           created_at?: string
           id?: never
           intitule: string
+          motif_refus?: string | null
           organisme_id: string
           statut?: Database["public"]["Enums"]["statut_demande"]
+          titre_existant_id?: number | null
           traitee_le?: string | null
         }
         Update: {
           created_at?: string
           id?: never
           intitule?: string
+          motif_refus?: string | null
           organisme_id?: string
           statut?: Database["public"]["Enums"]["statut_demande"]
+          titre_existant_id?: number | null
           traitee_le?: string | null
         }
         Relationships: [
@@ -139,6 +148,13 @@ export type Database = {
             columns: ["organisme_id"]
             isOneToOne: false
             referencedRelation: "organismes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "demandes_titre_titre_existant_id_fkey"
+            columns: ["titre_existant_id"]
+            isOneToOne: false
+            referencedRelation: "titres_referentiel"
             referencedColumns: ["id"]
           },
         ]
@@ -529,6 +545,7 @@ export type Database = {
           publie_le: string | null
           qualiopi: boolean
           raison_sociale: string | null
+          rappels_desabonne_le: string | null
           score_completude: number
           siret: string | null
           site_web: string | null
@@ -558,6 +575,7 @@ export type Database = {
           publie_le?: string | null
           qualiopi?: boolean
           raison_sociale?: string | null
+          rappels_desabonne_le?: string | null
           score_completude?: number
           siret?: string | null
           site_web?: string | null
@@ -587,6 +605,7 @@ export type Database = {
           publie_le?: string | null
           qualiopi?: boolean
           raison_sociale?: string | null
+          rappels_desabonne_le?: string | null
           score_completude?: number
           siret?: string | null
           site_web?: string | null

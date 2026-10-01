@@ -342,9 +342,9 @@ export function ProspectionAdmin({
               Enregistrer la demande de suppression ?
             </span>
             <span className="text-[14.5px] leading-[1.6] text-ink-700">
-              Les données de ce prospect sont effacées. Son SIRET, son SIREN, son email et le domaine de son site
-              entrent dans la liste d&apos;exclusion : aucun import ne pourra le réintégrer, ni les autres
-              établissements du même SIREN. Cette action ne peut pas être annulée.
+              {suppression.identifiant
+                ? "Les données de ce prospect sont effacées. Son SIRET, son SIREN, son email et le domaine de son site entrent dans la liste d'exclusion : aucun import ne pourra le réintégrer, ni les autres établissements du même SIREN. Cette action ne peut pas être annulée."
+                : "Les données de ce prospect sont effacées. Son email et le domaine de son site entrent dans la liste d'exclusion : aucun import ne pourra le réintégrer. Cette action ne peut pas être annulée."}
             </span>
             <span className="flex flex-wrap justify-end gap-2">
               <button type="button" className={bContour} onClick={() => setSuppression(null)}>

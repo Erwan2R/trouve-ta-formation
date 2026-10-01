@@ -17,10 +17,13 @@ const bouton = "cursor-pointer rounded-full px-[18px] py-[13px] text-sm font-bol
 export function ActionsFicheClient({
   cible,
   derniersEnvois,
+  desabonneLe,
   actions,
 }: {
   cible: CibleModeration;
   derniersEnvois: Partial<Record<TypeRappel, string>>;
+  /** Date du désabonnement des rappels, ou null. */
+  desabonneLe: string | null;
   actions: ActionsModeration;
 }) {
   const router = useRouter();
@@ -35,10 +38,14 @@ export function ActionsFicheClient({
       <div className="flex flex-none flex-wrap gap-2">
         <button
           type="button"
+          disabled={!!desabonneLe}
+          title={
+            desabonneLe ? `L'organisme ne souhaite plus recevoir de rappels (depuis le ${desabonneLe})` : undefined
+          }
           onClick={() => setMode("rappel")}
-          className={`${bouton} bg-ink-900 text-white hover:bg-brique-700`}
+          className={`${bouton} bg-ink-900 text-white hover:bg-brique-700 disabled:cursor-not-allowed disabled:bg-line disabled:text-ink-400`}
         >
-          Envoyer un rappel
+          {desabonneLe ? "Rappels refusés" : "Envoyer un rappel"}
         </button>
         <button
           type="button"

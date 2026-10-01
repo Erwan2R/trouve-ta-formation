@@ -124,6 +124,7 @@ export default async function FicheClient({ params }: Props) {
         <ActionsFicheClient
           cible={{ id: o.id, nom: o.nom, statut: o.statut, nbFormations: f.nbFormations, aCompte: !!compte }}
           derniersEnvois={derniersEnvois}
+          desabonneLe={o.rappels_desabonne_le ? dateCourte(o.rappels_desabonne_le) : null}
           actions={{ ...actions }}
         />
         {suspendu && (

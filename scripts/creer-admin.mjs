@@ -22,7 +22,7 @@ if (!service) throw new Error("Clé service_role introuvable");
 const url = `https://${ref}.supabase.co`;
 const entetes = { apikey: service, Authorization: `Bearer ${service}`, "Content-Type": "application/json" };
 
-const existant = await fetch(`${url}/rest/v1/administrateurs?select=id`, { headers: entetes }).then((r) => r.json());
+const existant = await fetch(`${url}/rest/v1/administrateurs?select=id&est_test=eq.false`, { headers: entetes }).then((r) => r.json());
 if (existant.length) throw new Error("Un administrateur existe déjà sur cette base (compte unique).");
 
 const motDePasse = randomBytes(18).toString("base64url");

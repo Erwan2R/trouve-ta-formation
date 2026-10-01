@@ -21,6 +21,8 @@ export type OrganismeAdmin = {
   nbFormations: number;
   /** Compte de connexion (null : fiche créée directement en base, sans compte). */
   compteId: string | null;
+  /** L'organisme a cliqué « Ne plus recevoir ces rappels » : plus aucun rappel possible. */
+  desabonne: boolean;
 };
 
 const SELECT = `*, lieux (code_postal, ville, est_siege),
@@ -47,6 +49,7 @@ export async function getOrganismesAdmin(): Promise<OrganismeAdmin[]> {
         palier: palier({ ...o, financements, nbFormations: offres.length }),
         nbFormations: offres.length,
         compteId: comptes_organisme?.id ?? null,
+        desabonne: !!o.rappels_desabonne_le,
       };
     })
     .sort((a, b) => b.inscritLe.localeCompare(a.inscritLe));

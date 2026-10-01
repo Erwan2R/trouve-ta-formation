@@ -25,6 +25,8 @@ export const PAGES_PUBLIQUES_ESPACE = [
   "/auth/verifier/",
   "/auth/suppression/",
   "/compte-supprime/",
+  "/desabonnement/",
+  "/desabonnement/confirmer/",
 ];
 
 /** URL absolue de l'espace depuis le site public (variable par environnement, production par défaut). */
