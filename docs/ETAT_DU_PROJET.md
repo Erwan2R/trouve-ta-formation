@@ -117,7 +117,8 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
 | 8 | Inscription, accompagnement, espace organisme, landing organismes | ✅ en dev — **mise en prod bloquée** (section 7) |
 | 9 | Espace admin | ✅ en dev — **mise en prod bloquée** (section 7) |
 | 10 | Blog public et blog admin | À faire (liens « Blog » déjà présents dans les menus → 404 d'ici là) |
-| 11 | Durcissement SEO et lancement | À faire |
+| 11 | Conformité RGPD et légale (audit complet puis mise en conformité) | À faire (ajouté par Erwan, 01/10/2026) |
+| 12 | Durcissement SEO et lancement | À faire |
 
 ### 4.1 Sprints 0–2 — fondations, layout, accueil
 - Toutes les pages publiques en rendu serveur ; un seul H1 ; liens en `<a>` ; métadonnées par `lib/seo/metadata.ts`
@@ -386,7 +387,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    seule, sans téléphone) en attendant sa société ; plus aucun marqueur, le build de production n'est plus bloqué.
    **Relecture juridique conseillée** (prospection, durées) ; à mettre à jour à la création de la société.
    Engagement pris dans la politique : prospects conservés **3 ans au plus après le dernier contact** → purge
-   automatique à construire avant la première campagne.
+   automatique à construire avant la première campagne (Sprint 11). Domiciliation : Bois-Colombes, sans adresse
+   complète (décision Erwan) ; pas de numéro de TVA.
 2. **Vider la base de production** : compte `espace-test@trouve-ta-formation.fr`, 7 organismes `est_test`, contenus
    des tables `liens_email`, `formulaire_statistiques`, `recherches_sans_resultat`. Appliquer d'abord les migrations
    éventuellement créées depuis.

@@ -128,24 +128,56 @@ Se référer à `CLAUDE.md` pour la stack, les règles SEO et les conventions. S
 - Dashboard admin (`UX_Dashboard_Admin.md`)
 - Fichier client / Fiche client (`UX_Fichier_Client.md`, `UX_Fiche_Client.md`)
 - Référentiel des titres — interface de gestion + arbitrage des demandes d'ajout organisme (`UX_Referentiel_Titres.md`)
-- Blog admin (`UX_Blog_Admin.md`)
+- ~~Blog admin~~ → reporté au Sprint 10, avec le blog public (décision Erwan 30/09/2026)
+- Prospection (page ajoutée, décision Erwan) : import du scraping, liste d'exclusion permanente
 - Analytics admin (`UX_Analytics_Admin.md`) — interne, pas de GA4
 - Paramètres admin (`UX_Parametres_Admin.md`) — 2FA obligatoire, codes de récupération affichés une seule fois
 - Création manuelle de fiche organisme en base (pas d'interface dédiée en V1 — documenter la procédure SQL)
 
 ---
 
-## Sprint 10 — Blog public
+## Sprint 10 — Blog public et blog admin
 
-**Objectif :** `/blog/[slug]/`.
+**Objectif :** `/blog/[slug]/` et sa gestion dans l'espace admin.
 
 - Implémenter selon `UX_Blog_Articles.md`
 - Catégories (4 maximum au lancement)
 - Ligne de qualification auteur
+- Blog admin (`UX_Blog_Admin.md`), éditeur Tiptap (accepté par Erwan)
+- Analytics : onglet Blog (articles les plus vus)
 
 ---
 
-## Sprint 11 — Durcissement SEO & lancement
+## Sprint 11 — Conformité RGPD et légale (ajouté par Erwan, 01/10/2026)
+
+**Objectif :** être irréprochable sur le plan légal avant le lancement : audit complet, puis mise en conformité.
+
+**1. Audit (livrable : rapport écrit, point par point, avec ce qui est conforme, ce qui manque et la correction proposée)**
+- Cartographie de toutes les données personnelles : quoi, où (tables, journaux, prestataires), pourquoi, combien de temps, qui y accède
+- Registre des traitements (obligatoire, même pour une petite structure) : candidats, organismes inscrits, prospection, admin, statistiques
+- Bases légales de chaque traitement, en particulier la prospection B2B par téléphone et par email (CNIL, Bloctel pour les numéros de téléphone, règles de prospection électronique)
+- Prestataires sous-traitants : contrats (DPA), localisation des données, transferts hors UE (Vercel, Supabase, Resend, Cloudflare)
+- Cookies et traceurs : inventaire réel sur chaque sous-domaine, confirmation qu'aucun consentement n'est requis
+- Droits des personnes : accès, rectification, effacement, opposition, portabilité — délais et procédure effective
+- Sécurité : chiffrement, droits d'accès, 2FA admin, journalisation, gestion d'une violation de données (procédure de notification CNIL sous 72 h)
+- Mentions légales, politique de confidentialité, CGU (conditions d'utilisation pour les organismes inscrits : à rédiger ?)
+- Conformité des formulaires (information au moment de la collecte : inscription, prospection)
+
+**2. Mise en conformité (selon les résultats de l'audit)**
+- Purge automatique des prospects 3 ans après le dernier contact (engagement de la politique de confidentialité)
+- Purge des comptes organismes jamais validés (30 jours, décision Erwan) et des journaux techniques
+- Mention d'information à l'inscription (lien vers la politique), mention d'information dans les emails de prospection
+- Procédure documentée de réponse aux demandes de droits, et outil d'export des données d'un organisme (portabilité)
+- Registre des traitements tenu dans `docs/`
+- Toute page ou tout texte manquant identifié par l'audit (CGU, page cookies, etc.)
+
+**3. Validation**
+- Relecture par un juriste des textes légaux et du registre (recommandée avant lancement)
+- Mise à jour des mentions légales à la création de la société d'Erwan
+
+---
+
+## Sprint 12 — Durcissement SEO & lancement
 
 **Objectif :** validation finale avant mise en production.
 
