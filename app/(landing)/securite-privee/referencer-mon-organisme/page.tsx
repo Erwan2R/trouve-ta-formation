@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/public/Logo";
+import { PiedMinimal } from "@/components/public/PiedMinimal";
 import { ApercuFicheAnnotee } from "@/components/public/referencer/ApercuFicheAnnotee";
 import { REFERENCER as R } from "@/contenu/securite-privee/referencer";
 import { VERTICALES } from "@/lib/config/verticales";
@@ -533,25 +534,7 @@ export default async function ReferencerMonOrganisme() {
         </section>
       </main>
 
-      <footer className="bg-ink-900">
-        <div
-          className={`${conteneur} flex flex-wrap items-center justify-between gap-x-6 gap-y-3.5 border-t border-line-dark pt-[26px] pb-[30px]`}
-        >
-          <span className="flex flex-wrap items-center gap-x-[18px] gap-y-3 text-[13.5px]">
-            <Logo height={24} inverse />
-            <Link href="/mentions-legales/" className="text-on-dark hover:text-white">
-              {R.pied[0]}
-            </Link>
-            <Link href="/confidentialite/" className="text-on-dark hover:text-white">
-              {R.pied[1]}
-            </Link>
-            <a href={`mailto:${R.contact}`} className="text-on-dark hover:text-white">
-              {R.pied[2]}
-            </a>
-          </span>
-          <span className="font-mono text-[11.5px] text-ink-300">© 2026 Trouve ta formation</span>
-        </div>
-      </footer>
+      <PiedMinimal conteneur={conteneur} />
     </div>
   );
 }

@@ -208,6 +208,4 @@ export const REFERENCER = {
     texte: "Gratuit, sans engagement, cinq minutes. Vous pouvez la modifier ou la supprimer à tout moment.",
     secours: "Une question avant de vous inscrire ? Écrivez-nous à",
   },
-
-  pied: ["Mentions légales", "Politique de confidentialité", "Contact"],
 };

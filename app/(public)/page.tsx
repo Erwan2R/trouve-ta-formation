@@ -1,54 +1,58 @@
+import Link from "next/link";
 import { Logo } from "@/components/public/Logo";
-import { Card } from "@/components/ui/Card";
+import { PiedMinimal } from "@/components/public/PiedMinimal";
+import { RACINE } from "@/contenu/erreurs-racine";
 import { VERTICALES } from "@/lib/config/verticales";
 import { buildMetadata } from "@/lib/seo/metadata";
 
-// Racine du domaine (pas de maquette) : aiguillage vers les verticales. Seul lien inter-silo hors footer.
-export const metadata = buildMetadata({
-  title: "Trouve ta formation — Annuaire indépendant des organismes de formation",
-  description:
-    "Annuaire indépendant des organismes de formation professionnelle, secteur par secteur, sans commission ni classement payant.",
-  path: "/",
-});
+// Racine du domaine (Copy racine §10) : un point de passage, pas une destination. Copy volontairement brève,
+// aucun contenu éditorial sur la formation en général, pied de page minimal (pas celui du silo).
+export const metadata = {
+  ...buildMetadata({ title: RACINE.title, description: RACINE.description, path: "/" }),
+  title: { absolute: RACINE.title },
+};
 
-export default function Home() {
+export default function Racine() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <header className="border-b border-line">
         <div className="container-public py-4">
           <Logo height={36} priority />
         </div>
       </header>
-      <main className="container-public py-[clamp(56px,9vw,88px)]">
-        <div className="max-w-[900px]">
-          <p className="eyebrow text-brique-700">Annuaire indépendant</p>
-          <h1 className="mt-4 max-w-[22ch] text-[clamp(32px,4.4vw,54px)] leading-[1.06] font-bold tracking-[-0.03em] text-balance">
-            Trouvez un organisme de formation professionnelle
-          </h1>
-          <p className="mt-5 max-w-[620px] text-[16.5px] leading-[1.6] text-ink-500">
-            Trouve ta formation compare les organismes de formation secteur par secteur, sans commission ni classement
-            payant. Choisissez votre secteur.
-          </p>
-        </div>
-        <h2 className="sr-only">Secteurs</h2>
-        <ul className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(min(100%,340px),1fr))] gap-3.5">
-          {Object.values(VERTICALES).map((v) => (
-            <li key={v.slug}>
-              <Card href={`/${v.slug}/`}>
-                <span className="eyebrow text-ink-400">{v.region}</span>
-                <span className="mt-3 block text-xl leading-tight font-bold tracking-[-0.015em]">{v.nom}</span>
-                <span className="mt-2 block text-[14.5px] leading-[1.65] text-ink-500">{v.description}</span>
-                <span className="mt-4 block text-[13.5px] font-bold text-brique-700">Voir les formations →</span>
-              </Card>
-            </li>
-          ))}
-        </ul>
-      </main>
-      <footer className="bg-ink-900 py-8 text-ink-300">
-        <p className="container-public text-[12.5px] leading-relaxed">
-          © 2026 Trouve ta formation — Annuaire indépendant des organismes de formation.
+      <main className="container-public w-full flex-1 py-[clamp(56px,9vw,96px)]">
+        <h1 className="text-[clamp(36px,5vw,62px)] leading-[1.02] font-bold tracking-[-0.04em]">{RACINE.h1}</h1>
+        <p className="mt-4 max-w-[48ch] text-[clamp(18px,2vw,21px)] leading-[1.5] text-ink-600">
+          {RACINE.positionnement}
         </p>
-      </footer>
-    </>
+
+        <ul className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(min(100%,360px),1fr))] gap-3.5">
+          {Object.values(VERTICALES).map((v) => {
+            const c = RACINE.verticales[v.slug];
+            return (
+              <li key={v.slug}>
+                <Link
+                  href={`/${v.slug}/`}
+                  className="flex h-full flex-col gap-2.5 rounded-[22px] border border-line bg-white p-[26px] text-ink-900 transition-[border-color,transform] hover:-translate-y-0.5 hover:border-ink-900 hover:text-ink-900"
+                >
+                  <span className="text-[22px] leading-tight font-bold tracking-[-0.02em]">{c.nom}</span>
+                  <span className="text-[15px] leading-[1.6] text-ink-500">{c.texte}</span>
+                  <span className="mt-2 text-[14.5px] font-bold text-brique-700">{c.lien} →</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mt-6 text-[15px] text-ink-500">{RACINE.aVenir}</p>
+
+        <p className="mt-16 border-t border-line pt-6 text-[15px] text-ink-600">
+          {RACINE.b2b.texte}{" "}
+          <Link href="/securite-privee/referencer-mon-organisme/" className="font-bold">
+            {RACINE.b2b.lien} →
+          </Link>
+        </p>
+      </main>
+      <PiedMinimal />
+    </div>
   );
 }

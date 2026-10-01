@@ -139,10 +139,10 @@ export default async function PageArticle({ params }: Props) {
 
       <section className="bg-cream-100">
         <div className="container-public pt-12 pb-16">
-          <div className="flex max-w-[800px] flex-col gap-[38px]">
+          <div className="flex flex-col gap-[38px] lg:grid lg:grid-cols-[minmax(0,700px)_240px] lg:items-start lg:gap-x-16">
             {/* Bloc 3 — L'essentiel (articles de plus de 1000 mots) */}
             {long && a.essentiel.length > 0 && (
-              <aside className={carte}>
+              <aside className={`${carte} lg:col-start-1`}>
                 <h2 className={`${surtitre} text-brique-700`}>{BLOG.article.essentiel}</h2>
                 <ul className="flex flex-col">
                   {a.essentiel.map((e) => (
@@ -163,7 +163,10 @@ export default async function PageArticle({ params }: Props) {
 
             {/* Bloc 4 — Dans cet article (au-delà de 1000 mots), ancres en dur */}
             {sommaire.length > 1 && (
-              <nav aria-labelledby="dans-cet-article" className="flex flex-col gap-3 border-y border-line-strong py-5">
+              <nav
+                aria-labelledby="dans-cet-article"
+                className="flex flex-col gap-3 border-y border-line-strong py-5 lg:sticky lg:top-[calc(var(--header-h)+24px)] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:border-y-0 lg:border-l lg:py-1 lg:pl-6"
+              >
                 <h2 id="dans-cet-article" className={`${surtitre} text-ink-400`}>
                   {BLOG.article.sommaire}
                 </h2>
@@ -182,80 +185,82 @@ export default async function PageArticle({ params }: Props) {
               </nav>
             )}
 
-            {/* Bloc 5 — Corps */}
-            <article>
-              <CorpsArticle doc={a.corps} visibles={visibles} />
-            </article>
+            <div className="flex min-w-0 flex-col gap-[38px] lg:col-start-1">
+              {/* Bloc 5 — Corps */}
+              <article>
+                <CorpsArticle doc={a.corps} visibles={visibles} />
+              </article>
 
-            {/* Bloc 6 — À retenir */}
-            {a.a_retenir.length > 0 && (
-              <aside className="flex flex-col gap-3 rounded-[22px] bg-ink-900 p-[clamp(22px,3vw,30px)] text-white">
-                <h2 className={`${surtitre} text-brique-400`}>{BLOG.article.aRetenir}</h2>
-                <ol className="flex flex-col gap-2.5">
-                  {a.a_retenir.map((r, i) => (
-                    <li key={r} className="flex gap-3.5 text-[16.5px] leading-[1.55] text-on-dark-strong">
-                      <span className="flex-none pt-[3px] font-mono text-[12px] text-brique-400">0{i + 1}</span>
-                      {fr(r)}
-                    </li>
-                  ))}
-                </ol>
-              </aside>
-            )}
-
-            {/* Bloc 7 — Auteur (pas de photo : monogramme, jamais une photo inventée) */}
-            {a.auteur && (
-              <section
-                aria-label="Auteur de l'article"
-                className="flex flex-wrap items-start gap-4 border-t border-line-strong pt-7"
-              >
-                <span
-                  aria-hidden="true"
-                  className="flex size-14 flex-none items-center justify-center rounded-full bg-cream-200 font-mono text-sm text-ink-600"
-                >
-                  {monogramme(a.auteur.nom)}
-                </span>
-                <div className="flex min-w-[min(100%,240px)] flex-1 flex-col gap-1">
-                  <span className="text-[17px] font-bold">{a.auteur.nom}</span>
-                  <span className="text-[14.5px] text-ink-500">{fr(a.auteur.qualification)}</span>
-                  {a.auteur.biographie && (
-                    <p className="mt-1 max-w-[62ch] text-[15px] leading-[1.6] text-ink-700">
-                      {fr(a.auteur.biographie)}
-                    </p>
-                  )}
-                </div>
-              </section>
-            )}
-
-            {/* Bloc 8 — Accroche formation contextuelle */}
-            <aside className="flex flex-col gap-3 rounded-[22px] border border-line bg-white p-[clamp(22px,3vw,30px)]">
-              <p className="text-[clamp(20px,2.2vw,24px)] leading-[1.2] font-bold tracking-[-0.02em] text-balance">
-                {fr(accroche.question)}
-              </p>
-              {accroche.phrase && (
-                <p className="max-w-[62ch] text-base leading-[1.6] text-ink-700">{fr(accroche.phrase)}</p>
+              {/* Bloc 6 — À retenir */}
+              {a.a_retenir.length > 0 && (
+                <aside className="flex flex-col gap-3 rounded-[22px] bg-ink-900 p-[clamp(22px,3vw,30px)] text-white">
+                  <h2 className={`${surtitre} text-brique-400`}>{BLOG.article.aRetenir}</h2>
+                  <ol className="flex flex-col gap-2.5">
+                    {a.a_retenir.map((r, i) => (
+                      <li key={r} className="flex gap-3.5 text-[16.5px] leading-[1.55] text-on-dark-strong">
+                        <span className="flex-none pt-[3px] font-mono text-[12px] text-brique-400">0{i + 1}</span>
+                        {fr(r)}
+                      </li>
+                    ))}
+                  </ol>
+                </aside>
               )}
-              <Link
-                href={accroche.cible}
-                rel={contextuelle ? undefined : "nofollow"}
-                className="inline-flex items-center gap-2 self-start rounded-full bg-ink-900 px-5 py-3 text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
-              >
-                {fr(accroche.lien)} <span aria-hidden="true">→</span>
-              </Link>
-            </aside>
 
-            {/* Bloc 9 — À lire aussi */}
-            {lies.length > 0 && (
-              <section className="flex flex-col gap-4">
-                <h2 className="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-bold tracking-[-0.02em]">
-                  {BLOG.article.aLireAussi}
-                </h2>
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,240px),1fr))] gap-3.5">
-                  {lies.map((l) => (
-                    <CarteArticle key={l.id} article={l} />
-                  ))}
-                </div>
-              </section>
-            )}
+              {/* Bloc 7 — Auteur (pas de photo : monogramme, jamais une photo inventée) */}
+              {a.auteur && (
+                <section
+                  aria-label="Auteur de l'article"
+                  className="flex flex-wrap items-start gap-4 border-t border-line-strong pt-7"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="flex size-14 flex-none items-center justify-center rounded-full bg-cream-200 font-mono text-sm text-ink-600"
+                  >
+                    {monogramme(a.auteur.nom)}
+                  </span>
+                  <div className="flex min-w-[min(100%,240px)] flex-1 flex-col gap-1">
+                    <span className="text-[17px] font-bold">{a.auteur.nom}</span>
+                    <span className="text-[14.5px] text-ink-500">{fr(a.auteur.qualification)}</span>
+                    {a.auteur.biographie && (
+                      <p className="mt-1 max-w-[62ch] text-[15px] leading-[1.6] text-ink-700">
+                        {fr(a.auteur.biographie)}
+                      </p>
+                    )}
+                  </div>
+                </section>
+              )}
+
+              {/* Bloc 8 — Accroche formation contextuelle */}
+              <aside className="flex flex-col gap-3 rounded-[22px] border border-line bg-white p-[clamp(22px,3vw,30px)]">
+                <p className="text-[clamp(20px,2.2vw,24px)] leading-[1.2] font-bold tracking-[-0.02em] text-balance">
+                  {fr(accroche.question)}
+                </p>
+                {accroche.phrase && (
+                  <p className="max-w-[62ch] text-base leading-[1.6] text-ink-700">{fr(accroche.phrase)}</p>
+                )}
+                <Link
+                  href={accroche.cible}
+                  rel={contextuelle ? undefined : "nofollow"}
+                  className="inline-flex items-center gap-2 self-start rounded-full bg-ink-900 px-5 py-3 text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
+                >
+                  {fr(accroche.lien)} <span aria-hidden="true">→</span>
+                </Link>
+              </aside>
+
+              {/* Bloc 9 — À lire aussi */}
+              {lies.length > 0 && (
+                <section className="flex flex-col gap-4">
+                  <h2 className="text-[clamp(22px,2.4vw,28px)] leading-[1.15] font-bold tracking-[-0.02em]">
+                    {BLOG.article.aLireAussi}
+                  </h2>
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,240px),1fr))] gap-3.5">
+                    {lies.map((l) => (
+                      <CarteArticle key={l.id} article={l} />
+                    ))}
+                  </div>
+                </section>
+              )}
+            </div>
           </div>
         </div>
       </section>

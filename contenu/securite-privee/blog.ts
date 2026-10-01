@@ -24,8 +24,10 @@ export const BLOG = {
     allerPlusLoin: "Aller plus loin",
     colonneFormations: "Les formations",
     colonneDemarches: "Les démarches",
-    // Hors copy (texte Claude, à valider) : aucun article publié.
-    vide: "Aucun article n'est encore publié. Les premiers arrivent bientôt.",
+    // Aucun article publié (texte d'Erwan, 01/10/2026). Liens affichés seulement si les pages sont publiées.
+    vide: "Aucun article n'est encore publié. En attendant, les pages consacrées à chaque formation et aux démarches CNAPS répondent aux questions les plus fréquentes.",
+    videFormations: "Les formations",
+    videDemarches: "Les démarches CNAPS",
   },
   article: {
     publie: "Publié le",

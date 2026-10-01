@@ -35,7 +35,11 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 
 export default async function PageBlog({ searchParams }: Props) {
   const page = numeroPage((await searchParams).page);
-  const [articles, titres, { demarches }] = await Promise.all([getArticles(), getTitres(), getDemarches(verticale)]);
+  const [articles, titres, { demarches, listeVisible: listeDemarches }] = await Promise.all([
+    getArticles(),
+    getTitres(),
+    getDemarches(verticale),
+  ]);
   // Article mis en avant : choisi dans l'admin (le plus stratégique), à défaut le plus récent.
   const enAvant = articles.find((a) => a.mis_en_avant) ?? articles[0] ?? null;
   const reste = articles.filter((a) => a !== enAvant);
@@ -85,7 +89,29 @@ export default async function PageBlog({ searchParams }: Props) {
       <section className="bg-cream-100">
         <div className="container-public flex flex-col gap-8 pt-10 pb-16">
           {articles.length === 0 ? (
-            <p className="rounded-[18px] border border-line bg-white p-6 text-base text-ink-600">{BLOG.liste.vide}</p>
+            <div className="flex flex-col gap-4 rounded-[18px] border border-line bg-white p-6">
+              <p className="max-w-[66ch] text-base leading-[1.6] text-ink-600">{BLOG.liste.vide}</p>
+              {(formations.length > 0 || listeDemarches) && (
+                <span className="flex flex-wrap gap-2">
+                  {formations.length > 0 && (
+                    <Link
+                      href={`${base}#formations`}
+                      className="rounded-full bg-ink-900 px-4 py-2.5 text-sm font-bold text-white hover:bg-brique-700 hover:text-white"
+                    >
+                      {BLOG.liste.videFormations} →
+                    </Link>
+                  )}
+                  {listeDemarches && (
+                    <Link
+                      href={`${base}demarches/`}
+                      className="rounded-full border border-line-strong bg-white px-4 py-2.5 text-sm font-bold text-ink-900 hover:border-ink-900"
+                    >
+                      {BLOG.liste.videDemarches} →
+                    </Link>
+                  )}
+                </span>
+              )}
+            </div>
           ) : (
             <>
               {/* Bloc 3 — filtres */}

@@ -1,29 +1,40 @@
 import { NotFoundContent } from "@/components/public/NotFoundContent";
+import { PAGE_404 } from "@/contenu/erreurs-racine";
 import { VERTICALES } from "@/lib/config/verticales";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
+import { getTitres } from "@/lib/supabase/queries/referentiel";
 
-// Déclenché par notFound() dans le silo (slug inconnu, fiche retirée) : rendu dans le header/footer du silo.
-// Raccourcis vers des pages visibles uniquement (jamais un lien 404 depuis une page 404).
+const verticale = VERTICALES["securite-privee"];
+const base = `/${verticale.slug}/`;
+
+// Déclenché par notFound() dans le silo, avec le header et le footer du silo (gabarit silo, Copy 404 §8).
+// Une 404 du silo ne propose jamais de sortir du silo, et ne renvoie jamais vers une page absente.
 export default async function NotFound() {
-  const { listeVisible } = await getDemarches(VERTICALES["securite-privee"]);
+  const [titres, { demarches }] = await Promise.all([getTitres(), getDemarches(verticale)]);
+  const S = PAGE_404.silo;
   return (
     <NotFoundContent
-      accueil={{ href: "/securite-privee/", libelle: "Accueil sécurité privée" }}
-      raccourcis={[
+      sorties={[
         {
-          href: "/securite-privee/organismes/",
-          titre: "Organismes de formation",
-          description: "Les organismes de formation à la sécurité privée référencés en Île-de-France.",
+          titre: S.formations.titre,
+          liens: S.formations.slugs.flatMap((slug) => {
+            const t = titres.find((x) => x.slug === slug && x.a_une_page);
+            return t ? [{ href: `${base}${t.slug}/`, libelle: t.libelle_court }] : [];
+          }),
         },
-        ...(listeVisible
-          ? [
-              {
-                href: "/securite-privee/demarches/",
-                titre: "Démarches CNAPS",
-                description: "Autorisation préalable, carte professionnelle et renouvellement, étape par étape.",
-              },
-            ]
-          : []),
+        {
+          titre: S.demarches,
+          liens: demarches
+            .filter((d) => d.a_une_page)
+            .map((d) => ({ href: `${base}demarches/${d.slug}/`, libelle: d.libelle })),
+        },
+        {
+          titre: S.organismes.titre,
+          liens: [
+            { href: `${base}organismes/`, libelle: S.organismes.tous },
+            { href: `${base}#departements`, libelle: S.organismes.departement },
+          ],
+        },
       ]}
     />
   );
