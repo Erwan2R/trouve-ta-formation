@@ -64,6 +64,8 @@ export async function importerProspects(
   const fichier = donnees.get("fichier");
   if (!(fichier instanceof File) || fichier.size === 0) return { ok: false, erreur: "Choisissez un fichier CSV." };
   if (fichier.size > 5 * 1024 * 1024) return { ok: false, erreur: "Fichier trop volumineux (5 Mo au plus)." };
+  if (!/\.csv$/i.test(fichier.name) || !/^(text\/(csv|plain)|application\/vnd\.ms-excel|)$/.test(fichier.type))
+    return { ok: false, erreur: "Choisissez un fichier CSV (.csv)." };
   const analyse = analyserCsv(await fichier.text());
   if ("erreur" in analyse) return { ok: false, erreur: analyse.erreur ?? ECHEC };
 

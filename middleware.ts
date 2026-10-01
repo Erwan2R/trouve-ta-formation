@@ -29,6 +29,8 @@ export async function middleware(requete: NextRequest) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      // Mêmes options que lib/supabase/serveur.ts (le middleware ne peut pas importer un module « server-only »).
+      cookieOptions: { maxAge: 30 * 24 * 3600, sameSite: "lax", secure: process.env.NODE_ENV === "production" },
       cookies: {
         getAll: () => requete.cookies.getAll(),
         setAll: (cookies) => {

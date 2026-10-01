@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { CONFIDENTIALITE } from "@/contenu/legal/confidentialite";
+import { CONDITIONS } from "@/contenu/legal/conditions";
+import { COOKIES } from "@/contenu/legal/cookies";
 import { MENTIONS_LEGALES } from "@/contenu/legal/mentions-legales";
 import { sansMarqueur } from "@/contenu/marqueurs";
 import { VERTICALES } from "@/lib/config/verticales";
@@ -26,8 +28,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/") },
     ...Object.keys(VERTICALES).map((v) => ({ url: absoluteUrl(`/${v}/`) })),
     // Pages légales : servies seulement une fois complétées (sinon le build de production échoue).
-    ...(sansMarqueur([MENTIONS_LEGALES, CONFIDENTIALITE])
-      ? [{ url: absoluteUrl("/mentions-legales/") }, { url: absoluteUrl("/confidentialite/") }]
+    ...(sansMarqueur([MENTIONS_LEGALES, CONFIDENTIALITE, COOKIES, CONDITIONS])
+      ? ["/mentions-legales/", "/confidentialite/", "/cookies/", "/conditions-utilisation/"].map((p) => ({
+          url: absoluteUrl(p),
+        }))
       : []),
     // Landing organismes : indexable, dans le sitemap (décision Erwan 30/09/2026).
     { url: absoluteUrl("/securite-privee/referencer-mon-organisme/") },

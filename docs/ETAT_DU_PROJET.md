@@ -1,6 +1,6 @@
 # État du projet — Trouve ta formation
 
-> Note de passation au 1er octobre 2026, fin du Sprint 10. À lire en entier avant de poursuivre le Sprint 11.
+> Note de passation au 1er octobre 2026, Sprint 11 (RGPD et sécurité) livré. À lire en entier avant le Sprint 12.
 > Elle complète [CLAUDE.md](../CLAUDE.md) (brief technique), [Plan_Sprints.md](../Plan_Sprints.md) (plan) et
 > [README.md](../README.md) (environnements, commandes). En cas de contradiction avec une spec du dossier
 > `design_handoff_trouve_ta_formation/`, les **décisions d'Erwan listées ici font foi** : elles sont postérieures.
@@ -11,8 +11,9 @@
 
 - **Sprints 0 à 10 terminés** sur la branche `dev` (dev.trouve-ta-formation.fr). La production (`main`) est restée à la
   fin du Sprint 1 ; `preprod` aussi. Erwan a choisi de faire **la mise en production à la fin** (après le Sprint 12).
-- **Sprint 11 en cours : conformité RGPD et légale.** L'audit se trouve dans `docs/AUDIT_RGPD.md` ; aucune
-  correction n'est faite avant le retour d'Erwan sur ce compte rendu.
+- **Sprint 11 livré : conformité RGPD et sécurité.** Audit : `docs/AUDIT_RGPD.md` ; registre, procédures (droits,
+  violation) et textes de prospection : `docs/CONFORMITE_RGPD.md`. Accord complet d'Erwan le 1er octobre 2026 sur les
+  propositions (durées, région, cookie de 30 jours, textes, conditions d'utilisation).
 - La mise en production est bloquée par les points de la section 7 (pages légales de la future société d'Erwan,
   base de production à préparer, migrations, réglages).
 
@@ -179,6 +180,27 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
   côté serveur (`components/public/blog/CorpsArticle.tsx`).
 - Articles et auteur de démonstration : `scripts/seed-blog-test.mjs`, base de dev uniquement (`est_test`).
 - 404 (gabarits silo et racine) et racine du domaine alignées sur `Copy_Blog_404_Racine.md`.
+
+### 4.10 Sprint 11 — RGPD, cookies, sécurité
+- Pages légales : mentions légales et confidentialité réécrites, **Cookies** (`/cookies/`) et **Conditions
+  d'utilisation** (`/conditions-utilisation/`) créées. Informations de l'éditeur centralisées dans
+  `contenu/legal/editeur.ts` (en `[à compléter]` → build de production bloqué). Rédaction Claude, relecture
+  juridique conseillée.
+- Bandeau de consentement (`components/public/GestionConsentement.tsx`, `lib/config/traceurs.ts`) : Tout refuser /
+  Personnaliser / Tout accepter, finalités Mesure d'audience (GA4) et Publicité (Google Ads, pixel Meta). Aucun outil
+  chargé avant l'accord ; choix conservé 6 mois. **Le bandeau n'apparaît que si un identifiant est configuré**
+  (`NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_GOOGLE_ADS_ID`, `NEXT_PUBLIC_META_PIXEL_ID`) ; aperçu sur dev par
+  `NEXT_PUBLIC_BANDEAU_APERCU=1` (variable Vercel de la branche `dev`). Jamais dans les espaces organisme et admin.
+- Export des données de l'organisme (JSON) : Paramètres → « télécharger vos données » (`/parametres/export/`).
+- Mention conditions + confidentialité sous le bouton d'inscription.
+- Purge automatique quotidienne (`purger_donnees()`, pg_cron 3 h) : comptes non validés 30 j, liens email 30 j après
+  expiration, événements 25 mois, prospects 3 ans après le dernier contact (`dernier_contact_le`), demandes de titre
+  traitées 3 ans, tentatives 24 h.
+- Sécurité : limitation des tentatives (`lib/limite.ts`, table `tentatives_acces`) sur la connexion, le mot de passe
+  oublié, l'inscription, la connexion et le 2FA admin ; cookie de session ramené de 400 à 30 jours ; en-têtes HSTS,
+  X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy ; contrôle de l'origine sur `/api/evenements/` ;
+  vérification du type `.csv` à l'import ; `npm audit` sans vulnérabilité (override `postcss`). Fonctions Vercel à
+  Paris (`cdg1`, accord d'Erwan).
 
 ## 5. Décisions et leurs raisons
 
@@ -443,21 +465,29 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261022_blog` — articles, auteurs (dont Erwan), dépublication ;
    - `20261023_blog_audit` — audit anti-concurrence obligatoire ;
    - `20261024_blog_images` — stockage des images du blog ;
-   - `20261025_resolution_article_finale` — redirections du blog sans chaîne.
+   - `20261025_resolution_article_finale` — redirections du blog sans chaîne ;
+   - `20261026_securite_et_conservation` — limitation des tentatives, date de dernier contact, purge quotidienne
+     (pg_cron doit être activé sur la base de prod).
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).
-7. Fusion `dev` → `preprod` → vérification → `main`.
+7. **Supabase Pro** pour la production (sauvegardes quotidiennes, pas de mise en pause) : décision budgétaire
+   d'Erwan. L'offre gratuite n'a aucune sauvegarde automatique.
+8. **Avenants de traitement (DPA)** de Vercel, Supabase, Resend, Cloudflare acceptés et archivés (Erwan).
+9. Fusion `dev` → `preprod` → vérification → `main`.
 
-Avant la **première campagne de prospection** (pas bloquant pour la mise en ligne) : conclusions de l'audit RGPD
-(information des personnes au premier contact, purge à 3 ans), domaine d'envoi dédié, relecture juridique.
+Pour la publicité et l'analytics tiers : créer les comptes GA4, Google Ads et Meta, puis poser leurs identifiants
+dans les variables Vercel de production (le bandeau apparaît alors seul).
+
+Avant la **première campagne de prospection** (pas bloquant pour la mise en ligne) : script d'appel et pied d'email
+de `docs/CONFORMITE_RGPD.md` §4, domaine d'envoi dédié, relecture juridique.
 
 ---
 
-## 8. Préparer le Sprint 11 (conformité RGPD et légale)
+## 8. Préparer le Sprint 12 (SEO et lancement)
 
-Audit livré : `docs/AUDIT_RGPD.md` (registre des traitements, durées, sous-traitants, bases légales, cookies, pages
-légales proposées). Étape suivante : retour d'Erwan, puis mise en conformité selon les décisions prises.
+Voir `Plan_Sprints.md`. Restes du Sprint 11 : informations de la société d'Erwan dans `contenu/legal/editeur.ts`,
+relecture juridique des pages légales, boîte email professionnelle à la création de la société.
 
 ---
 
@@ -469,7 +499,7 @@ légales proposées). Étape suivante : retour d'Erwan, puis mise en conformité
 - Pages départements : 7 textes de 300 mots à écrire, 1 brouillon (Seine-Saint-Denis).
 - Référentiel : durées et RNCP marqués `[À VÉRIFIER]` (TFP ASA notamment).
 - Formulaire : parcours de renouvellement d'une carte ASA, conditions d'expérience SSIAP 2 et 3.
-- Pages légales : informations de la société d'Erwan, relecture juridique (Sprint 11).
+- Pages légales : informations de la société d'Erwan (`contenu/legal/editeur.ts`), relecture juridique.
 - Proposition de Claude (accord d'Erwan sur le principe) : rédiger les contenus en attente avec sources officielles
   citées, faits non vérifiables marqués `[à vérifier]`.
 
@@ -491,10 +521,12 @@ légales proposées). Étape suivante : retour d'Erwan, puis mise en conformité
 - Carte des lieux (géocodage) : non construite.
 - Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
   construit) ; lien CTA principal configurable (reporté) ; photo des auteurs (plus tard).
-- Durées de conservation à arrêter avec l'audit RGPD (événements Analytics, journaux, liste d'exclusion).
 - Blog : fréquence de publication cible, calendrier de révision des articles réglementaires.
 
 ### Technique
+- Next.js 16 : montée de version reportée (aucune faille connue sur la 15.5).
+- Inscription avec une adresse déjà utilisée : le message indique qu'un compte existe peut-être (choix d'usage,
+  permet de savoir qu'une adresse est inscrite ; la limitation des tentatives freine l'énumération).
 - Suivi des 404 et propriété Search Console : Sprint 12.
 - `llms.txt` à mettre à jour au lancement (blog, landing organismes, espace organisme).
 - Jeton Cloudflare à supprimer par Erwan une fois les clés Turnstile de production posées.

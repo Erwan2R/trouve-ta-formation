@@ -18,6 +18,12 @@ export function PiedMinimal({ conteneur = "container-public" }: { conteneur?: st
           <Link href="/confidentialite/" className="text-on-dark hover:text-white">
             {PIED_MINIMAL[1]}
           </Link>
+          <Link href="/conditions-utilisation/" className="text-on-dark hover:text-white">
+            {PIED_MINIMAL[3]}
+          </Link>
+          <Link href="/cookies/" className="text-on-dark hover:text-white">
+            {PIED_MINIMAL[4]}
+          </Link>
           <a href={`mailto:${EMAIL_CONTACT}`} className="text-on-dark hover:text-white">
             {PIED_MINIMAL[2]}
           </a>

@@ -388,7 +388,11 @@ export function Parametres({
           <h2 className="text-2xl leading-[1.15] font-extrabold tracking-[-0.025em]">Supprimer le compte</h2>
         </div>
         <p className="max-w-[62ch] text-[15px] leading-[1.65] text-ink-700">
-          La suppression est immédiate et définitive. Elle ne peut pas être annulée.
+          La suppression est immédiate et définitive. Elle ne peut pas être annulée. Vous pouvez d&apos;abord{" "}
+          <a href="/parametres/export/" download className="font-bold underline">
+            télécharger vos données
+          </a>{" "}
+          (fichier JSON).
         </p>
         <ul className="flex flex-col border-t border-cream-200">
           {[

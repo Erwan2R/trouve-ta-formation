@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormulaireAcces } from "@/components/espace/FormulaireAcces";
+import { absoluteUrl } from "@/lib/seo/metadata";
 import { sInscrire } from "../actions";
 
 export const metadata: Metadata = { title: "Créer ma fiche" };
@@ -48,6 +49,17 @@ export default function Inscription() {
           },
         ]}
       />
+      <p className="text-[13px] leading-[1.55] text-ink-500">
+        En créant un compte, vous acceptez les{" "}
+        <a href={absoluteUrl("/conditions-utilisation/")} className="underline">
+          conditions d&apos;utilisation
+        </a>
+        . Vos données sont traitées comme décrit dans la{" "}
+        <a href={absoluteUrl("/confidentialite/")} className="underline">
+          politique de confidentialité
+        </a>
+        .
+      </p>
       <p className="text-sm text-ink-500">
         Déjà un compte ?{" "}
         <Link href="/connexion/" className="font-bold">

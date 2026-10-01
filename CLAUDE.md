@@ -30,7 +30,7 @@ Le design du site est déjà réalisé. Claude Code ne doit **pas** concevoir l'
 | Auth             | **Supabase Auth**                                                                                          | Comptes organisme + compte admin unique (voir specs Paramètres Organisme / Admin)       |
 | Hébergement      | **Vercel**                                                                                                 | Décidé                                                                                  |
 | Images           | **next/image**, format WebP obligatoire                                                                    | Core Web Vitals                                                                         |
-| Analytics        | **Interne** (pas de GA4)                                                                                   | Décision produit actée                                                                  |
+| Analytics        | **Interne** sans cookie ; GA4, Google Ads et pixel Meta **uniquement après consentement** (bandeau)        | Décision d'Erwan du 01/10/2026 (publicité SEA et Meta)                                 |
 | Tests            | **Vitest** (unitaire) + **Playwright** (parcours critiques : formulaire d'affinage, inscription organisme) | Minimum viable, pas de sur-ingénierie                                                   |
 
 **Non négociable :** aucun contenu textuel indexable ne doit dépendre d'un rendu client-side. Toute page publique (accueil, catalogue, fiches, piliers, démarches, géographiques, blog) est SSR ou SSG. Le rendu client est réservé à l'interactivité (filtres, dashboard organisme/admin).

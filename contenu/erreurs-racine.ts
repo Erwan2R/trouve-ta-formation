@@ -36,4 +36,11 @@ export const RACINE = {
 } as const;
 
 /** Pied de page minimal (racine, landing organismes) : Copy racine §10. */
-export const PIED_MINIMAL = ["Mentions légales", "Politique de confidentialité", "Contact"] as const;
+// Conditions d'utilisation et Cookies ajoutés (audit RGPD, 01/10/2026).
+export const PIED_MINIMAL = [
+  "Mentions légales",
+  "Politique de confidentialité",
+  "Contact",
+  "Conditions d'utilisation",
+  "Gestion des cookies",
+] as const;

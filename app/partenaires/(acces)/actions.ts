@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { origineEspace } from "@/lib/espace-serveur";
+import { effacerTentatives, ipVisiteur, limiteAtteinte, MESSAGE_LIMITE, noterTentative, regles } from "@/lib/limite";
 import { envoyerLien } from "@/lib/supabase/queries/liens-email";
 import { verifierTurnstile } from "@/lib/turnstile";
 import { supabaseServeur } from "@/lib/supabase/serveur";
@@ -15,10 +16,17 @@ export type EtatFormulaire = { erreur?: string; ok?: string; vers?: string; vale
 export async function seConnecter(_: EtatFormulaire, donnees: FormData): Promise<EtatFormulaire> {
   const email = String(donnees.get("email") ?? "").trim();
   const motDePasse = String(donnees.get("mot_de_passe") ?? "");
+  // 5 échecs par compte et 30 par adresse IP en 15 minutes.
+  const r = regles("connexion", email, await ipVisiteur(), 5, 30);
+  if (await limiteAtteinte(r)) return { erreur: MESSAGE_LIMITE, valeurs: { email } };
   const supabase = await supabaseServeur();
   const { error } = await supabase.auth.signInWithPassword({ email, password: motDePasse });
   // Message unique : ne révèle pas si l'adresse a un compte.
-  if (error) return { erreur: "Adresse email ou mot de passe incorrect.", valeurs: { email } };
+  if (error) {
+    await noterTentative(r);
+    return { erreur: "Adresse email ou mot de passe incorrect.", valeurs: { email } };
+  }
+  await effacerTentatives(r);
   return { vers: "/dashboard/" };
 }
 
@@ -27,6 +35,10 @@ export async function reinitialiserMotDePasse(_: EtatFormulaire, donnees: FormDa
   const email = String(donnees.get("email") ?? "").trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return { erreur: "Cette adresse email ne semble pas valide.", valeurs: { email } };
+  // 3 demandes par adresse et 10 par IP par heure (quota d'envoi d'emails).
+  const r = regles("oubli", email, await ipVisiteur(), 3, 10, 60);
+  if (await limiteAtteinte(r)) return { erreur: MESSAGE_LIMITE, valeurs: { email } };
+  await noterTentative(r);
   const supabase = await supabaseServeur();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${await origineEspace()}/auth/confirm/`,
@@ -55,6 +67,10 @@ export async function sInscrire(_: EtatFormulaire, donnees: FormData): Promise<E
     return { erreur: "Cette adresse email ne semble pas valide.", valeurs };
   if (motDePasse.length < 10) return { erreur: "Le mot de passe doit contenir au moins 10 caractères.", valeurs };
   if (nom.length < 2 || nom.length > 150) return { erreur: "Indiquez le nom de votre organisme.", valeurs };
+  // En plus de l'anti-robots : 10 inscriptions par adresse IP et par heure.
+  const r = regles("inscription", null, await ipVisiteur(), 0, 10, 60);
+  if (await limiteAtteinte(r)) return { erreur: MESSAGE_LIMITE, valeurs };
+  await noterTentative(r);
   const h = await headers();
   if (
     !(await verifierTurnstile(

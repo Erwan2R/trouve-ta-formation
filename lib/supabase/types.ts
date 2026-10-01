@@ -830,6 +830,7 @@ export type Database = {
         Row: {
           created_at: string
           departements: string | null
+          dernier_contact_le: string | null
           email: string | null
           id: number
           identifiant: string | null
@@ -848,6 +849,7 @@ export type Database = {
         Insert: {
           created_at?: string
           departements?: string | null
+          dernier_contact_le?: string | null
           email?: string | null
           id?: never
           identifiant?: string | null
@@ -866,6 +868,7 @@ export type Database = {
         Update: {
           created_at?: string
           departements?: string | null
+          dernier_contact_le?: string | null
           email?: string | null
           id?: never
           identifiant?: string | null
@@ -951,6 +954,24 @@ export type Database = {
           correct?: number
           jour?: string
           optimal?: number
+        }
+        Relationships: []
+      }
+      tentatives_acces: {
+        Row: {
+          cle: string
+          created_at: string
+          id: number
+        }
+        Insert: {
+          cle: string
+          created_at?: string
+          id?: never
+        }
+        Update: {
+          cle?: string
+          created_at?: string
+          id?: never
         }
         Relationships: []
       }
@@ -1070,6 +1091,7 @@ export type Database = {
       maj_publication: { Args: never; Returns: string }
       maj_publication_organisme: { Args: { p_org: string }; Returns: string }
       mon_organisme: { Args: never; Returns: string }
+      purger_donnees: { Args: never; Returns: undefined }
       resolution_article: {
         Args: { p_slug: string }
         Returns: {

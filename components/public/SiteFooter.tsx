@@ -114,6 +114,9 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
               <Link href="/confidentialite/" className="text-ink-300 hover:text-white">
                 Politique de confidentialité
               </Link>
+              <Link href="/conditions-utilisation/" className="text-ink-300 hover:text-white">
+                Conditions d&apos;utilisation
+              </Link>
               <Link href="/cookies/" className="text-ink-300 hover:text-white">
                 Gestion des cookies
               </Link>

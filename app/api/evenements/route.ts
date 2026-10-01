@@ -9,6 +9,9 @@ const FICHE = /^\/securite-privee\/organismes\/([a-z0-9-]+)\/?$/;
 // ponytail: aucune limite de débit ; un compteur par IP (non stockée) si des volumes anormaux apparaissent.
 export async function POST(requete: NextRequest) {
   if (ROBOTS.test(requete.headers.get("user-agent") ?? "")) return new NextResponse(null, { status: 204 });
+  // Origine : uniquement le site lui-même (sendBeacon envoie l'en-tête Origin). Pas d'en-tête CORS : refusé ailleurs.
+  const origine = requete.headers.get("origin");
+  if (origine && new URL(origine).host !== requete.headers.get("host")) return new NextResponse(null, { status: 403 });
   const corps = await requete.json().catch(() => null);
   const type = corps?.type;
   const chemin = typeof corps?.chemin === "string" ? corps.chemin.split(/[?#]/)[0] : "";

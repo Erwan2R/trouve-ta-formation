@@ -6,6 +6,7 @@ import { sansMarqueur } from "@/contenu/marqueurs";
 import type { PageLegale as Contenu } from "@/contenu/legal/types";
 import { EST_PRODUCTION } from "@/lib/env";
 import { breadcrumbJsonLd, JsonLd } from "@/lib/seo/json-ld";
+import { BoutonPreferences } from "./BoutonPreferences";
 
 /** Page légale (pas de maquette) : sobre, transverse aux verticales, comme la racine du domaine. */
 export function PageLegale({ contenu: c, chemin }: { contenu: Contenu; chemin: string }) {
@@ -35,6 +36,49 @@ export function PageLegale({ contenu: c, chemin }: { contenu: Contenu; chemin: s
                   <TexteContenu texte={p} />
                 </p>
               ))}
+              {s.puces && (
+                <ul className="flex list-disc flex-col gap-2 pl-6 text-base leading-[1.7] text-ink-700 marker:text-brique-700">
+                  {s.puces.map((p) => (
+                    <li key={p}>
+                      <TexteContenu texte={p} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {s.tableau && (
+                <div className="overflow-x-auto">
+                  <table className="w-full min-w-[560px] border-collapse text-left text-[14.5px]">
+                    <thead>
+                      <tr>
+                        {s.tableau.entetes.map((e) => (
+                          <th
+                            key={e}
+                            scope="col"
+                            className="border-b border-line-heavy py-2.5 pr-4 font-mono text-[10.5px] font-medium tracking-[0.1em] text-ink-400 uppercase"
+                          >
+                            {e}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {s.tableau.lignes.map((l) => (
+                        <tr key={l.join()}>
+                          {l.map((c, i) => (
+                            <td
+                              key={i}
+                              className={`border-b border-line py-3 pr-4 align-top leading-[1.5] ${i === 0 ? "font-semibold" : "text-ink-700"}`}
+                            >
+                              {c}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {s.preferences && <BoutonPreferences />}
             </section>
           ))}
         </article>

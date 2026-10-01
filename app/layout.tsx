@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { GestionConsentement } from "@/components/public/GestionConsentement";
 import { Mesure } from "@/components/public/Mesure";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
 import { SITE_NAME, SITE_URL } from "@/lib/seo/metadata";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}
         <Mesure />
+        <GestionConsentement />
       </body>
     </html>
   );

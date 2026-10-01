@@ -1,65 +1,100 @@
 // Imports relatifs : ce contenu est aussi lu par next.config.ts (blocage du build de production).
 import { EMAIL_CONTACT } from "../../lib/config/contact";
+import { EDITEUR } from "./editeur";
 import type { PageLegale } from "./types";
 
-// Rédaction Claude (01/10/2026) à partir de ce que fait réellement le site ; relecture juridique conseillée, en
-// particulier la prospection et les durées de conservation. Responsable : l'entreprise individuelle d'Erwan.
+// Rédaction Claude à partir de ce que fait réellement le site (audit RGPD du 01/10/2026, docs/AUDIT_RGPD.md), avec la
+// décision d'Erwan d'utiliser des outils de publicité (Google Ads, Meta) et de mesure d'audience tiers sous
+// consentement. Relecture juridique conseillée. Garder aligné sur le registre des traitements.
 export const CONFIDENTIALITE: PageLegale = {
   title: "Politique de confidentialité",
   description:
-    "Politique de confidentialité du site Trouve ta formation : données traitées, finalités, durées de conservation et droits.",
+    "Politique de confidentialité du site Trouve ta formation : données traitées, finalités, durées de conservation, cookies et droits.",
   h1: "Politique de confidentialité",
-  maj: "Dernière mise à jour : 1er octobre 2026",
+  maj: `Dernière mise à jour : ${EDITEUR.dateMaj}`,
   sections: [
     {
-      h2: "Responsable du traitement",
+      h2: "Qui est responsable de vos données ?",
       paragraphes: [
-        `Erwan de Rotalier EI, entrepreneur individuel établi à Bois-Colombes (SIREN 882 911 399), éditeur du site. Pour toute question : ${EMAIL_CONTACT}.`,
+        `${EDITEUR.denomination}, éditeur du site trouve-ta-formation.fr (voir les mentions légales), est responsable des traitements décrits ici. Pour toute question sur vos données : ${EMAIL_CONTACT}.`,
       ],
     },
     {
-      h2: "Visiteurs et candidats",
+      h2: "Si vous cherchez une formation",
       paragraphes: [
-        "Le site ne demande aucune coordonnée aux candidats. Le questionnaire d'orientation ne collecte ni nom, ni email, ni téléphone, et ne pose aucune question sur le casier judiciaire.",
-        "Des statistiques anonymes sont enregistrées pour améliorer le service : pages vues, clics sur les boutons de contact des fiches, écrans du questionnaire atteints, combinaisons de recherche sans résultat. Elles ne comportent ni adresse IP, ni identifiant, ni cookie, ni texte saisi librement.",
-        "Ces statistiques reposent sur l'intérêt légitime de l'éditeur à mesurer et améliorer son service. Comme elles ne permettent d'identifier personne, elles sont conservées sans limite de durée.",
+        "Le site ne vous demande aucune coordonnée. Le questionnaire d'orientation ne collecte ni nom, ni email, ni téléphone, et ne pose aucune question sur le casier judiciaire.",
+        "Pour améliorer le service, nous tenons nos propres statistiques : pages consultées, clics sur les boutons de contact des fiches, écrans du questionnaire atteints, combinaisons de recherche sans résultat. Elles fonctionnent sans cookie, ne comportent ni adresse IP ni identifiant, et ne permettent d'identifier personne. Le détail des pages consultées est conservé 25 mois ; les totaux, sans limite.",
+        "Avec votre accord seulement, nous utilisons aussi des outils de mesure d'audience et de publicité proposés par des tiers (voir « Cookies et publicité » ci-dessous).",
       ],
     },
     {
-      h2: "Organismes de formation inscrits",
+      h2: "Si vous représentez un organisme inscrit",
       paragraphes: [
-        "Pour créer et gérer une fiche, nous traitons l'adresse email et le mot de passe du compte, les informations publiées sur la fiche, et, si l'organisme les indique, le nom et le téléphone d'un contact interne, jamais publiés.",
-        "Ces données servent à publier la fiche, à sécuriser le compte et à vous écrire à propos de votre fiche (validation de l'adresse, rappels pour la compléter, réponse à vos demandes). Ce traitement est nécessaire au service que vous demandez en vous inscrivant. Vous pouvez refuser les rappels en un clic depuis chacun d'eux.",
-        "Les données sont conservées tant que le compte existe. La suppression du compte depuis l'espace organisme efface immédiatement la fiche et les données associées.",
+        "Pour créer et gérer votre fiche, nous traitons l'adresse email et le mot de passe de votre compte (le mot de passe n'est jamais stocké en clair), les informations que vous publiez sur votre fiche, et, si vous les indiquez, le nom et le téléphone d'un contact interne, jamais publiés.",
+        "Ces données servent à publier votre fiche, à sécuriser votre compte et à vous écrire à propos de votre fiche : validation de votre adresse, rappels pour la compléter, réponses à vos demandes. Ce traitement est nécessaire au service que vous demandez en vous inscrivant (conditions d'utilisation). Les rappels reposent sur notre intérêt légitime ; vous pouvez les refuser en un clic depuis chacun d'eux.",
+        "Vos données sont conservées tant que votre compte existe. Un compte dont l'adresse n'a jamais été confirmée est supprimé 30 jours après sa création. La suppression du compte depuis votre espace efface immédiatement votre fiche et les données associées. Vous pouvez à tout moment télécharger vos données depuis les paramètres de votre espace.",
       ],
     },
     {
-      h2: "Prospection des organismes",
+      h2: "Si nous vous avons contacté pour vous proposer le référencement",
       paragraphes: [
-        "Pour proposer le référencement aux organismes de formation qui ne sont pas encore inscrits, nous utilisons les coordonnées professionnelles qu'ils publient eux-mêmes : fiche Google, catalogue Mon Compte Formation, site internet. Nous pouvons les appeler, puis leur écrire, uniquement à propos de leur activité d'organisme de formation.",
-        "Ce traitement repose sur l'intérêt légitime de l'éditeur à faire connaître son service aux professionnels concernés. Ces coordonnées ne sont jamais publiées sur le site et sont conservées au plus trois ans après le dernier contact.",
-        `Vous pouvez vous y opposer à tout moment, sans justification, en écrivant à ${EMAIL_CONTACT}. Vos données sont alors effacées ; seule une empreinte chiffrée de votre SIRET, de votre email et du domaine de votre site est conservée, pour garantir que vous ne serez plus jamais recontacté. La prospection par email est envoyée depuis un domaine dédié, distinct de trouve-ta-formation.fr.`,
+        "Nous utilisons les coordonnées professionnelles que votre organisme publie lui-même : fiche Google, catalogue Mon Compte Formation, site internet. Nous pouvons vous appeler, puis vous écrire, uniquement pour vous proposer le référencement de votre organisme.",
+        "Ce traitement repose sur notre intérêt légitime à faire connaître le service aux organismes concernés. Les données utilisées sont le nom et la raison sociale de l'organisme, son numéro SIRET, ses coordonnées professionnelles (email, téléphone, site), les départements où il est présent et les titres qu'il prépare. Elles ne sont jamais publiées sur le site et sont conservées au plus trois ans après notre dernier contact.",
+        `Vous pouvez vous y opposer à tout moment, sans justification, en le disant lors de notre appel ou en écrivant à ${EMAIL_CONTACT} : vos données sont alors effacées. Seule une empreinte chiffrée de votre SIRET, de votre email et du domaine de votre site est conservée, sans limite de durée, pour garantir que vous ne serez plus jamais recontacté. Les emails de prospection sont envoyés depuis un domaine dédié, distinct de trouve-ta-formation.fr.`,
       ],
     },
     {
-      h2: "Destinataires et prestataires",
+      h2: "Cookies et publicité",
       paragraphes: [
-        "Vos données ne sont ni vendues, ni louées, ni cédées. Elles sont traitées par nos prestataires techniques : Vercel (hébergement du site), Supabase (base de données et authentification), Resend (envoi des emails, région Europe) et Cloudflare Turnstile (protection anti-robots du formulaire d'inscription).",
-        "La base de données est hébergée dans l'Union européenne (Paris). Plusieurs de ces prestataires sont des sociétés américaines : un éventuel transfert de données hors de l'Union européenne est encadré par les clauses contractuelles types de la Commission européenne ou par le cadre de protection des données UE–États-Unis.",
+        "Sans votre accord, le site ne dépose aucun cookie lorsque vous le consultez. Seuls les espaces organisme et admin utilisent un cookie de session, strictement nécessaire à la connexion.",
+        "Avec votre accord, que vous donnez ou refusez dans le bandeau affiché à votre première visite :",
+      ],
+      puces: [
+        "Mesure d'audience (Google Analytics) : comprendre comment le site est utilisé, au-delà de nos propres statistiques. Google Ireland Limited traite alors des données de navigation et un identifiant attribué à votre navigateur.",
+        "Publicité (Google Ads, Meta) : mesurer l'efficacité de nos campagnes publicitaires sur Google, Facebook et Instagram, et proposer nos annonces aux personnes susceptibles d'être intéressées. Google Ireland Limited et Meta Platforms Ireland Limited traitent alors des données de navigation et des identifiants publicitaires, et peuvent les rapprocher des comptes que vous détenez chez eux, selon leurs propres politiques.",
       ],
     },
     {
-      h2: "Cookies",
+      h2: "Votre choix sur les cookies",
       paragraphes: [
-        "Le site n'utilise pas d'outil de mesure d'audience tiers ni de cookie publicitaire. L'espace organisme utilise des cookies de session, nécessaires à la connexion.",
-        "Ces cookies étant strictement nécessaires au fonctionnement du service, ils ne demandent pas de consentement préalable : aucun bandeau ne s'affiche.",
+        "Votre choix est conservé 6 mois, puis vous est redemandé. Vous pouvez le modifier ou retirer votre accord à tout moment depuis la page Cookies ou le lien « Gestion des cookies » en bas de chaque page. Refuser ne vous empêche pas d'utiliser le site. Les cookies déposés par ces outils sont conservés au plus 13 mois, et les données collectées au plus 25 mois.",
+      ],
+    },
+    {
+      h2: "Qui a accès à vos données ?",
+      paragraphes: [
+        "Vos données ne sont ni vendues, ni louées, ni cédées. Seul l'éditeur y a accès, ainsi que ses prestataires techniques, qui agissent sur ses instructions :",
+      ],
+      puces: [
+        "Vercel : hébergement du site (traitements exécutés à Paris) ;",
+        "Supabase : base de données et authentification (données stockées à Paris) ;",
+        "Resend : envoi des emails (région Europe) ;",
+        "Cloudflare : protection anti-robots du formulaire d'inscription, qui analyse des informations techniques de votre navigateur sans déposer de cookie.",
+      ],
+    },
+    {
+      h2: "Transferts hors de l'Union européenne",
+      paragraphes: [
+        "Plusieurs de ces prestataires, ainsi que Google et Meta, sont des sociétés américaines ou appartiennent à des groupes américains. Un éventuel transfert de données vers les États-Unis est encadré par le cadre de protection des données UE–États-Unis ou par les clauses contractuelles types de la Commission européenne.",
+      ],
+    },
+    {
+      h2: "Sécurité",
+      paragraphes: [
+        "Les échanges avec le site sont chiffrés. Les mots de passe ne sont jamais stockés en clair. Les tentatives de connexion répétées sont bloquées. L'accès à l'administration du site est protégé par une double authentification. En cas de violation de données présentant un risque pour vous, nous en informerions la CNIL et, si nécessaire, les personnes concernées.",
+      ],
+    },
+    {
+      h2: "Journaux techniques",
+      paragraphes: [
+        "Comme tout site, nos prestataires enregistrent des journaux techniques, dont l'adresse IP, pour assurer la sécurité et le bon fonctionnement du service. Ils sont conservés pendant une courte durée fixée par ces prestataires. Pour limiter les tentatives de connexion répétées, nous conservons aussi, pendant 24 heures, une empreinte chiffrée de l'adresse IP et de l'identifiant utilisés.",
       ],
     },
     {
       h2: "Vos droits",
       paragraphes: [
-        `Vous pouvez demander l'accès à vos données, leur rectification, leur effacement, la limitation de leur traitement, ou vous y opposer, en écrivant à ${EMAIL_CONTACT}. Vous pouvez aussi introduire une réclamation auprès de la CNIL (cnil.fr).`,
-        "Nous répondons dans un délai d'un mois à compter de la réception de votre demande.",
+        `Vous pouvez demander l'accès à vos données, leur rectification, leur effacement, la limitation de leur traitement, leur portabilité, ou vous opposer à leur traitement, en écrivant à ${EMAIL_CONTACT}. Vous pouvez retirer à tout moment un consentement donné, sans que cela remette en cause ce qui a été fait auparavant. Nous répondons dans un délai d'un mois.`,
+        "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL (cnil.fr).",
       ],
     },
   ],

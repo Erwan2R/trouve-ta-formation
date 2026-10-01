@@ -1,31 +1,33 @@
 // Imports relatifs : ce contenu est aussi lu par next.config.ts (blocage du build de production).
 import { EMAIL_CONTACT } from "../../lib/config/contact";
+import { EDITEUR } from "./editeur";
 import type { PageLegale } from "./types";
 
-// Éditeur provisoire : l'entreprise individuelle d'Erwan, en attendant la création de sa société (01/10/2026).
-// Adresse réduite à la ville et aucun téléphone, à sa demande. Rédaction Claude : relecture juridique conseillée.
+// Rédaction Claude (audit RGPD du 01/10/2026, accord d'Erwan), relecture juridique conseillée. Informations de la
+// société en cours de création : contenu/legal/editeur.ts.
 export const MENTIONS_LEGALES: PageLegale = {
   title: "Mentions légales",
   description: "Mentions légales du site Trouve ta formation : éditeur, directeur de la publication, hébergement.",
   h1: "Mentions légales",
-  maj: "Dernière mise à jour : 1er octobre 2026",
+  maj: `Dernière mise à jour : ${EDITEUR.dateMaj}`,
   sections: [
     {
       h2: "Éditeur du site",
       paragraphes: [
-        "Le site trouve-ta-formation.fr est édité par Erwan de Rotalier EI, entrepreneur individuel, établi à Bois-Colombes (Hauts-de-Seine).",
-        "SIREN : 882 911 399.",
+        `Le site trouve-ta-formation.fr est édité par ${EDITEUR.denomination}, ${EDITEUR.forme} au capital de ${EDITEUR.capital} euros, immatriculée au registre du commerce et des sociétés de ${EDITEUR.rcs} sous le numéro ${EDITEUR.siren}, dont le siège est situé ${EDITEUR.siege}.`,
+        `Numéro de TVA intracommunautaire : ${EDITEUR.tva}.`,
         `Contact : ${EMAIL_CONTACT}.`,
       ],
     },
     {
       h2: "Directeur de la publication",
-      paragraphes: ["Erwan de Rotalier."],
+      paragraphes: [`${EDITEUR.directeur}.`],
     },
     {
       h2: "Hébergement",
       paragraphes: [
-        "Le site est hébergé par Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis (vercel.com).",
+        "Le site est hébergé par Vercel Inc., 440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis (vercel.com). Les traitements du serveur s'exécutent dans un centre de données situé à Paris.",
+        "Les données sont stockées par le prestataire Supabase, dans un centre de données situé à Paris (France).",
       ],
     },
     {
@@ -36,9 +38,27 @@ export const MENTIONS_LEGALES: PageLegale = {
       ],
     },
     {
+      h2: "Classement des fiches",
+      paragraphes: [
+        "Les fiches sont classées selon leur pertinence par rapport à la recherche et leur niveau de complétude. Aucun organisme ne peut payer pour améliorer son classement. Si un emplacement est un jour mis en avant contre rémunération, il sera toujours signalé comme tel. Le détail figure dans les conditions d'utilisation.",
+      ],
+    },
+    {
+      h2: "Informations réglementaires",
+      paragraphes: [
+        "Les informations sur les titres, les formations et les démarches sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.",
+      ],
+    },
+    {
       h2: "Propriété intellectuelle",
       paragraphes: [
         "Les textes, la présentation et le logo du site sont la propriété de l'éditeur ; leur reproduction sans autorisation est interdite. Les contenus des fiches (textes, logos) restent la propriété des organismes qui les publient.",
+      ],
+    },
+    {
+      h2: "Données personnelles et cookies",
+      paragraphes: [
+        "Le traitement de vos données personnelles est décrit dans la politique de confidentialité, et l'usage des cookies dans la page Cookies, où vous pouvez modifier vos choix à tout moment.",
       ],
     },
   ],
