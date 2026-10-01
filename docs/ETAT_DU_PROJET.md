@@ -393,7 +393,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    `TURNSTILE_SECRET_KEY` (le jeton Cloudflare expire le 8 octobre ; ensuite, la clé secrète se lit dans le tableau de
    bord Cloudflare). Sans clé Turnstile, l'inscription est refusée en production.
 5. **Retirer les redirections 307** de `partenaires.` et `admin.trouve-ta-formation.fr` dans Vercel.
-6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261020` (administrateur, rappels,
+6. **Admin** : appliquer à la base de production les migrations `20261015` à `20261021` (administrateur, rappels,
    prospection, analytics) ; créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), puis
    configurer le 2FA à la première connexion ; créer un deploy hook pour `main` et la variable
    `VERCEL_DEPLOY_HOOK_URL` de production.

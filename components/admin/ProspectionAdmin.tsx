@@ -16,8 +16,11 @@ type Actions = {
 };
 
 // Page non spécifiée (décision Erwan : « garde-la minimale ») : libellés et textes rédigés par Claude.
+// Ordre du parcours (décision Erwan) : appel d'abord, email si personne ne répond.
 const STATUTS: [Statut, string][] = [
   ["a_contacter", "À contacter"],
+  ["appele_sans_reponse", "Appelé sans réponse"],
+  ["email_envoye", "Email envoyé"],
   ["contacte", "Contacté"],
   ["inscrit", "Inscrit"],
   ["exclu", "Exclu"],

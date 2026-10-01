@@ -912,7 +912,13 @@ export type Database = {
     Enums: {
       statut_demande: "en_attente" | "acceptee" | "refusee"
       statut_organisme: "brouillon" | "publie" | "suspendu"
-      statut_prospect: "a_contacter" | "contacte" | "inscrit" | "exclu"
+      statut_prospect:
+        | "a_contacter"
+        | "appele_sans_reponse"
+        | "email_envoye"
+        | "contacte"
+        | "inscrit"
+        | "exclu"
       statut_titre: "actif" | "archive"
     }
     CompositeTypes: {
@@ -1043,7 +1049,14 @@ export const Constants = {
     Enums: {
       statut_demande: ["en_attente", "acceptee", "refusee"],
       statut_organisme: ["brouillon", "publie", "suspendu"],
-      statut_prospect: ["a_contacter", "contacte", "inscrit", "exclu"],
+      statut_prospect: [
+        "a_contacter",
+        "appele_sans_reponse",
+        "email_envoye",
+        "contacte",
+        "inscrit",
+        "exclu",
+      ],
       statut_titre: ["actif", "archive"],
     },
   },
