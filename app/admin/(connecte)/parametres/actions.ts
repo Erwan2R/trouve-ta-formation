@@ -134,6 +134,7 @@ export type Reglages = {
   departement: { organismes: number; palier_min: string };
   ville: { organismes: number; palier_min: string };
   elargissement: number;
+  pilier: number;
   experience: { "ssiap-2": number; "ssiap-3": number };
 };
 
@@ -148,6 +149,7 @@ export async function enregistrerReglages(r: Reglages): Promise<Retour> {
     !palierOk(r.departement.palier_min) ||
     !palierOk(r.ville.palier_min) ||
     !entier(r.elargissement, 1, 50) ||
+    !entier(r.pilier, 1, 10) ||
     !entier(r.experience["ssiap-2"], 0, 20) ||
     !entier(r.experience["ssiap-3"], 0, 20)
   )
@@ -157,6 +159,7 @@ export async function enregistrerReglages(r: Reglages): Promise<Retour> {
     ["seuil_page_departement", r.departement],
     ["seuil_page_ville", r.ville],
     ["seuil_proposition_elargissement", r.elargissement],
+    ["seuil_bloc_organismes_pilier", r.pilier],
     ["experience_encadrement", r.experience],
   ] as const;
   for (const [cle, valeur] of lignes) {

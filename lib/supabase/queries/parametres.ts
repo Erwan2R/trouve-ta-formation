@@ -23,6 +23,12 @@ export async function getSeuilPropositionElargissement(): Promise<number> {
   return typeof v === "number" ? v : 3;
 }
 
+/** Pages titre : nombre d'organismes proposant le titre à partir duquel leur bloc s'affiche (UX pilier §8). */
+export async function getSeuilBlocPilier(): Promise<number> {
+  const v = (await lireParametres()).get("seuil_bloc_organismes_pilier");
+  return typeof v === "number" ? v : 3;
+}
+
 /** Formulaire d'affinage : années d'expérience minimales pour recommander le SSIAP 2 et le SSIAP 3. */
 export async function getExperienceEncadrement(): Promise<ExperienceMin> {
   const v = (await lireParametres()).get("experience_encadrement") as ExperienceMin | undefined;

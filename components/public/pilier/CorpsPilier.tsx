@@ -2,7 +2,10 @@ import Link from "next/link";
 import { LienContenu } from "@/components/public/LienContenu";
 import { CONDITIONS_COMMUNES } from "@/contenu/securite-privee/piliers/communs";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
+import { Grille } from "@/components/public/catalogue/ListingCatalogue";
 import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
+import { absoluteUrl } from "@/lib/seo/metadata";
+import type { Organisme } from "@/lib/supabase/queries/organismes";
 import type { Departement, Titre } from "@/lib/supabase/queries/referentiel";
 import { fr } from "@/lib/typo";
 import { TexteContenu } from "@/components/public/TexteContenu";
@@ -66,12 +69,15 @@ export function CorpsPilier({
   contenu,
   departements,
   demarchesVisibles,
+  organismes,
 }: {
   base: string;
   titre: Titre;
   contenu: ContenuPilier;
   departements: Departement[];
   demarchesVisibles: Set<string>;
+  /** Bloc 8 : vide sous le seuil. */
+  organismes: Organisme[];
 }) {
   const court = titre.libelle_court;
   const conditions = [
@@ -180,24 +186,48 @@ export function CorpsPilier({
 
       {contenu.gabarit === "A" && <Cout contenu={contenu} />}
 
-      {/* Bloc 8 — sous le seuil : bloc masqué, copy de remplacement. Liste d'organismes (ItemList) : Sprint 5. */}
-      <div className="flex max-w-[70ch] flex-col gap-3 rounded-[22px] border border-line bg-white p-[clamp(24px,3vw,34px)]">
-        <h2
-          id="organismes-titre"
-          className="scroll-mt-40 text-[clamp(23px,2.8vw,30px)] leading-[1.12] font-bold tracking-[-0.025em]"
-        >
-          {fr(`Vous cherchez un centre pour le ${court} ?`)}
-        </h2>
-        <p className="text-[17px] leading-[1.7] text-ink-700">
-          Consultez les organismes de formation référencés en Île-de-France, ou dites-nous ce que vous cherchez.
-        </p>
-        <Link
-          href={`${base}organismes/`}
-          className="mt-1 inline-flex items-center gap-2.5 self-start rounded-full bg-ink-900 px-[22px] py-3.5 text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
-        >
-          Voir tous les organismes <span aria-hidden="true">→</span>
-        </Link>
-      </div>
+      {/* Bloc 8 — organismes du titre (Copy piliers §11) ; sous le seuil : bloc masqué, copy de remplacement. */}
+      {organismes.length > 0 ? (
+        <div className="flex flex-col gap-[18px]">
+          <JsonLd
+            data={{
+              "@type": "ItemList",
+              itemListElement: organismes.map((o, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: o.nom,
+                url: absoluteUrl(`${base}organismes/${o.slug}/`),
+              })),
+            }}
+          />
+          <h2 id="organismes-titre" className={h2}>
+            Où préparer le {court} en Île-de-France
+          </h2>
+          <Grille organismes={organismes} base={base} />
+          {/* Catalogue filtré : non indexable, c'est de l'usage (UX pilier §8). */}
+          <Link href={`${base}organismes/?titre=${titre.slug}`} className="self-start text-[15px] font-bold">
+            Voir tous les organismes qui préparent le {court} <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      ) : (
+        <div className="flex max-w-[70ch] flex-col gap-3 rounded-[22px] border border-line bg-white p-[clamp(24px,3vw,34px)]">
+          <h2
+            id="organismes-titre"
+            className="scroll-mt-40 text-[clamp(23px,2.8vw,30px)] leading-[1.12] font-bold tracking-[-0.025em]"
+          >
+            {fr(`Vous cherchez un centre pour le ${court} ?`)}
+          </h2>
+          <p className="text-[17px] leading-[1.7] text-ink-700">
+            Consultez les organismes de formation référencés en Île-de-France, ou dites-nous ce que vous cherchez.
+          </p>
+          <Link
+            href={`${base}organismes/`}
+            className="mt-1 inline-flex items-center gap-2.5 self-start rounded-full bg-ink-900 px-[22px] py-3.5 text-[15px] font-bold text-white hover:bg-brique-700 hover:text-white"
+          >
+            Voir tous les organismes <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      )}
 
       {/* Bloc 9 — liste les zones publiées, ne développe rien (anti-cannibalisation). */}
       {departements.length > 0 && (

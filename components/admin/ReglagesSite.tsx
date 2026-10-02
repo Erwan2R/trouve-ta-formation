@@ -101,6 +101,17 @@ export function ReglagesSite({
       )}
       {seuil("ville", "Page ville", "Même règle pour une page ville (pages villes pas encore construites).")}
       <div className="flex flex-col gap-3 rounded-[20px] border border-line px-5 py-[18px]">
+        <span className="font-mono text-[10.5px] tracking-[0.1em] text-ink-400 uppercase">Page titre</span>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,200px),1fr))] gap-3">
+          <Nombre
+            libelle="Afficher les organismes du titre à partir de"
+            aide="organismes publiés qui le proposent. En dessous, le bloc est masqué (10 cartes au plus)."
+            valeur={r.pilier}
+            onChange={(n) => setR({ ...r, pilier: n })}
+          />
+        </div>
+      </div>
+      <div className="flex flex-col gap-3 rounded-[20px] border border-line px-5 py-[18px]">
         <span className="font-mono text-[10.5px] tracking-[0.1em] text-ink-400 uppercase">
           Formulaire d&apos;affinage
         </span>

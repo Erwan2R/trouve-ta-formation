@@ -8,7 +8,10 @@ import { SommairePilier } from "@/components/public/pilier/SommairePilier";
 import { PILIERS, h1Pilier } from "@/contenu/securite-privee/piliers";
 import { VERTICALES, type Verticale } from "@/lib/config/verticales";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { trier } from "@/lib/organismes/tri";
 import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
+import { getOrganismes } from "@/lib/supabase/queries/organismes";
+import { getSeuilBlocPilier } from "@/lib/supabase/queries/parametres";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { dateLongue } from "@/lib/format-date";
 import { getDepartements, getTitres } from "@/lib/supabase/queries/referentiel";
@@ -45,12 +48,17 @@ export async function PagePilier({
 }) {
   const contenu = PILIERS[titre.slug];
 
-  const [titres, departements, compteurs, { visibles }] = await Promise.all([
+  const [titres, departements, compteurs, { visibles }, organismes, seuilBloc] = await Promise.all([
     getTitres(),
     getDepartements(),
     getCompteursAffiches(verticale.seuilCompteurs),
     getDemarches(verticale),
+    getOrganismes(),
+    getSeuilBlocPilier(),
   ]);
+  // Bloc 8 : 10 fiches au plus, tri par complétude ; masqué sous le seuil (UX pilier §8).
+  const proposent = organismes.filter((o) => o.titres.includes(titre.slug));
+  const organismesBloc = proposent.length >= seuilBloc ? trier(proposent, "pertinence").slice(0, 10) : [];
   const nbOrganismes = compteurs ? (compteurs.parTitre.get(titre.slug) ?? 0) : null;
   const titresLies = contenu.titresLies.flatMap(({ slug, texte }) => {
     const t = titres.find((x) => x.slug === slug);
@@ -112,6 +120,7 @@ export async function PagePilier({
             contenu={contenu}
             departements={deptsPublies}
             demarchesVisibles={visibles}
+            organismes={organismesBloc}
           />
           <ColonnePilier
             base={base}

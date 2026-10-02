@@ -468,7 +468,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261025_resolution_article_finale` — redirections du blog sans chaîne ;
    - `20261026_securite_et_conservation` — limitation des tentatives, date de dernier contact, purge quotidienne
      (pg_cron doit être activé sur la base de prod) ;
-   - `20261027_suivi_404` — type d'événement `page_404` (pages introuvables, onglet Analytics « Général »).
+   - `20261027_suivi_404` — type d'événement `page_404` (pages introuvables, onglet Analytics « Général ») ;
+   - `20261028_seuil_bloc_pilier` — seuil du bloc organismes des pages titre (3, décision Erwan 02/10/2026).
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).

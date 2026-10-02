@@ -59,6 +59,7 @@ export default async function Parametres({ searchParams }: Props) {
               departement: v.seuil_page_departement,
               ville: v.seuil_page_ville,
               elargissement: v.seuil_proposition_elargissement,
+              pilier: v.seuil_bloc_organismes_pilier ?? 3,
               experience: v.experience_encadrement,
             }}
             enregistrer={actions.enregistrerReglages}
