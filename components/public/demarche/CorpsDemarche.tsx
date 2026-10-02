@@ -3,6 +3,7 @@ import { LienContenu } from "@/components/public/LienContenu";
 import { TexteContenu } from "@/components/public/TexteContenu";
 import { URL_CNAPS } from "@/contenu/securite-privee/demarches/liste";
 import type { ContenuDemarche } from "@/contenu/securite-privee/demarches/types";
+import { dateLongue } from "@/lib/format-date";
 import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 import type { Demarche } from "@/lib/supabase/queries/demarches";
 import type { Titre } from "@/lib/supabase/queries/referentiel";
@@ -115,6 +116,15 @@ export function CorpsDemarche({
             </li>
           ))}
         </ul>
+        {contenu.pieces.source && (
+          <p className="text-[13.5px] leading-[1.6] text-ink-500">
+            Source :{" "}
+            <a href={contenu.pieces.source.href} className="font-semibold">
+              {contenu.pieces.source.libelle}
+            </a>
+            , vérifiée le {dateLongue(contenu.pieces.source.verifieLe)}.
+          </p>
+        )}
         {contenu.pieces.encart && (
           <div className="flex max-w-[74ch] flex-col gap-[7px] rounded-[18px] border border-line bg-white px-[22px] py-5">
             <span className="font-mono text-[10.5px] tracking-[0.12em] text-ink-400 uppercase">

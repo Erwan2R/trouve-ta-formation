@@ -470,7 +470,9 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
      (pg_cron doit être activé sur la base de prod) ;
    - `20261027_suivi_404` — type d'événement `page_404` (pages introuvables, onglet Analytics « Général ») ;
    - `20261028_seuil_bloc_pilier` — seuil du bloc organismes des pages titre (3, décision Erwan 02/10/2026) ;
-   - `20261029_referentiel_verifie` — RNCP TFP ASA, durées MAC APS / SSIAP 1 / recyclage, expérience SSIAP 2 en heures.
+   - `20261029_referentiel_verifie` — RNCP TFP ASA, durées MAC APS / SSIAP 1 / recyclage, expérience SSIAP 2 en heures ;
+   - `20261030_durees_tfp` — durées minimales TFP APS (175 h), ASC (490 h), A3P (306 h), somme des modules de l'arrêté
+     du 1er septembre 2025.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).

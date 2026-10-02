@@ -13,7 +13,7 @@ export const carteProfessionnelle: ContenuDemarche = {
     aQui: "Toute personne titulaire d'un titre reconnu souhaitant exercer une activité de sécurité privée",
     quand: "Après l'obtention du titre",
     ou: "En ligne sur Dracar Ultimate",
-    pieces: "Pièce d'identité, justificatif de domicile, attestation du titre obtenu",
+    pieces: "Pièce d'identité, justificatif de domicile de moins de 3 mois, titre obtenu, photo d'identité",
   },
   qui: {
     h2: "Qui doit demander une carte professionnelle",
@@ -55,14 +55,19 @@ export const carteProfessionnelle: ContenuDemarche = {
     ],
   },
   pieces: {
-    intro:
-      "Base de travail : pièce d'identité, justificatif de domicile, attestation ou diplôme du titre obtenu, photographie d'identité. La question d'une promesse d'embauche ou d'un contrat de travail est traitée différemment selon les sources et doit être tranchée. [à vérifier]",
+    intro: "Le formulaire de demande sur Dracar Ultimate fait foi : il indique les pièces propres à votre situation.",
     liste: [
-      "Une pièce d'identité en cours de validité",
-      "Un justificatif de domicile",
-      "L'attestation ou le diplôme du titre obtenu",
-      "Une photographie d'identité",
+      "Une carte nationale d'identité ou un passeport en cours de validité, mentionnant la date et le lieu de naissance (à défaut, un extrait d'acte de naissance) ; pour les ressortissants hors Union européenne, le titre de séjour",
+      "Un justificatif de domicile de moins de trois mois",
+      "Le justificatif de votre aptitude professionnelle : le diplôme, le titre ou le certificat obtenu pour l'activité demandée",
+      "Une photographie d'identité récente",
+      "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1, et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
     ],
+    source: {
+      href: "https://www.cnaps.interieur.gouv.fr/Actualites/Nouvelles-obligations-pour-les-demandes-de-titres",
+      libelle: "CNAPS, « Nouvelles obligations pour les demandes de titres »",
+      verifieLe: "2026-10-02",
+    },
   },
   depot: {
     intro:
@@ -85,7 +90,7 @@ export const carteProfessionnelle: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
+      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Exercer dans l'attente", "Pas avant la délivrance de la carte : c'est elle qui autorise l'exercice"],
@@ -104,7 +109,8 @@ export const carteProfessionnelle: ContenuDemarche = {
       },
       {
         titre: "Perte, vol, duplicata",
-        texte: "Procédure de duplicata et poursuite d'activité dans l'attente. [à compléter]",
+        texte:
+          "Contactez la délégation territoriale du CNAPS dont vous dépendez, par son formulaire de contact, par email ou par courrier, avec la copie recto verso lisible d'une pièce d'identité en cours de validité et un justificatif de domicile.",
       },
       {
         titre: "Extension d'activité",

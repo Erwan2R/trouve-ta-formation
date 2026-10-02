@@ -13,14 +13,14 @@ export const autorisationPrealable: ContenuDemarche = {
     aQui: "Toute personne entrant en formation sans carte professionnelle en cours de validité",
     quand: "Avant l'inscription en formation, jamais après",
     ou: "En ligne sur Dracar Ultimate, espace usager du CNAPS",
-    pieces: "Pièce d'identité, justificatif de domicile, justificatif de pré-inscription",
+    pieces: "Pièce d'identité, justificatif de domicile de moins de 3 mois, justificatif de pré-inscription",
   },
   qui: {
     h2: "Qui doit demander une autorisation préalable",
     sommaire: "Qui doit la demander",
     paragraphes: [
       "Vous devez la demander si vous voulez entrer en formation à la sécurité privée et que vous ne détenez pas de carte professionnelle en cours de validité. C'est le cas de la très grande majorité des candidats : ceux qui préparent un TFP APS, un SSIAP, un titre de spécialité, sans avoir jamais exercé.",
-      "Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation.",
+      "Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation, **sauf pour une formation au port d'arme ou à la sûreté aéroportuaire** : l'autorisation préalable reste alors exigée.",
     ],
     encart: {
       surtitre: "Ne pas confondre",
@@ -45,7 +45,8 @@ export const autorisationPrealable: ContenuDemarche = {
         h3: "Nationalité et titre de séjour",
         paragraphes: [
           "Les ressortissants français et européens fournissent une pièce d'identité en cours de validité.",
-          "Les ressortissants d'un État hors Union européenne doivent disposer d'un titre de séjour en cours de validité les autorisant à travailler en France, et fournir l'équivalent du bulletin n° 3 du casier judiciaire de leur pays d'origine ou de provenance. [à vérifier]",
+          "Les ressortissants d'un État hors Union européenne doivent disposer d'un titre de séjour en cours de validité les autorisant à travailler en France.",
+          "Tous les ressortissants étrangers, européens compris, justifient d'un niveau de français B1 et fournissent l'équivalent du bulletin n° 3 du casier judiciaire de leur pays de naissance, daté de moins de trois mois et traduit en français par un traducteur assermenté. Les bénéficiaires d'une protection internationale (réfugiés, protection subsidiaire) en sont dispensés.",
         ],
       },
       {
@@ -58,13 +59,19 @@ export const autorisationPrealable: ContenuDemarche = {
     ],
   },
   pieces: {
-    intro: "Base de travail issue des sources disponibles, à confirmer sur le portail officiel. [à compléter]",
+    intro: "Le formulaire de demande sur Dracar Ultimate fait foi : il indique les pièces propres à votre situation.",
     liste: [
-      "Une pièce d'identité en cours de validité : carte nationale d'identité, passeport, ou titre de séjour",
-      "Un justificatif de domicile",
+      "Une carte nationale d'identité ou un passeport en cours de validité, mentionnant la date et le lieu de naissance (à défaut, un extrait d'acte de naissance) ; pour les ressortissants hors Union européenne, le titre de séjour",
+      "Un justificatif de domicile de moins de trois mois",
       "Un justificatif de pré-inscription délivré par l'organisme de formation",
-      "Pour les ressortissants étrangers, l'équivalent du bulletin n° 3 du pays d'origine",
+      "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1, et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
+      "Pour une formation au port d'arme ou à la sûreté aéroportuaire : une lettre d'intention d'embauche d'une entreprise autorisée",
     ],
+    source: {
+      href: "https://www.cnaps.interieur.gouv.fr/Actualites/Nouvelles-obligations-pour-les-demandes-de-titres",
+      libelle: "CNAPS, « Nouvelles obligations pour les demandes de titres »",
+      verifieLe: "2026-10-02",
+    },
     encart: {
       surtitre: "Le point qui déroute le plus de candidats",
       titre: "Le justificatif de pré-inscription se demande au centre de formation, avant la demande d'autorisation.",
@@ -104,7 +111,7 @@ export const autorisationPrealable: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
+      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Suivre son dossier", "Depuis l'espace usager, rubrique de suivi et messagerie interne"],
@@ -122,7 +129,7 @@ export const autorisationPrealable: ContenuDemarche = {
       {
         titre: "Les voies de recours",
         texte:
-          "Recours gracieux, recours devant la commission nationale d'agrément et de contrôle, recours contentieux : articulation et délais à vérifier. [à compléter]",
+          "Dans les deux mois suivant la décision, vous pouvez former un recours gracieux auprès du directeur du CNAPS, par email à cnaps-rg@interieur.gouv.fr ou par courrier. Sans réponse pendant deux mois, ce recours est rejeté ; vous disposez alors de deux nouveaux mois pour saisir le tribunal administratif. Vous pouvez aussi saisir directement le tribunal administratif de votre domicile, dans les deux mois suivant la décision.",
       },
       {
         titre: "Cas particuliers",
@@ -178,7 +185,8 @@ export const autorisationPrealable: ContenuDemarche = {
     },
     {
       question: "Faut-il refaire une autorisation préalable pour une seconde formation ?",
-      reponse: "Non si vous détenez alors une carte professionnelle en cours de validité.",
+      reponse:
+        "Non si vous détenez alors une carte professionnelle en cours de validité, sauf pour une formation au port d'arme ou à la sûreté aéroportuaire, qui demande toujours une autorisation préalable.",
     },
     {
       question: "Que faire si je n'ai pas de réponse ?",

@@ -38,7 +38,8 @@ function AvecLienDracar({ texte }: { texte: string }) {
 
 /**
  * Blocs 1 et 2 — fil d'Ariane, H1, datation, définition, encadré de synthèse.
- * Délai, coût, validité, fenêtre et date viennent de la base : un champ vide n'est pas affiché.
+ * Délai, validité, fenêtre et date viennent de la base : un champ vide n'est pas affiché. Pas de ligne « Coût » :
+ * aucune source officielle ne le fixe (décision Erwan 02/10/2026).
  */
 export function EnTeteDemarche({
   base,
@@ -93,7 +94,6 @@ export function EnTeteDemarche({
             </Ligne>
             <Ligne label="Pièces principales">{contenu.encadre.pieces}</Ligne>
             {demarche.delai_instruction && <Ligne label="Délai d'instruction">{demarche.delai_instruction}</Ligne>}
-            {demarche.cout && <Ligne label="Coût">{demarche.cout}</Ligne>}
             {demarche.validite && <Ligne label="Validité">{demarche.validite}</Ligne>}
             {date && (
               <Ligne label="Dernière vérification" mono>

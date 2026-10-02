@@ -158,7 +158,7 @@ export const EXPLICATIONS = {
   encadrement: (t: string, ref: string) =>
     `Vous détenez le ${ref} et vous voulez encadrer une équipe : le ${t} est le niveau suivant de cette filière.`,
   "encadrement-diplome": (t: string) =>
-    `Avec le bac ou un diplôme de niveau 4, vous pouvez entrer directement en formation ${t}, sans passer par le SSIAP 1 et le SSIAP 2. C'est le titre de chef de service de sécurité incendie.`,
+    `Avec le bac ou un diplôme de niveau 4, vous pouvez entrer directement en formation ${t}, sans passer par le SSIAP 1 et le SSIAP 2. C'est la formation de chef de service de sécurité incendie : elle est longue, environ 216 heures. Si vous préférez commencer sur le terrain, le SSIAP 1 reste la porte d'entrée de la filière.`,
   "encadrement-sans-experience": () =>
     "C'est le titre à viser ensuite. En attendant, vous pouvez élargir vos compétences avec un titre complémentaire : beaucoup d'agents cumulent le TFP APS et le SSIAP 1, ce qui ouvre davantage de postes.",
   "encadrement-prerequis": () => ENCADREMENT_PREREQUIS.explication,

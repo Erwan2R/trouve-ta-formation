@@ -20,7 +20,13 @@ export type ContenuDemarche = {
   encadre: { aQui: string; quand?: string; ou: string; pieces: string };
   qui: { h2: string; sommaire: string; paragraphes: string[]; encart?: { surtitre: string; texte: string } };
   conditions: { h2: string; intro?: string; sections: Section[] };
-  pieces: { intro?: string; liste: string[]; encart?: { surtitre: string; titre: string; texte: string } };
+  pieces: {
+    intro?: string;
+    liste: string[];
+    encart?: { surtitre: string; titre: string; texte: string };
+    /** Page officielle d'où vient la liste, et date de la vérification (AAAA-MM-JJ). */
+    source?: Lien & { verifieLe: string };
+  };
   depot: { intro: string; etapes: { h3: string; texte: string }[]; alerte?: { titre: string; texte: string } };
   delais: { intro: string; lignes: [string, string][] };
   refus: {

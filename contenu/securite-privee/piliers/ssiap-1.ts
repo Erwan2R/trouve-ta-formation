@@ -55,7 +55,7 @@ export const ssiap1: ContenuPilier = {
       "L'examen se passe devant un jury : un questionnaire à choix multiples de 30 questions en 30 minutes, à réussir avec au moins 12 sur 20, puis une épreuve pratique de ronde de 15 minutes, évaluée apte ou inapte.",
   },
   duree:
-    "La formation dure 67 heures, et cette durée ne varie pas d'un organisme à l'autre. Ce qui change, c'est le rythme : temps plein sur deux semaines, cours du soir ou week-end selon les centres. Une fois qualifié, un recyclage de 14 heures est à suivre tous les trois ans ; une remise à niveau de 21 heures s'impose si ce délai est dépassé.",
+    "La formation dure 67 heures, et cette durée ne varie pas d'un organisme à l'autre. Ce qui change, c'est le rythme : temps plein sur deux semaines, cours du soir ou week-end selon les centres. Une fois qualifié, un recyclage de 14 heures est à suivre tous les trois ans. Une remise à niveau de 21 heures s'impose si le recyclage n'a pas été fait dans les 3 ans, ou si vous ne justifiez pas de 1 607 heures d'exercice sur les 36 derniers mois.",
   cout: "Les tarifs relevés en Île-de-France s'étalent sur une fourchette large. L'écart s'explique par le format, l'effectif par session et les moyens du plateau technique, rarement par la qualité seule. Le prix affiché peut inclure ou exclure les frais d'examen et le livret de formation.",
   titresLies: [
     { slug: "ssiap-2", texte: "Le niveau supérieur, pour encadrer une équipe d'agents SSIAP 1." },
@@ -71,7 +71,7 @@ export const ssiap1: ContenuPilier = {
     {
       question: "Le SSIAP 1 donne-t-il droit à une carte professionnelle ?",
       reponse:
-        "Non. La carte professionnelle du CNAPS concerne les activités de surveillance humaine. La qualification SSIAP atteste d'une aptitude à l'emploi de sécurité incendie, distincte de cette carte. [à vérifier]",
+        "Non. La carte professionnelle du CNAPS concerne les activités de surveillance humaine. La qualification SSIAP atteste d'une aptitude à l'emploi de sécurité incendie, distincte de cette carte. Les conditions d'accès fixées par l'arrêté du 2 mai 2005 ne mentionnent pas d'autorisation du CNAPS.",
     },
     {
       question: "Faut-il un diplôme de secourisme avant d'entrer en formation ?",

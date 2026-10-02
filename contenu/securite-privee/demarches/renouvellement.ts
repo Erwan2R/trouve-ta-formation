@@ -13,7 +13,7 @@ export const renouvellement: ContenuDemarche = {
   encadre: {
     aQui: "Tout agent dont la carte professionnelle arrive à échéance",
     ou: "En ligne sur Dracar Ultimate, espace particulier",
-    pieces: "Pièce d'identité, justificatif de domicile, attestation MAC correspondant à chaque activité",
+    pieces: "Pièce d'identité, justificatif de domicile de moins de 3 mois, attestation MAC pour chaque activité",
   },
   qui: {
     h2: "Qui est concerné et quand",
@@ -54,12 +54,19 @@ export const renouvellement: ContenuDemarche = {
     ],
   },
   pieces: {
-    intro: "L'attestation MAC est la pièce centrale, une par activité. Liste officielle à relever. [à compléter]",
+    intro:
+      "L'attestation MAC est la pièce centrale, une par activité. Le formulaire de demande sur Dracar Ultimate fait foi : il indique les pièces propres à votre situation.",
     liste: [
-      "Une pièce d'identité en cours de validité",
-      "Un justificatif de domicile",
-      "Une attestation de maintien des compétences par activité détenue",
+      "Une carte nationale d'identité ou un passeport en cours de validité ; pour les ressortissants hors Union européenne, le titre de séjour",
+      "Un justificatif de domicile de moins de trois mois",
+      "Une photographie d'identité récente",
+      "Une attestation de maintien et d'actualisation des compétences par activité détenue",
     ],
+    source: {
+      href: "https://www.cnaps.interieur.gouv.fr/Actualites/Nouvelles-obligations-pour-les-demandes-de-titres",
+      libelle: "CNAPS, « Nouvelles obligations pour les demandes de titres »",
+      verifieLe: "2026-10-02",
+    },
   },
   depot: {
     intro:
@@ -68,7 +75,7 @@ export const renouvellement: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
+      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
     lignes: [
       [
         "Exercer pendant l'instruction",

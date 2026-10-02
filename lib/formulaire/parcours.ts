@@ -215,7 +215,7 @@ export function alternatives(reco: Extract<Recommandation, { type: "titre" }>, a
       : reco.gabarit === "encadrement-prerequis"
         ? [["ssiap-2", "Quand vous aurez le SSIAP 1 et l'expérience demandée."]]
         : reco.gabarit === "encadrement-diplome"
-          ? [["ssiap-1", "Pour commencer comme agent de sécurité incendie."]]
+          ? [["ssiap-1", "La porte d'entrée de la filière, pour commencer comme agent de sécurité incendie."]]
           : (ALTERNATIVES[reco.titre] ?? []);
   return liste.filter(([t]) => actifs.has(t));
 }
