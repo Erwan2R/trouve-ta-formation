@@ -258,6 +258,31 @@ export default async function Analytics({ searchParams }: Props) {
                 </ol>
               )}
             </section>
+            <section className={carte}>
+              <span className="flex items-baseline justify-between gap-2.5">
+                <h2 className="text-[17px] font-extrabold tracking-[-0.02em]">Pages introuvables</h2>
+                <span className={mono}>Top 10 · {libellePeriode}</span>
+              </span>
+              <span className="text-[12.5px] leading-normal text-ink-500">
+                Adresses demandées qui ont abouti à une page d&apos;erreur 404. Une adresse qui revient souvent
+                mérite une redirection.
+              </span>
+              {a.introuvables.length === 0 ? (
+                vide("Aucune page introuvable sur la période.")
+              ) : (
+                <ol className="flex flex-col border-t border-[#F0ECE6]">
+                  {a.introuvables.map((r) => (
+                    <li
+                      key={r.chemin}
+                      className="flex items-center justify-between gap-3 border-b border-[#F0ECE6] px-1 py-2.5"
+                    >
+                      <span className="font-mono text-[12.5px] [overflow-wrap:anywhere] text-ink-700">{r.chemin}</span>
+                      <span className="flex-none font-mono text-[13px]">{fr(r.compteur)}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </section>
           </div>
         </>
       )}

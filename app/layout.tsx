@@ -16,6 +16,10 @@ const mono = IBM_Plex_Mono({
   variable: "--font-plex",
   subsets: ["latin"],
   weight: ["400", "500"],
+  // Repli à chasse fixe (0,6 em par caractère, comme Plex Mono) au lieu d'Arial agrandi : sinon les lignes mono
+  // (date et temps de lecture du blog) changent de nombre de lignes au chargement de la police (CLS 0,12).
+  adjustFontFallback: false,
+  fallback: ["Menlo", "Courier New", "monospace"],
 });
 
 export const metadata: Metadata = {

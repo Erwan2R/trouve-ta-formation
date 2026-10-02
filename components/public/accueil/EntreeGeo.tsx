@@ -45,7 +45,7 @@ export function EntreeGeo({
                     {libelle}
                   </Link>
                 ) : (
-                  <span className={`${pastille} text-ink-300`}>{libelle}</span>
+                  <span className={`${pastille} text-ink-400`}>{libelle}</span>
                 )}
               </li>
             );

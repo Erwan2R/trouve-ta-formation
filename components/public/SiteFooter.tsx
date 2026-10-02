@@ -130,7 +130,7 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
             Voir tous les secteurs →
           </Link>
         </p>
-        <p className="mt-4 text-[12.5px] leading-relaxed text-ink-400">
+        <p className="mt-4 text-[12.5px] leading-relaxed text-ink-300">
           © 2026 Trouve ta formation — Annuaire indépendant des organismes de formation. Les informations réglementaires
           sont fournies à titre indicatif ; seuls les textes en vigueur et le CNAPS font foi.
         </p>

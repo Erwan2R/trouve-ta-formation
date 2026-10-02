@@ -222,6 +222,13 @@ export async function getAnalytics(periode: Periode) {
     .map((x) => ({ id: x.id, titre: x.titre, vues: parSlug.get(x.slug)! }))
     .sort((x, y) => y.vues - x.vues)
     .slice(0, 10);
+  // Pages introuvables (Sprint 12) : chemins les plus demandés de la période, à rediriger ou à corriger.
+  const parChemin404 = new Map<string, number>();
+  for (const e of evenements) if (e.type === "page_404") parChemin404.set(e.chemin, (parChemin404.get(e.chemin) ?? 0) + 1);
+  const introuvables = [...parChemin404]
+    .map(([chemin, compteur]) => ({ chemin, compteur }))
+    .sort((x, y) => y.compteur - x.compteur)
+    .slice(0, 10);
   const noms = new Map(organismes.map((o) => [o.id, o]));
   const classement = [...parOrganisme]
     .filter(([id]) => noms.has(id))
@@ -253,6 +260,7 @@ export async function getAnalytics(periode: Periode) {
     },
     formulaire: formulaire ?? [],
     sansResultat: sansResultat ?? [],
+    introuvables,
   };
 }
 

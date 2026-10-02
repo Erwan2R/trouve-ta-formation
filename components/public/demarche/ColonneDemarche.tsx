@@ -41,7 +41,7 @@ export function ColonneDemarche({
             return (
               <li key={etape.titre} className="flex items-start gap-3 border-t border-[#F0ECE6] py-[11px]">
                 <span
-                  className={`flex-none pt-[3px] font-mono text-[11px] ${ici ? "text-brique-700" : "text-line-heavy"}`}
+                  className={`flex-none pt-[3px] font-mono text-[11px] ${ici ? "text-brique-700" : "text-ink-400"}`}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>

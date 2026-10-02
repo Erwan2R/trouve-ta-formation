@@ -33,7 +33,7 @@ export function CorpsEditorial({
     <section className="border-t border-line bg-white py-[88px]">
       <div className="container-public flex flex-wrap items-start gap-14">
         <nav aria-label="Sur cette page" className="sticky top-24 flex min-w-0 flex-[0_1_200px] flex-col gap-2.5">
-          <span className="font-mono text-[10.5px] tracking-[0.14em] text-ink-300 uppercase">Sur cette page</span>
+          <span className="font-mono text-[10.5px] tracking-[0.14em] text-ink-400 uppercase">Sur cette page</span>
           {SOMMAIRE.map(([id, libelle]) => (
             <a
               key={id}

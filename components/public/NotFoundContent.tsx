@@ -21,7 +21,7 @@ export function NotFoundContent({
 }) {
   const groupes = sorties.filter((s) => s.liens.length > 0);
   return (
-    <main className="container-public w-full flex-1 py-[clamp(56px,9vw,88px)]">
+    <main data-page-404 className="container-public w-full flex-1 py-[clamp(56px,9vw,88px)]">
       <div className="max-w-[760px]">
         <h1 className="text-[clamp(32px,4.4vw,54px)] leading-[1.06] font-bold tracking-[-0.03em] text-balance">
           {titre}

@@ -137,7 +137,7 @@ export default async function FicheOrganisme({ params }: Props) {
                   </li>
                 ))}
               </ul>
-              <p className="text-[12.5px] leading-[1.65] text-ink-300">
+              <p className="text-[12.5px] leading-[1.65] text-ink-400">
                 Les adresses sont déclarées par l&apos;organisme. Confirmez le lieu exact de votre session lors de votre
                 inscription.
               </p>

@@ -36,14 +36,18 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   ]);
   // Filtre « Où » sur un département qui a sa page : c'est elle qui porte la zone (canonical).
   const deptPage = departements.find((d) => d.code === f.dept && d.a_une_page);
+  // Page au-delà de la dernière (catalogue qui a rétréci, URL forgée) : affiche la dernière page, jamais un doublon
+  // auto-canonique. Pas de redirect() : loading.tsx fait streamer la page, la redirection deviendrait un meta refresh.
+  const pages = compteurs ? Math.max(1, Math.ceil(tous.length / PAR_PAGE)) : 1;
+  const horsLimite = !aDesFiltres(f) && f.page > pages;
   return buildMetadata({
     title: CATALOGUE.title,
     description: compteurs ? CATALOGUE.description : CATALOGUE.descriptionLancement,
     // Filtre actif : noindex, follow + canonical vers la version nue. Pagination seule : auto-canonique.
     path: `${action}${f.page > 1 && !aDesFiltres(f) ? `?page=${f.page}` : ""}`,
     // Catalogue vide : noindex tant qu'aucun organisme n'est publié (décision Erwan 01/10/2026).
-    noindex: aDesFiltres(f) || tous.length === 0,
-    canonicalPath: deptPage ? `${base}${deptPage.slug}/` : aDesFiltres(f) ? action : undefined,
+    noindex: aDesFiltres(f) || tous.length === 0 || horsLimite,
+    canonicalPath: deptPage ? `${base}${deptPage.slug}/` : aDesFiltres(f) || horsLimite ? action : undefined,
   });
 }
 
@@ -429,7 +433,7 @@ export default async function Catalogue({ searchParams }: Props) {
                     {d.nom} ({d.code})
                   </Link>
                 ) : (
-                  <span className="flex rounded-[14px] border border-line px-[18px] py-[15px] text-[15px] font-semibold text-ink-300">
+                  <span className="flex rounded-[14px] border border-line px-[18px] py-[15px] text-[15px] font-semibold text-ink-400">
                     {d.nom} ({d.code})
                   </span>
                 )}

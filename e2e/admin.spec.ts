@@ -468,12 +468,21 @@ test("analytics : vues de fiche et clics CTA comptés sans cookie", async ({ bro
     .toBeGreaterThanOrEqual(avant + 2);
   expect(await context.cookies("http://localhost:3000")).toHaveLength(0);
 
+  // Page introuvable : un événement page_404, listé dans « Pages introuvables ».
+  const introuvable = `/securite-privee/e2e-introuvable-${Date.now()}/`;
+  await page.goto(introuvable);
+  await expect
+    .poll(async () => (await db.from("evenements").select("type").eq("chemin", introuvable)).data, { timeout: 15_000 })
+    .toEqual([{ type: "page_404" }]);
+
   await connecterAdmin(page);
   await page.goto(`${base}/analytics/?periode=7&onglet=organismes`);
   await expect(page.getByRole("heading", { name: "Fiches les plus visitées" })).toBeVisible();
   await expect(page.getByRole("link", { name: new RegExp(org!.nom) }).first()).toBeVisible();
   await page.getByRole("link", { name: "Général" }).click();
   await expect(page.getByRole("heading", { name: "Répartition par palier" })).toBeVisible();
+  await expect(page.getByText(introuvable)).toBeVisible();
+  await db.from("evenements").delete().eq("chemin", introuvable);
   const aujourdhui = new Date().toISOString().slice(0, 10);
   expect((await db.from("statistiques_quotidiennes").select("jour").eq("jour", aujourdhui)).data).toHaveLength(1);
 });

@@ -187,6 +187,7 @@ Se référer à `CLAUDE.md` pour la stack, les règles SEO et les conventions. S
 - Vérification des données structurées (outil de test Google Rich Results sur un échantillon de chaque type de page)
 - Mise en place du suivi des 404
 - Une propriété Search Console pour le dossier `/securite-privee/`
+- Création du compte Google Analytics 4 avec Erwan, pose de `NEXT_PUBLIC_GA4_ID` dans Vercel et vérification du bandeau cookies (pas de Google Ads ni de pixel Meta au lancement)
 - Revue des points `[À VÉRIFIER]` restants avec Erwan avant publication du contenu réglementaire concerné
 
 ---

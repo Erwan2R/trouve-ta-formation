@@ -1,8 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 
-// Tracking interne (UX Analytics admin §1) : vues de page et clics CTA des fiches. Aucun cookie, ni IP ni identifiant.
-const TYPES = new Set(["vue_page", "clic_telephone", "clic_email", "clic_site"]);
+// Tracking interne (UX Analytics admin §1) : vues de page, pages introuvables et clics CTA des fiches. Aucun cookie, ni IP ni identifiant.
+const TYPES = new Set(["vue_page", "page_404", "clic_telephone", "clic_email", "clic_site"]);
 const ROBOTS = /bot|crawl|spider|slurp|preview|headless|lighthouse|monitor/i;
 const FICHE = /^\/securite-privee\/organismes\/([a-z0-9-]+)\/?$/;
 
@@ -23,7 +23,7 @@ export async function POST(requete: NextRequest) {
     ? await admin.from("organismes").select("id").eq("slug", slug).eq("statut", "publie").maybeSingle()
     : { data: null };
   // Un clic CTA n'existe que sur une fiche publiée.
-  if (type !== "vue_page" && !org) return new NextResponse(null, { status: 204 });
+  if (type.startsWith("clic_") && !org) return new NextResponse(null, { status: 204 });
   await admin.from("evenements").insert({ type, chemin, organisme_id: org?.id ?? null });
   return new NextResponse(null, { status: 204 });
 }
