@@ -1,6 +1,6 @@
 // Formulaire d'affinage (Copy_Formulaire_Affinage.md). Niveau de langue B1 : une proposition par phrase.
 import { A_VERIFIER } from "@/contenu/marqueurs";
-import type { Etape } from "@/lib/formulaire/parcours";
+import type { Etape, ExperienceMin } from "@/lib/formulaire/parcours";
 
 export const FORMULAIRE = {
   title: "Trouver la formation adaptée à votre situation",
@@ -55,14 +55,8 @@ export const QUESTIONS: Record<Etape, Question> = {
       { valeur: "plus-1-an", libelle: "Dans plus d'un an" },
     ],
   },
-  experience: {
-    titre: "Depuis combien de temps travaillez-vous dans la sécurité ?",
-    options: [
-      { valeur: "moins-1-an", libelle: "Moins d'un an" },
-      { valeur: "1-3-ans", libelle: "Entre 1 et 3 ans" },
-      { valeur: "plus-3-ans", libelle: "Plus de 3 ans" },
-    ],
-  },
+  // Libellé et options selon le titre détenu : voir questionExperience.
+  experience: { titre: "" },
   objectif: {
     titre: "Vers quoi voulez-vous aller ?",
     options: [
@@ -163,6 +157,8 @@ export const EXPLICATIONS = {
     `Vous détenez le ${ref} et votre carte arrive à échéance : le ${t} est le stage qui vous permet de la renouveler.`,
   encadrement: (t: string, ref: string) =>
     `Vous détenez le ${ref} et vous voulez encadrer une équipe : le ${t} est le niveau suivant de cette filière.`,
+  "encadrement-diplome": (t: string) =>
+    `Avec le bac ou un diplôme de niveau 4, vous pouvez entrer directement en formation ${t}, sans passer par le SSIAP 1 et le SSIAP 2. C'est le titre de chef de service de sécurité incendie.`,
   "encadrement-sans-experience": () =>
     "C'est le titre à viser ensuite. En attendant, vous pouvez élargir vos compétences avec un titre complémentaire : beaucoup d'agents cumulent le TFP APS et le SSIAP 1, ce qui ouvre davantage de postes.",
   "encadrement-prerequis": () => ENCADREMENT_PREREQUIS.explication,
@@ -171,6 +167,36 @@ export const EXPLICATIONS = {
   specialisation: (t: string, metier: string) =>
     `Vous voulez vous spécialiser vers ${metier} : le ${t} est le titre correspondant.`,
 };
+/**
+ * Question « expérience » (objectif encadrer), selon le titre détenu — arrêté du 2 mai 2005, décision Erwan
+ * 02/10/2026. Les seuils viennent de la table parametres. Libellés rédigés par Claude, à valider.
+ */
+export function questionExperience(detenu: string | undefined, min: ExperienceMin): Question {
+  const non = { valeur: "non", libelle: "Non" };
+  const bac = { valeur: "bac", libelle: "Oui, le bac ou un diplôme de niveau 4" };
+  if (detenu === "ssiap-1")
+    return {
+      titre: `Avez-vous travaillé comme agent de sécurité incendie au moins ${min["ssiap-2"].heures.toLocaleString("fr-FR")} heures sur les ${min["ssiap-2"].mois} derniers mois ?`,
+      aide: "C'est à peu près un an à temps plein. Cette expérience est exigée pour entrer en formation SSIAP 2.",
+      options: [{ valeur: "oui", libelle: "Oui" }, non],
+    };
+  if (detenu === "ssiap-2")
+    return {
+      titre: `Avez-vous au moins ${min["ssiap-3"]} ans d'expérience comme chef d'équipe de sécurité incendie ?`,
+      aide: "Le SSIAP 3 est aussi accessible avec le bac ou un diplôme de niveau 4.",
+      options: [
+        { valeur: "oui", libelle: "Oui" },
+        { valeur: "bac", libelle: "Non, mais j'ai le bac ou un diplôme de niveau 4" },
+        non,
+      ],
+    };
+  return {
+    titre: "Avez-vous le bac ou un diplôme de niveau 4 ?",
+    aide: "Avec ce diplôme, la formation de chef de service de sécurité incendie (SSIAP 3) vous est directement accessible.",
+    options: [bac, non],
+  };
+}
+
 export const sansExperience = (vise: string) =>
   `Le ${vise} demande une expérience professionnelle que vous n'avez pas encore.`;
 

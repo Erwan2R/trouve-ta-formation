@@ -39,7 +39,7 @@ export const ssiap1: ContenuPilier = {
     propres: {
       h3: "Les conditions propres au SSIAP 1",
       texte:
-        "Une aptitude médicale à l'exercice de l'emploi est exigée, ainsi qu'une qualification de secourisme en cours de validité. Aucune expérience professionnelle préalable n'est demandée — c'est ce qui distingue le SSIAP 1 du SSIAP 2. [à vérifier]",
+        "Trois pièces à l'entrée : une qualification de secourisme (SST ou PSE en cours de validité, ou PSC1 de moins de deux ans), un certificat médical de moins de trois mois selon le modèle réglementaire, et une évaluation de votre capacité à retranscrire une anomalie dans une main courante. Aucune expérience professionnelle n'est demandée — c'est ce qui distingue le SSIAP 1 du SSIAP 2.",
     },
   },
   programme: {
@@ -52,10 +52,10 @@ export const ssiap1: ContenuPilier = {
       { nom: "Rôle et missions de l'agent de sécurité incendie" },
     ],
     evaluation:
-      "L'évaluation se compose d'un questionnaire à choix multiples sur les connaissances théoriques et d'une épreuve pratique de ronde avec anomalies et sinistre, devant un jury. [à vérifier]",
+      "L'examen se passe devant un jury : un questionnaire à choix multiples de 30 questions en 30 minutes, à réussir avec au moins 12 sur 20, puis une épreuve pratique de ronde de 15 minutes, évaluée apte ou inapte.",
   },
   duree:
-    "La durée réglementaire est fixée par les textes et ne varie pas d'un organisme à l'autre. Ce qui change, c'est le rythme : temps plein sur deux semaines, cours du soir ou week-end selon les centres.",
+    "La formation dure 67 heures, et cette durée ne varie pas d'un organisme à l'autre. Ce qui change, c'est le rythme : temps plein sur deux semaines, cours du soir ou week-end selon les centres. Une fois qualifié, un recyclage de 14 heures est à suivre tous les trois ans ; une remise à niveau de 21 heures s'impose si ce délai est dépassé.",
   cout: "Les tarifs relevés en Île-de-France s'étalent sur une fourchette large. L'écart s'explique par le format, l'effectif par session et les moyens du plateau technique, rarement par la qualité seule. Le prix affiché peut inclure ou exclure les frais d'examen et le livret de formation.",
   titresLies: [
     { slug: "ssiap-2", texte: "Le niveau supérieur, pour encadrer une équipe d'agents SSIAP 1." },
@@ -76,7 +76,7 @@ export const ssiap1: ContenuPilier = {
     {
       question: "Faut-il un diplôme de secourisme avant d'entrer en formation ?",
       reponse:
-        "Une qualification de secourisme en cours de validité est exigée à l'entrée. Les organismes proposent souvent de la passer en amont, dans le même centre. [à vérifier]",
+        "Oui : un SST ou un PSE en cours de validité, ou un PSC1 de moins de deux ans. Les organismes proposent souvent de le passer en amont, dans le même centre.",
     },
     {
       question: "Combien de temps la qualification SSIAP 1 reste-t-elle valable ?",

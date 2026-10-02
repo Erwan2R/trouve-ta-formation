@@ -124,9 +124,19 @@ export function ReglagesSite({
           />
           <Nombre
             libelle="Expérience pour le SSIAP 2"
-            aide="années, SSIAP 1 détenu"
-            valeur={r.experience["ssiap-2"]}
-            onChange={(n) => setR({ ...r, experience: { ...r.experience, "ssiap-2": n } })}
+            aide="heures d'exercice, SSIAP 1 détenu"
+            valeur={r.experience["ssiap-2"].heures}
+            onChange={(n) =>
+              setR({ ...r, experience: { ...r.experience, "ssiap-2": { ...r.experience["ssiap-2"], heures: n } } })
+            }
+          />
+          <Nombre
+            libelle="Sur une période de"
+            aide="mois précédant l'entrée en formation"
+            valeur={r.experience["ssiap-2"].mois}
+            onChange={(n) =>
+              setR({ ...r, experience: { ...r.experience, "ssiap-2": { ...r.experience["ssiap-2"], mois: n } } })
+            }
           />
           <Nombre
             libelle="Expérience pour le SSIAP 3"

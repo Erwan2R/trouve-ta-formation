@@ -21,7 +21,7 @@ export const carteProfessionnelle: ContenuDemarche = {
     paragraphes: [
       "Toute personne exerçant une activité de sécurité privée doit détenir une carte professionnelle : surveillance et gardiennage, sécurité incendie, agent cynophile, opérateur de vidéoprotection, protection physique des personnes, transport de fonds.",
       "La carte est **nominative et attachée à vous**, pas à votre employeur. Un changement d'entreprise ne suppose aucune nouvelle demande : vous conservez votre carte.",
-      "Exercer sans carte valide expose l'agent et son employeur à des sanctions pénales. [à vérifier]",
+      "Exercer sans carte valide expose l'agent comme son employeur à des sanctions disciplinaires du CNAPS, et peut entraîner la rupture du contrat de travail de l'agent.",
     ],
   },
   conditions: {
@@ -85,13 +85,10 @@ export const carteProfessionnelle: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Même incertitude sur les sources que pour l'autorisation préalable. Le délai sera affiché une fois confirmé auprès du CNAPS. [à vérifier]",
+      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
-      [
-        "Récépissé",
-        "Plusieurs sources évoquent un récépissé permettant d'exercer dans l'attente de la carte, sous conditions. [à vérifier]",
-      ],
+      ["Exercer dans l'attente", "Pas avant la délivrance de la carte : c'est elle qui autorise l'exercice"],
     ],
   },
   refus: {
@@ -148,7 +145,8 @@ export const carteProfessionnelle: ContenuDemarche = {
     },
     {
       question: "Puis-je travailler pendant l'instruction de ma demande ?",
-      reponse: "Question du récépissé, à trancher en priorité. [à vérifier]",
+      reponse:
+        "Non. Le titre ne suffit pas : seule la carte délivrée autorise l'exercice. Le récépissé permettant de continuer à exercer concerne le renouvellement d'une carte existante, pas une première demande.",
     },
     { question: "Que se passe-t-il si je change d'adresse ?", reponse: "[à compléter]" },
     {

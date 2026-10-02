@@ -21,11 +21,12 @@ export const renouvellement: ContenuDemarche = {
     paragraphes: [
       "Tout agent titulaire d'une carte professionnelle, cinq ans après sa délivrance.",
       "**Le calendrier est la difficulté principale de cette démarche.** Une carte expirée interdit d'exercer, immédiatement et sans période de tolérance. Un agent sans carte valide ne peut pas être affecté à une activité de sécurité privée, et son employeur non plus ne peut pas l'y affecter.",
-      "Mais l'anticipation excessive ne fonctionne pas davantage : plusieurs sources indiquent que les demandes déposées trop en amont ne sont pas prises en compte. [à vérifier]",
+      "**Le MAC se suit dans les 24 mois qui précèdent l'échéance de la carte**, et la demande de renouvellement se dépose **au moins trois mois avant cette échéance**. Un stage suivi plus tôt ne compte pas.",
     ],
     encart: {
       surtitre: "Calendrier",
-      texte: "Quand programmer le MAC, quand déposer la demande, date limite absolue. [à compléter]",
+      texte:
+        "24 mois avant l'échéance : la fenêtre du MAC s'ouvre. 3 mois avant l'échéance : date limite de dépôt de la demande pour pouvoir prétendre au récépissé. À l'échéance : sans nouvelle carte ni récépissé, plus d'exercice possible.",
     },
   },
   conditions: {
@@ -37,7 +38,7 @@ export const renouvellement: ContenuDemarche = {
         h3: "Un MAC par activité détenue",
         paragraphes: [
           "**Le point qui piège le plus d'agents : il faut un MAC par activité détenue.** Une carte portant plusieurs mentions suppose une attestation de maintien des compétences correspondant à chacune. L'activité cynophile fait l'objet d'un traitement particulier. [à vérifier]",
-          "Tableau MAC par activité : activité portée par la carte, MAC correspondant, durée. [à compléter]",
+          "Pour la surveillance humaine (MAC APS), le stage dure 34 heures, ramenées à 27 heures pour un agent titulaire d'un certificat SST valide ou d'un recyclage PSC1 de moins de deux ans, dispensé du module de premiers secours. Durées des autres MAC : [à compléter]",
         ],
       },
       {
@@ -66,11 +67,12 @@ export const renouvellement: ContenuDemarche = {
     etapes: [{ h3: "Déposer la demande", texte: "Déroulé exact des écrans à relever sur le portail. [à compléter]" }],
   },
   delais: {
-    intro: "Délai d'instruction à confirmer auprès du CNAPS. [à vérifier]",
+    intro:
+      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
     lignes: [
       [
         "Exercer pendant l'instruction",
-        "Question du récépissé : pour un agent en poste, elle a des conséquences immédiates sur son salaire. [à vérifier]",
+        "Un récépissé peut vous permettre de continuer à exercer après l'échéance de votre carte, si votre dossier est complet et déposé au moins trois mois avant cette échéance. Il est valable trois mois et peut être renouvelé, mais sa délivrance n'est pas automatique.",
       ],
     ],
   },
@@ -80,7 +82,8 @@ export const renouvellement: ContenuDemarche = {
     sections: [
       {
         titre: "Carte déjà expirée",
-        texte: "Nouvelle demande initiale ou renouvellement tardif : à vérifier en priorité. [à compléter]",
+        texte:
+          "Le renouvellement n'est plus possible : il faut déposer une nouvelle demande de carte professionnelle. Elle suppose un MAC suivi dans les douze mois précédant cette nouvelle demande, et l'entrée en MAC suppose elle-même une autorisation préalable, puisque vous ne détenez plus de carte valide.",
       },
       { titre: "MAC manquant à l'échéance", texte: "[à compléter]" },
       {
@@ -108,7 +111,8 @@ export const renouvellement: ContenuDemarche = {
   faq: [
     {
       question: "Puis-je déposer ma demande six mois avant l'échéance ?",
-      reponse: "Question centrale de la page. [à vérifier]",
+      reponse:
+        "Oui, à condition d'avoir déjà suivi votre MAC, dans les 24 mois précédant l'échéance. La règle est de déposer au moins trois mois avant l'expiration de la carte.",
     },
     {
       question: "Faut-il un MAC par activité ?",
@@ -121,9 +125,14 @@ export const renouvellement: ContenuDemarche = {
     },
     {
       question: "Puis-je continuer à travailler pendant l'instruction ?",
-      reponse: "Question du récépissé. [à vérifier]",
+      reponse:
+        "Oui tant que votre carte est valide. Au-delà de son échéance, seulement si le CNAPS vous a délivré un récépissé : il peut l'être si votre dossier complet a été déposé au moins trois mois avant l'échéance.",
     },
-    { question: "Que se passe-t-il si ma carte expire avant la décision ?", reponse: "[à vérifier]" },
+    {
+      question: "Que se passe-t-il si ma carte expire avant la décision ?",
+      reponse:
+        "Sans récépissé, vous ne pouvez plus exercer à compter de l'échéance. Le récépissé, valable trois mois et renouvelable, n'est pas automatique : d'où l'intérêt de déposer un dossier complet au moins trois mois avant l'expiration.",
+    },
     {
       question: "Le MAC est-il finançable par le CPF ?",
       reponse:

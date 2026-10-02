@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { genererCodes } from "@/lib/codes-recuperation";
+import type { ExperienceMin } from "@/lib/formulaire/parcours";
 import * as V from "@/lib/organismes/validation";
 import type { Retour } from "@/lib/supabase/queries/apres-enregistrement";
 import { annulerChangement, changementEnAttente, envoyerLien, hacher } from "@/lib/supabase/queries/liens-email";
@@ -135,7 +136,7 @@ export type Reglages = {
   ville: { organismes: number; palier_min: string };
   elargissement: number;
   pilier: number;
-  experience: { "ssiap-2": number; "ssiap-3": number };
+  experience: ExperienceMin;
 };
 
 /** Seuils du site (table parametres, note de passation §5.4), jusqu'ici provisoires et fixés en base. */
@@ -150,7 +151,8 @@ export async function enregistrerReglages(r: Reglages): Promise<Retour> {
     !palierOk(r.ville.palier_min) ||
     !entier(r.elargissement, 1, 50) ||
     !entier(r.pilier, 1, 10) ||
-    !entier(r.experience["ssiap-2"], 0, 20) ||
+    !entier(r.experience["ssiap-2"].heures, 0, 10000) ||
+    !entier(r.experience["ssiap-2"].mois, 1, 120) ||
     !entier(r.experience["ssiap-3"], 0, 20)
   )
     return { ok: false, erreur: "Une valeur est hors des limites autorisées." };

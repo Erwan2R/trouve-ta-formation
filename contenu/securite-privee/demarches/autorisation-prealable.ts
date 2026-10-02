@@ -104,7 +104,7 @@ export const autorisationPrealable: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Les sources disponibles donnent des fourchettes incompatibles, de deux semaines à trois mois. Le délai sera affiché ici une fois confirmé auprès du CNAPS. [à vérifier]",
+      "Aucun délai moyen n'est garanti : il dépend de l'enquête administrative. Le silence gardé par le CNAPS pendant deux mois à compter de l'enregistrement de la demande vaut rejet implicite.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Suivre son dossier", "Depuis l'espace usager, rubrique de suivi et messagerie interne"],
@@ -137,7 +137,7 @@ export const autorisationPrealable: ContenuDemarche = {
   ensuite: {
     h2: "Une fois l'autorisation obtenue",
     paragraphes: [
-      "Votre autorisation est valable six mois [à vérifier]. C'est votre fenêtre pour entrer en formation — au-delà, la démarche est à refaire.",
+      "Votre autorisation est valable six mois. C'est votre fenêtre pour entrer en formation — au-delà, la démarche est à refaire.",
       "L'étape suivante est le choix du titre et de l'organisme. Le titre dépend du métier que vous visez : la surveillance de sites et de magasins passe par le TFP APS, la sécurité incendie par le SSIAP 1, les spécialités par des titres propres.",
     ],
     liens: [
@@ -164,7 +164,7 @@ export const autorisationPrealable: ContenuDemarche = {
     },
     {
       question: "Combien de temps l'autorisation préalable est-elle valable ?",
-      reponse: "Six mois [à vérifier]. Passé ce délai sans entrée en formation, la demande est à renouveler.",
+      reponse: "Six mois. Passé ce délai sans entrée en formation, la demande est à renouveler.",
     },
     {
       question: "Le centre de formation peut-il faire la demande à ma place ?",

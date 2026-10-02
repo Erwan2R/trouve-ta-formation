@@ -60,9 +60,10 @@ export function etapesInitiales(r: Reponses): Etape[] {
     return [
       "depart",
       "detenu",
-      "experience",
       "objectif",
       ...(r.objectif === "specialite" ? ["specialite" as const] : []),
+      // Expérience ou diplôme : seulement pour encadrer, libellé selon le titre détenu (questionExperience).
+      ...(r.objectif === "encadrer" ? ["experience" as const] : []),
       ...FILTRAGE,
     ];
   return ["depart"];
@@ -102,6 +103,7 @@ export type Recommandation =
         | "entree-specialite"
         | "renouvellement"
         | "encadrement"
+        | "encadrement-diplome"
         | "encadrement-sans-experience"
         | "encadrement-prerequis"
         | "vers-incendie"
@@ -111,13 +113,14 @@ export type Recommandation =
       encart?: "autorisation" | "autorisation-inconnue" | "carte-expiree";
     };
 
-/** Expérience minimale (en années) pour viser un titre d'encadrement — table parametres. */
-export type ExperienceMin = { "ssiap-2": number; "ssiap-3": number };
-/** Réponse C3 → années d'expérience minimales qu'elle garantit. */
-const ANNEES_EXPERIENCE: Record<string, number> = { "moins-1-an": 0, "1-3-ans": 1, "plus-3-ans": 3 };
+/**
+ * Expérience exigée pour un titre d'encadrement (arrêté du 2 mai 2005) — table parametres. Elle n'entre que dans le
+ * libellé de la question : la réponse est un oui / non (ou « bac ») sur ce seuil.
+ */
+export type ExperienceMin = { "ssiap-2": { heures: number; mois: number }; "ssiap-3": number };
 
 /** null : réponses incomplètes ou titre de sortie absent des titres actifs (archivé). */
-export function recommander(r: Reponses, actifs: Set<string>, experienceMin: ExperienceMin): Recommandation | null {
+export function recommander(r: Reponses, actifs: Set<string>): Recommandation | null {
   const reco = (
     titre: string | null | undefined,
     rest: Omit<Extract<Recommandation, { type: "titre" }>, "type" | "titre">,
@@ -142,14 +145,19 @@ export function recommander(r: Reponses, actifs: Set<string>, experienceMin: Exp
   }
   if (r.depart === "evolution" && r.detenu) {
     if (r.objectif === "encadrer") {
-      // Jamais un titre dont le prérequis n'est pas détenu (décision Erwan 02/10/2026) : SSIAP 1 avant le SSIAP 2.
-      if (r.detenu !== "ssiap-1" && r.detenu !== "ssiap-2")
-        return reco("ssiap-1", { gabarit: "encadrement-prerequis", reference: "ssiap-2" });
-      const vise = r.detenu === "ssiap-1" ? "ssiap-2" : "ssiap-3";
-      // Expérience minimale réglable (parametres) : valeurs à vérifier (Copy §6).
-      if ((ANNEES_EXPERIENCE[r.experience ?? ""] ?? 0) < experienceMin[vise])
-        return reco("tfp-aps", { gabarit: "encadrement-sans-experience", reference: vise });
-      return reco(vise, { gabarit: "encadrement", reference: r.detenu });
+      // Accès réglementaires (arrêté du 2 mai 2005, décision Erwan 02/10/2026) : SSIAP 2 = SSIAP 1 + heures
+      // d'exercice ; SSIAP 3 = SSIAP 2 + années d'expérience, OU diplôme de niveau 4 (jamais renvoyé au SSIAP 1).
+      if (r.detenu === "ssiap-1")
+        return r.experience === "oui"
+          ? reco("ssiap-2", { gabarit: "encadrement", reference: r.detenu })
+          : reco("tfp-aps", { gabarit: "encadrement-sans-experience", reference: "ssiap-2" });
+      if (r.detenu === "ssiap-2")
+        return r.experience === "oui" || r.experience === "bac"
+          ? reco("ssiap-3", { gabarit: "encadrement", reference: r.detenu })
+          : reco("tfp-aps", { gabarit: "encadrement-sans-experience", reference: "ssiap-3" });
+      return r.experience === "bac"
+        ? reco("ssiap-3", { gabarit: "encadrement-diplome" })
+        : reco("ssiap-1", { gabarit: "encadrement-prerequis", reference: "ssiap-2" });
     }
     if (r.objectif === "incendie") return reco("ssiap-1", { gabarit: "vers-incendie" });
     if (r.objectif === "specialite")
@@ -206,7 +214,9 @@ export function alternatives(reco: Extract<Recommandation, { type: "titre" }>, a
       ? [[reco.reference!, "Quand vous aurez l'expérience demandée."]]
       : reco.gabarit === "encadrement-prerequis"
         ? [["ssiap-2", "Quand vous aurez le SSIAP 1 et l'expérience demandée."]]
-        : (ALTERNATIVES[reco.titre] ?? []);
+        : reco.gabarit === "encadrement-diplome"
+          ? [["ssiap-1", "Pour commencer comme agent de sécurité incendie."]]
+          : (ALTERNATIVES[reco.titre] ?? []);
   return liste.filter(([t]) => actifs.has(t));
 }
 

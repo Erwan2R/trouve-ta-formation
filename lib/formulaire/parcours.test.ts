@@ -52,26 +52,42 @@ describe("arbre", () => {
   });
 });
 
-const exp = { "ssiap-2": 1, "ssiap-3": 3 };
-
 describe("recommandation", () => {
   it("renouvellement : le stage correspondant ; ASA : message dédié", () => {
-    expect(recommander({ depart: "renouvellement", detenu: "ssiap-1" }, actifs, exp)).toMatchObject({
+    expect(recommander({ depart: "renouvellement", detenu: "ssiap-1" }, actifs)).toMatchObject({
       titre: "recyclage-ssiap-1",
     });
-    expect(recommander({ depart: "renouvellement", detenu: "tfp-asa" }, actifs, exp)).toEqual({ type: "asa" });
+    expect(recommander({ depart: "renouvellement", detenu: "tfp-asa" }, actifs)).toEqual({ type: "asa" });
   });
 
-  it("jamais un titre dont le prérequis n'est pas détenu : TFP APS + encadrer → SSIAP 1", () => {
-    const r = { depart: "evolution", detenu: "tfp-aps", experience: "plus-3-ans", objectif: "encadrer" };
-    expect(recommander(r, actifs, exp)).toMatchObject({ titre: "ssiap-1", gabarit: "encadrement-prerequis" });
+  it("encadrer sans SSIAP : SSIAP 1 d'abord, sauf avec le bac → SSIAP 3 directement", () => {
+    const r = { depart: "evolution", detenu: "tfp-aps", objectif: "encadrer", experience: "non" };
+    expect(recommander(r, actifs)).toMatchObject({ titre: "ssiap-1", gabarit: "encadrement-prerequis" });
+    expect(recommander({ ...r, experience: "bac" }, actifs)).toMatchObject({
+      titre: "ssiap-3",
+      gabarit: "encadrement-diplome",
+    });
   });
 
-  it("expérience sous le seuil réglable : pas encore, titre complémentaire", () => {
-    const r = { depart: "evolution", detenu: "ssiap-2", experience: "1-3-ans", objectif: "encadrer" };
-    expect(recommander(r, actifs, exp)).toMatchObject({ titre: "tfp-aps", reference: "ssiap-3" });
-    expect(recommander(r, actifs, { ...exp, "ssiap-3": 1 })).toMatchObject({ titre: "ssiap-3" });
-    expect(recommander({ ...r, detenu: "ssiap-1" }, actifs, exp)).toMatchObject({ titre: "ssiap-2" });
+  it("SSIAP 1 + heures d'exercice → SSIAP 2 ; SSIAP 2 + expérience ou bac → SSIAP 3 ; sinon pas encore", () => {
+    const r = { depart: "evolution", detenu: "ssiap-1", objectif: "encadrer", experience: "oui" };
+    expect(recommander(r, actifs)).toMatchObject({ titre: "ssiap-2" });
+    expect(recommander({ ...r, experience: "non" }, actifs)).toMatchObject({ titre: "tfp-aps", reference: "ssiap-2" });
+    expect(recommander({ ...r, detenu: "ssiap-2", experience: "bac" }, actifs)).toMatchObject({ titre: "ssiap-3" });
+    expect(recommander({ ...r, detenu: "ssiap-2", experience: "non" }, actifs)).toMatchObject({
+      titre: "tfp-aps",
+      reference: "ssiap-3",
+    });
+  });
+
+  it("la question expérience ne vient qu'après l'objectif « encadrer »", () => {
+    expect(etapesInitiales({ depart: "evolution", objectif: "incendie" })).not.toContain("experience");
+    expect(etapesInitiales({ depart: "evolution", objectif: "encadrer" }).slice(0, 4)).toEqual([
+      "depart",
+      "detenu",
+      "objectif",
+      "experience",
+    ]);
   });
 
   it("SSIAP 3 détenu : pas d'option « encadrer » ; SSIAP détenu : pas d'option « vers l'incendie »", () => {
@@ -81,7 +97,7 @@ describe("recommandation", () => {
   });
 
   it("titre de sortie archivé : aucune recommandation (option masquée en amont)", () => {
-    expect(recommander({ depart: "renouvellement", detenu: "tfp-a3p" }, actifs, exp)).toBeNull();
+    expect(recommander({ depart: "renouvellement", detenu: "tfp-a3p" }, actifs)).toBeNull();
   });
 });
 

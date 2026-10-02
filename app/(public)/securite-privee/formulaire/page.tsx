@@ -14,6 +14,8 @@ import {
   FORMULAIRE,
   METIERS,
   QUESTIONS,
+  questionExperience,
+  type Question,
   RELACHEMENT,
   RESULTAT,
   TITRES_DETENUS_GROUPES,
@@ -89,7 +91,7 @@ export default async function Formulaire({ searchParams }: Props) {
     departements.map((d) => d.code),
   );
   let ecran = ecranCourant(r, un("etape"), un("apres"));
-  const reco = ecran === "resultat" ? recommander(r, actifs, experienceMin) : null;
+  const reco = ecran === "resultat" ? recommander(r, actifs) : null;
   if (ecran === "resultat" && !reco) ecran = "depart"; // réponse devenue sans sortie (titre archivé entre-temps)
 
   // Page d'origine : conservée tout au long du parcours pour le lien de retour.
@@ -111,6 +113,7 @@ export default async function Formulaire({ searchParams }: Props) {
   let entete: React.ReactNode;
 
   if (ecran !== "resultat") {
+    const question = ecran === "experience" ? questionExperience(r.detenu, experienceMin) : QUESTIONS[ecran];
     const etapes = affinage ? AFFINAGE : initiales;
     const i = etapes.indexOf(ecran);
     const precedent = i > 0 ? etapes[i - 1] : affinage ? "resultat" : null;
@@ -142,8 +145,8 @@ export default async function Formulaire({ searchParams }: Props) {
     corps = (
       <EcranQuestion
         etape={ecran}
-        question={QUESTIONS[ecran]}
-        groupes={groupes(ecran, r, actifs, deptsOrdonnes)}
+        question={question}
+        groupes={groupes(ecran, question, r, actifs, deptsOrdonnes)}
         type={ecran === "secteur" ? "multiple" : ecran === "pmr" ? "case" : "unique"}
         reponses={r}
         persistants={persistants}
@@ -322,6 +325,7 @@ export default async function Formulaire({ searchParams }: Props) {
 /** Options d'un écran : titres archivés exclus, titres détenus groupés, départements « Nom (93) ». */
 function groupes(
   ecran: Etape,
+  question: Question,
   r: Reponses,
   actifs: Set<string>,
   departements: { code: string; nom: string }[],
@@ -337,5 +341,5 @@ function groupes(
       { options: [{ valeur: TOUS_SECTEURS, libelle: "Peu importe, je peux me déplacer" }] },
     ];
   if (ecran === "pmr") return [{ options: [{ valeur: "1", libelle: "Oui, j'en ai besoin" }] }];
-  return [{ options: (QUESTIONS[ecran].options ?? []).filter((o) => optionDisponible(ecran, o.valeur, r, actifs)) }];
+  return [{ options: (question.options ?? []).filter((o) => optionDisponible(ecran, o.valeur, r, actifs)) }];
 }

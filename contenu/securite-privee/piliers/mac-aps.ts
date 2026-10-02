@@ -17,12 +17,12 @@ export const macAps: ContenuPilier = {
       {
         h3: "La fenêtre à respecter",
         texte:
-          "Le stage se suit avant l'échéance des cinq ans de votre carte, et l'attestation accompagne la demande de renouvellement déposée auprès du CNAPS. La fenêtre exacte de dépôt de cette demande est en cours de vérification auprès du CNAPS. [à vérifier]",
+          "Le stage se suit dans les 24 mois qui précèdent l'échéance de votre carte. Un stage suivi plus tôt ne compte pas. L'attestation accompagne ensuite la demande de renouvellement, à déposer au moins trois mois avant l'échéance.",
       },
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
         texte:
-          "Une carte expirée n'autorise plus l'exercice de l'activité. Selon l'ancienneté de l'interruption, la reprise passe par une nouvelle demande d'autorisation préalable, voire par une formation initiale complète plutôt que par un simple maintien. [à vérifier]",
+          "Une carte expirée n'autorise plus l'exercice et ne se renouvelle plus : il faut déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent. Sans carte valide, l'entrée en MAC suppose une autorisation préalable du CNAPS.",
       },
       {
         h3: "Un stage par activité détenue",
@@ -35,7 +35,7 @@ export const macAps: ContenuPilier = {
     premiere: {
       h3: "Une carte professionnelle en cours de validité",
       texte:
-        "Le MAC s'adresse aux agents déjà titulaires. Si votre carte est déjà expirée, vous relevez d'un cas particulier et non du maintien.",
+        "Le MAC s'adresse aux agents déjà titulaires. Si votre carte est déjà expirée, il reste possible, mais il faut d'abord obtenir une autorisation préalable du CNAPS.",
     },
     propres: {
       h3: "Les conditions propres au MAC APS",
@@ -56,7 +56,7 @@ export const macAps: ContenuPilier = {
       "Le maintien ne donne pas lieu à un examen sanctionnant : il se conclut par une attestation de suivi, exigée à l'appui de la demande de renouvellement. [à vérifier]",
   },
   duree:
-    "Le stage est court et sa durée est fixée par les textes. Les centres le programment le plus souvent sur quelques jours consécutifs, parfois en week-end pour les agents en poste.",
+    "Le stage dure 34 heures, ramenées à 27 heures si vous êtes titulaire d'un certificat SST en cours de validité ou d'un recyclage PSC1 de moins de deux ans : vous êtes alors dispensé, à votre demande, du module de premiers secours. Les centres le programment le plus souvent sur quelques jours consécutifs, parfois en week-end pour les agents en poste.",
   cout: "C'est un achat contraint : les tarifs sont resserrés et l'écart entre organismes porte surtout sur le rythme proposé et la disponibilité des sessions dans les mois qui précèdent votre échéance.",
   titresLies: [
     { slug: "tfp-aps", texte: "Le titre initial dont ce stage assure le maintien." },
@@ -77,7 +77,7 @@ export const macAps: ContenuPilier = {
     {
       question: "À quel moment précis dois-je suivre le stage ?",
       reponse:
-        "Avant l'échéance des cinq ans de la carte, dans la fenêtre prévue pour le dépôt de la demande de renouvellement. La durée exacte de cette fenêtre est en cours de vérification auprès du CNAPS. [à vérifier]",
+        "Dans les 24 mois qui précèdent l'échéance de votre carte, et assez tôt pour déposer votre demande de renouvellement au moins trois mois avant cette échéance.",
     },
     {
       question: "Mon employeur peut-il prendre en charge le MAC APS ?",
@@ -92,7 +92,7 @@ export const macAps: ContenuPilier = {
     {
       question: "J'ai laissé ma carte expirer : puis-je encore faire un MAC ?",
       reponse:
-        "Le maintien suppose une carte en cours de validité. Une carte expirée relève d'une nouvelle demande, et selon l'ancienneté de l'interruption, d'une formation initiale complète. [à vérifier]",
+        "Oui. Il faudra déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent. Comme vous ne détenez plus de carte valide, l'entrée en MAC suppose d'abord une autorisation préalable du CNAPS.",
     },
   ],
 };
