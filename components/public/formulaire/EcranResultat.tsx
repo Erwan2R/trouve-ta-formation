@@ -2,7 +2,14 @@ import Link from "next/link";
 import { CarteOrganisme } from "@/components/public/organisme/CarteOrganisme";
 import { LienContenu } from "@/components/public/LienContenu";
 import { TexteContenu } from "@/components/public/TexteContenu";
-import { AUCUN_ORGANISME, CONDITIONS, CONSEILS_DEBUT, RESULTAT } from "@/contenu/securite-privee/formulaire";
+import {
+  AUCUN_ORGANISME,
+  CONDITIONS,
+  CONDITIONS_SSIAP,
+  CONSEILS_DEBUT,
+  RESULTAT,
+} from "@/contenu/securite-privee/formulaire";
+import { releveDuCnaps } from "@/lib/formulaire/parcours";
 import type { Lien } from "@/contenu/securite-privee/demarches/types";
 import type { Lieu, Organisme } from "@/lib/supabase/queries/organismes";
 
@@ -184,15 +191,21 @@ export function EcranResultat({
 
       <div className="flex flex-col gap-2 rounded-[18px] border border-line p-[clamp(18px,2.5vw,24px)]">
         <h3 className="text-base leading-[1.35] font-bold tracking-[-0.01em]">{CONDITIONS.titre}</h3>
-        <p className="max-w-[66ch] text-[14.5px] leading-[1.65] text-ink-500">{CONDITIONS.texte}</p>
-        <LienContenu
-          lien={CONDITIONS.lien}
-          base={base}
-          demarchesVisibles={demarchesVisibles}
-          className="self-start text-[14.5px] font-bold text-brique-700 hover:text-ink-900"
-        >
-          {CONDITIONS.lien.libelle} →
-        </LienContenu>
+        {releveDuCnaps(titre.slug) ? (
+          <>
+            <p className="max-w-[66ch] text-[14.5px] leading-[1.65] text-ink-500">{CONDITIONS.texte}</p>
+            <LienContenu
+              lien={CONDITIONS.lien}
+              base={base}
+              demarchesVisibles={demarchesVisibles}
+              className="self-start text-[14.5px] font-bold text-brique-700 hover:text-ink-900"
+            >
+              {CONDITIONS.lien.libelle} →
+            </LienContenu>
+          </>
+        ) : (
+          <p className="max-w-[66ch] text-[14.5px] leading-[1.65] text-ink-500">{CONDITIONS_SSIAP.texte}</p>
+        )}
       </div>
     </div>
   );

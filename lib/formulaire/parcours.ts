@@ -41,6 +41,12 @@ export const TITRES_DETENUS = ["tfp-aps", "ssiap-1", "ssiap-2", "ssiap-3", "tfp-
 export const SPECIALITES: Record<string, string> = { cynophile: "tfp-asc", aeroport: "tfp-asa", personnes: "tfp-a3p" };
 export const POSTES: Record<string, string | null> = { surveillance: "tfp-aps", incendie: "ssiap-1", specialite: null };
 
+/**
+ * Titre relevant du CNAPS (autorisation préalable, carte professionnelle). La filière incendie (SSIAP et ses
+ * recyclages) relève de l'arrêté du 2 mai 2005 : jamais d'encart CNAPS sur ce parcours (décision Erwan 02/10/2026).
+ */
+export const releveDuCnaps = (titre: string | undefined) => !!titre && !titre.includes("ssiap");
+
 /** Situation → financement probable (UX §6, S1). Déduit, jamais demandé. */
 export const FINANCEMENT_PROBABLE: Record<string, string> = { "demandeur-emploi": "france_travail", salarie: "opco" };
 
@@ -51,11 +57,14 @@ export function etapesInitiales(r: Reponses): Etape[] {
       "depart",
       "poste",
       ...(r.poste === "specialite" ? ["specialite" as const] : []),
-      "autorisation",
+      // Autorisation préalable : question CNAPS, sans objet pour la sécurité incendie.
+      ...(r.poste === "incendie" ? [] : ["autorisation" as const]),
       ...FILTRAGE,
     ];
   if (r.depart === "renouvellement")
-    return r.detenu === "tfp-asa" ? ["depart", "detenu"] : ["depart", "detenu", "carte", ...FILTRAGE];
+    return r.detenu === "tfp-asa"
+      ? ["depart", "detenu"]
+      : ["depart", "detenu", ...(releveDuCnaps(r.detenu) ? ["carte" as const] : []), ...FILTRAGE];
   if (r.depart === "evolution")
     return [
       "depart",
@@ -127,7 +136,13 @@ export function recommander(r: Reponses, actifs: Set<string>): Recommandation | 
   ) => (titre && actifs.has(titre) ? { type: "titre" as const, titre, ...rest } : null);
   if (r.depart === "debutant") {
     const encart =
-      r.autorisation === "non" ? "autorisation" : r.autorisation === "inconnue" ? "autorisation-inconnue" : undefined;
+      r.poste === "incendie"
+        ? undefined
+        : r.autorisation === "non"
+          ? "autorisation"
+          : r.autorisation === "inconnue"
+            ? "autorisation-inconnue"
+            : undefined;
     if (r.poste === "specialite")
       return reco(SPECIALITES[r.specialite ?? ""], { gabarit: "entree-specialite", encart, reference: r.specialite });
     return reco(POSTES[r.poste ?? ""], {
@@ -140,7 +155,7 @@ export function recommander(r: Reponses, actifs: Set<string>): Recommandation | 
     return reco(RENOUVELLEMENT[r.detenu ?? ""], {
       gabarit: "renouvellement",
       reference: r.detenu,
-      encart: r.carte === "expiree" ? "carte-expiree" : undefined,
+      encart: r.carte === "expiree" && releveDuCnaps(r.detenu) ? "carte-expiree" : undefined,
     });
   }
   if (r.depart === "evolution" && r.detenu) {

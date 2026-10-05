@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LienContenu } from "@/components/public/LienContenu";
-import { CONDITIONS_COMMUNES } from "@/contenu/securite-privee/piliers/communs";
+import { conditionsCommunes } from "@/contenu/securite-privee/piliers/communs";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
 import { Grille } from "@/components/public/catalogue/ListingCatalogue";
 import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
@@ -88,7 +88,7 @@ export function CorpsPilier({
           ? { href: "demarches/autorisation-prealable/", libelle: "Voir comment faire la demande →" }
           : { href: "demarches/renouvellement-carte-professionnelle/", libelle: "Voir le renouvellement →" },
     },
-    ...CONDITIONS_COMMUNES,
+    ...conditionsCommunes(titre.slug),
     contenu.conditions.propres,
   ];
 

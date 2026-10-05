@@ -1,4 +1,4 @@
-import { CONDITIONS_COMMUNES } from "./communs";
+import { conditionsCommunes } from "./communs";
 import { macAps } from "./mac-aps";
 import { ssiap1 } from "./ssiap-1";
 import { sansMarqueur } from "../../marqueurs";
@@ -10,8 +10,6 @@ export const PILIERS: Record<string, ContenuPilier> = {
   "mac-aps": macAps,
 };
 
-const communsVerifies = sansMarqueur(CONDITIONS_COMMUNES);
-
 /**
  * Une page pilier est visible en production seulement si : publiée en base, contenu rédigé, aucun « à vérifier ».
  * Hors production (dev, preprod, local) : tout contenu rédigé est prévisualisable (pages noindex).
@@ -19,7 +17,9 @@ const communsVerifies = sansMarqueur(CONDITIONS_COMMUNES);
 export function pilierVisible(titre: { slug: string; page_publiee: boolean }, production: boolean): boolean {
   const contenu = PILIERS[titre.slug];
   if (!contenu) return false;
-  return production ? titre.page_publiee && contenuVerifie(contenu) && communsVerifies : true;
+  return production
+    ? titre.page_publiee && contenuVerifie(contenu) && sansMarqueur(conditionsCommunes(titre.slug))
+    : true;
 }
 
 /** H1 (Copy piliers §5) : « [court] — [long] », sans doubler l'acronyme si le libellé long le porte déjà. */

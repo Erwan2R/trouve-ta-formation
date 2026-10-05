@@ -1,5 +1,4 @@
 // Formulaire d'affinage (Copy_Formulaire_Affinage.md). Niveau de langue B1 : une proposition par phrase.
-import { A_VERIFIER } from "@/contenu/marqueurs";
 import type { Etape, ExperienceMin } from "@/lib/formulaire/parcours";
 
 export const FORMULAIRE = {
@@ -216,11 +215,11 @@ export const ENCARTS = {
       "C'est l'autorisation du CNAPS qui permet d'entrer en formation. Vous ne pouvez pas entrer en formation sans elle. Elle se demande en ligne auprès du CNAPS, et son instruction prend du temps. Faites cette démarche avant de contacter un organisme.",
     lien: { libelle: "Voir comment faire la demande", href: AUTORISATION },
   },
-  // Copy §9 : traitement d'une carte expirée (renouvellement tardif ou nouvelle demande) à vérifier → aperçu seulement.
+  // Copy §9 : carte expirée = nouvelle demande (vérifié par Erwan le 02/10/2026, arrêté du 27 février 2017 art. 3).
   "carte-expiree": {
     titre: "Votre carte est expirée",
-    // Renouvellement tardif ou nouvelle demande : pas encore vérifié (décision Erwan 02/10/2026), encadré masqué en production.
-    texte: `Vous ne pouvez pas exercer sans carte professionnelle en cours de validité. ${A_VERIFIER}`,
+    texte:
+      "Vous ne pouvez plus exercer, et votre carte ne peut plus être renouvelée. Il faut déposer une nouvelle demande de carte professionnelle, avec un stage de maintien suivi dans les douze mois qui la précèdent. Pour entrer en stage, demandez d'abord une autorisation préalable au CNAPS.",
     lien: { libelle: "Voir la démarche de renouvellement", href: RENOUVELLEMENT },
   },
 };
@@ -234,11 +233,22 @@ export const ASA = {
   lien: { libelle: "Voir la démarche de renouvellement", href: RENOUVELLEMENT },
 };
 
+/** Langue (décision Erwan 02/10/2026) : B1 pour les seuls ressortissants étrangers (décret n° 2022-198). */
+export const NIVEAU_FRANCAIS =
+  "La formation et les examens se déroulent en français. Si vous êtes ressortissant étranger, y compris de l'Union européenne, vous devrez justifier d'un niveau de français B1 pour obtenir votre carte professionnelle.";
+
+/** Titres relevant du CNAPS ; la filière incendie (SSIAP) relève de l'arrêté du 2 mai 2005. */
 export const CONDITIONS = {
   titre: "Avant de vous inscrire, vérifiez que vous remplissez les conditions",
-  texte:
-    "La formation à la sécurité privée demande une autorisation du CNAPS, qui vérifie notamment votre casier judiciaire. Elle demande aussi un niveau de français correspondant au niveau B1, vérifié à l'entrée en formation.",
+  texte: `La formation à la sécurité privée demande une autorisation du CNAPS, qui vérifie notamment votre casier judiciaire. ${NIVEAU_FRANCAIS}`,
   lien: { libelle: "Voir toutes les conditions", href: AUTORISATION },
+};
+
+/** Filière incendie : pas d'autorisation du CNAPS, conditions fixées par l'arrêté du 2 mai 2005. Rédigé par Claude. */
+export const CONDITIONS_SSIAP = {
+  titre: CONDITIONS.titre,
+  texte:
+    "La formation SSIAP ne demande pas d'autorisation du CNAPS. Ses conditions d'entrée sont fixées par l'arrêté du 2 mai 2005 : qualification de secourisme, certificat médical, et selon le niveau, expérience ou titre précédent. L'organisme vous les précise à l'inscription.",
 };
 
 export const AUCUN_ORGANISME = {

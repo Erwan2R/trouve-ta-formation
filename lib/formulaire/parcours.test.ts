@@ -23,7 +23,9 @@ describe("arbre", () => {
 
   it("l'accueil arrive à l'écran 2 ; on avance après une réponse ; résultat à la fin", () => {
     expect(ecranCourant({ depart: "debutant" }, null, null)).toBe("poste");
-    expect(ecranCourant({ depart: "debutant", poste: "incendie" }, null, "poste")).toBe("autorisation");
+    expect(ecranCourant({ depart: "debutant", poste: "surveillance" }, null, "poste")).toBe("autorisation");
+    // Filière incendie : pas de question d'autorisation préalable du CNAPS.
+    expect(ecranCourant({ depart: "debutant", poste: "incendie" }, null, "poste")).toBe("situation");
     const complet = {
       depart: "renouvellement",
       detenu: "tfp-aps",
