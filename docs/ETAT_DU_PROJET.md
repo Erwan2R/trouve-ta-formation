@@ -202,6 +202,23 @@ node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…
   vérification du type `.csv` à l'import ; `npm audit` sans vulnérabilité (override `postcss`). Fonctions Vercel à
   Paris (`cdg1`, accord d'Erwan).
 
+### 4.11 Sprint 12 — audit SEO et performance (6 octobre 2026)
+Audit sur un build de production local branché sur la base de dev (`next start`), toutes familles de pages :
+- **Indexation** conforme au tableau CLAUDE.md §5 : catalogue filtré `noindex, follow` + canonical nu (ou page
+  département si elle existe), pagination hors limite `noindex` + canonical nu, formulaire `noindex`, sous-domaines
+  `partenaires.`/`admin.` en `noindex, nofollow`. Corrigé : pages du blog au-delà de la dernière (`?page=9`),
+  désormais `noindex` + canonical vers la liste.
+- **Un seul H1, aucun saut de niveau** sur toutes les pages. Title et description présents (la meta description d'un
+  article est obligatoire à la publication ; seuls les articles de démonstration n'en ont pas).
+- **JSON-LD** : Organization + WebSite partout, BreadcrumbList, ItemList (catalogue, départements, piliers, blog),
+  EducationalOrganization (fiches), BlogPosting, FAQPage. Corrigé : les deux questions identiques de toutes les pages
+  département restent affichées mais sortent du FAQPage (règle « jamais de FAQ dupliquée »). HowTo non retenu sur les
+  démarches (Google n'affiche plus ce résultat enrichi depuis 2023).
+- **Lighthouse mobile** : performance 96–98, accessibilité 100, bonnes pratiques 100 ; SEO 100 en production (69 hors
+  production à cause de l'en-tête `X-Robots-Tag: noindex` voulu). LCP 2,2–2,6 s, CLS ≤ 0,008, TBT ≤ 120 ms.
+- `llms.txt` : ajout du formulaire et de l'espace organisme.
+- Reste : test Rich Results de Google et Search Console sur l'URL de production (dev est protégé), au lancement.
+
 ## 5. Décisions et leurs raisons
 
 ### 5.1 Principes transverses
@@ -402,6 +419,10 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 
 ## 6. Pièges techniques connus
 
+- **404 vide sur les pages pré-générées** (bug Next.js ouvert, vercel/next.js#99287, #95613) : `notFound()` appelé
+  dans une route ISR (`[slug]` du silo, fiches, démarches, articles) renvoie bien un statut 404, mais un HTML sans
+  contenu ; le texte de la 404 n'apparaît qu'après le JavaScript. Sans effet SEO (statut correct). Les adresses sans
+  route (ex. `/securite-privee/a/b/`) sont rendues normalement. À revoir à la montée de version de Next.js.
 - **Action serveur + sous-domaine** : `redirect()` dans une action serveur de l'espace rend la page cible **sans
   repasser par le middleware** → 404. Renvoyer `{ vers }` et naviguer côté client (`window.location.assign`).
 - **`revalidatePath` dans une action** ne rafraîchit pas la page affichée sur le sous-domaine → `router.refresh()`

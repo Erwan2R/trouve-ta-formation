@@ -16,6 +16,11 @@
 - `/securite-privee/organismes/[organisme]/` : fiche d'un organisme ; chaque formation proposée est une ancre `#[titre]` de la fiche.
 - `/securite-privee/blog/[article]/` : articles (métier, formation, réglementation).
 - `/securite-privee/referencer-mon-organisme/` : présentation du référencement gratuit, pour les organismes de formation.
+- `/securite-privee/formulaire/` : questionnaire d'orientation (situation → titre adapté → organismes). Résultats personnalisés, non indexés.
+
+## Espace organisme
+
+- `https://partenaires.trouve-ta-formation.fr/` : espace privé où chaque organisme s'inscrit, crée et met à jour sa fiche et ses formations. Non indexé ; une fiche publique n'existe qu'après inscription volontaire de l'organisme.
 
 ## Politique de contenu
 

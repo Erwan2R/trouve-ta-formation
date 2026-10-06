@@ -22,13 +22,16 @@ const numeroPage = (p: string | undefined) => Math.max(1, Number.parseInt(p ?? "
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const page = numeroPage((await searchParams).page);
-  const vide = (await getArticles()).length === 0;
+  const n = (await getArticles()).length;
+  // Même calcul que la page : l'article mis en avant est hors pagination.
+  const horsLimite = page > Math.max(1, Math.ceil(Math.max(0, n - 1) / ARTICLES_PAR_PAGE));
   // Pagination : chaque page s'auto-canonise, jamais de canonical vers la page 1 (UX blog §3.6).
+  // Page au-delà de la dernière (URL forgée) : noindex et canonical vers la liste, comme le catalogue.
   const meta = buildMetadata({
     title: BLOG.liste.title,
     description: BLOG.liste.description,
-    path: page > 1 ? `${chemin}?page=${page}` : chemin,
-    noindex: vide,
+    path: page > 1 && !horsLimite ? `${chemin}?page=${page}` : chemin,
+    noindex: n === 0 || horsLimite,
   });
   return { ...meta, title: { absolute: BLOG.liste.title } };
 }

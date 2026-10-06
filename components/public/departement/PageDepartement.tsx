@@ -92,7 +92,9 @@ export async function PageDepartement({ departement: d }: { departement: Departe
       : null;
 
   const premierAbsent = absentsAvecVoisin[0];
-  const faq = [
+  // commune : réponse identique sur toutes les pages département → affichée, mais hors JSON-LD (CLAUDE.md §5 :
+  // jamais de FAQPage dupliquée d'une page à l'autre).
+  const faq: { question: string; reponse: string; commune?: true }[] = [
     ...(compteurs
       ? [
           {
@@ -123,12 +125,14 @@ export async function PageDepartement({ departement: d }: { departement: Departe
       : []),
     {
       question: "Faut-il se former dans son département de résidence ?",
+      commune: true,
       reponse:
         "Non. Votre carte professionnelle est valable sur tout le territoire national, quel que soit le lieu de votre formation. Le seul critère est pratique : la formation se déroule en présentiel, souvent sur plusieurs semaines.",
     },
     { question: `Comment se rendre dans les centres de formation ${zone} ?`, reponse: contenu.acces },
     {
       question: "Les démarches CNAPS sont-elles différentes selon le département ?",
+      commune: true,
       reponse: "Non. Les procédures sont identiques dans toute l'Île-de-France et se déposent sur le même portail.",
     },
   ];
@@ -146,7 +150,7 @@ export async function PageDepartement({ departement: d }: { departement: Departe
               url: absoluteUrl(`${base}organismes/${o.slug}/`),
             })),
           },
-          faqJsonLd(faq),
+          faqJsonLd(faq.filter((q) => !q.commune)),
         ]}
       />
 
