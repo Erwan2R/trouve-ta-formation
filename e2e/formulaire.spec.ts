@@ -2,6 +2,8 @@ import { expect, test } from "@playwright/test";
 
 // Chemin critique du formulaire d'affinage : accueil → questions → résultat → modifier → affiner.
 test("parcours complet, sans réinitialisation au retour", async ({ page }) => {
+  // Parcours long sous « next dev » : chaque écran est compilé à sa première visite (> 30 s au total).
+  test.slow();
   await page.goto("/securite-privee/");
   await page.getByRole("link", { name: "Je ne travaille pas encore dans la sécurité privée" }).click();
 
@@ -12,8 +14,8 @@ test("parcours complet, sans réinitialisation au retour", async ({ page }) => {
     "href",
     "/securite-privee/",
   );
+  // Filière incendie : pas de question d'autorisation préalable du CNAPS.
   await page.getByRole("button", { name: /Assurer la sécurité incendie/ }).click();
-  await page.getByRole("button", { name: /Non, pas encore/ }).click();
   await page.getByRole("button", { name: /Salarié/ }).click();
 
   // Multi-sélection : « Peu importe » exclut les départements (après hydratation).
@@ -26,8 +28,9 @@ test("parcours complet, sans réinitialisation au retour", async ({ page }) => {
   await page.getByRole("button", { name: /Temps plein/ }).click();
 
   await expect(page.getByRole("heading", { level: 2 })).toContainText("SSIAP 1");
-  await expect(page.getByText("Commencez par votre autorisation préalable")).toBeVisible();
+  await expect(page.getByText("Commencez par votre autorisation préalable")).toHaveCount(0);
   await expect(page.getByText("Avant de vous inscrire, vérifiez que vous remplissez les conditions")).toBeVisible();
+  await expect(page.getByText(/ne demande pas d'autorisation du CNAPS/)).toBeVisible();
 
   // Modifier : dernière question de filtrage, réponse présélectionnée ; retour sans perte.
   await page.getByRole("link", { name: "Modifier mes réponses" }).click();
