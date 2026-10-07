@@ -32,7 +32,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         h3: "Votre carte porte les activités que votre titre couvre",
         paragraphes: [
-          "**Votre carte porte les activités que votre titre couvre, et uniquement celles-là.** Demander une mention pour une activité que votre formation ne couvre pas conduit au rejet de cette mention. Un titulaire du TFP APS ne peut pas obtenir la mention cynophile sans le titre correspondant.",
+          "**Depuis Dracar Ultimate, le CNAPS délivre une carte par activité, et seulement pour les activités que votre titre couvre.** Une demande pour une activité que votre formation ne couvre pas est rejetée : un titulaire du TFP APS ne peut pas obtenir la carte cynophile sans le titre correspondant.",
           "Correspondance titre / activité : le TFP APS ouvre la surveillance humaine ou le gardiennage ; le TFP ASC, l'activité d'agent cynophile ; le TFP A3P, la protection physique des personnes ; le TFP ASA, la sûreté aéroportuaire, qui demande en plus une certification de la DGAC. Les diplômes SSIAP de la sécurité incendie ne donnent lieu à aucune carte professionnelle.",
         ],
       },
@@ -102,7 +102,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         titre: "Les motifs de rejet les plus fréquents",
         liste: [
-          "Demander une mention d'activité non couverte par le titre obtenu",
+          "Demander une carte pour une activité non couverte par le titre obtenu",
           "Découvrir au stade de la carte une inscription au casier qui n'avait pas été vérifiée avant la formation",
           "Déposer un dossier incomplet, ce qui n'entraîne pas un refus mais une demande de complément, avec un délai de réponse limité",
         ],
@@ -115,7 +115,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         titre: "Extension d'activité",
         texte:
-          "Un agent qui obtient un titre supplémentaire peut demander l'ajout de l'activité correspondante à sa carte, sans repartir d'une première demande. [à vérifier]",
+          "Une activité ne s'ajoute plus à une carte existante : depuis Dracar Ultimate, chaque activité a sa propre carte. Un agent qui obtient un titre supplémentaire dépose donc une demande de carte pour cette nouvelle activité.",
       },
     ],
   },

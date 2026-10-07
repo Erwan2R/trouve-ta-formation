@@ -104,7 +104,7 @@ export const tfpAsc: ContenuPilier = {
     {
       question: "Le chien peut-il être utilisé pour se défendre ?",
       reponse:
-        "Dans le seul cadre de la légitime défense. Le chien est considéré comme une arme par destination : la formation apprend à décider d'une intervention avec ou sans muselière, et à faire cesser immédiatement une action mordante.",
+        "Dans le seul cadre de la légitime défense. Le code pénal assimile à une arme tout animal utilisé pour tuer, blesser ou menacer (article 132-75) : la formation apprend à décider d'une intervention avec ou sans muselière, et à faire cesser immédiatement une action mordante.",
     },
   ],
 };

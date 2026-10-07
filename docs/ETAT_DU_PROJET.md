@@ -496,6 +496,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
      du 1er septembre 2025 ;
    - `20261031_referentiel_rncp_durees` — RNCP40271 (TFP ASC) et RNCP38002 (TFP A3P), les fiches 34486 et 35098 étant
      inactives ; durées SSIAP 2 (70 h), SSIAP 3 (216 h), recyclages SSIAP 2 (14 h) et 3 (21 h), MAC cynophile et A3P.
+   - `20261101_referentiel_libelles_ssiap` — libellés officiels SSIAP (« … et d’assistance à personnes »), durée TFP ASC
+     affichée « 315 h minimum (490 h en partant de zéro) ».
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
@@ -559,6 +561,10 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
 - Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
   construit) ; lien CTA principal configurable (reporté) ; photo des auteurs (plus tard).
 - Blog : fréquence de publication cible, calendrier de révision des articles réglementaires.
+
+### À surveiller
+- **CPF SSIAP** : les fiches RS5641, RS5642 et RS5643 expirent le 31 décembre 2026. Si elles ne sont pas renouvelées,
+  la ligne CPF « Mobilisable » des 6 pages SSIAP devient fausse (vérifié sur France compétences le 7 octobre 2026).
 
 ### Technique
 - Next.js 16 : montée de version reportée (aucune faille connue sur la 15.5).

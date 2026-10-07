@@ -98,7 +98,7 @@ export const tfpAsa: ContenuPilier = {
     {
       question: "La formation continue s'arrête-t-elle une fois la certification obtenue ?",
       reponse:
-        "Non. L'employeur doit organiser une formation périodique, avec ses examens : 14 heures par an pour les typologies 2 et 7, 21 heures pour la typologie 10. La certification doit aussi être renouvelée selon les mêmes modalités que la certification initiale.",
+        "Non. L'employeur doit organiser une formation périodique, avec ses examens : 14 heures par an pour les typologies 2 et 7, 21 heures pour la typologie 10, hors imagerie. S'y ajoute une formation périodique en imagerie pour les agents qui analysent des images, de 6 à 9 heures selon les équipements. La certification doit aussi être renouvelée selon les mêmes modalités que la certification initiale.",
     },
   ],
 };

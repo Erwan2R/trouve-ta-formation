@@ -40,7 +40,7 @@ export const tfpAps: ContenuPilier = {
     propres: {
       h3: "Les conditions propres au TFP APS",
       texte:
-        "Aucun diplôme ni expérience n'est demandé. La formation se suit dans un organisme agréé par l'ADEF, l'association chargée par la branche professionnelle d'agréer les centres qui préparent ses titres. Un ressortissant étranger ne peut demander l'autorisation préalable que s'il est titulaire d'un titre de séjour depuis au moins cinq ans.",
+        "Aucun diplôme ni expérience n'est demandé. La formation se suit dans un organisme titulaire d'une autorisation d'exercice du CNAPS et agréé par l'ADEF, l'association chargée par la branche professionnelle d'agréer les centres qui préparent ses titres. Un ressortissant d'un pays hors Union européenne et hors Espace économique européen ne peut demander l'autorisation préalable que s'il est titulaire d'un titre de séjour depuis au moins cinq ans.",
     },
   },
   programme: {
@@ -98,9 +98,9 @@ export const tfpAps: ContenuPilier = {
         "Oui. Un module de 7 heures, dont 4 de mise en situation, porte sur l'inspection visuelle des bagages et la palpation de sécurité, avec leur cadre légal et la prise en compte des mineurs et des personnes en situation de handicap.",
     },
     {
-      question: "Un ressortissant étranger peut-il préparer le TFP APS ?",
+      question: "Un ressortissant d'un pays hors Union européenne peut-il préparer le TFP APS ?",
       reponse:
-        "Oui, s'il est titulaire d'un titre de séjour depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable. Il devra aussi justifier d'un niveau de français B1 pour obtenir sa carte professionnelle.",
+        "Oui, s'il est titulaire d'un titre de séjour depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable, qui ne concerne pas les ressortissants de l'Union européenne et de l'Espace économique européen. Tout ressortissant étranger devra aussi justifier d'un niveau de français B1 pour obtenir sa carte professionnelle.",
     },
     {
       question: "Le TFP APS ouvre-t-il l'accès à d'autres titres ?",

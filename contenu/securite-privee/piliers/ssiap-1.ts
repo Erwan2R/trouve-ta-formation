@@ -21,7 +21,7 @@ export const ssiap1: ContenuPilier = {
       {
         h3: "Ce que le diplôme autorise",
         texte:
-          "Le SSIAP relève de la réglementation incendie des établissements recevant du public et des immeubles de grande hauteur, et non du livre VI du code de la sécurité intérieure qui encadre la surveillance. Il ne s'accompagne donc d'aucune carte professionnelle du CNAPS : c'est le diplôme lui-même qui ouvre l'emploi. Avant de prendre un poste dans un nouvel établissement, l'agent effectue deux périodes de travail en doublure avec un agent déjà en poste. Il doit aussi détenir l'habilitation électrique exigée sur le site, et sa tenue ne peut pas être bleu marine, couleur réservée aux secours publics.",
+          "Le SSIAP relève de la réglementation incendie des établissements recevant du public et des immeubles de grande hauteur, et non du livre VI du code de la sécurité intérieure qui encadre la surveillance. Il ne s'accompagne donc d'aucune carte professionnelle du CNAPS : c'est le diplôme lui-même qui ouvre l'emploi. Avant de prendre un poste dans un nouvel établissement, l'agent effectue deux périodes de travail en doublure avec un agent déjà en poste. Il doit aussi détenir l'habilitation électrique exigée sur le site, et le bleu marine est interdit sur les vêtements portés au niveau du buste, pour éviter la confusion avec les secours publics.",
       },
       {
         h3: "Les débouchés en Île-de-France",
@@ -85,7 +85,7 @@ export const ssiap1: ContenuPilier = {
     {
       question: "Peut-on exercer comme agent SSIAP 1 sans avoir suivi cette formation ?",
       reponse:
-        "Oui, avec certains diplômes reconnus par l'arrêté : le bac professionnel « sécurité prévention », le brevet professionnel d'agent technique de prévention et de sécurité, le CAP d'agent de prévention et de sécurité ou la mention complémentaire « sécurité civile et d'entreprise ». Les anciens sapeurs-pompiers obtiennent aussi le diplôme par équivalence, après un module complémentaire.",
+        "Oui, avec certains diplômes reconnus par l'arrêté : le bac professionnel « sécurité prévention », le brevet professionnel d'agent technique de prévention et de sécurité, le CAP d'agent de prévention et de sécurité ou la mention complémentaire « sécurité civile et d'entreprise ». Côté sapeurs-pompiers, les hommes du rang obtiennent le diplôme par équivalence après un module complémentaire ; les sous-officiers titulaires du PRV 1, de l'AP 1 ou du certificat de prévention peuvent exercer directement.",
     },
     {
       question: "Quel secourisme faut-il avoir avant d'entrer en formation ?",

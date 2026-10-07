@@ -37,7 +37,7 @@ export const renouvellement: ContenuDemarche = {
       {
         h3: "Un MAC par activité détenue",
         paragraphes: [
-          "**Le point qui piège le plus d'agents : il faut un MAC par activité détenue.** Une carte portant plusieurs mentions suppose une attestation de maintien des compétences correspondant à chacune. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire si vous le demandez. Le MAC cynophile s'ajoute au socle commun et ses modules pratiques se font avec chaque chien inscrit sur la carte.",
+          "**Le point qui piège le plus d'agents : il faut un MAC par activité détenue.** Depuis Dracar Ultimate, chaque activité a sa propre carte, qui se renouvelle séparément avec l'attestation du MAC correspondant. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire si vous le demandez. Le MAC cynophile s'ajoute au socle commun et ses modules pratiques se font avec chaque chien inscrit sur la carte.",
           "Pour la surveillance humaine (MAC APS), le stage dure 34 heures, ramenées à 27 heures pour un agent titulaire d'un certificat SST valide ou d'un recyclage PSC1 de moins de deux ans, dispensé du module de premiers secours. Le MAC cynophile ajoute 32 heures au socle commun, et le MAC de protection physique des personnes dure 41 heures (34 avec la même dispense). Pour la sûreté aéroportuaire, une certification DGAC en cours de validité vaut attestation, complétée d'un module de 3 heures sur les principes de la République.",
         ],
       },
@@ -100,7 +100,7 @@ export const renouvellement: ContenuDemarche = {
       {
         titre: "Renouvellement partiel",
         texte:
-          "Un agent peut-il renouveler certaines activités et pas d'autres, faute d'avoir suivi tous les MAC ? [à vérifier]",
+          "Chaque activité ayant sa propre carte, chacune se renouvelle séparément : une carte dont le MAC n'a pas été suivi arrive à échéance sans empêcher le renouvellement des autres.",
       },
     ],
   },

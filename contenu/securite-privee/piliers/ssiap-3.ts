@@ -56,7 +56,7 @@ export const ssiap3: ContenuPilier = {
       { nom: "Budget du service sécurité : suivi budgétaire, achats, maintenance", volume: "8 h" },
     ],
     evaluation:
-      "L'examen comprend un QCM de 40 questions en 40 minutes, une épreuve écrite de 2 h 30 avec documents (la rédaction d'une notice technique de sécurité pour l'aménagement de locaux) et un oral de 15 minutes devant deux chefs de service. Chaque écrit doit atteindre 8 sur 20 et leur moyenne 12 sur 20 ; l'oral est évalué apte ou inapte. Les notes d'au moins 8 et l'aptitude à l'oral restent acquises un an.",
+      "L'examen comprend un QCM de 40 questions en 40 minutes, une épreuve écrite de 2 h 30 avec documents (la rédaction d'une notice technique de sécurité pour l'aménagement de locaux) et un oral de 15 minutes devant un jury composé d'un président et de deux chefs de service en fonction. Chaque écrit doit atteindre 8 sur 20 et leur moyenne 12 sur 20 ; l'oral est évalué apte ou inapte. Les notes d'au moins 8 et l'aptitude à l'oral restent acquises un an.",
   },
   duree:
     "La formation dure au minimum 216 heures, hors examen et temps de déplacement, soit plus de trois fois le SSIAP 2. Cela représente plus de six semaines à temps plein. Une fois diplômé, le chef de service suit un recyclage de 21 heures tous les trois ans, et une remise à niveau de 35 heures s'il a laissé passer l'échéance ou n'a pas exercé 1 607 heures au cours des 36 derniers mois.",

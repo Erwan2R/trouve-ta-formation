@@ -28,7 +28,7 @@ export const macA3p: ContenuPilier = {
       {
         h3: "Un stage par activité détenue",
         texte:
-          "Si votre carte porte aussi la surveillance humaine, celle-ci a son propre MAC. Les modules communs aux deux stages (premiers secours, principes de la République, prévention des risques terroristes) ne se refont pas s'ils ont été suivis dans les 24 mois avant l'échéance : vous en êtes dispensé à votre demande.",
+          "Si vous détenez aussi une carte de surveillance humaine, celle-ci a son propre MAC. Les modules communs aux deux stages (premiers secours, principes de la République, prévention des risques terroristes) ne se refont pas s'ils ont été suivis dans les 24 mois avant l'échéance : vous en êtes dispensé à votre demande.",
       },
     ],
   },

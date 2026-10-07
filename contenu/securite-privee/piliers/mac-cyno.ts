@@ -52,7 +52,7 @@ export const macCyno: ContenuPilier = {
         nom: "Socle commun : premiers secours, principes de la République, cadre juridique, conflits, inspection-filtrage, risques terroristes",
         volume: "34 h",
       },
-      { nom: "Législation cynophile : identification, chien arme par destination, légitime défense", volume: "7 h" },
+      { nom: "Législation cynophile : identification, animal assimilé à une arme, légitime défense", volume: "7 h" },
       { nom: "Connaissance générale du chien : hygiène, habitat, maladies, vaccination", volume: "4 h" },
       { nom: "Obéissance et sociabilité, dont 6 h de pratique", volume: "7 h" },
       { nom: "Maîtrise du chien dans le cadre de la légitime défense, dont 6 h de pratique", volume: "7 h" },

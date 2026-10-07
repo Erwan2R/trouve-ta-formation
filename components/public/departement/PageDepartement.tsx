@@ -24,6 +24,24 @@ import { getDepartements, getTitresParCategorie, type Departement } from "@/lib/
 import { fr } from "@/lib/typo";
 
 const majuscule = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+// Le référentiel compte 13 titres : au-delà, le chiffre suffit.
+const LETTRES = [
+  "zéro",
+  "un",
+  "deux",
+  "trois",
+  "quatre",
+  "cinq",
+  "six",
+  "sept",
+  "huit",
+  "neuf",
+  "dix",
+  "onze",
+  "douze",
+  "treize",
+];
+const nombreEnLettres = (n: number) => LETTRES[n] ?? String(n);
 
 const verticale: Verticale = VERTICALES["securite-privee"];
 const base = `/${verticale.slug}/`;
@@ -86,10 +104,16 @@ export async function PageDepartement({ departement: d }: { departement: Departe
   // Phrase de disponibilité du chapô, calculée depuis l'inventaire (jamais une absence écrite à la main).
   const absentsAvecVoisin = absents.filter((t) => dispo.get(t.slug)!.voisin).slice(0, 2);
   // Formulation validée par Erwan (01/10/2026) : on parle des centres référencés, pas de tous les centres.
+  // Plus d'absents que d'exemples cités : le nombre total est annoncé, les exemples suivent (« Sept titres…, dont… »).
+  const exemples = (absentsAvecVoisin.length ? absentsAvecVoisin : absents.slice(0, 2)).map(
+    (t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`,
+  );
   const phraseAbsences =
-    absentsAvecVoisin.length > 0
-      ? `${majuscule(listeFr(absentsAvecVoisin.map((t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`)))} ${absentsAvecVoisin.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun des centres référencés dans le département.`
-      : null;
+    absents.length === 0
+      ? null
+      : absents.length > exemples.length
+        ? `${majuscule(nombreEnLettres(absents.length))} titres ne sont proposés par aucun des centres référencés dans le département, dont ${listeFr(exemples)}.`
+        : `${majuscule(listeFr(exemples))} ${exemples.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun des centres référencés dans le département.`;
 
   const premierAbsent = absentsAvecVoisin[0];
   // commune : réponse identique sur toutes les pages département → affichée, mais hors JSON-LD (CLAUDE.md §5 :

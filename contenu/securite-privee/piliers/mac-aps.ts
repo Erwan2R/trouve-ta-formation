@@ -28,7 +28,7 @@ export const macAps: ContenuPilier = {
       {
         h3: "Un stage par activité détenue",
         texte:
-          "Chaque activité inscrite sur la carte a son propre stage de maintien. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire : à votre demande, vous en êtes dispensé. Un agent titulaire de la surveillance et du cynophile ne suit donc qu'une fois le socle commun.",
+          "Depuis Dracar Ultimate, chaque activité a sa propre carte professionnelle, et chaque carte son propre stage de maintien. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire : à votre demande, vous en êtes dispensé. Un agent titulaire d'une carte de surveillance et d'une carte cynophile ne suit donc qu'une fois le socle commun.",
       },
     ],
   },
@@ -65,7 +65,7 @@ export const macAps: ContenuPilier = {
     "Non mobilisable : le MAC APS n'est enregistré ni au RNCP ni au répertoire spécifique, condition pour être financé par le CPF.",
   titresLies: [
     { slug: "tfp-aps", texte: "Le titre initial dont ce stage assure le maintien." },
-    { slug: "mac-cyno", texte: "Le maintien de la mention cynophile, à suivre en plus si votre carte la porte." },
+    { slug: "mac-cyno", texte: "Le maintien de la carte cynophile, à suivre en plus si vous la détenez." },
     { slug: "recyclage-ssiap-1", texte: "Le recyclage incendie, tous les trois ans, si vous êtes aussi SSIAP 1." },
   ],
   faq: [
@@ -75,7 +75,7 @@ export const macAps: ContenuPilier = {
         "Le MAC APS conditionne le renouvellement de la carte professionnelle de surveillance, tous les cinq ans. Le recyclage SSIAP conditionne l'exercice de la sécurité incendie, tous les trois ans. Un agent qui détient les deux qualifications suit les deux stages, à des échéances différentes.",
     },
     {
-      question: "Ma carte porte deux mentions : dois-je tout refaire deux fois ?",
+      question: "J'ai deux cartes (surveillance et cynophile) : dois-je tout refaire deux fois ?",
       reponse:
         "Non. Chaque activité a son stage, mais un module déjà suivi dans les 24 mois avant l'échéance, dans le cadre d'un autre stage, n'est pas à refaire si vous le demandez. Le socle commun ne se suit donc qu'une fois.",
     },

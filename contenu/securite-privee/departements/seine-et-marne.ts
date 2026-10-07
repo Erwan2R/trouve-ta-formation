@@ -10,7 +10,7 @@ export const seineEtMarne: ContenuDepartement = {
     {
       h3: "Le bassin d'emploi",
       paragraphes: [
-        "Disneyland Paris, à Chessy, emploie plus de 17 000 salariés et reçoit du public toute l'année : contrôle d'accès, filtrage, surveillance et sécurité incendie y sont indispensables. Un parc de loisirs de cette taille filtre ses entrées comme un grand événement : contrôle d'accès, inspection visuelle des bagages, palpation de sécurité. Au nord du département, quatre communes de Seine-et-Marne font partie de l'emprise de Roissy-Charles de Gaulle, dont Mitry-Mory et Le Mesnil-Amelot, et environ 12 000 salariés de la plateforme résident dans le département.",
+        "Disneyland Paris, à Chessy, emploie plus de 17 000 salariés et reçoit du public toute l'année : contrôle d'accès, filtrage, surveillance et sécurité incendie y sont indispensables. Un parc de loisirs de cette taille filtre ses entrées comme un grand événement : contrôle d'accès, inspection visuelle des bagages, palpation de sécurité. Au nord du département, quatre communes de Seine-et-Marne font partie de l'emprise de Roissy-Charles de Gaulle, dont Mitry-Mory et Le Mesnil-Amelot, et 16 % des 94 600 salariés de la plateforme résident dans le département, selon l'Insee (décembre 2025).",
         "Ailleurs, autour de Melun, de Sénart ou de Meaux, les employeurs de la sécurité interviennent sur des sites d'entreprise, des zones commerciales et des établissements recevant du public, où la carte de surveillance et le SSIAP 1 sont les qualifications d'entrée.",
       ],
     },
