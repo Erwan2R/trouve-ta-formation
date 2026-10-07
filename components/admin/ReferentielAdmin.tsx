@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
 import type { RetourReferentiel } from "@/app/admin/(connecte)/referentiel/actions";
 import { intituleDejaPris, slugIndisponible, slugTitre, titresProches } from "@/lib/referentiel-admin";
+import { SITE_URL } from "@/lib/seo/metadata";
 import { ToastAdmin } from "./Moderation";
 
 type Titre = {
@@ -14,6 +15,8 @@ type Titre = {
   libelle_long: string;
   categorie: string;
   nbOrganismes: number;
+  page_publiee: boolean;
+  contenuPret: boolean;
 };
 type Demande = {
   id: number;
@@ -32,7 +35,12 @@ type Actions = {
     r: { motif: "deja_present" | "hors_perimetre"; existantId: number | null },
   ) => Promise<RetourReferentiel>;
   archiverTitre: (id: number, d: { remplacePar: number | null; proche: number | null }) => Promise<RetourReferentiel>;
+  publierPage: (id: number, publiee: boolean) => Promise<RetourReferentiel>;
 };
+
+/** État de la page pilier : publiée, prête (rédigée et vérifiée) ou à rédiger. */
+const etatPage = (t: Titre) =>
+  t.page_publiee ? "Page publiée" : t.contenuPret ? "Page prête, non publiée" : "Page à rédiger";
 
 const champ =
   "rounded-[14px] border border-line-field bg-white px-3.5 py-3 text-[15px] text-ink-900 outline-none focus:border-ink-900";
@@ -353,6 +361,44 @@ export function ReferentielAdmin({
                             Enregistrer
                           </button>
                         </span>
+                        {/* Publication de la page pilier : hors maquette (Sprint 12). */}
+                        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-3">
+                          <span className="flex flex-col gap-0.5">
+                            <span className="text-[13.5px] font-bold">{etatPage(t)}</span>
+                            <span className="text-[12.5px] text-ink-500">
+                              {t.page_publiee
+                                ? "La page est en ligne et dans le sitemap."
+                                : t.contenuPret
+                                  ? "Le contenu est rédigé et vérifié : relisez la page, puis publiez-la."
+                                  : "Le contenu de cette page n'est pas encore rédigé ou vérifié."}
+                            </span>
+                          </span>
+                          <span className="flex flex-wrap gap-2">
+                            <a
+                              href={`${SITE_URL}/securite-privee/${t.slug}/`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className={bContour}
+                            >
+                              Voir la page
+                            </a>
+                            {(t.page_publiee || t.contenuPret) && (
+                              <button
+                                type="button"
+                                disabled={enCours}
+                                onClick={() =>
+                                  lancer(
+                                    () => a.publierPage(t.id, !t.page_publiee),
+                                    () => setEdition(null),
+                                  )
+                                }
+                                className={t.page_publiee ? bContour : bPlein("bg-ink-900 hover:bg-brique-700")}
+                              >
+                                {t.page_publiee ? "Dépublier" : "Publier la page"}
+                              </button>
+                            )}
+                          </span>
+                        </div>
                         {/* Archivage : hors maquette (décisions Erwan, section 5.2 de la note de passation). */}
                         <details className="border-t border-line pt-3">
                           <summary className="cursor-pointer text-[13px] font-bold text-brique-700">
@@ -428,8 +474,15 @@ export function ReferentielAdmin({
                             : "Libellé long à rédiger avec la page pilier"}
                         </span>
                       </span>
-                      <span className="min-w-0 flex-[0_1_190px] font-mono text-xs [overflow-wrap:anywhere] text-ink-500">
-                        /securite-privee/{t.slug}/
+                      <span className="flex min-w-0 flex-[0_1_190px] flex-col gap-1">
+                        <span className="font-mono text-xs [overflow-wrap:anywhere] text-ink-500">
+                          /securite-privee/{t.slug}/
+                        </span>
+                        <span
+                          className={`text-[12px] font-bold ${t.page_publiee ? "text-ink-900" : t.contenuPret ? "text-brique-700" : "text-ink-400"}`}
+                        >
+                          {etatPage(t)}
+                        </span>
                       </span>
                       <span className="flex flex-[0_0_120px] items-baseline justify-end gap-1.5">
                         <span className="font-mono text-lg tracking-[-0.03em]">{t.nbOrganismes}</span>
@@ -463,7 +516,8 @@ export function ReferentielAdmin({
               </div>
             )}
             <span className="px-2 text-[12.5px] leading-normal text-ink-500">
-              Le contenu réglementaire des pages piliers ne se gère pas depuis cette page (point ouvert, V2).
+              Le contenu réglementaire des pages piliers est rédigé dans le code (sources citées) ; cette page en gère
+              la publication.
             </span>
           </section>
         </>

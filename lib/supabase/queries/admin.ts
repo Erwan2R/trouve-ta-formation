@@ -1,4 +1,5 @@
 import "server-only";
+import { pilierPret } from "@/contenu/securite-privee/piliers";
 import { cumul, instantanes, parTranche, type Periode, tranches } from "@/lib/analytics";
 import { palier, type Palier } from "@/lib/organismes/completude";
 import { departementDuCodePostal } from "@/lib/organismes/libelles";
@@ -117,7 +118,7 @@ export async function getReferentielAdmin() {
   const [{ data: titres, error }, { data: offres }, demandes] = await Promise.all([
     admin
       .from("titres_referentiel")
-      .select("id, slug, libelle_court, libelle_long, categorie, ordre")
+      .select("id, slug, libelle_court, libelle_long, categorie, ordre, page_publiee")
       .eq("statut", "actif")
       .order("ordre"),
     admin.from("organisme_titres").select("titre_id"),
@@ -138,7 +139,7 @@ export async function getReferentielAdmin() {
     }),
   );
   return {
-    titres: titres.map((t) => ({ ...t, nbOrganismes: nb.get(t.id) ?? 0 })),
+    titres: titres.map((t) => ({ ...t, nbOrganismes: nb.get(t.id) ?? 0, contenuPret: pilierPret(t.slug) })),
     demandes: demandes.data.map((d, i) => ({
       id: d.id,
       intitule: d.intitule,

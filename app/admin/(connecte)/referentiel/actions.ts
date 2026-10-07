@@ -5,6 +5,7 @@ import { EMAIL_DEMANDE_ACCEPTEE, EMAIL_DEMANDE_REFUSEE, type MotifRefus } from "
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { envoyerEmail } from "@/lib/email/resend";
 import { URL_ESPACE_ORGANISME } from "@/lib/espace";
+import { pilierPret } from "@/contenu/securite-privee/piliers";
 import { intituleDejaPris, slugIndisponible, slugTitre } from "@/lib/referentiel-admin";
 import { supabaseAdmin } from "@/lib/supabase/serveur";
 
@@ -175,6 +176,31 @@ export async function refuserDemande(
     message: envoye
       ? `Demande refusée. Email envoyé à ${d.organismes.nom}.`
       : "Demande refusée. L'email n'a pas pu partir : prévenez l'organisme.",
+  };
+}
+
+/** Publication de la page pilier : seulement si son contenu est rédigé et vérifié (aucun marqueur). */
+export async function publierPage(id: number, publiee: boolean): Promise<RetourReferentiel> {
+  await exigerAdmin();
+  const admin = supabaseAdmin();
+  const { data: t } = await admin.from("titres_referentiel").select("slug, libelle_court").eq("id", id).maybeSingle();
+  if (!t) return { ok: false, erreur: ECHEC };
+  if (publiee && !pilierPret(t.slug))
+    return {
+      ok: false,
+      erreur: "Le contenu de cette page n'est pas encore rédigé ou vérifié : elle ne peut pas être publiée.",
+    };
+  const { error } = await admin.from("titres_referentiel").update({ page_publiee: publiee }).eq("id", id);
+  if (error) {
+    console.error("Publication de page :", error.message);
+    return { ok: false, erreur: ECHEC };
+  }
+  rafraichir();
+  return {
+    ok: true,
+    message: publiee
+      ? `Page « ${t.libelle_court} » publiée : elle est en ligne et entre dans le sitemap.`
+      : `Page « ${t.libelle_court} » dépubliée : elle n'est plus accessible au public.`,
   };
 }
 

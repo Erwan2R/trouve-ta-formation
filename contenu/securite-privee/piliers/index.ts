@@ -32,6 +32,9 @@ export const PILIERS: Record<string, ContenuPilier> = {
   "mac-a3p": macA3p,
 };
 
+/** Contenu rédigé et sans marqueur : la page peut être publiée depuis l'admin. */
+export const pilierPret = (slug: string) => !!PILIERS[slug] && contenuVerifie(PILIERS[slug]);
+
 /**
  * Une page pilier est visible en production seulement si : publiée en base, contenu rédigé, aucun « à vérifier ».
  * Hors production (dev, preprod, local) : tout contenu rédigé est prévisualisable (pages noindex).

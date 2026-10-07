@@ -668,3 +668,23 @@ test("changement d'email : envoi du lien puis confirmation au clic", async ({ pa
   expect((await db.auth.admin.getUserById(a.id)).data.user!.email).toBe(nouvel);
   await db.auth.admin.updateUserById(a.id, { email, email_confirm: true });
 });
+
+test("référentiel : publication et dépublication d'une page titre", async ({ page }) => {
+  test.setTimeout(120_000);
+  const lire = async () =>
+    (await db.from("titres_referentiel").select("page_publiee").eq("slug", "tfp-aps").single()).data!.page_publiee;
+  const avant = await lire();
+  await db.from("titres_referentiel").update({ page_publiee: false }).eq("slug", "tfp-aps");
+  await connecterAdmin(page);
+  await page.goto(`${base}/referentiel/`);
+  await expect(page.getByText("Page prête, non publiée").first()).toBeVisible();
+  await page.getByRole("button", { name: "Modifier TFP APS" }).click();
+  await page.getByRole("button", { name: "Publier la page" }).click();
+  await expect(page.getByText(/publiée : elle est en ligne/)).toBeVisible();
+  expect(await lire()).toBe(true);
+  await page.getByRole("button", { name: "Modifier TFP APS" }).click();
+  await page.getByRole("button", { name: "Dépublier" }).click();
+  await expect(page.getByText(/dépubliée/)).toBeVisible();
+  expect(await lire()).toBe(false);
+  await db.from("titres_referentiel").update({ page_publiee: avant }).eq("slug", "tfp-aps");
+});
