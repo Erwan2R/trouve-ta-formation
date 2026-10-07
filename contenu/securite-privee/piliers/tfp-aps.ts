@@ -100,7 +100,7 @@ export const tfpAps: ContenuPilier = {
     {
       question: "Un ressortissant d'un pays hors Union européenne peut-il préparer le TFP APS ?",
       reponse:
-        "Oui, s'il séjourne en France de manière régulière et continue depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable, dont seuls les citoyens de l'Union européenne sont dispensés. Tout ressortissant étranger, européen compris, doit aussi justifier d'un niveau de français B1.",
+        "Oui, s'il séjourne en France de manière régulière et continue depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable, dont seuls les citoyens de l'Union européenne sont dispensés. Tout ressortissant étranger, européen compris, doit aussi justifier d'un niveau de français B1. Une fois obtenu, le TFP APS lui-même vaut justificatif de ce niveau pour la carte professionnelle.",
     },
     {
       question: "Le TFP APS ouvre-t-il l'accès à d'autres titres ?",

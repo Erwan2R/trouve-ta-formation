@@ -47,6 +47,7 @@ export const autorisationPrealable: ContenuDemarche = {
         paragraphes: [
           "Les ressortissants français et européens fournissent une pièce d'identité en cours de validité.",
           "À l'exception des citoyens de l'Union européenne, les ressortissants étrangers doivent séjourner en France de manière régulière et continue depuis au moins cinq ans, avec un titre de séjour autorisant une activité salariée. La justice administrative a confirmé qu'une interruption non justifiée fait échouer cette condition.",
+          "Justificatifs du niveau de français acceptés par le CNAPS : le diplôme national du brevet, un diplôme attestant au moins du niveau B1, un diplôme français de niveau 3 au moins (CAP, BEP, CQP ou **TFP : le titre d'agent privé de sécurité lui-même suffit**), une attestation de réussite au TCF ou au TEF de moins de deux ans, ou une attestation de comparabilité ENIC-NARIC pour des études suivies en français.",
           "Tous les ressortissants étrangers, européens compris, justifient d'un niveau de français B1 et fournissent l'équivalent du bulletin n° 3 du casier judiciaire de leur pays de naissance, daté de moins de trois mois et traduit en français par un traducteur assermenté. Les bénéficiaires d'une protection internationale (réfugiés, protection subsidiaire) en sont dispensés.",
         ],
       },
@@ -64,7 +65,8 @@ export const autorisationPrealable: ContenuDemarche = {
     liste: [
       "Une pièce d'identité : pour un Français, la carte nationale d'identité ou le passeport (le permis de conduire n'est pas accepté) ; pour un ressortissant de l'UE ou de l'EEE, une pièce mentionnant la date et le lieu de naissance, à défaut un extrait d'acte de naissance ; pour les autres, un titre de séjour en cours de validité portant autorisation d'exercer une activité salariée",
       "Un justificatif de domicile de moins de trois mois : facture de téléphone fixe, d'internet, d'électricité, de gaz ou d'eau, quittance de loyer, titre de propriété, attestation d'assurance habitation ou relevé CAF. Une personne hébergée joint la pièce d'identité de son hébergeant et une lettre signée de lui",
-      "Un justificatif de pré-inscription délivré par l'organisme de formation",
+      "Une photographie d'identité récente, de face, tête nue, sans lunettes, expression neutre et bouche fermée",
+      "Un justificatif de pré-inscription à la formation, rempli par l'organisme : le portail fournit le modèle officiel à télécharger",
       "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1, et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
       "Pour une formation à la surveillance armée renforcée des sites sensibles ou à la sûreté aéroportuaire : une lettre d'intention d'embauche se rapportant à cette activité, émise par une entreprise autorisée par le CNAPS",
     ],
@@ -92,12 +94,12 @@ export const autorisationPrealable: ContenuDemarche = {
       {
         h3: "Réunir vos pièces au format numérique",
         texte:
-          "Les documents se téléversent, aux formats .jpeg, .jpg, .png, .tiff ou .pdf. Des scans lisibles évitent une demande de pièce complémentaire, qui rallonge l'instruction. Un brouillon de demande est conservé trois mois, puis supprimé automatiquement.",
+          "Les documents se téléversent, aux formats .jpeg, .jpg, .png, .tiff ou .pdf, 5 Mo au plus par fichier. Des scans lisibles évitent une demande de pièce complémentaire, qui rallonge l'instruction. La demande est enregistrée automatiquement en brouillon au fil des étapes, et un brouillon est conservé trois mois.",
       },
       {
         h3: "Remplir et déposer le formulaire",
         texte:
-          "Dans « Déposer une demande », choisissez « Autorisation préalable », puis l'activité visée : une seule par demande, parmi 19 (surveillance humaine ou gardiennage, chien, sûreté aéroportuaire, protection physique des personnes…). Le formulaire compte ensuite quatre étapes : la première porte sur votre identité (sexe, nom de naissance, tous les prénoms de votre carte d'identité, nationalité, e-mail), la deuxième sur votre date et votre lieu de naissance. Préparez vos pièces au format numérique avant de commencer.",
+          "Dans « Déposer une demande », choisissez « Autorisation préalable », puis l'activité visée : une seule par demande, parmi 19. Le formulaire compte quatre étapes : votre identité (sexe, nom de naissance, tous les prénoms de votre carte d'identité, nationalité, e-mail) ; votre date et votre lieu de naissance ; votre adresse, avec une case si vous êtes hébergé chez un tiers, et votre téléphone ; enfin les pièces : pièce d'identité recto verso et sa date de validité, photo d'identité, justificatif de domicile, justificatif de pré-inscription. Un récapitulatif précède l'envoi. **Sur un compte neuf, un seul brouillon est possible** : c'est la première demande envoyée qui active le compte, et le portail bloque toute autre demande tant qu'un brouillon est en cours.",
       },
       {
         h3: "Suivre l'instruction depuis votre espace",

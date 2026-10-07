@@ -56,7 +56,7 @@ export const renouvellement: ContenuDemarche = {
   },
   pieces: {
     intro:
-      "L'attestation MAC est la pièce centrale, une par activité. Le formulaire de demande sur Dracar Ultimate fait foi : il indique les pièces propres à votre situation.",
+      "L'attestation MAC est la pièce centrale, une par activité. Les conditions sont les mêmes que pour une première carte, à une exception : les ressortissants étrangers n'ont pas à fournir de nouveau l'équivalent du bulletin n° 3 de leur casier judiciaire. Le formulaire de demande sur Dracar Ultimate fait foi.",
     liste: [
       "Une carte nationale d'identité ou un passeport en cours de validité ; pour les ressortissants hors Union européenne, le titre de séjour",
       "Un justificatif de domicile de moins de trois mois",
@@ -82,7 +82,7 @@ export const renouvellement: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
+      "Le CNAPS n'annonce pas de délai propre au renouvellement. Un dossier complet donne droit à un récépissé, qui vous permet de poursuivre votre activité jusqu'à la décision.",
     lignes: [
       [
         "Exercer pendant l'instruction",

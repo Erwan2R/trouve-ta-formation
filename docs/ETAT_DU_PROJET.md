@@ -500,7 +500,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
      affichée « 315 h minimum (490 h en partant de zéro) » ;
    - `20261102_demarches_releve_cnaps` — délai d’instruction, validité de l’autorisation préalable, fenêtre de dépôt du
      renouvellement, date de vérification (relevé CNAPS d’Erwan du 7 octobre 2026). Coût laissé vide (introuvable) ;
-   - `20261103_demarches_delai_ap` — autorisation préalable : « environ une semaine » (fiche Dracar Ultimate).
+   - `20261103_demarches_delai_ap` — autorisation préalable : « environ une semaine » (fiche Dracar Ultimate) ;
+   - `20261104_demarches_delai_carte` — carte professionnelle : « quatre jours ouvrés » (fiche Dracar Ultimate).
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la

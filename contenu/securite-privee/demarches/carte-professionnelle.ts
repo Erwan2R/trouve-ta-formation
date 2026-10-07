@@ -48,6 +48,12 @@ export const carteProfessionnelle: ContenuDemarche = {
         },
       },
       {
+        h3: "Policiers, gendarmes, militaires et réservistes",
+        paragraphes: [
+          "Certaines fonctions valent aptitude professionnelle, sur justificatif : officiers et agents de police judiciaire de la police et de la gendarmerie nationales, policiers adjoints et gendarmes adjoints volontaires ayant la qualité d'agent de police judiciaire adjoint, policiers municipaux ayant cette qualité (arrêté de nomination) ; militaires et agents des armées (attestation du ministère des Armées, délivrée par le service gestionnaire) ; réservistes de la garde nationale justifiant de trois ans de service, de 110 jours d'activité dont 20 en mission opérationnelle et de la formation prévue (contrat d'engagement, état de service, attestation de formation).",
+        ],
+      },
+      {
         h3: "La nouvelle spécialité « surveillance de grands événements »",
         paragraphes: [
           "Le décret n° 2026-670 du 27 juillet 2026 crée une spécialité « surveillance de grands évènements », pour les manifestations sportives, récréatives, culturelles ou économiques de plus de 300 personnes. Elle donne lieu à une carte professionnelle spécifique, délivrée après une formation adaptée, et ne permet pas d'exercer la surveillance en dehors de ces manifestations. Une passerelle vers la surveillance et le gardiennage doit être fixée par arrêté. Les titulaires de l'ancienne carte « Surveillance grands évènements » sont réputés détenir la nouvelle jusqu'à la fin de sa validité.",
@@ -60,9 +66,9 @@ export const carteProfessionnelle: ContenuDemarche = {
     liste: [
       "Une carte nationale d'identité ou un passeport en cours de validité, mentionnant la date et le lieu de naissance (à défaut, un extrait d'acte de naissance) ; pour les ressortissants hors Union européenne, le titre de séjour",
       "Un justificatif de domicile de moins de trois mois",
-      "Le justificatif de votre aptitude professionnelle : le diplôme, le titre ou le certificat obtenu pour l'activité demandée",
+      "Le justificatif de votre aptitude professionnelle pour l'activité demandée : certification enregistrée au RNCP, CQP agréé ou titre reconnu dans un État de l'Union européenne",
       "Une photographie d'identité récente",
-      "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1, et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
+      "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1 (votre titre d'agent de sécurité suffit), et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
     ],
     source: {
       href: "https://www.cnaps.interieur.gouv.fr/Actualites/Nouvelles-obligations-pour-les-demandes-de-titres",
@@ -81,7 +87,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         h3: "Remplir et déposer le formulaire",
         texte:
-          "Dans « Déposer une demande », choisissez « Carte professionnelle », puis l'activité concernée : une seule par demande. Si vous détenez plusieurs titres, déposez une demande par activité. Préparez au format numérique la preuve de votre aptitude professionnelle, votre pièce d'identité et votre justificatif de domicile. Si vous avez accepté le « circuit court » lors de l'autorisation préalable, cette demande n'est pas nécessaire.",
+          "Dans « Déposer une demande », choisissez « Carte professionnelle », puis l'activité concernée : une seule par demande, parmi 20 (les 19 de l'autorisation préalable, plus formateur). Si vous détenez plusieurs titres, déposez une demande par activité. Un brouillon d'autorisation préalable jamais envoyé bloque toute nouvelle demande : terminez-le ou envoyez-le d'abord. Si vous avez accepté le « circuit court » lors de l'autorisation préalable, cette demande n'est pas nécessaire.",
       },
       {
         h3: "Suivre l'instruction depuis votre espace",
@@ -92,7 +98,7 @@ export const carteProfessionnelle: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
+      "Selon le CNAPS, une demande de carte professionnelle est traitée en quatre jours ouvrés en moyenne, pour un dossier complet et sans vérification complémentaire. L'enquête peut prendre plus de temps si vous êtes connu des services de police ou de gendarmerie. Sans réponse au bout de deux mois, la demande est considérée comme rejetée.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Exercer dans l'attente", "Pas avant la délivrance de la carte : c'est elle qui autorise l'exercice"],
@@ -169,6 +175,16 @@ export const carteProfessionnelle: ContenuDemarche = {
     {
       question: "À quel nom la carte est-elle délivrée ?",
       reponse: "Uniquement au nom de naissance, selon le CNAPS.",
+    },
+    {
+      question: "Mon titre d'agent de sécurité prouve-t-il mon niveau de français ?",
+      reponse:
+        "Oui. Le CNAPS accepte comme justificatif du niveau de langue un diplôme français de niveau 3 au moins, ce qui inclut le CQP ou le titre à finalité professionnelle d'agent privé de sécurité.",
+    },
+    {
+      question: "Que mentionne la carte professionnelle ?",
+      reponse:
+        "Votre numéro d'autorisation et l'activité pour laquelle vous êtes autorisé à exercer. Pour un agent cynophile, elle porte aussi le numéro d'identification de chacun des chiens utilisés.",
     },
     {
       question: "Comment un employeur vérifie-t-il ma carte ?",
