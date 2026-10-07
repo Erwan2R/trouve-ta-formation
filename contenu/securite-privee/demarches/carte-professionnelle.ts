@@ -87,7 +87,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         h3: "Remplir et déposer le formulaire",
         texte:
-          "Dans « Déposer une demande », choisissez « Carte professionnelle », puis l'activité concernée : une seule par demande, parmi 20 (les 19 de l'autorisation préalable, plus formateur). Si vous détenez plusieurs titres, déposez une demande par activité. Un brouillon d'autorisation préalable jamais envoyé bloque toute nouvelle demande : terminez-le ou envoyez-le d'abord. Si vous avez accepté le « circuit court » lors de l'autorisation préalable, cette demande n'est pas nécessaire.",
+          "Dans « Déposer une demande », choisissez « Carte professionnelle », puis l'activité concernée : une seule par demande, parmi 20 (les 19 de l'autorisation préalable, plus formateur). Si vous détenez plusieurs titres, déposez une demande par activité. Le formulaire suit les mêmes quatre étapes que l'autorisation préalable : identité, date et lieu de naissance, adresse et téléphone, puis les pièces. À la dernière étape, le justificatif d'aptitude professionnelle, c'est-à-dire le titre se rapportant à l'activité demandée, remplace le justificatif de pré-inscription ; la pièce d'identité, la photo et le justificatif de domicile restent demandés. Un brouillon jamais envoyé bloque toute nouvelle demande : terminez-le ou supprimez-le depuis « Mes brouillons ». Si vous avez accepté le « circuit court » lors de l'autorisation préalable, cette demande n'est pas nécessaire.",
       },
       {
         h3: "Suivre l'instruction depuis votre espace",
