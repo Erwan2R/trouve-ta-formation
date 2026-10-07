@@ -28,6 +28,6 @@ describe("demarcheVisible", () => {
   it("liste : aucune démarche visible → pas de page", () => {
     expect(listeDemarchesVisible(0, false)).toBe(false);
     expect(listeDemarchesVisible(1, false)).toBe(true);
-    expect(listeDemarchesVisible(3, true)).toBe(false); // texte de la liste encore marqué
+    expect(listeDemarchesVisible(3, true)).toBe(true); // texte de la liste vérifié (Dracar Ultimate, 18 février 2026)
   });
 });

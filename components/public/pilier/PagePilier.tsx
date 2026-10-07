@@ -14,6 +14,7 @@ import { getOrganismes } from "@/lib/supabase/queries/organismes";
 import { getSeuilBlocPilier } from "@/lib/supabase/queries/parametres";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { dateLongue } from "@/lib/format-date";
+import { releveDuCnaps } from "@/lib/formulaire/parcours";
 import { getDepartements, getTitres } from "@/lib/supabase/queries/referentiel";
 
 const verticale: Verticale = VERTICALES["securite-privee"];
@@ -32,7 +33,9 @@ export function metadataPilier(titre: Titre): Metadata {
         }
       : {
           title: contenu.titleSeo ?? `${court} : quand le faire, durée et organismes`,
-          description: `Le ${court} est obligatoire pour renouveler votre carte professionnelle. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`,
+          description: releveDuCnaps(titre.slug)
+            ? `Le ${court} est obligatoire pour renouveler votre carte professionnelle. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`
+            : `Le ${court} est obligatoire tous les trois ans pour continuer d'exercer. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`,
           path: `${base}${titre.slug}/`,
         },
   );
@@ -76,7 +79,9 @@ export async function PagePilier({
           href: `${base}formulaire/?depuis=${base}${titre.slug}/`,
         }
       : {
-          titre: "Vous ne savez pas quel stage correspond à votre carte ?",
+          titre: releveDuCnaps(titre.slug)
+            ? "Vous ne savez pas quel stage correspond à votre carte ?"
+            : "Vous ne savez pas quel stage correspond à votre diplôme ?",
           texte: "Indiquez le titre que vous détenez, nous vous orientons vers le maintien correspondant.",
           cta: "Vérifier mon cas",
           href: `${base}formulaire/?depart=renouvellement&depuis=${base}${titre.slug}/`,

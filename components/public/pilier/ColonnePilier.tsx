@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Titre } from "@/lib/supabase/queries/referentiel";
+import { releveDuCnaps } from "@/lib/formulaire/parcours";
 import { fr } from "@/lib/typo";
 
 const encart = "flex flex-col gap-0.5 rounded-[20px] border border-line bg-white p-[22px]";
@@ -25,8 +26,9 @@ export function ColonnePilier({
   titresLies: { titre: Titre; texte: string }[];
   demarchesVisibles: Set<string>;
 }) {
-  const toutes =
-    gabarit === "A"
+  const toutes = !releveDuCnaps(titre.slug)
+    ? [] // filière incendie : aucune démarche CNAPS
+    : gabarit === "A"
       ? [
           ["autorisation-prealable", "Autorisation préalable", "Avant la formation"],
           ["carte-professionnelle", "Carte professionnelle", "Après l'obtention du titre"],

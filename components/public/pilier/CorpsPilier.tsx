@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LienContenu } from "@/components/public/LienContenu";
 import { conditionsCommunes } from "@/contenu/securite-privee/piliers/communs";
+import { releveDuCnaps } from "@/lib/formulaire/parcours";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
 import { Grille } from "@/components/public/catalogue/ListingCatalogue";
 import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
@@ -16,9 +17,9 @@ const h3 = "text-[18.5px] font-bold tracking-[-0.015em]";
 const prose = "max-w-[70ch] text-[17px] leading-[1.75] text-pretty text-ink-700";
 const filet = "border-[#DFD9D2]";
 
-// Financements : formulation commune de la maquette (bloc 7), mêmes lignes sur toutes les pages.
+// Financements : formulation commune de la maquette (bloc 7) ; la ligne CPF vient du contenu du titre.
 const FINANCEMENTS = [
-  ["CPF", "Mobilisable si l'organisme est certifié Qualiopi et son offre publiée sur Mon Compte Formation."],
+  ["CPF", ""],
   ["France Travail", "Possible dans le cadre d'un projet de retour à l'emploi validé avec votre conseiller."],
   ["OPCO", "Voie usuelle pour un salarié d'une entreprise de la branche, via son employeur."],
   ["Plan de dév.", "À l'initiative de l'employeur, sur son budget formation."],
@@ -45,12 +46,15 @@ function Cout({ contenu }: { contenu: ContenuPilier }) {
       <div className="flex flex-col gap-3">
         <h3 className={h3}>Les financements possibles</h3>
         <dl className={`flex max-w-[74ch] flex-col border-t ${filet}`}>
-          {FINANCEMENTS.map(([nom, texte]) => (
-            <div key={nom} className={`flex flex-wrap gap-x-6 gap-y-1.5 border-b ${filet} py-[15px]`}>
-              <dt className="w-[126px] flex-none text-base font-bold">{nom}</dt>
-              <dd className="flex-[1_1_240px] text-base leading-[1.65] text-ink-500">{texte}</dd>
-            </div>
-          ))}
+          {FINANCEMENTS.map(([nom, defaut]) => {
+            const texte = nom === "CPF" ? contenu.financementCpf : defaut;
+            return (
+              <div key={nom} className={`flex flex-wrap gap-x-6 gap-y-1.5 border-b ${filet} py-[15px]`}>
+                <dt className="w-[126px] flex-none text-base font-bold">{nom}</dt>
+                <dd className="flex-[1_1_240px] text-base leading-[1.65] text-ink-500">{fr(texte)}</dd>
+              </div>
+            );
+          })}
         </dl>
         <p className="max-w-[70ch] text-base leading-[1.7] text-ink-500">
           {fr(
@@ -83,8 +87,10 @@ export function CorpsPilier({
   const conditions = [
     {
       ...contenu.conditions.premiere,
-      lien:
-        contenu.gabarit === "A"
+      // Filière incendie : pas de démarche CNAPS à lier.
+      lien: !releveDuCnaps(titre.slug)
+        ? undefined
+        : contenu.gabarit === "A"
           ? { href: "demarches/autorisation-prealable/", libelle: "Voir comment faire la demande →" }
           : { href: "demarches/renouvellement-carte-professionnelle/", libelle: "Voir le renouvellement →" },
     },

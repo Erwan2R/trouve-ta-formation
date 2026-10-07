@@ -1,6 +1,7 @@
 import type { ContenuPilier } from "./types";
 
-// BROUILLON repris de la maquette (Page Pilier Titre v3) — non publiable tant que les [à vérifier] restent.
+// Sources (vérifiées le 06/10/2026) : arrêté du 27 février 2017 relatif à la formation continue des agents privés de
+// sécurité (art. 1 à 4, version en vigueur), page démarche « Renouvellement » (fenêtre de dépôt).
 export const macAps: ContenuPilier = {
   gabarit: "B",
   h1: "MAC APS — Maintien et actualisation des compétences des agents de prévention et de sécurité",
@@ -9,7 +10,7 @@ export const macAps: ContenuPilier = {
   faits: {
     periodicite: "Tous les 5 ans",
     prerequis: "Carte professionnelle en cours de validité",
-    verifieLe: "2026-09-01",
+    verifieLe: "2026-10-06",
   },
   bloc4: {
     h2: "Quand suivre votre MAC APS",
@@ -17,7 +18,7 @@ export const macAps: ContenuPilier = {
       {
         h3: "La fenêtre à respecter",
         texte:
-          "Le stage se suit dans les 24 mois qui précèdent l'échéance de votre carte. Un stage suivi plus tôt ne compte pas. L'attestation accompagne ensuite la demande de renouvellement, à déposer au moins trois mois avant l'échéance.",
+          "Le stage se suit **dans les 24 mois qui précèdent l'échéance de votre carte**. Un stage suivi plus tôt ne compte pas. L'attestation accompagne ensuite la demande de renouvellement, à déposer au moins trois mois avant l'échéance.",
       },
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
@@ -27,7 +28,7 @@ export const macAps: ContenuPilier = {
       {
         h3: "Un stage par activité détenue",
         texte:
-          "Une carte professionnelle portant plusieurs mentions demande une attestation de maintien par activité. Un agent titulaire de la surveillance et du cynophile suit donc deux stages distincts, et non un maintien unique.",
+          "Chaque activité inscrite sur la carte a son propre stage de maintien. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire : à votre demande, vous en êtes dispensé. Un agent titulaire de la surveillance et du cynophile ne suit donc qu'une fois le socle commun.",
       },
     ],
   },
@@ -40,39 +41,43 @@ export const macAps: ContenuPilier = {
     propres: {
       h3: "Les conditions propres au MAC APS",
       texte:
-        "Le stage porte sur les activités effectivement inscrites sur votre carte. Les agents titulaires de plusieurs mentions doivent vérifier, avant de s'inscrire, que le centre propose bien le maintien correspondant à chacune. [à vérifier]",
+        "Le stage commence par une évaluation individuelle de vos connaissances, en dix questions à réponse courte. Il porte sur la surveillance humaine et le gardiennage. Douze stagiaires au plus par session.",
     },
   },
   programme: {
     intro:
-      "Le programme reprend le socle juridique et opérationnel du métier, actualisé des évolutions réglementaires depuis votre dernière qualification. Il est identique quel que soit l'organisme.",
+      "Le contenu est fixé par l'arrêté du 27 février 2017 relatif à la formation continue, dans sa version modifiée en 2025. Il est identique quel que soit l'organisme.",
     modules: [
-      { nom: "Cadre légal et déontologie — actualisation" },
-      { nom: "Gestion des situations conflictuelles" },
-      { nom: "Secours à personne — maintien des acquis" },
-      { nom: "Prévention des risques d'incendie et évacuation" },
+      { nom: "Gestes élémentaires de premiers secours", volume: "7 h" },
+      { nom: "Principes de la République", volume: "3 h" },
+      { nom: "Cadre juridique d'intervention et déontologie", volume: "4 h" },
+      { nom: "Gestion des conflits", volume: "3 h 30" },
+      { nom: "Inspection-filtrage : palpation et inspection visuelle des bagages", volume: "3 h 30" },
+      { nom: "Prévention des risques terroristes", volume: "13 h" },
     ],
     evaluation:
-      "Le maintien ne donne pas lieu à un examen sanctionnant : il se conclut par une attestation de suivi, exigée à l'appui de la demande de renouvellement. [à vérifier]",
+      "Le stage ne se conclut pas par un examen : il donne lieu à une attestation de suivi, selon un modèle publié par le CNAPS, à joindre à la demande de renouvellement.",
   },
   duree:
-    "Le stage dure 34 heures, ramenées à 27 heures si vous êtes titulaire d'un certificat SST en cours de validité ou d'un recyclage PSC1 de moins de deux ans : vous êtes alors dispensé, à votre demande, du module de premiers secours. Les centres le programment le plus souvent sur quelques jours consécutifs, parfois en week-end pour les agents en poste.",
-  cout: "C'est un achat contraint : les tarifs sont resserrés et l'écart entre organismes porte surtout sur le rythme proposé et la disponibilité des sessions dans les mois qui précèdent votre échéance.",
+    "Le stage dure 34 heures, ramenées à 27 heures si vous êtes titulaire d'un certificat SST valide ou d'un recyclage PSC de moins de deux ans : vous êtes alors dispensé, à votre demande, du module de premiers secours. Il peut se dérouler dans les locaux de votre employeur, avec un formateur d'un organisme autorisé par le CNAPS.",
+  cout: "C'est un achat contraint : l'écart entre organismes porte surtout sur le rythme proposé et sur la disponibilité de sessions dans les mois qui précèdent votre échéance. Chaque organisme référencé affiche son tarif.",
+  financementCpf:
+    "Non mobilisable : le MAC APS n'est enregistré ni au RNCP ni au répertoire spécifique, condition pour être financé par le CPF.",
   titresLies: [
     { slug: "tfp-aps", texte: "Le titre initial dont ce stage assure le maintien." },
     { slug: "mac-cyno", texte: "Le maintien de la mention cynophile, à suivre en plus si votre carte la porte." },
-    { slug: "ssiap-1", texte: "La qualification incendie, avec son propre recyclage tous les trois ans." },
+    { slug: "recyclage-ssiap-1", texte: "Le recyclage incendie, tous les trois ans, si vous êtes aussi SSIAP 1." },
   ],
   faq: [
     {
       question: "Quelle différence entre le MAC APS et le recyclage SSIAP ?",
       reponse:
-        "Le MAC APS conditionne le renouvellement de la carte professionnelle de surveillance, tous les cinq ans. Le recyclage SSIAP conditionne l'exercice de la fonction de sécurité incendie, tous les trois ans. Un agent qui détient les deux qualifications suit les deux stages, à des échéances différentes.",
+        "Le MAC APS conditionne le renouvellement de la carte professionnelle de surveillance, tous les cinq ans. Le recyclage SSIAP conditionne l'exercice de la sécurité incendie, tous les trois ans. Un agent qui détient les deux qualifications suit les deux stages, à des échéances différentes.",
     },
     {
-      question: "Ma carte porte deux mentions : un seul MAC suffit-il ?",
+      question: "Ma carte porte deux mentions : dois-je tout refaire deux fois ?",
       reponse:
-        "Non. Le maintien s'apprécie par activité : chaque mention inscrite sur la carte demande son attestation. C'est le cas de figure le plus fréquemment mal anticipé au moment du renouvellement.",
+        "Non. Chaque activité a son stage, mais un module déjà suivi dans les 24 mois avant l'échéance, dans le cadre d'un autre stage, n'est pas à refaire si vous le demandez. Le socle commun ne se suit donc qu'une fois.",
     },
     {
       question: "À quel moment précis dois-je suivre le stage ?",
@@ -80,14 +85,14 @@ export const macAps: ContenuPilier = {
         "Dans les 24 mois qui précèdent l'échéance de votre carte, et assez tôt pour déposer votre demande de renouvellement au moins trois mois avant cette échéance.",
     },
     {
-      question: "Mon employeur peut-il prendre en charge le MAC APS ?",
+      question: "Mon employeur peut-il organiser le MAC APS dans ses locaux ?",
       reponse:
-        "Oui, c'est la voie la plus courante pour un agent en poste : l'employeur mobilise l'OPCO de la branche ou son plan de développement des compétences.",
+        "Oui, avec un formateur d'un organisme autorisé par le CNAPS. La date et le lieu de chaque session doivent être déclarés au CNAPS quinze jours avant son début.",
     },
     {
-      question: "Le MAC APS peut-il se suivre à distance ?",
+      question: "Le MAC APS se termine-t-il par un examen ?",
       reponse:
-        "Le stage comporte des mises en situation qui supposent du présentiel. Les organismes référencés indiquent le format de leurs sessions sur leur fiche. [à vérifier]",
+        "Non. Il commence par une évaluation de vos connaissances en dix questions, qui sert à orienter le stage, et se termine par une attestation de suivi.",
     },
     {
       question: "J'ai laissé ma carte expirer : puis-je encore faire un MAC ?",

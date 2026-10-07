@@ -37,8 +37,8 @@ export const renouvellement: ContenuDemarche = {
       {
         h3: "Un MAC par activité détenue",
         paragraphes: [
-          "**Le point qui piège le plus d'agents : il faut un MAC par activité détenue.** Une carte portant plusieurs mentions suppose une attestation de maintien des compétences correspondant à chacune. L'activité cynophile fait l'objet d'un traitement particulier. [à vérifier]",
-          "Pour la surveillance humaine (MAC APS), le stage dure 34 heures, ramenées à 27 heures pour un agent titulaire d'un certificat SST valide ou d'un recyclage PSC1 de moins de deux ans, dispensé du module de premiers secours. Durées des autres MAC : [à compléter]",
+          "**Le point qui piège le plus d'agents : il faut un MAC par activité détenue.** Une carte portant plusieurs mentions suppose une attestation de maintien des compétences correspondant à chacune. Un module déjà suivi dans un autre stage, dans les 24 mois avant l'échéance, n'est pas à refaire si vous le demandez. Le MAC cynophile s'ajoute au socle commun et ses modules pratiques se font avec chaque chien inscrit sur la carte.",
+          "Pour la surveillance humaine (MAC APS), le stage dure 34 heures, ramenées à 27 heures pour un agent titulaire d'un certificat SST valide ou d'un recyclage PSC1 de moins de deux ans, dispensé du module de premiers secours. Le MAC cynophile ajoute 32 heures au socle commun, et le MAC de protection physique des personnes dure 41 heures (34 avec la même dispense). Pour la sûreté aéroportuaire, une certification DGAC en cours de validité vaut attestation, complétée d'un module de 3 heures sur les principes de la République.",
         ],
       },
       {
@@ -92,7 +92,11 @@ export const renouvellement: ContenuDemarche = {
         texte:
           "Le renouvellement n'est plus possible : il faut déposer une nouvelle demande de carte professionnelle. Elle suppose un MAC suivi dans les douze mois précédant cette nouvelle demande, et l'entrée en MAC suppose elle-même une autorisation préalable, puisque vous ne détenez plus de carte valide.",
       },
-      { titre: "MAC manquant à l'échéance", texte: "[à compléter]" },
+      {
+        titre: "MAC manquant à l'échéance",
+        texte:
+          "Sans attestation MAC, le renouvellement ne peut pas aboutir. Si la carte arrive à échéance entre-temps, il faut déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent.",
+      },
       {
         titre: "Renouvellement partiel",
         texte:
@@ -143,7 +147,7 @@ export const renouvellement: ContenuDemarche = {
     {
       question: "Le MAC est-il finançable par le CPF ?",
       reponse:
-        "Éligibilité à vérifier selon les titres, puis renvoi vers les organismes qui l'acceptent. [à compléter]",
+        "Non : le MAC APS n'est enregistré ni au RNCP ni au répertoire spécifique, condition pour être financé par le CPF. Il peut être pris en charge par l'employeur ou son OPCO, ou financé personnellement.",
     },
   ],
 };

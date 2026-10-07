@@ -35,7 +35,7 @@ export const LISTE_DEMARCHES = {
     lien: "Voir les formations qui donnent l'aptitude professionnelle →",
   },
   cloture:
-    "**Toutes ces démarches se déposent sur Dracar Ultimate**, le portail du CNAPS mis en service en 2026. L'ancien téléservice est fermé : un dossier envoyé par courrier ou déposé sur l'ancienne plateforme n'est plus traité. [à vérifier]",
+    "**Toutes ces démarches se déposent sur Dracar Ultimate**, le portail du CNAPS en service depuis le 18 février 2026. L'ancien téléservice est définitivement fermé : chaque usager dépose désormais ses demandes depuis son propre compte.",
 };
 
 /** Bandeau de datation « · Procédure mise à jour depuis le passage à Dracar Ultimate » (Copy §3.4) : à retirer courant 2027. */

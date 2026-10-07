@@ -5,17 +5,31 @@ import { ssiap1 } from "./ssiap-1";
 import { contenuVerifie } from "./types";
 
 describe("piliers", () => {
-  it("production : jamais de page non publiée ni de contenu « à vérifier »", () => {
+  it("production : jamais de page non publiée", () => {
     expect(pilierVisible({ slug: "ssiap-1", page_publiee: false }, true)).toBe(false);
-    expect(pilierVisible({ slug: "ssiap-1", page_publiee: true }, true)).toBe(false); // brouillon
+    expect(pilierVisible({ slug: "ssiap-1", page_publiee: true }, true)).toBe(true);
     expect(pilierVisible({ slug: "inexistant", page_publiee: true }, true)).toBe(false);
   });
 
   it("contenu vérifié : sans marqueur et avec tous les volumes horaires", () => {
-    const nettoye: typeof ssiap1 = JSON.parse(JSON.stringify(ssiap1).replaceAll(" [à vérifier]", ""));
-    expect(contenuVerifie(nettoye)).toBe(false); // volumes manquants
-    nettoye.programme.modules.forEach((m) => (m.volume = "10 h"));
-    expect(contenuVerifie(nettoye)).toBe(true);
+    expect(contenuVerifie(ssiap1)).toBe(true);
+    const brouillon: typeof ssiap1 = JSON.parse(JSON.stringify(ssiap1));
+    brouillon.definition += " [à vérifier]";
+    expect(contenuVerifie(brouillon)).toBe(false);
+    brouillon.definition = ssiap1.definition;
+    brouillon.programme.modules[0].volume = undefined;
+    expect(contenuVerifie(brouillon)).toBe(false);
+  });
+
+  it("les 13 titres du référentiel sont rédigés et vérifiés", () => {
+    const slugs = Object.keys(PILIERS);
+    expect(slugs).toHaveLength(13);
+    for (const slug of slugs) expect(contenuVerifie(PILIERS[slug]), slug).toBe(true);
+  });
+
+  it("FAQ : aucune question posée à l'identique sur deux pages", () => {
+    const questions = Object.values(PILIERS).flatMap((c) => c.faq.map((q) => q.question));
+    expect(new Set(questions).size).toBe(questions.length);
   });
 
   it("hors production : brouillon prévisualisable", () => {

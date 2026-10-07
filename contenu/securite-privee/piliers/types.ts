@@ -31,6 +31,8 @@ export type ContenuPilier = {
   programme: { intro: string; modules: { nom: string; volume?: string }[]; evaluation: string };
   duree: string;
   cout: string;
+  /** Ligne CPF du bloc financements, propre au titre (RNCP, RS ou non éligible). */
+  financementCpf: string;
   /** Bloc 10 : une ligne expliquant le rapport. Seuls les titres publiés s'affichent. */
   titresLies: { slug: string; texte: string }[];
   faq: QuestionFaq[];

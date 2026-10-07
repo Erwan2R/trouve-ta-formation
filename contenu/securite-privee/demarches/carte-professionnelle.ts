@@ -33,7 +33,7 @@ export const carteProfessionnelle: ContenuDemarche = {
         h3: "Votre carte porte les activités que votre titre couvre",
         paragraphes: [
           "**Votre carte porte les activités que votre titre couvre, et uniquement celles-là.** Demander une mention pour une activité que votre formation ne couvre pas conduit au rejet de cette mention. Un titulaire du TFP APS ne peut pas obtenir la mention cynophile sans le titre correspondant.",
-          "Tableau de correspondance titre / activité. [à compléter]",
+          "Correspondance titre / activité : le TFP APS ouvre la surveillance humaine ou le gardiennage ; le TFP ASC, l'activité d'agent cynophile ; le TFP A3P, la protection physique des personnes ; le TFP ASA, la sûreté aéroportuaire, qui demande en plus une certification de la DGAC. Les diplômes SSIAP de la sécurité incendie ne donnent lieu à aucune carte professionnelle.",
         ],
       },
       {
@@ -154,7 +154,11 @@ export const carteProfessionnelle: ContenuDemarche = {
       reponse:
         "Non. Le titre ne suffit pas : seule la carte délivrée autorise l'exercice. Le récépissé permettant de continuer à exercer concerne le renouvellement d'une carte existante, pas une première demande.",
     },
-    { question: "Que se passe-t-il si je change d'adresse ?", reponse: "[à compléter]" },
+    {
+      question: "Que se passe-t-il si je change d'adresse ?",
+      reponse:
+        "Vous devez le signaler au CNAPS, par la démarche « Signaler un changement de coordonnées personnelles », en joignant notamment une copie de votre titre d'identité et votre numéro de titre CNAPS.",
+    },
     {
       question: "Comment un employeur vérifie-t-il ma carte ?",
       reponse:

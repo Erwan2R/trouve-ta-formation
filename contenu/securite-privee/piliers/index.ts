@@ -1,13 +1,35 @@
 import { conditionsCommunes } from "./communs";
+import { macA3p } from "./mac-a3p";
 import { macAps } from "./mac-aps";
+import { macCyno } from "./mac-cyno";
+import { recyclageSsiap1 } from "./recyclage-ssiap-1";
+import { recyclageSsiap2 } from "./recyclage-ssiap-2";
+import { recyclageSsiap3 } from "./recyclage-ssiap-3";
 import { ssiap1 } from "./ssiap-1";
+import { ssiap2 } from "./ssiap-2";
+import { ssiap3 } from "./ssiap-3";
+import { tfpA3p } from "./tfp-a3p";
+import { tfpAps } from "./tfp-aps";
+import { tfpAsa } from "./tfp-asa";
+import { tfpAsc } from "./tfp-asc";
 import { sansMarqueur } from "../../marqueurs";
 import { contenuVerifie, type ContenuPilier } from "./types";
 
 /** Contenu rédigé, par slug du référentiel. Un titre absent d'ici n'a pas de page. */
 export const PILIERS: Record<string, ContenuPilier> = {
-  "ssiap-1": ssiap1,
+  "tfp-aps": tfpAps,
   "mac-aps": macAps,
+  "ssiap-1": ssiap1,
+  "ssiap-2": ssiap2,
+  "ssiap-3": ssiap3,
+  "recyclage-ssiap-1": recyclageSsiap1,
+  "recyclage-ssiap-2": recyclageSsiap2,
+  "recyclage-ssiap-3": recyclageSsiap3,
+  "tfp-asc": tfpAsc,
+  "mac-cyno": macCyno,
+  "tfp-asa": tfpAsa,
+  "tfp-a3p": tfpA3p,
+  "mac-a3p": macA3p,
 };
 
 /**

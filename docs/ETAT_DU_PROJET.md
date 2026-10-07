@@ -493,7 +493,9 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261028_seuil_bloc_pilier` — seuil du bloc organismes des pages titre (3, décision Erwan 02/10/2026) ;
    - `20261029_referentiel_verifie` — RNCP TFP ASA, durées MAC APS / SSIAP 1 / recyclage, expérience SSIAP 2 en heures ;
    - `20261030_durees_tfp` — durées minimales TFP APS (175 h), ASC (490 h), A3P (306 h), somme des modules de l'arrêté
-     du 1er septembre 2025.
+     du 1er septembre 2025 ;
+   - `20261031_referentiel_rncp_durees` — RNCP40271 (TFP ASC) et RNCP38002 (TFP A3P), les fiches 34486 et 35098 étant
+     inactives ; durées SSIAP 2 (70 h), SSIAP 3 (216 h), recyclages SSIAP 2 (14 h) et 3 (21 h), MAC cynophile et A3P.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).
@@ -520,11 +522,18 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
 ## 9. Points ouverts
 
 ### Contenus à rédiger ou vérifier (Erwan)
-- Pages piliers : 11 titres sans contenu, 2 brouillons (SSIAP 1, MAC APS) à finaliser.
-- Démarches CNAPS : coûts, délais, fenêtre de renouvellement, traitement d'une carte expirée.
-- Pages départements : 7 textes de 300 mots à écrire, 1 brouillon (Seine-Saint-Denis).
-- Référentiel : durées et RNCP marqués `[À VÉRIFIER]` (TFP ASA notamment).
-- Formulaire : parcours de renouvellement d'une carte ASA, conditions d'expérience SSIAP 2 et 3.
+- **Pages piliers : les 13 titres rédigés le 6-7 octobre 2026** (Claude), sources officielles citées en tête de chaque
+  fichier (arrêtés du 2 mai 2005, du 1er septembre 2025, du 27 février 2017, du 11 septembre 2013, fiches France
+  compétences). Aucun marqueur : publiables dès qu'Erwan coche « page publiée » dans le référentiel, après relecture.
+  Pas de fourchette de prix (aucun relevé fiable) : le coût renvoie aux tarifs des fiches organisme.
+- **Pages départements : les 8 textes rédigés** (faits vérifiés : aéroports, La Défense, Rungis, Disneyland Paris,
+  réseau RER et métro). Une page n'apparaît qu'au-dessus du seuil d'organismes.
+- Démarches CNAPS : restent marqués (et donc non publiés) le déroulé des écrans Dracar Ultimate (nécessite un
+  compte), les motifs de refus, la rubrique militaires/policiers, le canal de relance, l'extension d'activité, la carte
+  « grands événements », le renouvellement partiel ; en base, délai d'instruction, coût et date de vérification vides.
+  Le site du CNAPS bloque la lecture automatique : ces points sont à relever par Erwan.
+- Formulaire : parcours de renouvellement d'une carte ASA (la réponse est désormais connue : certification DGAC valide
+  + module de 3 h, arrêté du 27 février 2017 art. 7).
 - Pages légales : informations de la société d'Erwan (`contenu/legal/editeur.ts`), relecture juridique.
 - Proposition de Claude (accord d'Erwan sur le principe) : rédiger les contenus en attente avec sources officielles
   citées, faits non vérifiables marqués `[à vérifier]`.
