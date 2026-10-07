@@ -1,7 +1,7 @@
 import type { ContenuDemarche } from "./types";
 
 // Copy_Pages_Demarches_CNAPS.md §5. Relevé CNAPS d'Erwan du 07/10/2026 (FAQ « Demande de titre », « Formation »,
-// « Militaires… », « Dracar Ultimate », rubrique Jurisprudence). Reste à compléter : les écrans du dépôt.
+// « Militaires… », « Dracar Ultimate », rubrique Jurisprudence), fiche « Demande - Autorisation préalable » et écrans Dracar Ultimate.
 export const autorisationPrealable: ContenuDemarche = {
   etape: 1,
   title: "Autorisation préalable CNAPS : conditions, pièces et démarche 2026",
@@ -21,7 +21,7 @@ export const autorisationPrealable: ContenuDemarche = {
     sommaire: "Qui doit la demander",
     paragraphes: [
       "Vous devez la demander si vous voulez entrer en formation à la sécurité privée et que vous ne détenez pas de carte professionnelle en cours de validité. C'est le cas de la très grande majorité des candidats : ceux qui préparent un TFP APS ou un titre de spécialité sans avoir jamais exercé. La sécurité incendie (SSIAP) n'est pas concernée : elle ne relève pas du CNAPS.",
-      "Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation, **sauf pour une formation au port d'arme ou à la sûreté aéroportuaire** : l'autorisation préalable reste alors exigée.",
+      "Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation, **sauf pour une formation à la surveillance armée ou à la sûreté aéroportuaire** : l'autorisation préalable reste alors obligatoire. Un agent dont la carte a expiré en a aussi besoin pour suivre son MAC.",
     ],
     encart: {
       surtitre: "Ne pas confondre",
@@ -46,7 +46,7 @@ export const autorisationPrealable: ContenuDemarche = {
         h3: "Nationalité et titre de séjour",
         paragraphes: [
           "Les ressortissants français et européens fournissent une pièce d'identité en cours de validité.",
-          "Les ressortissants d'un État hors Union européenne et hors Espace économique européen doivent détenir un titre de séjour depuis au moins cinq ans, sans interruption : la justice administrative a confirmé qu'une interruption non justifiée fait échouer cette condition.",
+          "À l'exception des citoyens de l'Union européenne, les ressortissants étrangers doivent séjourner en France de manière régulière et continue depuis au moins cinq ans, avec un titre de séjour autorisant une activité salariée. La justice administrative a confirmé qu'une interruption non justifiée fait échouer cette condition.",
           "Tous les ressortissants étrangers, européens compris, justifient d'un niveau de français B1 et fournissent l'équivalent du bulletin n° 3 du casier judiciaire de leur pays de naissance, daté de moins de trois mois et traduit en français par un traducteur assermenté. Les bénéficiaires d'une protection internationale (réfugiés, protection subsidiaire) en sont dispensés.",
         ],
       },
@@ -62,11 +62,11 @@ export const autorisationPrealable: ContenuDemarche = {
   pieces: {
     intro: "Le formulaire de demande sur Dracar Ultimate fait foi : il indique les pièces propres à votre situation.",
     liste: [
-      "Une carte nationale d'identité ou un passeport en cours de validité, mentionnant la date et le lieu de naissance (à défaut, un extrait d'acte de naissance) ; pour les ressortissants hors Union européenne, le titre de séjour",
-      "Un justificatif de domicile de moins de trois mois",
+      "Une pièce d'identité : pour un Français, la carte nationale d'identité ou le passeport (le permis de conduire n'est pas accepté) ; pour un ressortissant de l'UE ou de l'EEE, une pièce mentionnant la date et le lieu de naissance, à défaut un extrait d'acte de naissance ; pour les autres, un titre de séjour en cours de validité portant autorisation d'exercer une activité salariée",
+      "Un justificatif de domicile de moins de trois mois : facture de téléphone fixe, d'internet, d'électricité, de gaz ou d'eau, quittance de loyer, titre de propriété, attestation d'assurance habitation ou relevé CAF. Une personne hébergée joint la pièce d'identité de son hébergeant et une lettre signée de lui",
       "Un justificatif de pré-inscription délivré par l'organisme de formation",
       "Pour les ressortissants étrangers, européens compris : un justificatif du niveau de français B1, et l'équivalent du bulletin n° 3 du casier judiciaire du pays de naissance, de moins de trois mois, traduit par un traducteur assermenté",
-      "Pour une formation au port d'arme ou à la sûreté aéroportuaire : une lettre d'intention d'embauche d'une entreprise autorisée",
+      "Pour une formation à la surveillance armée renforcée des sites sensibles ou à la sûreté aéroportuaire : une lettre d'intention d'embauche se rapportant à cette activité, émise par une entreprise autorisée par le CNAPS",
     ],
     source: {
       href: "https://www.cnaps.interieur.gouv.fr/Actualites/Nouvelles-obligations-pour-les-demandes-de-titres",
@@ -96,7 +96,8 @@ export const autorisationPrealable: ContenuDemarche = {
       },
       {
         h3: "Remplir et déposer le formulaire",
-        texte: "Déroulé exact des écrans à relever sur le portail. [à compléter]",
+        texte:
+          "Dans « Déposer une demande », choisissez « Autorisation préalable », puis l'activité visée : une seule par demande, parmi 19 (surveillance humaine ou gardiennage, chien, sûreté aéroportuaire, protection physique des personnes…). Le formulaire compte ensuite quatre étapes : la première porte sur votre identité (sexe, nom de naissance, tous les prénoms de votre carte d'identité, nationalité, e-mail), la deuxième sur votre date et votre lieu de naissance. Préparez vos pièces au format numérique avant de commencer.",
       },
       {
         h3: "Suivre l'instruction depuis votre espace",
@@ -112,7 +113,7 @@ export const autorisationPrealable: ContenuDemarche = {
   },
   delais: {
     intro:
-      "Selon le CNAPS, un dossier est en général traité en moins de 10 jours pour un demandeur inconnu des services de police. Sans réponse au bout de 2 mois, la demande est considérée comme rejetée.",
+      "Selon le CNAPS, une demande d'autorisation préalable est traitée en environ une semaine, pour un dossier complet et sans vérification complémentaire. L'enquête peut prendre plus de temps si vous êtes connu des services de police ou de gendarmerie. Sans réponse au bout de deux mois, la demande est considérée comme rejetée.",
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Suivre son dossier", "Depuis l'espace usager, rubrique de suivi et messagerie interne"],
@@ -148,7 +149,7 @@ export const autorisationPrealable: ContenuDemarche = {
   ensuite: {
     h2: "Une fois l'autorisation obtenue",
     paragraphes: [
-      "Votre autorisation est valable six mois, durée stricte. C'est votre fenêtre pour entrer en formation : si elle expire avant, vous devez demander une nouvelle autorisation.",
+      "Votre autorisation est valable six mois, durée stricte : c'est le délai pour vous inscrire en formation. Si elle expire avant, vous devez demander une nouvelle autorisation. Elle ne permet pas, en revanche, d'être employé comme agent de sécurité.",
       "L'étape suivante est le choix du titre et de l'organisme. Le titre dépend du métier que vous visez : la surveillance de sites et de magasins passe par le TFP APS, les spécialités par des titres propres. Si vous acceptez le « circuit court » lors de votre demande, votre carte professionnelle sera générée automatiquement après la réussite à l'examen.",
     ],
     liens: [

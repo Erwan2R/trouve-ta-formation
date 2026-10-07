@@ -499,7 +499,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261101_referentiel_libelles_ssiap` — libellés officiels SSIAP (« … et d’assistance à personnes »), durée TFP ASC
      affichée « 315 h minimum (490 h en partant de zéro) » ;
    - `20261102_demarches_releve_cnaps` — délai d’instruction, validité de l’autorisation préalable, fenêtre de dépôt du
-     renouvellement, date de vérification (relevé CNAPS d’Erwan du 7 octobre 2026). Coût laissé vide (introuvable).
+     renouvellement, date de vérification (relevé CNAPS d’Erwan du 7 octobre 2026). Coût laissé vide (introuvable) ;
+   - `20261103_demarches_delai_ap` — autorisation préalable : « environ une semaine » (fiche Dracar Ultimate).
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
@@ -534,11 +535,12 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
   Pas de fourchette de prix (aucun relevé fiable) : le coût renvoie aux tarifs des fiches organisme.
 - **Pages départements : les 8 textes rédigés** (faits vérifiés : aéroports, La Défense, Rungis, Disneyland Paris,
   réseau RER et métro). Une page n'apparaît qu'au-dessus du seuil d'organismes.
-- Démarches CNAPS : relevé d’Erwan intégré le 7 octobre 2026 (délais, recours, motifs de refus d’après la jurisprudence,
-  carte par activité, carte « grands évènements », carte expirée renouvelable 5 ans, circuit court). **Reste un seul
-  marqueur par page : les écrans du dépôt sur Dracar Ultimate** (2e partie du relevé). Le SSIAP a été retiré de la
-  page autorisation préalable. **Point ouvert** : faut-il une autorisation préalable pour entrer en MAC avec une carte
-  expirée ? La FAQ CNAPS ne le dit pas ; les textes n’affirment plus rien à ce sujet.
+- **Démarches CNAPS : terminées le 7 octobre 2026** d’après le relevé d’Erwan (FAQ, fiche « Demande - Autorisation
+  préalable », écrans Dracar Ultimate, page « Renouveler votre carte professionnelle » du 21/07/2026, jurisprudence).
+  Aucun marqueur ; délai, validité, fenêtre et date de vérification en base (dev). Coût introuvable, laissé vide.
+  Carte expirée : MAC dans les 12 mois avant la nouvelle demande + autorisation préalable pour suivre le MAC ;
+  traitée comme un renouvellement jusqu’à 5 ans après l’expiration. Seuls les citoyens de l’UE sont dispensés de la
+  condition de 5 ans de séjour (fiche CNAPS), pas ceux de l’EEE. **À publier** depuis la base (pas encore d’écran admin).
 - Formulaire : parcours de renouvellement d'une carte ASA (la réponse est désormais connue : certification DGAC valide
   + module de 3 h, arrêté du 27 février 2017 art. 7).
 - Pages légales : informations de la société d'Erwan (`contenu/legal/editeur.ts`), relecture juridique.

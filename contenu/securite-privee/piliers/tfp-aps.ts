@@ -40,7 +40,7 @@ export const tfpAps: ContenuPilier = {
     propres: {
       h3: "Les conditions propres au TFP APS",
       texte:
-        "Aucun diplôme ni expérience n'est demandé. La formation se suit dans un organisme titulaire d'une autorisation d'exercice du CNAPS et agréé par l'ADEF, l'association chargée par la branche professionnelle d'agréer les centres qui préparent ses titres. Un ressortissant d'un pays hors Union européenne et hors Espace économique européen ne peut demander l'autorisation préalable que s'il est titulaire d'un titre de séjour depuis au moins cinq ans.",
+        "Aucun diplôme ni expérience n'est demandé. La formation se suit dans un organisme titulaire d'une autorisation d'exercice du CNAPS et agréé par l'ADEF, l'association chargée par la branche professionnelle d'agréer les centres qui préparent ses titres. Un ressortissant d'un pays hors Union européenne ne peut demander l'autorisation préalable que s'il séjourne en France de manière régulière et continue depuis au moins cinq ans.",
     },
   },
   programme: {
@@ -100,7 +100,7 @@ export const tfpAps: ContenuPilier = {
     {
       question: "Un ressortissant d'un pays hors Union européenne peut-il préparer le TFP APS ?",
       reponse:
-        "Oui, s'il est titulaire d'un titre de séjour depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable, qui ne concerne pas les ressortissants de l'Union européenne et de l'Espace économique européen. Tout ressortissant étranger devra aussi justifier d'un niveau de français B1 pour obtenir sa carte professionnelle.",
+        "Oui, s'il séjourne en France de manière régulière et continue depuis au moins cinq ans : c'est la condition pour demander l'autorisation préalable, dont seuls les citoyens de l'Union européenne sont dispensés. Tout ressortissant étranger, européen compris, doit aussi justifier d'un niveau de français B1.",
     },
     {
       question: "Le TFP APS ouvre-t-il l'accès à d'autres titres ?",

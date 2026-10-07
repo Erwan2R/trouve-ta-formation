@@ -41,7 +41,7 @@ export const tfpA3p: ContenuPilier = {
     propres: {
       h3: "Les conditions propres au TFP A3P",
       texte:
-        "**Le niveau de français B1 est vérifié pour tous les candidats**, et non pour les seuls étrangers : votre dossier doit attester que vous comprenez le langage du métier et savez faire un compte rendu oral et écrit. Pour les ressortissants étrangers, c'est le test officiel de l'arrêté du 31 mars 2022 qui fait foi, et un titre de séjour depuis au moins cinq ans est exigé des ressortissants hors Union européenne et hors EEE pour l'autorisation préalable. La formation se suit dans un organisme titulaire d'une autorisation d'exercice du CNAPS et agréé par l'ADEF.",
+        "**Le niveau de français B1 est vérifié pour tous les candidats**, et non pour les seuls étrangers : votre dossier doit attester que vous comprenez le langage du métier et savez faire un compte rendu oral et écrit. Pour les ressortissants étrangers, c'est le test officiel de l'arrêté du 31 mars 2022 qui fait foi, et les ressortissants hors Union européenne doivent séjourner en France de manière régulière et continue depuis au moins cinq ans pour obtenir l'autorisation préalable. La formation se suit dans un organisme titulaire d'une autorisation d'exercice du CNAPS et agréé par l'ADEF.",
     },
   },
   programme: {

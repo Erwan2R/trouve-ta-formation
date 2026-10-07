@@ -7,7 +7,7 @@ describe("demarcheVisible", () => {
   it("production : non publiée, non datée ou brouillon → invisible", () => {
     expect(demarcheVisible({ ...ok, page_publiee: false }, true)).toBe(false);
     expect(demarcheVisible({ ...ok, verifie_le: null }, true)).toBe(false);
-    expect(demarcheVisible(ok, true)).toBe(false); // contenu encore marqué
+    expect(demarcheVisible(ok, true)).toBe(true); // contenu finalisé (relevé CNAPS du 07/10/2026)
   });
 
   it("production : publiée, datée, contenu finalisé → visible", () => {

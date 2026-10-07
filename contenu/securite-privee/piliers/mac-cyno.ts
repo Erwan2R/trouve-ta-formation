@@ -23,7 +23,7 @@ export const macCyno: ContenuPilier = {
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
         texte:
-          "Une carte expirée n'autorise plus l'exercice. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, elle devient une demande initiale. Dans les deux cas, l'attestation du MAC est exigée. D'ici là, vous ne pouvez plus exercer, ni avec ni sans chien.",
+          "Une carte expirée n'autorise plus l'exercice. Pour la renouveler, le MAC doit être suivi dans les douze mois qui précèdent la nouvelle demande et, votre carte n'étant plus valide, l'entrée en MAC suppose une autorisation préalable du CNAPS. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, comme une demande initiale. D'ici là, vous ne pouvez plus exercer, ni avec ni sans chien.",
       },
       {
         h3: "Un stage pour chaque chien inscrit",

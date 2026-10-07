@@ -1,7 +1,7 @@
 import type { ContenuDemarche } from "./types";
 
 // Copy_Pages_Demarches_CNAPS.md §6. Relevé CNAPS d'Erwan du 07/10/2026 (FAQ, actualité du 31/07/2026, page
-// « Renouveler votre carte professionnelle »). Reste à compléter : les écrans du dépôt sur Dracar Ultimate.
+// « Renouveler votre carte professionnelle ») et écrans Dracar Ultimate.
 export const carteProfessionnelle: ContenuDemarche = {
   etape: 3,
   title: "Carte professionnelle CNAPS : demande, pièces et délais 2026",
@@ -80,7 +80,8 @@ export const carteProfessionnelle: ContenuDemarche = {
       },
       {
         h3: "Remplir et déposer le formulaire",
-        texte: "Déroulé exact des écrans à relever sur le portail. [à compléter]",
+        texte:
+          "Dans « Déposer une demande », choisissez « Carte professionnelle », puis l'activité concernée : une seule par demande. Si vous détenez plusieurs titres, déposez une demande par activité. Préparez au format numérique la preuve de votre aptitude professionnelle, votre pièce d'identité et votre justificatif de domicile. Si vous avez accepté le « circuit court » lors de l'autorisation préalable, cette demande n'est pas nécessaire.",
       },
       {
         h3: "Suivre l'instruction depuis votre espace",

@@ -72,7 +72,13 @@ export const renouvellement: ContenuDemarche = {
   depot: {
     intro:
       "La demande se dépose depuis votre espace particulier sur Dracar Ultimate. Elle est personnelle : un employeur ne peut pas la déposer pour ses agents, et une demande groupée n'existe pas. Chaque agent dispose de son propre compte.",
-    etapes: [{ h3: "Déposer la demande", texte: "Déroulé exact des écrans à relever sur le portail. [à compléter]" }],
+    etapes: [
+      {
+        h3: "Déposer la demande",
+        texte:
+          "L'écran « Déposer une demande » de Dracar Ultimate ne propose pas de vignette « Renouvellement » distincte : suivez la fiche du CNAPS « Renouveler votre carte professionnelle ». Chaque activité se renouvelle par sa propre demande, avec l'attestation du MAC correspondant.",
+      },
+    ],
   },
   delais: {
     intro:
@@ -91,7 +97,7 @@ export const renouvellement: ContenuDemarche = {
       {
         titre: "Carte déjà expirée",
         texte:
-          "Vous ne pouvez plus exercer, mais la demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration, avec l'attestation du MAC. Au-delà de cinq ans, elle est considérée comme une demande initiale.",
+          "Vous ne pouvez plus exercer. Le MAC doit être suivi dans les douze mois qui précèdent la nouvelle demande, et votre carte n'étant plus valide, vous devez demander une autorisation préalable pour entrer en MAC. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, comme une demande initiale.",
       },
       {
         titre: "MAC manquant à l'échéance",

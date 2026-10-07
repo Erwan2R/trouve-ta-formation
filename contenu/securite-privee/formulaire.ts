@@ -220,7 +220,7 @@ export const ENCARTS = {
   "carte-expiree": {
     titre: "Votre carte est expirée",
     texte:
-      "Vous ne pouvez plus exercer tant qu'une nouvelle carte n'est pas délivrée. Votre demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, c'est une demande initiale. Dans les deux cas, suivez d'abord votre stage de maintien des compétences.",
+      "Vous ne pouvez plus exercer tant qu'une nouvelle carte n'est pas délivrée. Pour suivre votre stage de maintien, demandez d'abord une autorisation préalable au CNAPS : votre carte n'est plus valide. Le stage doit dater de moins de douze mois au moment de la demande de carte, qui reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration.",
     lien: { libelle: "Voir la démarche de renouvellement", href: RENOUVELLEMENT },
   },
 };
