@@ -27,7 +27,8 @@ export type SeuilPage = { organismes: number; palier_min: "basique" | "correct" 
  * Une page département existe si (décisions Erwan 01/10/2026 + UX géo §6-7) :
  *  - le département compte au moins `seuil.organismes` organismes au palier requis, lieu dans le département ;
  *  - son contenu propre est rédigé (et, en production, sans aucun marqueur).
- * Le seuil s'applique dans tous les environnements : une page sans inventaire n'a pas de raison d'exister.
+ * Hors production (dev, preprod, local), tout contenu rédigé est prévisualisable même sous le seuil, pour la relecture
+ * (décision Erwan du 07/10/2026) ; ces environnements sont entièrement en noindex.
  */
 export function departementVisible(
   departement: { slug: string },
@@ -36,6 +37,7 @@ export function departementVisible(
   production: boolean,
 ): boolean {
   const contenu = DEPARTEMENTS[departement.slug];
-  if (!contenu || organismesQualifies < seuil.organismes) return false;
-  return !production || sansMarqueur(contenu);
+  if (!contenu) return false;
+  if (!production) return true;
+  return organismesQualifies >= seuil.organismes && sansMarqueur(contenu);
 }

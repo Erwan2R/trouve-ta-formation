@@ -21,6 +21,7 @@ import { getCompteursAffiches } from "@/lib/supabase/queries/compteurs";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getOrganismes } from "@/lib/supabase/queries/organismes";
 import { getDepartements, getTitresParCategorie, type Departement } from "@/lib/supabase/queries/referentiel";
+import { EST_PRODUCTION } from "@/lib/env";
 import { fr } from "@/lib/typo";
 
 const majuscule = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -163,6 +164,11 @@ export async function PageDepartement({ departement: d }: { departement: Departe
 
   return (
     <main>
+      {!EST_PRODUCTION && (
+        <p className="bg-brique-700 px-7 py-2 text-center font-mono text-xs tracking-[0.08em] text-white uppercase">
+          Aperçu hors production — en ligne, la page n&apos;existe qu&apos;au-dessus du seuil d&apos;organismes
+        </p>
+      )}
       <JsonLd
         data={[
           {

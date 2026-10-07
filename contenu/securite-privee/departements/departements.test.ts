@@ -7,9 +7,9 @@ const seuil = { organismes: 3, palier_min: "correct" as const };
 const dept = { slug: "seine-saint-denis" };
 
 describe("departementVisible", () => {
-  it("sous le seuil : jamais de page, même hors production", () => {
-    expect(departementVisible(dept, 2, seuil, false)).toBe(false);
-    expect(departementVisible(dept, 0, seuil, true)).toBe(false);
+  it("sous le seuil : pas de page en production, aperçu hors production", () => {
+    expect(departementVisible(dept, 2, seuil, true)).toBe(false);
+    expect(departementVisible(dept, 0, seuil, false)).toBe(true);
   });
 
   it("au seuil : page visible, en production comme en aperçu", () => {
