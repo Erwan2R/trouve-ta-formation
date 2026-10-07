@@ -496,6 +496,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
      du 1er septembre 2025 ;
    - `20261031_referentiel_rncp_durees` — RNCP40271 (TFP ASC) et RNCP38002 (TFP A3P), les fiches 34486 et 35098 étant
      inactives ; durées SSIAP 2 (70 h), SSIAP 3 (216 h), recyclages SSIAP 2 (14 h) et 3 (21 h), MAC cynophile et A3P.
+   Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
+   Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).
