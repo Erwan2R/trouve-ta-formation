@@ -637,3 +637,34 @@ test("blog : redirections directes vers la destination finale, jamais de chaîne
 
   await db.from("articles_blog").delete().like("slug", `e2e-redir-%-${n}`);
 });
+
+test("changement d'email : envoi du lien puis confirmation au clic", async ({ page }) => {
+  test.setTimeout(120_000);
+  await connecterAdmin(page);
+  const a = (await db.from("administrateurs").select("id").eq("est_test", true).single()).data!;
+  const email = (await db.auth.admin.getUserById(a.id)).data.user!.email!;
+  // Adresse de test Resend : l'email part réellement, sans toucher une vraie boîte.
+  const nouvel = "delivered@resend.dev";
+  await db.from("liens_email").delete().eq("admin_id", a.id);
+  await page.goto(`${base}/parametres/`);
+  await page.getByRole("button", { name: "Modifier" }).first().click();
+  await page.getByLabel("Nouvel email de connexion").fill(nouvel);
+  await page.getByRole("button", { name: "Envoyer le lien de confirmation" }).click();
+  await expect(page.getByText("Cette page n'existe pas")).toHaveCount(0);
+  await expect(page.getByText(nouvel).first()).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe("/parametres/");
+
+  // Le lien de l'email : jeton connu substitué au jeton envoyé (seule son empreinte est stockée).
+  const jeton = "jeton-e2e-changement-email-admin";
+  const { createHash } = await import("node:crypto");
+  await db
+    .from("liens_email")
+    .update({ jeton_hash: createHash("sha256").update(jeton).digest("hex") })
+    .eq("admin_id", a.id)
+    .is("utilise_le", null);
+  await page.goto(`${base}/auth/verifier/?t=${jeton}`);
+  await expect(page.getByText("Cette page n'existe pas")).toHaveCount(0);
+  await page.waitForURL(/\/(parametres|connexion)\//);
+  expect((await db.auth.admin.getUserById(a.id)).data.user!.email).toBe(nouvel);
+  await db.auth.admin.updateUserById(a.id, { email, email_confirm: true });
+});

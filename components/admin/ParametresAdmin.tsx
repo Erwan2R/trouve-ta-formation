@@ -174,6 +174,13 @@ export function ParametresAdmin({
 
       <section className={`${carte} border border-line`}>
         <Titre n="01" titre="Connexion" />
+        {/* Les actions de cette section exigent une session à deux facteurs (exigerAdmin) : rien à proposer avant. */}
+        {!actif && (
+          <p className="text-[14.5px] leading-[1.6] text-ink-500">
+            L&apos;email et le mot de passe pourront être modifiés une fois l&apos;authentification à deux facteurs
+            activée.
+          </p>
+        )}
 
         <div className={bloc}>
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5">
@@ -181,7 +188,7 @@ export function ParametresAdmin({
               <span className={surtitre}>Email de connexion</span>
               <span className="text-base font-bold [overflow-wrap:anywhere]">{email}</span>
             </span>
-            {emailMode === "repos" && (
+            {emailMode === "repos" && actif && (
               <button
                 type="button"
                 className={bContour}
@@ -285,7 +292,7 @@ export function ParametresAdmin({
                 )}
               </span>
             </span>
-            {mdpMode === "repos" && (
+            {mdpMode === "repos" && actif && (
               <button
                 type="button"
                 className={bContour}
