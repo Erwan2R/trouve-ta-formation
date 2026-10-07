@@ -10,7 +10,7 @@ export type Verticale = {
   demarches: { slug: string; libelle: string; accroche: string }[];
   /**
    * Nombre d'organismes publiés à partir duquel les compteurs s'affichent (UX accueil §4 : tout ou rien).
-   * null = seuil pas encore décidé par Erwan → compteurs masqués partout.
+   * null = compteurs masqués partout. Sécurité privée : 10 (décision Erwan du 07/10/2026).
    */
   seuilCompteurs: number | null;
 };
@@ -48,7 +48,7 @@ export const VERTICALES = {
         accroche: "Valable cinq ans, elle se renouvelle après un stage de maintien des compétences.",
       },
     ],
-    seuilCompteurs: null,
+    seuilCompteurs: 10, // décision Erwan du 07/10/2026
   },
 } as const satisfies Record<string, Verticale>;
 

@@ -552,8 +552,8 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
   textes de l'accompagnement en 7 étapes.
 
 ### Décisions produit en attente
-- Seuil d'affichage des compteurs (`seuilCompteurs`).
-- Seuils provisoires à confirmer : page département (3 au palier Correct), page ville (5), élargissement (3).
+- ~~Seuils~~ tranchés le 7 octobre 2026 : compteurs affichés à partir de 10 organismes (`seuilCompteurs`), page
+  département 3 (palier Correct), page ville 5, élargissement 3 — valeurs confirmées par Erwan.
 - Note Google des organismes : reportée après le lancement.
 - Carte des lieux (géocodage) : non construite.
 - Admin : seuil d'alerte visuelle du tableau de bord (non affiché) ; historique des demandes de titre refusées (non
