@@ -1,7 +1,8 @@
 import type { ContenuDemarche } from "./types";
 
 // Copy_Pages_Demarches_CNAPS.md §7. BROUILLON : marqueurs à lever avant publication.
-// « Quand » (fenêtre de dépôt) vient de la base : champ vide tant qu'Erwan ne l'a pas vérifié sur la FAQ CNAPS.
+// Relevé CNAPS d'Erwan du 07/10/2026 (FAQ « Renouvellement et duplicata », « Dracar Ultimate », page « Renouveler
+// votre carte professionnelle »). La fenêtre de dépôt vient de la base.
 export const renouvellement: ContenuDemarche = {
   etape: 4,
   title: "Renouvellement carte professionnelle CNAPS : délais et MAC",
@@ -20,13 +21,13 @@ export const renouvellement: ContenuDemarche = {
     sommaire: "Qui et quand",
     paragraphes: [
       "Tout agent titulaire d'une carte professionnelle, cinq ans après sa délivrance.",
-      "**Le calendrier est la difficulté principale de cette démarche.** Une carte expirée interdit d'exercer, immédiatement et sans période de tolérance. Un agent sans carte valide ne peut pas être affecté à une activité de sécurité privée, et son employeur non plus ne peut pas l'y affecter.",
-      "**Le MAC se suit dans les 24 mois qui précèdent l'échéance de la carte**, et la demande de renouvellement se dépose **au moins trois mois avant cette échéance**. Un stage suivi plus tôt ne compte pas.",
+      "**Le calendrier est la difficulté principale de cette démarche.** Une carte expirée interdit d'exercer, immédiatement et sans période de tolérance. Un agent sans carte valide ne peut pas être affecté à une activité de sécurité privée.",
+      "**Le MAC se suit dans les 24 mois qui précèdent l'échéance de la carte**, et la demande de renouvellement se dépose **entre six mois et trois mois avant cette échéance** : une demande adressée plus de six mois avant n'est pas prise en compte.",
     ],
     encart: {
       surtitre: "Calendrier",
       texte:
-        "24 mois avant l'échéance : la fenêtre du MAC s'ouvre. 3 mois avant l'échéance : date limite de dépôt de la demande pour pouvoir prétendre au récépissé. À l'échéance : sans nouvelle carte ni récépissé, plus d'exercice possible.",
+        "24 mois avant l'échéance : la fenêtre du MAC s'ouvre. 6 mois avant : le dépôt de la demande s'ouvre. 3 mois avant : date limite de dépôt pour pouvoir prétendre au récépissé. À l'échéance : sans nouvelle carte ni récépissé, plus d'exercice possible.",
     },
   },
   conditions: {
@@ -90,17 +91,17 @@ export const renouvellement: ContenuDemarche = {
       {
         titre: "Carte déjà expirée",
         texte:
-          "Le renouvellement n'est plus possible : il faut déposer une nouvelle demande de carte professionnelle. Elle suppose un MAC suivi dans les douze mois précédant cette nouvelle demande, et l'entrée en MAC suppose elle-même une autorisation préalable, puisque vous ne détenez plus de carte valide.",
+          "Vous ne pouvez plus exercer, mais la demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration, avec l'attestation du MAC. Au-delà de cinq ans, elle est considérée comme une demande initiale.",
       },
       {
         titre: "MAC manquant à l'échéance",
         texte:
-          "Sans attestation MAC, le renouvellement ne peut pas aboutir. Si la carte arrive à échéance entre-temps, il faut déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent.",
+          "Sans attestation MAC, le renouvellement ne peut pas aboutir : le MAC doit être suivi avant le dépôt de la demande. Si la carte arrive à échéance entre-temps, vous ne pouvez plus exercer jusqu'à la délivrance de la nouvelle carte.",
       },
       {
         titre: "Renouvellement partiel",
         texte:
-          "Chaque activité ayant sa propre carte, chacune se renouvelle séparément : une carte dont le MAC n'a pas été suivi arrive à échéance sans empêcher le renouvellement des autres.",
+          "Selon le CNAPS, chaque activité se renouvelle indépendamment des autres, avec l'attestation du MAC qui lui correspond. Une activité dont le MAC n'a pas été suivi ne bloque donc pas, en principe, le renouvellement des autres.",
       },
     ],
   },
@@ -121,9 +122,9 @@ export const renouvellement: ContenuDemarche = {
   faqTitre: "Questions fréquentes sur le renouvellement de la carte",
   faq: [
     {
-      question: "Puis-je déposer ma demande six mois avant l'échéance ?",
+      question: "Quand puis-je déposer ma demande au plus tôt ?",
       reponse:
-        "Oui, à condition d'avoir déjà suivi votre MAC, dans les 24 mois précédant l'échéance. La règle est de déposer au moins trois mois avant l'expiration de la carte.",
+        "Oui, c'est le plus tôt possible : la demande s'ouvre six mois avant l'expiration, et une demande adressée plus tôt n'est pas prise en compte. Votre MAC doit déjà être suivi, et la demande déposée au moins trois mois avant l'échéance.",
     },
     {
       question: "Faut-il un MAC par activité ?",
@@ -143,6 +144,11 @@ export const renouvellement: ContenuDemarche = {
       question: "Que se passe-t-il si ma carte expire avant la décision ?",
       reponse:
         "Sans récépissé, vous ne pouvez plus exercer à compter de l'échéance. Le récépissé, valable trois mois et renouvelable, n'est pas automatique : d'où l'intérêt de déposer un dossier complet au moins trois mois avant l'expiration.",
+    },
+    {
+      question: "Ma carte a expiré il y a plus de cinq ans : que faire ?",
+      reponse:
+        "La demande n'est plus traitée comme un renouvellement mais comme une demande initiale de carte professionnelle. Elle suppose un MAC suivi dans les douze mois qui la précèdent.",
     },
     {
       question: "Le MAC est-il finançable par le CPF ?",

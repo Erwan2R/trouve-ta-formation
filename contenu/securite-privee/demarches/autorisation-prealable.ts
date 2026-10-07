@@ -1,6 +1,7 @@
 import type { ContenuDemarche } from "./types";
 
-// Copy_Pages_Demarches_CNAPS.md §5 et maquette « Page Demarche CNAPS ». BROUILLON : marqueurs à lever avant publication.
+// Copy_Pages_Demarches_CNAPS.md §5. Relevé CNAPS d'Erwan du 07/10/2026 (FAQ « Demande de titre », « Formation »,
+// « Militaires… », « Dracar Ultimate », rubrique Jurisprudence). Reste à compléter : les écrans du dépôt.
 export const autorisationPrealable: ContenuDemarche = {
   etape: 1,
   title: "Autorisation préalable CNAPS : conditions, pièces et démarche 2026",
@@ -19,7 +20,7 @@ export const autorisationPrealable: ContenuDemarche = {
     h2: "Qui doit demander une autorisation préalable",
     sommaire: "Qui doit la demander",
     paragraphes: [
-      "Vous devez la demander si vous voulez entrer en formation à la sécurité privée et que vous ne détenez pas de carte professionnelle en cours de validité. C'est le cas de la très grande majorité des candidats : ceux qui préparent un TFP APS, un SSIAP, un titre de spécialité, sans avoir jamais exercé.",
+      "Vous devez la demander si vous voulez entrer en formation à la sécurité privée et que vous ne détenez pas de carte professionnelle en cours de validité. C'est le cas de la très grande majorité des candidats : ceux qui préparent un TFP APS ou un titre de spécialité sans avoir jamais exercé. La sécurité incendie (SSIAP) n'est pas concernée : elle ne relève pas du CNAPS.",
       "Vous n'en avez pas besoin si vous détenez déjà une carte professionnelle valide. Un agent en poste qui suit une formation complémentaire entre en formation sans nouvelle autorisation, **sauf pour une formation au port d'arme ou à la sûreté aéroportuaire** : l'autorisation préalable reste alors exigée.",
     ],
     encart: {
@@ -37,7 +38,7 @@ export const autorisationPrealable: ContenuDemarche = {
         h3: "L'enquête administrative et le casier judiciaire",
         paragraphes: [
           "Le CNAPS consulte le bulletin n° 2 de votre casier judiciaire, le fichier de traitement des antécédents judiciaires et le fichier des personnes recherchées.",
-          "Le bulletin n° 2 ne contient pas toutes les condamnations : certaines en sont exclues, d'autres en sont effacées avec le temps. Vous pouvez le demander vous-même avant d'engager la démarche, et c'est ce qu'il faut faire si vous avez un doute. Découvrir un problème au stade de l'autorisation préalable coûte quelques semaines ; le découvrir au stade de la carte professionnelle, après avoir payé et suivi une formation, coûte beaucoup plus. [à vérifier]",
+          "Vous ne pouvez pas consulter vous-même votre bulletin n° 2 : seul le bulletin n° 3, plus restreint, est délivré aux particuliers. Si la consultation des fichiers révèle une incompatibilité possible, le CNAPS peut, dans certains cas, vous inviter à présenter vos observations avant de décider. Mieux vaut l'apprendre à ce stade, avant de payer une formation, qu'au moment de la carte professionnelle.",
           "**Une condamnation n'est pas automatiquement rédhibitoire.** Le CNAPS apprécie la nature des faits, leur ancienneté et leur compatibilité avec l'exercice du métier. Une inscription au fichier des antécédents judiciaires n'est pas une condamnation et ne ferme pas nécessairement la porte, mais elle peut suffire à motiver un refus.",
         ],
       },
@@ -45,7 +46,7 @@ export const autorisationPrealable: ContenuDemarche = {
         h3: "Nationalité et titre de séjour",
         paragraphes: [
           "Les ressortissants français et européens fournissent une pièce d'identité en cours de validité.",
-          "Les ressortissants d'un État hors Union européenne doivent disposer d'un titre de séjour en cours de validité les autorisant à travailler en France.",
+          "Les ressortissants d'un État hors Union européenne et hors Espace économique européen doivent détenir un titre de séjour depuis au moins cinq ans, sans interruption : la justice administrative a confirmé qu'une interruption non justifiée fait échouer cette condition.",
           "Tous les ressortissants étrangers, européens compris, justifient d'un niveau de français B1 et fournissent l'équivalent du bulletin n° 3 du casier judiciaire de leur pays de naissance, daté de moins de trois mois et traduit en français par un traducteur assermenté. Les bénéficiaires d'une protection internationale (réfugiés, protection subsidiaire) en sont dispensés.",
         ],
       },
@@ -91,7 +92,7 @@ export const autorisationPrealable: ContenuDemarche = {
       {
         h3: "Réunir vos pièces au format numérique",
         texte:
-          "Les documents se téléversent. Des scans lisibles évitent une demande de pièce complémentaire, qui rallonge l'instruction.",
+          "Les documents se téléversent, aux formats .jpeg, .jpg, .png, .tiff ou .pdf. Des scans lisibles évitent une demande de pièce complémentaire, qui rallonge l'instruction. Un brouillon de demande est conservé trois mois, puis supprimé automatiquement.",
       },
       {
         h3: "Remplir et déposer le formulaire",
@@ -115,7 +116,10 @@ export const autorisationPrealable: ContenuDemarche = {
     lignes: [
       ["Ce qui l'allonge", "Dossier incomplet, pièce illisible, demande de complément"],
       ["Suivre son dossier", "Depuis l'espace usager, rubrique de suivi et messagerie interne"],
-      ["Sans réponse prolongée", "Canal et délai de relance [à compléter]"],
+      [
+        "Sans réponse prolongée",
+        "Messagerie de votre espace Dracar Ultimate ; à défaut, délégation territoriale de votre lieu de résidence. Le CNAPS n'indique pas de délai de relance.",
+      ],
     ],
   },
   refus: {
@@ -124,7 +128,7 @@ export const autorisationPrealable: ContenuDemarche = {
       {
         titre: "Les motifs de refus les plus fréquents",
         texte:
-          "À documenter depuis le recueil de décisions et la rubrique jurisprudence publiés par le CNAPS. [à compléter]",
+          "Les décisions publiées par le CNAPS et confirmées par la justice administrative portent surtout sur des violences, y compris conjugales, sur mineur ou sur une personne dépositaire de l'autorité publique, même lorsqu'elles n'ont donné lieu qu'à un rappel à la loi ; des infractions routières récentes et répétées (conduite sans permis, refus d'obtempérer) ; le faux et l'escroquerie ; les agressions sexuelles, y compris en l'absence de condamnation lorsque les faits ne sont pas sérieusement contestés ; et une interruption du titre de séjour.",
       },
       {
         titre: "Les voies de recours",
@@ -134,7 +138,7 @@ export const autorisationPrealable: ContenuDemarche = {
       {
         titre: "Cas particuliers",
         liste: [
-          "Militaires, policiers et gendarmes, en activité ou en réserve : le CNAPS leur consacre une rubrique dédiée [à compléter]",
+          "Militaires, policiers et gendarmes : le CNAPS leur consacre une rubrique de sa FAQ. Les réservistes de la garde nationale relèvent de conditions particulières (article R. 612-41-1 du code de la sécurité intérieure) : trois ans de service au moins, au moins 110 jours d'activité dont 20 en missions opérationnelles, et une formation fixée par arrêté",
           "Demande après un refus antérieur",
           "Changement de situation en cours d'instruction",
         ],
@@ -144,8 +148,8 @@ export const autorisationPrealable: ContenuDemarche = {
   ensuite: {
     h2: "Une fois l'autorisation obtenue",
     paragraphes: [
-      "Votre autorisation est valable six mois. C'est votre fenêtre pour entrer en formation — au-delà, la démarche est à refaire.",
-      "L'étape suivante est le choix du titre et de l'organisme. Le titre dépend du métier que vous visez : la surveillance de sites et de magasins passe par le TFP APS, la sécurité incendie par le SSIAP 1, les spécialités par des titres propres.",
+      "Votre autorisation est valable six mois, durée stricte. C'est votre fenêtre pour entrer en formation : si elle expire avant, vous devez demander une nouvelle autorisation.",
+      "L'étape suivante est le choix du titre et de l'organisme. Le titre dépend du métier que vous visez : la surveillance de sites et de magasins passe par le TFP APS, les spécialités par des titres propres. Si vous acceptez le « circuit court » lors de votre demande, votre carte professionnelle sera générée automatiquement après la réussite à l'examen.",
     ],
     liens: [
       { href: "organismes/", libelle: "Trouver un organisme en Île-de-France" },
@@ -156,7 +160,6 @@ export const autorisationPrealable: ContenuDemarche = {
     h2: "Les formations accessibles avec une autorisation préalable",
     titres: [
       { slug: "tfp-aps", texte: "Surveillance de sites et de magasins" },
-      { slug: "ssiap-1", texte: "Sécurité incendie en ERP et IGH" },
       { slug: "tfp-asc", texte: "Agent de sécurité cynophile" },
       { slug: "tfp-asa", texte: "Agent de sûreté aéroportuaire" },
       { slug: "tfp-a3p", texte: "Protection physique des personnes" },
@@ -190,7 +193,8 @@ export const autorisationPrealable: ContenuDemarche = {
     },
     {
       question: "Que faire si je n'ai pas de réponse ?",
-      reponse: "Délai au-delà duquel relancer et canal de relance à confirmer auprès du CNAPS. [à compléter]",
+      reponse:
+        "Passez par la messagerie de votre espace Dracar Ultimate, liée à votre demande en cours ; sans messagerie, adressez-vous à la délégation territoriale de votre lieu de résidence. Le CNAPS n'indique pas de délai de relance, mais un silence de plus de deux mois après l'enregistrement de la demande vaut rejet implicite, que vous pouvez contester.",
     },
   ],
 };

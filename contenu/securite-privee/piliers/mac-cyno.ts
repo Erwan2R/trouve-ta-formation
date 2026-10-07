@@ -23,7 +23,7 @@ export const macCyno: ContenuPilier = {
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
         texte:
-          "Une carte expirée ne se renouvelle plus : il faut déposer une nouvelle demande de carte professionnelle, avec un stage suivi dans les douze mois qui la précèdent. D'ici là, vous ne pouvez plus exercer, ni avec ni sans chien.",
+          "Une carte expirée n'autorise plus l'exercice. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, elle devient une demande initiale. Dans les deux cas, l'attestation du MAC est exigée. D'ici là, vous ne pouvez plus exercer, ni avec ni sans chien.",
       },
       {
         h3: "Un stage pour chaque chien inscrit",
@@ -36,7 +36,7 @@ export const macCyno: ContenuPilier = {
     premiere: {
       h3: "Une carte professionnelle en cours de validité",
       texte:
-        "Le MAC s'adresse aux agents cynophiles déjà titulaires de leur carte. Si elle est expirée, une nouvelle demande de carte sera nécessaire.",
+        "Le MAC s'adresse aux agents titulaires d'une carte cynophile. Il se suit avant le dépôt de la demande de renouvellement, qui s'ouvre six mois avant l'expiration de la carte.",
     },
     propres: {
       h3: "Les conditions propres au MAC cynophile",

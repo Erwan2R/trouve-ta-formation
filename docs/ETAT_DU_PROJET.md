@@ -497,7 +497,9 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261031_referentiel_rncp_durees` — RNCP40271 (TFP ASC) et RNCP38002 (TFP A3P), les fiches 34486 et 35098 étant
      inactives ; durées SSIAP 2 (70 h), SSIAP 3 (216 h), recyclages SSIAP 2 (14 h) et 3 (21 h), MAC cynophile et A3P.
    - `20261101_referentiel_libelles_ssiap` — libellés officiels SSIAP (« … et d’assistance à personnes »), durée TFP ASC
-     affichée « 315 h minimum (490 h en partant de zéro) ».
+     affichée « 315 h minimum (490 h en partant de zéro) » ;
+   - `20261102_demarches_releve_cnaps` — délai d’instruction, validité de l’autorisation préalable, fenêtre de dépôt du
+     renouvellement, date de vérification (relevé CNAPS d’Erwan du 7 octobre 2026). Coût laissé vide (introuvable).
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
@@ -532,10 +534,11 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
   Pas de fourchette de prix (aucun relevé fiable) : le coût renvoie aux tarifs des fiches organisme.
 - **Pages départements : les 8 textes rédigés** (faits vérifiés : aéroports, La Défense, Rungis, Disneyland Paris,
   réseau RER et métro). Une page n'apparaît qu'au-dessus du seuil d'organismes.
-- Démarches CNAPS : restent marqués (et donc non publiés) le déroulé des écrans Dracar Ultimate (nécessite un
-  compte), les motifs de refus, la rubrique militaires/policiers, le canal de relance, l'extension d'activité, la carte
-  « grands événements », le renouvellement partiel ; en base, délai d'instruction, coût et date de vérification vides.
-  Le site du CNAPS bloque la lecture automatique : ces points sont à relever par Erwan.
+- Démarches CNAPS : relevé d’Erwan intégré le 7 octobre 2026 (délais, recours, motifs de refus d’après la jurisprudence,
+  carte par activité, carte « grands évènements », carte expirée renouvelable 5 ans, circuit court). **Reste un seul
+  marqueur par page : les écrans du dépôt sur Dracar Ultimate** (2e partie du relevé). Le SSIAP a été retiré de la
+  page autorisation préalable. **Point ouvert** : faut-il une autorisation préalable pour entrer en MAC avec une carte
+  expirée ? La FAQ CNAPS ne le dit pas ; les textes n’affirment plus rien à ce sujet.
 - Formulaire : parcours de renouvellement d'une carte ASA (la réponse est désormais connue : certification DGAC valide
   + module de 3 h, arrêté du 27 février 2017 art. 7).
 - Pages légales : informations de la société d'Erwan (`contenu/legal/editeur.ts`), relecture juridique.

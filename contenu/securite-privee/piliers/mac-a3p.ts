@@ -23,7 +23,7 @@ export const macA3p: ContenuPilier = {
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
         texte:
-          "La carte expirée ne se renouvelle plus : il faut une nouvelle demande de carte professionnelle, avec un stage suivi dans les douze mois qui la précèdent. Entre-temps, vous ne pouvez plus exercer.",
+          "Une carte expirée n'autorise plus l'exercice. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, elle devient une demande initiale. Dans les deux cas, l'attestation du MAC est exigée.",
       },
       {
         h3: "Un stage par activité détenue",
@@ -36,7 +36,7 @@ export const macA3p: ContenuPilier = {
     premiere: {
       h3: "Une carte professionnelle en cours de validité",
       texte:
-        "Le MAC s'adresse aux agents déjà titulaires de la carte de protection physique des personnes. Si elle est expirée, une nouvelle demande de carte sera nécessaire.",
+        "Le MAC s'adresse aux agents titulaires de la carte de protection physique des personnes. Il se suit avant le dépôt de la demande de renouvellement, qui s'ouvre six mois avant l'expiration de la carte.",
     },
     propres: {
       h3: "Les conditions propres au MAC A3P",

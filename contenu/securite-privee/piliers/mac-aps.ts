@@ -23,7 +23,7 @@ export const macAps: ContenuPilier = {
       {
         h3: "Ce qui se passe si vous dépassez l'échéance",
         texte:
-          "Une carte expirée n'autorise plus l'exercice et ne se renouvelle plus : il faut déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent. Sans carte valide, l'entrée en MAC suppose une autorisation préalable du CNAPS.",
+          "Une carte expirée n'autorise plus l'exercice. La demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, elle devient une demande initiale. Dans les deux cas, l'attestation du MAC est exigée.",
       },
       {
         h3: "Un stage par activité détenue",
@@ -36,7 +36,7 @@ export const macAps: ContenuPilier = {
     premiere: {
       h3: "Une carte professionnelle en cours de validité",
       texte:
-        "Le MAC s'adresse aux agents déjà titulaires. Si votre carte est déjà expirée, il reste possible, mais il faut d'abord obtenir une autorisation préalable du CNAPS.",
+        "Le MAC s'adresse aux agents titulaires d'une carte de surveillance. Il se suit avant le dépôt de la demande de renouvellement, qui s'ouvre six mois avant l'expiration de la carte.",
     },
     propres: {
       h3: "Les conditions propres au MAC APS",
@@ -97,7 +97,7 @@ export const macAps: ContenuPilier = {
     {
       question: "J'ai laissé ma carte expirer : puis-je encore faire un MAC ?",
       reponse:
-        "Oui. Il faudra déposer une nouvelle demande de carte professionnelle, avec un MAC suivi dans les douze mois qui la précèdent. Comme vous ne détenez plus de carte valide, l'entrée en MAC suppose d'abord une autorisation préalable du CNAPS.",
+        "Oui. Selon le CNAPS, une demande déposée après l'expiration est encore traitée comme un renouvellement jusqu'à cinq ans après celle-ci, avec l'attestation du MAC ; au-delà, c'est une demande initiale. En attendant la nouvelle carte, vous ne pouvez pas exercer.",
     },
   ],
 };

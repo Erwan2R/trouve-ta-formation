@@ -215,11 +215,12 @@ export const ENCARTS = {
       "C'est l'autorisation du CNAPS qui permet d'entrer en formation. Vous ne pouvez pas entrer en formation sans elle. Elle se demande en ligne auprès du CNAPS, et son instruction prend du temps. Faites cette démarche avant de contacter un organisme.",
     lien: { libelle: "Voir comment faire la demande", href: AUTORISATION },
   },
-  // Copy §9 : carte expirée = nouvelle demande (vérifié par Erwan le 02/10/2026, arrêté du 27 février 2017 art. 3).
+  // Copy §9 : carte expirée = renouvellement jusqu'à 5 ans après l'expiration, au-delà demande initiale (FAQ CNAPS
+  // « Dracar Ultimate », relevé d'Erwan du 07/10/2026).
   "carte-expiree": {
     titre: "Votre carte est expirée",
     texte:
-      "Vous ne pouvez plus exercer, et votre carte ne peut plus être renouvelée. Il faut déposer une nouvelle demande de carte professionnelle, avec un stage de maintien suivi dans les douze mois qui la précèdent. Pour entrer en stage, demandez d'abord une autorisation préalable au CNAPS.",
+      "Vous ne pouvez plus exercer tant qu'une nouvelle carte n'est pas délivrée. Votre demande reste traitée comme un renouvellement jusqu'à cinq ans après l'expiration ; au-delà, c'est une demande initiale. Dans les deux cas, suivez d'abord votre stage de maintien des compétences.",
     lien: { libelle: "Voir la démarche de renouvellement", href: RENOUVELLEMENT },
   },
 };

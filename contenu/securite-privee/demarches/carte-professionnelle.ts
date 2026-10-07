@@ -1,6 +1,7 @@
 import type { ContenuDemarche } from "./types";
 
-// Copy_Pages_Demarches_CNAPS.md §6. BROUILLON : marqueurs à lever avant publication.
+// Copy_Pages_Demarches_CNAPS.md §6. Relevé CNAPS d'Erwan du 07/10/2026 (FAQ, actualité du 31/07/2026, page
+// « Renouveler votre carte professionnelle »). Reste à compléter : les écrans du dépôt sur Dracar Ultimate.
 export const carteProfessionnelle: ContenuDemarche = {
   etape: 3,
   title: "Carte professionnelle CNAPS : demande, pièces et délais 2026",
@@ -19,7 +20,7 @@ export const carteProfessionnelle: ContenuDemarche = {
     h2: "Qui doit demander une carte professionnelle",
     sommaire: "Qui doit la demander",
     paragraphes: [
-      "Toute personne exerçant une activité de sécurité privée doit détenir une carte professionnelle : surveillance et gardiennage, sécurité incendie, agent cynophile, opérateur de vidéoprotection, protection physique des personnes, transport de fonds.",
+      "Toute personne exerçant une activité de sécurité privée relevant du CNAPS doit détenir une carte professionnelle, par exemple surveillance et gardiennage, agent cynophile, protection physique des personnes, sûreté aéroportuaire ou transport de fonds. La sécurité incendie (SSIAP) n'en relève pas : c'est le diplôme qui ouvre l'emploi.",
       "La carte est **nominative et attachée à vous**, pas à votre employeur. Un changement d'entreprise ne suppose aucune nouvelle demande : vous conservez votre carte.",
       "Exercer sans carte valide expose l'agent comme son employeur à des sanctions disciplinaires du CNAPS, et peut entraîner la rupture du contrat de travail de l'agent.",
     ],
@@ -49,7 +50,7 @@ export const carteProfessionnelle: ContenuDemarche = {
       {
         h3: "La nouvelle spécialité « surveillance de grands événements »",
         paragraphes: [
-          "Le CNAPS a annoncé fin juillet 2026 la pérennisation de cette carte, créée pour la Coupe du monde de rugby et les Jeux. [à compléter]",
+          "Le décret n° 2026-670 du 27 juillet 2026 crée une spécialité « surveillance de grands évènements », pour les manifestations sportives, récréatives, culturelles ou économiques de plus de 300 personnes. Elle donne lieu à une carte professionnelle spécifique, délivrée après une formation adaptée, et ne permet pas d'exercer la surveillance en dehors de ces manifestations. Une passerelle vers la surveillance et le gardiennage doit être fixée par arrêté. Les titulaires de l'ancienne carte « Surveillance grands évènements » sont réputés détenir la nouvelle jusqu'à la fin de sa validité.",
         ],
       },
     ],
@@ -146,8 +147,9 @@ export const carteProfessionnelle: ContenuDemarche = {
       reponse: "Non. Elle est nominative et vous suit d'une entreprise à l'autre.",
     },
     {
-      question: "Puis-je demander plusieurs activités sur la même carte ?",
-      reponse: "Oui, à condition de détenir le titre correspondant à chacune.",
+      question: "Puis-je avoir plusieurs activités sur la même carte ?",
+      reponse:
+        "Non. Depuis Dracar Ultimate, chaque activité fait l'objet d'une demande et d'une carte distinctes, à condition de détenir le titre correspondant à chacune. On ne peut plus ajouter une activité à une carte existante.",
     },
     {
       question: "Puis-je travailler pendant l'instruction de ma demande ?",
@@ -156,8 +158,16 @@ export const carteProfessionnelle: ContenuDemarche = {
     },
     {
       question: "Que se passe-t-il si je change d'adresse ?",
+      reponse: "Vous devez le signaler au CNAPS, depuis la messagerie de votre espace Dracar Ultimate.",
+    },
+    {
+      question: "Dois-je redemander une carte après l'examen si j'ai choisi le « circuit court » ?",
       reponse:
-        "Vous devez le signaler au CNAPS, par la démarche « Signaler un changement de coordonnées personnelles », en joignant notamment une copie de votre titre d'identité et votre numéro de titre CNAPS.",
+        "Non. Si vous avez accepté le « circuit court » lors de votre demande d'autorisation préalable, la carte professionnelle est générée automatiquement une fois votre réussite à l'examen enregistrée par le CNAPS.",
+    },
+    {
+      question: "À quel nom la carte est-elle délivrée ?",
+      reponse: "Uniquement au nom de naissance, selon le CNAPS.",
     },
     {
       question: "Comment un employeur vérifie-t-il ma carte ?",
