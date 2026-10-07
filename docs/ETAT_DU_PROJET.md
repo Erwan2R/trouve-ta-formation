@@ -504,6 +504,8 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261104_demarches_delai_carte` — carte professionnelle : « quatre jours ouvrés » (fiche Dracar Ultimate).
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
+   Publier aussi les 3 démarches CNAPS (publiées sur dev le 7 octobre 2026) : `update demarches set page_publiee = true`
+   (les champs délai, validité, fenêtre et date de vérification viennent des migrations 20261102 à 20261104).
    Ensuite : créer le compte admin (`creer-admin.mjs --projet=prod`, adresse choisie par Erwan), configurer le 2FA à la
    première connexion ; créer un deploy hook pour `main` et la variable `VERCEL_DEPLOY_HOOK_URL` de production.
    Ne jamais lancer `seed-blog-test.mjs` ni les tests Playwright sur la production (ils le refusent).
@@ -541,7 +543,7 @@ relecture juridique des pages légales, boîte email professionnelle à la créa
   Aucun marqueur ; délai, validité, fenêtre et date de vérification en base (dev). Coût introuvable, laissé vide.
   Carte expirée : MAC dans les 12 mois avant la nouvelle demande + autorisation préalable pour suivre le MAC ;
   traitée comme un renouvellement jusqu’à 5 ans après l’expiration. Seuls les citoyens de l’UE sont dispensés de la
-  condition de 5 ans de séjour (fiche CNAPS), pas ceux de l’EEE. **À publier** depuis la base (pas encore d’écran admin).
+  condition de 5 ans de séjour (fiche CNAPS), pas ceux de l’EEE. Publiées sur dev le 7 octobre 2026 (pas d’écran admin de publication pour les démarches).
 - Formulaire : parcours de renouvellement d'une carte ASA (la réponse est désormais connue : certification DGAC valide
   + module de 3 h, arrêté du 27 février 2017 art. 7).
 - Pages légales : informations de la société d'Erwan (`contenu/legal/editeur.ts`), relecture juridique.
