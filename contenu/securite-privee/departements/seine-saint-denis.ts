@@ -12,19 +12,20 @@ export const seineSaintDenis: ContenuDepartement = {
       h3: "Le bassin d'emploi",
       paragraphes: [
         "Roissy-Charles de Gaulle s'étend en partie sur la commune de Tremblay-en-France, et parmi les trois départements sur lesquels s'étend l'aéroport, c'est en Seine-Saint-Denis que résident le plus de salariés de la plateforme : 19 %, contre 16 % pour le Val-d'Oise et la Seine-et-Marne, selon l'Insee (décembre 2025). L'aéroport de Paris-Le Bourget, premier aéroport d'affaires d'Europe selon son exploitant, s'étend sur 553 hectares. Les métiers de la sûreté aéroportuaire y sont donc à portée, avec leurs conditions propres.",
-        "Le Stade de France et les grands équipements du département emploient, eux, des agents pour l'événementiel : contrôle d'accès, filtrage, palpations de sécurité. Ces missions relèvent de la carte de surveillance obtenue avec le TFP APS. Pour un même agent, ces deux univers ne demandent pas la même qualification : la sûreté aéroportuaire suppose une certification de la DGAC en plus de la carte professionnelle.",
+        "Le Stade de France, le Centre aquatique olympique à Saint-Denis et le parc des expositions Paris Nord Villepinte emploient, eux, des agents pour l'événementiel : contrôle d'accès et filtrage des spectateurs ou des visiteurs, gestion des flux les jours de match, de concert ou de salon. Ces missions relèvent de la carte de surveillance obtenue avec le TFP APS.",
       ],
     },
     {
       h3: "Accéder aux centres de formation",
       paragraphes: [
-        "Le département est traversé par les RER B, D et E, et par les lignes de métro 5, 9, 13 et 14. Depuis juin 2024, la ligne 14 dessert Saint-Denis Pleyel et rejoint Paris puis l'aéroport d'Orly en une quarantaine de minutes. Le RER B relie aussi le département à l'aéroport Charles de Gaulle. Pour une formation de plusieurs semaines, vérifiez le trajet réel entre votre domicile et le centre, aux horaires des cours.",
+        "Le département est traversé par les RER A, B, D et E, par les lignes de métro 3, 5, 7, 9, 11, 12, 13 et 14, et par plusieurs lignes de tramway, dont le T1 et le T11. Depuis juin 2024, la ligne 14 dessert Saint-Denis Pleyel et rejoint Paris puis l'aéroport d'Orly en une quarantaine de minutes. Le RER B relie aussi le département à l'aéroport Charles de Gaulle. Les lignes de tramway et de bus qui relient les villes entre elles, sans passer par Paris, comptent autant que le métro pour rejoindre un centre situé dans une autre commune du département.",
       ],
     },
     {
       h3: "Ce qui distingue la Seine-Saint-Denis",
+      lienTitre: "tfp-asa",
       paragraphes: [
-        "C'est l'un des départements où un candidat peut viser, près de chez lui, aussi bien un poste d'agent de sûreté aéroportuaire qu'un poste événementiel ou de surveillance classique. Avant de choisir une formation, regardez quel employeur vous visez : le TFP ASA exige une nationalité française ou européenne et une lettre d'intention d'embauche avant même d'entrer en formation, alors que le TFP APS ouvre sur l'ensemble des postes de surveillance.",
+        "C'est l'un des départements où un candidat peut viser, près de chez lui, aussi bien un poste d'agent de sûreté aéroportuaire qu'un poste événementiel ou de surveillance classique. Avant de choisir une formation, regardez donc quel employeur vous visez. La sûreté aéroportuaire se prépare avec une entreprise du secteur, et ses conditions d'entrée sont détaillées sur la page du TFP ASA, tandis que le TFP APS ouvre sur l'ensemble des postes de surveillance.",
       ],
     },
   ],
