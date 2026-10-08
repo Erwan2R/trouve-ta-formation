@@ -30,6 +30,6 @@ export const seineSaintDenis: ContenuDepartement = {
     },
   ],
   acces:
-    "La Seine-Saint-Denis est desservie par les RER B, D et E et par les lignes de métro 5, 9, 13 et 14. La ligne 14, prolongée jusqu'à Saint-Denis Pleyel en juin 2024, relie le département à Paris et à l'aéroport d'Orly.",
+    "La Seine-Saint-Denis est desservie par les RER A, B, D et E, les lignes de métro 3, 5, 7, 9, 11, 12, 13 et 14 et plusieurs lignes de tramway, dont le T1 et le T11. Depuis juin 2024, la ligne 14 relie Saint-Denis Pleyel à Paris et à l'aéroport d'Orly.",
   ancreSeFormer: "Se former dans le 93",
 };
