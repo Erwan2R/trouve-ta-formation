@@ -5,13 +5,13 @@ import type { ContenuDepartement } from "./types";
 // SSIAP 2 et 3), RER A, B et C, métro 1 et 13, tramway T2.
 export const hautsDeSeine: ContenuDepartement = {
   chapo: [
-    "Les Hauts-de-Seine accueillent La Défense, présenté par son gestionnaire comme le premier quartier d'affaires d'Europe : environ 200 000 salariés et 75 immeubles de grande hauteur. Dans ces tours, la sécurité incendie est une obligation permanente, qui emploie des agents mais aussi des chefs d'équipe et des chefs de service.",
+    "Les Hauts-de-Seine accueillent La Défense, présenté par son gestionnaire comme le premier quartier d'affaires d'Europe : environ 200 000 salariés et 75 tours, dont 8 des 10 plus hautes de France. Dans ces tours, la sécurité incendie est une obligation permanente, qui emploie des agents mais aussi des chefs d'équipe et des chefs de service.",
   ],
   seFormer: [
     {
       h3: "Le bassin d'emploi",
       paragraphes: [
-        "Un immeuble de grande hauteur doit disposer d'un service de sécurité incendie permanent. À La Défense, avec 75 de ces immeubles, les postes ne se limitent pas aux agents SSIAP 1 : ces services emploient aussi des chefs d'équipe SSIAP 2, qui dirigent le poste de sécurité, et des chefs de service SSIAP 3, qui conseillent l'exploitant et suivent les contrôles réglementaires.",
+        "Un immeuble de grande hauteur doit disposer d'un service de sécurité incendie permanent. À La Défense, qui compte 75 tours, les postes ne se limitent pas aux agents SSIAP 1 : ces services emploient aussi des chefs d'équipe SSIAP 2, qui dirigent le poste de sécurité, et des chefs de service SSIAP 3, qui conseillent l'exploitant et suivent les contrôles réglementaires.",
         "Les sièges sociaux et les immeubles de bureaux du département emploient aussi des agents d'accueil et de contrôle d'accès, titulaires de la carte de surveillance obtenue avec le TFP APS.",
       ],
     },
