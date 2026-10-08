@@ -12,14 +12,14 @@ export const paris: ContenuDepartement = {
       h3: "Le bassin d'emploi",
       paragraphes: [
         "Les employeurs parisiens de la sécurité se répartissent entre les entreprises de sécurité privée, qui placent leurs agents chez des clients, et les établissements qui gèrent leur propre service. Les postes couvrent l'accueil et le contrôle d'accès des immeubles de bureaux, la surveillance des commerces, la sécurité des événements et le service de sécurité incendie des établissements recevant du public.",
-        "Ce dernier service répond à une obligation réglementaire : selon leur catégorie, les établissements recevant du public doivent disposer d'agents qualifiés SSIAP, encadrés par des chefs d'équipe et, dans les plus grands, par un chef de service. À Paris, les deux filières, surveillance avec le TFP APS et incendie avec le SSIAP, se côtoient donc au quotidien. L'événementiel y tient aussi une place à part : salles de spectacle, musées et parcs d'exposition filtrent leurs entrées. Le TFP APS y prépare avec 14 heures consacrées aux grands rassemblements, dont l'inspection visuelle des bagages et la palpation de sécurité, pratiquées dans un cadre légal précis.",
+        "Ce dernier service répond à une obligation réglementaire : selon leur catégorie, les établissements recevant du public doivent disposer d'agents qualifiés SSIAP, encadrés par des chefs d'équipe et, dans les plus grands, par un chef de service. À Paris, les deux filières, surveillance avec le TFP APS et incendie avec le SSIAP, se côtoient donc au quotidien.",
       ],
     },
     {
       h3: "Accéder aux centres de formation",
       paragraphes: [
         "Toutes les lignes de métro et les cinq lignes de RER traversent Paris : un centre parisien reste accessible en transports en commun depuis l'ensemble de la région. Depuis juin 2024, la ligne 14 relie aussi directement Saint-Denis Pleyel, au nord, à l'aéroport d'Orly, au sud.",
-        "La formation se déroule en présentiel, sur plusieurs semaines pour un titre d'entrée : comparez le temps de trajet quotidien entre votre domicile et le centre, aux horaires des cours, et pas seulement la distance. Pour le TFP APS, les 175 heures minimales représentent au moins cinq semaines à temps plein : sur une telle durée, la différence entre quarante minutes et une heure et demie de trajet pèse chaque jour.",
+        "La formation se déroule en présentiel, sur plusieurs semaines pour un titre d'entrée : comparez le temps de trajet quotidien entre votre domicile et le centre, aux horaires des cours, et pas seulement la distance.",
       ],
     },
     {

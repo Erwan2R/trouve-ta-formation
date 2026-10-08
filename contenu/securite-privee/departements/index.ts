@@ -21,6 +21,14 @@ export const DEPARTEMENTS: Record<string, ContenuDepartement> = {
   "val-d-oise": valDOise,
 };
 
+/** Mots du bloc 7 : « pas de 300 mots spécifiques, pas de page » (Copy géo §13). */
+export const motsBloc7 = (c: ContenuDepartement) =>
+  c.seFormer
+    .flatMap((s) => s.paragraphes)
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+
 export type SeuilPage = { organismes: number; palier_min: "basique" | "correct" | "optimal" };
 
 /**
@@ -39,5 +47,5 @@ export function departementVisible(
   const contenu = DEPARTEMENTS[departement.slug];
   if (!contenu) return false;
   if (!production) return true;
-  return organismesQualifies >= seuil.organismes && sansMarqueur(contenu);
+  return organismesQualifies >= seuil.organismes && sansMarqueur(contenu) && motsBloc7(contenu) >= 300;
 }

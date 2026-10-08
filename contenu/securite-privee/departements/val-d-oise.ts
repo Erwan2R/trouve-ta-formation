@@ -10,8 +10,8 @@ export const valDOise: ContenuDepartement = {
     {
       h3: "Le bassin d'emploi",
       paragraphes: [
-        "Roissy-Charles de Gaulle s'étend sur trois départements, dont le Val-d'Oise, où résident 16 % de ses 94 600 salariés selon l'Insee (décembre 2025). Les entreprises de sûreté aéroportuaire y recrutent des agents d'exploitation et des opérateurs de sûreté, certifiés par typologie de missions : inspection-filtrage des passagers, des bagages, du fret, contrôle des accès côté piste. La certification se passe à l'issue d'une formation initiale dont la DGAC fixe la durée minimale par typologie, de 109 h 30 à 136 heures selon l'étendue des contrôles, dont 38 à 50 heures d'analyse d'images sur simulateur. L'examen est organisé par l'École nationale de l'aviation civile.",
-        "Hors de la zone aéroportuaire, le département offre des postes de surveillance plus classiques, sur des sites d'entreprise, des commerces ou des établissements recevant du public, où la carte de surveillance et le SSIAP 1 restent les qualifications d'entrée.",
+        "Roissy-Charles de Gaulle s'étend sur trois départements, dont le Val-d'Oise, où résident 16 % de ses 94 600 salariés selon l'Insee (décembre 2025). Les entreprises de sûreté aéroportuaire y recrutent des agents d'exploitation et des opérateurs de sûreté, certifiés par typologie de missions : inspection-filtrage des passagers, des bagages, du fret, contrôle des accès côté piste.",
+        "Hors de la zone aéroportuaire, le département offre des postes de surveillance plus classiques, sur des sites d'entreprise, des commerces ou des établissements recevant du public.",
       ],
     },
     {
@@ -22,8 +22,9 @@ export const valDOise: ContenuDepartement = {
     },
     {
       h3: "Ce qui distingue le Val-d'Oise",
+      lienTitre: "tfp-asa",
       paragraphes: [
-        "La proximité de Roissy rend le TFP ASA accessible, mais il ne se prépare pas comme les autres titres : il faut être de nationalité française ou européenne, ne faire l'objet d'aucune inscription au bulletin n° 3 du casier judiciaire et détenir une lettre d'intention d'embauche d'une entreprise de sûreté aérienne avant d'entrer en formation. Le projet se construit donc d'abord avec un employeur, puis avec un centre. L'autorisation préalable ou provisoire du CNAPS doit aussi être obtenue avant l'entrée en formation : anticipez sa demande, dont l'instruction prend du temps. Une fois en poste, l'employeur organise chaque année une formation périodique obligatoire.",
+        "La proximité de Roissy rend le TFP ASA cohérent comme projet local, mais il ne se prépare pas comme les autres titres : le projet se construit d'abord avec un employeur de la sûreté aérienne, puis avec un centre. Les conditions d'entrée sont détaillées sur la page du TFP ASA.",
       ],
     },
   ],

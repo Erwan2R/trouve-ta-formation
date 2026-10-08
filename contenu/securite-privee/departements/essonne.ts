@@ -4,14 +4,13 @@ import type { ContenuDepartement } from "./types";
 // jusqu'à l'aéroport d'Orly desservant l'Essonne depuis le 24 juin 2024 (RATP), RER B, C et D.
 export const essonne: ContenuDepartement = {
   chapo: [
-    "L'Essonne partage avec le Val-de-Marne l'aéroport d'Orly, dont une partie s'étend sur Paray-Vieille-Poste et Athis-Mons. Le reste du département, de Massy à Évry-Courcouronnes et jusqu'au sud rural, offre surtout des postes de surveillance de sites et d'établissements recevant du public.",
+    "L'Essonne partage avec le Val-de-Marne l'aéroport d'Orly, dont l'emprise s'étend notamment sur Paray-Vieille-Poste et Athis-Mons. Le reste du département, de Massy à Évry-Courcouronnes et jusqu'au sud rural, offre surtout des postes de surveillance de sites et d'établissements recevant du public.",
   ],
   seFormer: [
     {
       h3: "Le bassin d'emploi",
       paragraphes: [
-        "Au nord, la zone d'Orly concentre les métiers de la sûreté aéroportuaire, qui demandent un TFP ASA et une certification par typologie de missions. L'entrée en formation y suppose une lettre d'intention d'embauche d'une entreprise de sûreté aérienne. Plus au sud, les employeurs de la sécurité interviennent sur des sites d'entreprise, des zones commerciales et des établissements recevant du public, où la carte de surveillance et le SSIAP 1 sont les qualifications d'entrée. L'aéroport d'Orly étant partagé avec le Val-de-Marne, ses employeurs recrutent des deux côtés de la limite départementale. Évry-Courcouronnes, chef-lieu du département, est desservie par le RER D.",
-        "Sur les sites surveillés en ronde, l'agent travaille souvent seul : le programme du TFP APS consacre d'ailleurs un module à la protection du travailleur isolé et un autre aux systèmes de contrôle des rondes.",
+        "Au nord, la zone d'Orly concentre les métiers de la sûreté aéroportuaire, qui demandent un TFP ASA et une certification par typologie de missions. Plus au sud, les employeurs de la sécurité interviennent sur des sites d'entreprise, des zones commerciales et des établissements recevant du public. L'aéroport d'Orly étant partagé avec le Val-de-Marne, ses employeurs recrutent des deux côtés de la limite départementale.",
       ],
     },
     {
@@ -23,7 +22,7 @@ export const essonne: ContenuDepartement = {
     {
       h3: "Ce qui distingue l'Essonne",
       paragraphes: [
-        "La structure en branches de RER. Deux centres distants de quelques kilomètres peuvent être sur deux branches différentes, et donc à des temps de trajet très différents de chez vous. Avant de choisir, repérez sur quelle ligne se trouve chaque centre et si votre trajet passe par Massy ou Juvisy. Pour le SSIAP 1, la formation dure au minimum 67 heures, soit deux semaines à temps plein, avec des exercices d'extinction qui demandent des installations adaptées : l'arrêté permet aux centres de les utiliser chez un établissement partenaire, vérifiez donc où ils se déroulent.",
+        "La structure en branches de RER. Deux centres distants de quelques kilomètres peuvent être sur deux branches différentes, et donc à des temps de trajet très différents de chez vous. Avant de choisir, repérez sur quelle ligne se trouve chaque centre et si votre trajet passe par Massy ou Juvisy.",
       ],
     },
   ],

@@ -43,6 +43,8 @@ const LETTRES = [
   "treize",
 ];
 const nombreEnLettres = (n: number) => LETTRES[n] ?? String(n);
+// Ordre de recherche des titres (décision Erwan du 08/10/2026) : sert à choisir les absents cités.
+const TITRES_LES_PLUS_RECHERCHES = ["tfp-aps", "ssiap-1", "mac-aps", "recyclage-ssiap-1"];
 
 const verticale: Verticale = VERTICALES["securite-privee"];
 const base = `/${verticale.slug}/`;
@@ -103,20 +105,33 @@ export async function PageDepartement({ departement: d }: { departement: Departe
   const demarchesVisibles = demarches.filter((x) => x.a_une_page);
 
   // Phrase de disponibilité du chapô, calculée depuis l'inventaire (jamais une absence écrite à la main).
-  const absentsAvecVoisin = absents.filter((t) => dispo.get(t.slug)!.voisin).slice(0, 2);
+  // Absents cités : les plus recherchés d'abord (décision Erwan du 08/10/2026), puis l'ordre du référentiel.
+  const rang = (slug: string) => {
+    const i = TITRES_LES_PLUS_RECHERCHES.indexOf(slug);
+    return i < 0 ? TITRES_LES_PLUS_RECHERCHES.length : i;
+  };
+  const absentsTries = [...absents].sort((a, b) => rang(a.slug) - rang(b.slug));
+  const exemples = absentsTries.slice(0, 2).map((t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`);
   // Formulation validée par Erwan (01/10/2026) : on parle des centres référencés, pas de tous les centres.
-  // Plus d'absents que d'exemples cités : le nombre total est annoncé, les exemples suivent (« Sept titres…, dont… »).
-  const exemples = (absentsAvecVoisin.length ? absentsAvecVoisin : absents.slice(0, 2)).map(
-    (t) => `le ${t.libelle_court.replace(/^Recyclage/, "recyclage")}`,
-  );
   const phraseAbsences =
     absents.length === 0
       ? null
-      : absents.length > exemples.length
-        ? `${majuscule(nombreEnLettres(absents.length))} titres ne sont proposés par aucun des centres référencés dans le département, dont ${listeFr(exemples)}.`
-        : `${majuscule(listeFr(exemples))} ${exemples.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun des centres référencés dans le département.`;
+      : presents.length === 0
+        ? `Aucun des ${titres.length} titres n'est encore proposé par les centres référencés dans le département.`
+        : absents.length > exemples.length
+          ? `${majuscule(nombreEnLettres(absents.length))} titres ne sont proposés par aucun des centres référencés dans le département, dont ${listeFr(exemples)}.`
+          : `${majuscule(listeFr(exemples))} ${exemples.length > 1 ? "ne sont proposés" : "n'est proposé"} par aucun des centres référencés dans le département.`;
 
-  const premierAbsent = absentsAvecVoisin[0];
+  const premierAbsent = absentsTries[0];
+  const nomAbsent = premierAbsent?.libelle_court.replace(/^Recyclage/, "recyclage");
+  const voisinPremier = premierAbsent ? dispo.get(premierAbsent.slug)!.voisin : undefined;
+  const reponseAbsent = !premierAbsent
+    ? ""
+    : voisinPremier
+      ? `Non, aucun organisme référencé ne le propose dans le département. Les centres référencés les plus proches se trouvent ${parCode.get(voisinPremier)!.forme_lieu}.`
+      : premierAbsent.a_une_page
+        ? `Non, aucun organisme référencé ne le propose dans le département. La page du ${nomAbsent} présente la formation et les centres qui la préparent en Île-de-France.`
+        : "Non, aucun organisme référencé ne le propose dans le département.";
   // commune : réponse identique sur toutes les pages département → affichée, mais hors JSON-LD (CLAUDE.md §5 :
   // jamais de FAQPage dupliquée d'une page à l'autre).
   const faq: { question: string; reponse: string; commune?: true }[] = [
@@ -143,8 +158,8 @@ export async function PageDepartement({ departement: d }: { departement: Departe
     ...(premierAbsent
       ? [
           {
-            question: `Peut-on préparer le ${premierAbsent.libelle_court} ${zone} ?`,
-            reponse: `Non, aucun organisme référencé ne le propose dans le département. Les centres référencés les plus proches se trouvent ${parCode.get(dispo.get(premierAbsent.slug)!.voisin!)!.forme_lieu}.`,
+            question: `Peut-on préparer le ${nomAbsent} ${zone} ?`,
+            reponse: reponseAbsent,
           },
         ]
       : []),
@@ -154,7 +169,7 @@ export async function PageDepartement({ departement: d }: { departement: Departe
       reponse:
         "Non. Votre carte professionnelle est valable sur tout le territoire national, quel que soit le lieu de votre formation. Le seul critère est pratique : la formation se déroule en présentiel, souvent sur plusieurs semaines.",
     },
-    { question: `Comment se rendre dans les centres de formation ${zone} ?`, reponse: contenu.acces },
+    { question: `Comment rejoindre les centres de formation ${d.forme_de} ?`, reponse: contenu.acces },
     {
       question: "Les démarches CNAPS sont-elles différentes selon le département ?",
       commune: true,
@@ -236,8 +251,12 @@ export async function PageDepartement({ departement: d }: { departement: Departe
       <SommaireAncres
         ancres={[
           { id: "titres", libelle: "Les titres préparés" },
-          { id: "organismes-dept", libelle: "Les organismes", principale: true },
-          { id: "villes", libelle: "Où sont les centres" },
+          ...(organismes.length
+            ? [
+                { id: "organismes-dept", libelle: "Les organismes", principale: true },
+                { id: "villes", libelle: "Où se trouvent les centres" },
+              ]
+            : []),
           { id: "se-former", libelle: contenu.ancreSeFormer ?? `Se former ${zone}` },
           { id: "faq", libelle: "Questions fréquentes" },
         ]}
@@ -332,47 +351,51 @@ export async function PageDepartement({ departement: d }: { departement: Departe
         </div>
       </section>
 
-      {/* Bloc 5 — listing complet, adresse du lieu situé dans le département. */}
-      <section className="mt-[52px] border-y border-line bg-white">
-        <div className="container-public py-14">
-          <div className="mb-[22px] flex flex-col gap-1.5">
-            <h2 id="organismes-dept" className={h2}>
-              Les organismes de formation {zone}
-            </h2>
-            <p className="text-base leading-[1.65] text-ink-500">
-              Tous les organismes disposant d&apos;au moins un lieu de formation dans le département.
-            </p>
+      {/* Bloc 5 — listing complet, adresse du lieu situé dans le département ; masqué sans organisme. */}
+      {organismes.length > 0 && (
+        <section className="mt-[52px] border-y border-line bg-white">
+          <div className="container-public py-14">
+            <div className="mb-[22px] flex flex-col gap-1.5">
+              <h2 id="organismes-dept" className={h2}>
+                Les organismes de formation {zone}
+              </h2>
+              <p className="text-base leading-[1.65] text-ink-500">
+                Tous les organismes disposant d&apos;au moins un lieu de formation dans le département.
+              </p>
+            </div>
+            <ol className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-3.5">
+              {organismes.map((o) => (
+                <li key={o.id}>
+                  <CarteOrganisme organisme={o} base={base} fond="creme" lieu={lieuDansDepartement(o, d.code)} />
+                </li>
+              ))}
+            </ol>
           </div>
-          <ol className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,300px),1fr))] gap-3.5">
-            {organismes.map((o) => (
-              <li key={o.id}>
-                <CarteOrganisme organisme={o} base={base} fond="creme" lieu={lieuDansDepartement(o, d.code)} />
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="bg-cream-100">
         <div className="container-public flex flex-wrap items-start gap-[clamp(24px,3vw,44px)] py-14">
           <div className="flex min-w-[min(100%,300px)] flex-[999_1_560px] flex-col gap-[46px]">
             {/* Bloc 6 — texte simple : aucune page ville n'existe encore (seuil 5, contenu propre requis). */}
-            <div className="flex flex-col gap-3.5">
-              <h2 id="villes" className={h2}>
-                Où se trouvent les centres
-              </h2>
-              <ul className="flex max-w-[74ch] flex-col border-t border-[#DFD9D2]">
-                {villes.map((v) => (
-                  <li
-                    key={v.ville}
-                    className="flex items-baseline justify-between gap-4 border-b border-[#DFD9D2] py-3.5"
-                  >
-                    <span className="text-[16.5px] font-semibold">{v.ville}</span>
-                    {compteurs && <span className="font-mono text-[13.5px] text-ink-600">{v.nombre}</span>}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {villes.length > 0 && (
+              <div className="flex flex-col gap-3.5">
+                <h2 id="villes" className={h2}>
+                  Où se trouvent les centres
+                </h2>
+                <ul className="flex max-w-[74ch] flex-col border-t border-[#DFD9D2]">
+                  {villes.map((v) => (
+                    <li
+                      key={v.ville}
+                      className="flex items-baseline justify-between gap-4 border-b border-[#DFD9D2] py-3.5"
+                    >
+                      <span className="text-[16.5px] font-semibold">{v.ville}</span>
+                      {compteurs && <span className="font-mono text-[13.5px] text-ink-600">{v.nombre}</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Bloc 7 — le contenu qui justifie la page. */}
             <div className="flex flex-col gap-[18px]">
@@ -387,6 +410,14 @@ export async function PageDepartement({ departement: d }: { departement: Departe
                       <TexteContenu texte={p} />
                     </p>
                   ))}
+                  {(() => {
+                    const cible = s.lienTitre && titres.find((t) => t.slug === s.lienTitre && t.a_une_page);
+                    return cible ? (
+                      <Link href={`${base}${cible.slug}/`} className="self-start text-[15.5px] font-bold">
+                        Voir la page du {cible.libelle_court} →
+                      </Link>
+                    ) : null;
+                  })()}
                 </div>
               ))}
             </div>
