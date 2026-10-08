@@ -18,6 +18,7 @@ export const essonne: ContenuDepartement = {
       h3: "Accéder aux centres de formation",
       paragraphes: [
         "L'Essonne est desservie par trois RER : le B (Massy, Orsay), le C (Massy, Juvisy, Étampes) et le D (Évry-Courcouronnes, Corbeil-Essonnes). Massy et Juvisy sont les principaux points de correspondance. Depuis juin 2024, la ligne 14 rejoint aussi l'aéroport d'Orly. Hors de ces axes, le bus ou la voiture deviennent souvent nécessaires : tenez-en compte pour une formation de plusieurs semaines. En alternance, quand les cours reviennent chaque semaine pendant plusieurs mois, le trajet compte encore davantage.",
+        "Le tram T12, ouvert en 2023, relie aussi Massy à Évry-Courcouronnes.",
       ],
     },
     {

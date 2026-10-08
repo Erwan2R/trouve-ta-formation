@@ -21,7 +21,7 @@ export const DEPARTEMENTS: Record<string, ContenuDepartement> = {
   "val-d-oise": valDOise,
 };
 
-/** Mots du bloc 7 : « pas de 300 mots spécifiques, pas de page » (Copy géo §13). */
+/** Mots du bloc 7, à titre indicatif dans l’admin (objectif de la Copy géo §13 : 300). La publication dépend de la validation. */
 export const motsBloc7 = (c: ContenuDepartement) =>
   c.seFormer
     .flatMap((s) => s.paragraphes)
@@ -34,12 +34,13 @@ export type SeuilPage = { organismes: number; palier_min: "basique" | "correct" 
 /**
  * Une page département existe si (décisions Erwan 01/10/2026 + UX géo §6-7) :
  *  - le département compte au moins `seuil.organismes` organismes au palier requis, lieu dans le département ;
- *  - son contenu propre est rédigé (et, en production, sans aucun marqueur).
+ *  - son contenu propre est rédigé, sans aucun marqueur, et son bloc 7 validé par l’administrateur dans l’admin
+ *    (décision Erwan du 08/10/2026 : la validation remplace le compteur de 300 mots, resté indicatif).
  * Hors production (dev, preprod, local), tout contenu rédigé est prévisualisable même sous le seuil, pour la relecture
  * (décision Erwan du 07/10/2026) ; ces environnements sont entièrement en noindex.
  */
 export function departementVisible(
-  departement: { slug: string },
+  departement: { slug: string; bloc7_valide: boolean },
   organismesQualifies: number,
   seuil: SeuilPage,
   production: boolean,
@@ -47,5 +48,5 @@ export function departementVisible(
   const contenu = DEPARTEMENTS[departement.slug];
   if (!contenu) return false;
   if (!production) return true;
-  return organismesQualifies >= seuil.organismes && sansMarqueur(contenu) && motsBloc7(contenu) >= 300;
+  return organismesQualifies >= seuil.organismes && sansMarqueur(contenu) && departement.bloc7_valide;
 }

@@ -209,3 +209,23 @@ export async function supprimerAuteur(id: number): Promise<Retour> {
   const { error } = await admin.from("auteurs_blog").delete().eq("id", id);
   return error ? { ok: false, erreur: ECHEC } : { ok: true, heure: heure() };
 }
+
+/**
+ * Validation du bloc 7 d'une page département (décision Erwan du 08/10/2026) : avec le seuil d'organismes, c'est la
+ * condition de publication en production. Réservée à l'administrateur.
+ */
+export async function validerBloc7(slug: string, valide: boolean): Promise<Retour> {
+  await exigerAdmin();
+  const { data, error } = await supabaseAdmin()
+    .from("departements")
+    .update({ bloc7_valide: valide })
+    .eq("slug", slug)
+    .select("slug")
+    .maybeSingle();
+  if (error || !data) {
+    console.error("Validation bloc 7 :", error?.message);
+    return { ok: false, erreur: ECHEC };
+  }
+  revalidatePath("/", "layout");
+  return { ok: true, heure: heure() };
+}

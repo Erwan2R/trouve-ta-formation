@@ -14,6 +14,7 @@ export const hautsDeSeine: ContenuDepartement = {
         "Un immeuble de grande hauteur doit disposer d'un service de sécurité incendie permanent. À La Défense, qui compte 75 immeubles de grande hauteur, les postes ne se limitent pas aux agents SSIAP 1 : ces services emploient aussi des chefs d'équipe SSIAP 2, qui dirigent le poste de sécurité, et des chefs de service SSIAP 3, qui conseillent l'exploitant et suivent les contrôles réglementaires.",
         "Les sièges sociaux et les immeubles de bureaux du département emploient aussi des agents d'accueil et de contrôle d'accès, titulaires de la carte de surveillance obtenue avec le TFP APS.",
         "Au-delà de La Défense, le tertiaire s'étend le long de la Seine, de Rueil-Malmaison à Boulogne-Billancourt et Issy-les-Moulineaux, où sièges sociaux et groupes de médias emploient des agents d'accueil et de contrôle d'accès. Le département compte aussi de grandes salles : Paris La Défense Arena, à Nanterre, qui reçoit concerts et rencontres sportives, et La Seine Musicale, sur l'île Seguin. Les soirs d'événement, elles mobilisent de nombreux agents pour le filtrage des entrées et la gestion des flux de spectateurs, souvent sur des missions ponctuelles.",
+        "Les grands hôpitaux du département, comme l'hôpital Foch à Suresnes ou l'hôpital Beaujon à Clichy, emploient aussi des agents de sécurité incendie et de surveillance.",
       ],
     },
     {

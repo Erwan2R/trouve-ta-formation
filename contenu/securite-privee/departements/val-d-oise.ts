@@ -13,6 +13,7 @@ export const valDOise: ContenuDepartement = {
         "Roissy-Charles de Gaulle s'étend sur trois départements, dont le Val-d'Oise, où résident 16 % de ses 94 600 salariés selon l'Insee (décembre 2025). Les entreprises de sûreté aéroportuaire y recrutent des agents d'exploitation et des opérateurs de sûreté, certifiés par typologie de missions : inspection-filtrage des passagers, des bagages, du fret, contrôle des accès côté piste.",
         "Hors de la zone aéroportuaire, le département offre des postes de surveillance plus classiques, sur des sites d'entreprise, des commerces ou des établissements recevant du public.",
         "À l'ouest, Cergy-Pontoise, préfecture du département, concentre administrations, campus universitaires et le centre commercial des 3 Fontaines. Argenteuil, la ville la plus peuplée du Val-d'Oise, a ses propres zones commerciales. Ces établissements recrutent pour la surveillance comme pour la sécurité incendie, sans le cadre réglementaire propre à l'aéroport.",
+        "Le département a aussi ses sites patrimoniaux, comme le château d'Écouen, qui abrite le musée national de la Renaissance, ou l'abbaye de Royaumont, qui reçoit concerts et séminaires.",
       ],
     },
     {

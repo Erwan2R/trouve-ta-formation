@@ -4,7 +4,8 @@ import { sansMarqueur } from "../../marqueurs";
 import { DEPARTEMENTS, departementVisible, motsBloc7 } from ".";
 
 const seuil = { organismes: 3, palier_min: "correct" as const };
-const dept = { slug: "seine-saint-denis" };
+const dept = { slug: "seine-saint-denis", bloc7_valide: true };
+const nonValide = { ...dept, bloc7_valide: false };
 
 describe("departementVisible", () => {
   it("sous le seuil : pas de page en production, aperçu hors production", () => {
@@ -14,12 +15,11 @@ describe("departementVisible", () => {
 
   it("au seuil : page visible, en production comme en aperçu", () => {
     expect(departementVisible(dept, 3, seuil, false)).toBe(true);
-    // En production, le seuil ne suffit pas : il faut aussi 300 mots de bloc 7.
-    expect(departementVisible(dept, 3, seuil, true)).toBe(motsBloc7(DEPARTEMENTS[dept.slug]) >= 300);
+    expect(departementVisible(dept, 3, seuil, true)).toBe(true);
   });
 
   it("sans contenu rédigé : pas de page", () => {
-    expect(departementVisible({ slug: "inexistant" }, 10, seuil, false)).toBe(false);
+    expect(departementVisible({ slug: "inexistant", bloc7_valide: true }, 10, seuil, false)).toBe(false);
   });
 
   it("les 8 départements sont rédigés, sans marqueur", () => {
@@ -27,9 +27,11 @@ describe("departementVisible", () => {
     for (const [slug, c] of Object.entries(DEPARTEMENTS)) expect(sansMarqueur(c), slug).toBe(true);
   });
 
-  it("production : pas de page sous 300 mots de bloc 7, même au-dessus du seuil", () => {
-    for (const [slug, c] of Object.entries(DEPARTEMENTS))
-      expect(departementVisible({ slug }, 10, seuil, true), slug).toBe(motsBloc7(c) >= 300);
+  it("production : seuil atteint ET bloc 7 validé, quel que soit le nombre de mots", () => {
+    expect(departementVisible(nonValide, 10, seuil, true)).toBe(false);
+    expect(departementVisible(nonValide, 10, seuil, false)).toBe(true); // aperçu hors production
+    expect(departementVisible(dept, 2, seuil, true)).toBe(false);
+    expect(motsBloc7(DEPARTEMENTS[dept.slug])).toBeGreaterThan(0); // compteur indicatif
   });
 
   it("aucune phrase du bloc 7 n'apparaît sur deux départements", () => {

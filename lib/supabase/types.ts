@@ -354,6 +354,7 @@ export type Database = {
       }
       departements: {
         Row: {
+          bloc7_valide: boolean
           code: string
           forme_de: string
           forme_lieu: string
@@ -362,6 +363,7 @@ export type Database = {
           slug: string
         }
         Insert: {
+          bloc7_valide?: boolean
           code: string
           forme_de: string
           forme_lieu: string
@@ -370,6 +372,7 @@ export type Database = {
           slug: string
         }
         Update: {
+          bloc7_valide?: boolean
           code?: string
           forme_de?: string
           forme_lieu?: string

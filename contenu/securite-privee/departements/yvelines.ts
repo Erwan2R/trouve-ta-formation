@@ -19,6 +19,7 @@ export const yvelines: ContenuDepartement = {
       paragraphes: [
         "Le RER A dessert Saint-Germain-en-Laye et Poissy, le RER C Versailles et Saint-Quentin-en-Yvelines, et plusieurs lignes Transilien complètent le réseau vers l'ouest et le sud. Ces lignes convergent vers Paris et La Défense : entre deux villes du département, le trajet en transports en commun peut être long. Le temps de trajet quotidien est donc le premier critère à vérifier.",
         "La ligne N rejoint Saint-Quentin-en-Yvelines et Rambouillet, la ligne J Poissy et Mantes-la-Jolie. Ce sont deux bassins distincts : un candidat de la vallée de la Seine n'a pas les mêmes centres à portée qu'un candidat de Versailles.",
+        "Le tram T13 relie aussi Saint-Germain-en-Laye à Saint-Cyr-l'École sans passer par Paris.",
       ],
     },
     {

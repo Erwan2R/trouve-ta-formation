@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ParametresAdmin } from "@/components/admin/ParametresAdmin";
 import { AuteursBlog } from "@/components/admin/AuteursBlog";
+import { PagesDepartements } from "@/components/admin/PagesDepartements";
+import { DEPARTEMENTS, motsBloc7 } from "@/contenu/securite-privee/departements";
+import { SITE_URL } from "@/lib/seo/metadata";
 import { ReglagesSite } from "@/components/admin/ReglagesSite";
 import { exigerAdmin } from "@/lib/admin-serveur";
 import { EST_PRODUCTION } from "@/lib/env";
@@ -27,6 +30,10 @@ export default async function Parametres({ searchParams }: Props) {
     supabaseAdmin().from("parametres").select("cle, valeur"),
     getAuteurs(),
   ]);
+  const { data: departements } = await supabaseAdmin()
+    .from("departements")
+    .select("slug, nom, code, bloc7_valide")
+    .order("code");
   const v = Object.fromEntries((parametres ?? []).map((p) => [p.cle, p.valeur])) as Record<string, never>;
   return (
     <>
@@ -71,6 +78,21 @@ export default async function Parametres({ searchParams }: Props) {
                 .map((x) => ({ ...x, biographie: x.biographie ?? "" }))}
               enregistrer={actions.enregistrerAuteur}
               supprimer={actions.supprimerAuteur}
+            />
+          </div>
+          <div className="mt-3.5">
+            <PagesDepartements
+              lignes={(departements ?? [])
+                .filter((x) => DEPARTEMENTS[x.slug])
+                .map((x) => ({
+                  slug: x.slug,
+                  nom: x.nom,
+                  code: x.code,
+                  mots: motsBloc7(DEPARTEMENTS[x.slug]),
+                  valide: x.bloc7_valide,
+                  url: `${SITE_URL}/securite-privee/${x.slug}/`,
+                }))}
+              valider={actions.validerBloc7}
             />
           </div>
         </div>

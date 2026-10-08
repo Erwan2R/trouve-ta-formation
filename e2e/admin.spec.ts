@@ -688,3 +688,20 @@ test("référentiel : publication et dépublication d'une page titre", async ({ 
   expect(await lire()).toBe(false);
   await db.from("titres_referentiel").update({ page_publiee: avant }).eq("slug", "tfp-aps");
 });
+
+test("pages départements : validation du bloc 7 depuis Paramètres", async ({ page }) => {
+  test.setTimeout(120_000);
+  const lire = async () =>
+    (await db.from("departements").select("bloc7_valide").eq("slug", "seine-saint-denis").single()).data!.bloc7_valide;
+  const avant = await lire();
+  await db.from("departements").update({ bloc7_valide: false }).eq("slug", "seine-saint-denis");
+  await connecterAdmin(page);
+  await expect(page.getByRole("heading", { name: "Pages départements" })).toBeVisible();
+  const ligne = page.getByRole("listitem").filter({ hasText: "Seine-Saint-Denis (93)" });
+  await expect(ligne.getByText(/mots \/ 300/)).toBeVisible();
+  await ligne.getByLabel("Bloc 7 validé").check();
+  await expect.poll(lire).toBe(true);
+  await ligne.getByLabel("Bloc 7 validé").uncheck();
+  await expect.poll(lire).toBe(false);
+  await db.from("departements").update({ bloc7_valide: avant }).eq("slug", "seine-saint-denis");
+});

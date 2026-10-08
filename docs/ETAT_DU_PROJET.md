@@ -501,7 +501,10 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261102_demarches_releve_cnaps` — délai d’instruction, validité de l’autorisation préalable, fenêtre de dépôt du
      renouvellement, date de vérification (relevé CNAPS d’Erwan du 7 octobre 2026). Coût laissé vide (introuvable) ;
    - `20261103_demarches_delai_ap` — autorisation préalable : « environ une semaine » (fiche Dracar Ultimate) ;
-   - `20261104_demarches_delai_carte` — carte professionnelle : « quatre jours ouvrés » (fiche Dracar Ultimate).
+   - `20261104_demarches_delai_carte` — carte professionnelle : « quatre jours ouvrés » (fiche Dracar Ultimate) ;
+   - `20261105_departements_bloc7_valide` — validation du bloc 7 des pages départements (aucun coché par défaut).
+   Pages départements : en production, publiées si seuil d’organismes atteint ET bloc 7 validé par Erwan
+   (Admin → Paramètres → « Pages départements » ; le compteur de mots y est indicatif).
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Publier aussi les 3 démarches CNAPS (publiées sur dev le 7 octobre 2026) : `update demarches set page_publiee = true`
