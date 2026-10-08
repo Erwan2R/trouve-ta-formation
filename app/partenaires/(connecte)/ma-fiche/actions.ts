@@ -58,7 +58,7 @@ export async function enregistrerAgrement(d: {
   numero_qualiopi: string;
 }): Promise<Retour> {
   const v = valider({
-    numero_agrement_cnaps: V.texte(d.numero_agrement_cnaps, 60, "Numéro d'agrément"),
+    numero_agrement_cnaps: V.texte(d.numero_agrement_cnaps, 60, "Numéro d'autorisation d'exercice"),
     numero_qualiopi: V.texte(d.numero_qualiopi, 60, "Numéro de certificat"),
   });
   if (!v.ok) return v;

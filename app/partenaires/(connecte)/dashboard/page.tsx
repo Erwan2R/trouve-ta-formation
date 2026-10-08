@@ -8,6 +8,7 @@ import { ONBOARDING } from "@/contenu/espace/onboarding";
 import { dateCourte } from "@/lib/format-date";
 import { RANG_PALIER, type Palier } from "@/lib/organismes/completude";
 import { minimumPubliable } from "@/lib/organismes/publication";
+import { soumisAutorisationCnaps } from "@/lib/organismes/cnaps";
 import { actionsRelance, manquantsOptimal } from "@/lib/organismes/relance";
 import { absoluteUrl } from "@/lib/seo/metadata";
 import { getEspace } from "@/lib/supabase/queries/espace";
@@ -23,7 +24,8 @@ const surtitre = "font-mono text-[10.5px] tracking-[0.12em] uppercase";
 export default async function Dashboard() {
   const { organisme: o, siege, lieux, user, compte, offresActives, financements, palier: p } = await getEspace();
   const donnees = { ...o, financements, nbFormations: offresActives.length };
-  const actions = actionsRelance(donnees, p);
+  const soumisCnaps = soumisAutorisationCnaps(offresActives.map((x) => x.titre.slug));
+  const actions = actionsRelance(donnees, p, soumisCnaps);
   const publiee = o.statut === "publie";
   const minimum = minimumPubliable(o, siege);
   const rang = RANG_PALIER[p];
@@ -90,18 +92,26 @@ export default async function Dashboard() {
                     : D.nonPubliee.minimum}
             </p>
           </div>
-          {o.statut !== "suspendu" &&
-            (!user.confirme ? (
-              <BoutonRenvoyer action={renvoyerValidation} libelle={D.nonPubliee.renvoyer} fait={D.nonPubliee.renvoye} />
-            ) : (
-              <Link
-                href="/ma-fiche/#coordonnees"
-                className="inline-flex items-center gap-2.5 rounded-full bg-white px-[26px] py-[18px] text-[15.5px] font-bold text-ink-900 hover:bg-brique-400 hover:text-ink-900"
-              >
-                {D.nonPubliee.minimumCta}
-                <span aria-hidden="true">→</span>
-              </Link>
-            ))}
+          {o.statut !== "suspendu" && (
+            <div className="flex flex-wrap gap-3">
+              {!user.confirme && (
+                <BoutonRenvoyer
+                  action={renvoyerValidation}
+                  libelle={D.nonPubliee.renvoyer}
+                  fait={D.nonPubliee.renvoye}
+                />
+              )}
+              {(user.confirme || !(minimum.siege && minimum.contact)) && (
+                <Link
+                  href="/ma-fiche/#coordonnees"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-white px-[26px] py-[18px] text-[15.5px] font-bold text-ink-900 hover:bg-brique-400 hover:text-ink-900"
+                >
+                  {D.nonPubliee.minimumCta}
+                  <span aria-hidden="true">→</span>
+                </Link>
+              )}
+            </div>
+          )}
         </section>
       )}
 
@@ -259,7 +269,7 @@ export default async function Dashboard() {
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,190px),1fr))] gap-3.5">
         {[
-          { href: "/ma-fiche/", titre: "Ma fiche", texte: "Coordonnées, présentation, agréments" },
+          { href: "/ma-fiche/", titre: "Ma fiche", texte: "Coordonnées, présentation, autorisation d'exercice" },
           {
             href: "/formations/",
             titre: "Mes formations",

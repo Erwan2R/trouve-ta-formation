@@ -1,5 +1,6 @@
 import "server-only";
 import type { DonneesMaFiche } from "@/components/espace/MaFiche";
+import { soumisAutorisationCnaps } from "@/lib/organismes/cnaps";
 import type { Espace } from "@/lib/supabase/queries/espace";
 
 /** Données de « Ma fiche », partagées avec les étapes de l'accompagnement à l'inscription. */
@@ -15,6 +16,7 @@ export function donneesMaFiche({ organisme: o, siege, lieux, offres, user }: Esp
       annee_creation: s(o.annee_creation),
     },
     logo: o.logo_url,
+    soumisCnaps: soumisAutorisationCnaps(offres.map((x) => x.titre.slug)),
     agrement: {
       numero_agrement_cnaps: s(o.numero_agrement_cnaps),
       qualiopi: o.qualiopi,

@@ -17,7 +17,7 @@ export type TitreModale = {
 };
 export type OffreVue = {
   id: string;
-  titre: TitreModale & { archive: boolean; lienPage: string | null };
+  titre: TitreModale & { archive: boolean; remplacant: { id: number; court: string } | null; lienPage: string | null };
   prixMin: number | null;
   prixMax: number | null;
   duree: number | null;
@@ -208,9 +208,25 @@ export function MesFormations({
                   <span className="flex flex-col gap-1">{intitule}</span>
                 )}
                 {o.titre.archive && (
-                  <p className="rounded-2xl border border-line-strong bg-cream-100 px-4 py-3 text-[13.5px] leading-[1.55]">
-                    {F.archive}
-                  </p>
+                  <div className="flex flex-col items-start gap-3 rounded-2xl border border-line-strong bg-cream-100 px-4 py-3 text-[13.5px] leading-[1.55]">
+                    <p>{o.titre.remplacant ? F.remplace(o.titre.remplacant.court) : F.archive}</p>
+                    {o.titre.remplacant && (
+                      <button
+                        type="button"
+                        disabled={enCours}
+                        onClick={() => {
+                          const r = o.titre.remplacant!;
+                          lancer(
+                            () => a.ajouterOffres([r.id]),
+                            () => setToast(F.toast.ajout([r.court])),
+                          );
+                        }}
+                        className="cursor-pointer rounded-full bg-ink-900 px-[18px] py-2.5 text-sm font-bold text-white hover:bg-brique-700 disabled:cursor-default disabled:bg-line disabled:text-ink-400"
+                      >
+                        {F.ajouterRemplacant(o.titre.remplacant.court)}
+                      </button>
+                    )}
+                  </div>
                 )}
                 <div className="flex flex-col border-t border-cream-200">
                   {lignes.map(([etiquette, valeur, vide]) => (

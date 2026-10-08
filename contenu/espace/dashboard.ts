@@ -1,6 +1,7 @@
 // Tableau de bord organisme (maquette « Dashboard Organisme v2 », UX_Dashboard_Organisme.md).
 import type { Action } from "@/lib/organismes/relance";
 import type { Palier } from "@/lib/organismes/completude";
+import { EMAIL_CONTACT } from "@/lib/config/contact";
 
 /** Destination de chaque action : la page et, si possible, le champ concerné (UX §4). */
 export const ACTIONS: Record<Action, { titre: string; pourquoi: string; dest: string; href: string; cta: string }> = {
@@ -27,7 +28,7 @@ export const ACTIONS: Record<Action, { titre: string; pourquoi: string; dest: st
     cta: "Rédiger",
   },
   cnaps: {
-    titre: "Indiquez votre numéro d'agrément CNAPS",
+    titre: "Indiquez votre numéro d'autorisation d'exercice CNAPS",
     pourquoi: "C'est lui qui distingue un centre autorisé à former.",
     dest: "Ma fiche",
     href: "/ma-fiche/#agrement",
@@ -114,21 +115,22 @@ export const DASHBOARD = {
   etiquettes: ["Priorité", "Ensuite", "Puis"],
   optimalTitre: "Votre fiche est complète.",
   optimalTexte: "Elle apparaît dans les résultats de recherche et elle est mise en avant dans le catalogue.",
-  // Non publiée : textes de la maquette (email) ; minimum publiable et suspension : à valider par Erwan.
+  // Non publiée et suspension : relecture d'Erwan du 08/10/2026 (A1, A3, A5, B2).
   nonPubliee: {
-    surtitre: "Étape restante",
+    surtitre: "Avant la mise en ligne",
     titre: "Votre fiche n'est pas encore en ligne",
-    email: (email: string) => `Validez votre adresse email pour la publier. Nous avons envoyé un lien à ${email}.`,
+    email: (email: string) =>
+      `Validez votre adresse email pour la publier. Nous avons envoyé un lien à ${email}. Pensez à vérifier vos courriers indésirables.`,
     renvoyer: "Renvoyer l'email de validation",
     renvoye: "Email renvoyé",
     minimum:
       "Pour la publier, complétez le minimum : l'adresse du siège et un moyen de contact (téléphone ou email de contact).",
     minimumCta: "Compléter ma fiche",
     emailEtMinimum: (email: string) =>
-      `Deux étapes restent : valider votre adresse email (un lien a été envoyé à ${email}) et compléter l'adresse du siège et un moyen de contact.`,
+      `Il reste deux étapes : valider votre adresse email (un lien a été envoyé à ${email}), puis renseigner l'adresse du siège et un moyen de contact.`,
   },
   suspendue: {
     titre: "Votre fiche est suspendue",
-    texte: "Elle n'apparaît plus sur le site. Pour en savoir plus, écrivez-nous depuis la page contact.",
+    texte: `Elle n'apparaît plus sur le site. Pour en savoir plus, écrivez-nous à ${EMAIL_CONTACT}.`,
   },
 };

@@ -60,4 +60,10 @@ describe("fiche organisme", () => {
       /^Centre Démo prépare au recyclage SSIAP 1\./,
     );
   });
+
+  it("FAQ : pas de question CNAPS pour un organisme qui ne prépare qu'au SSIAP", () => {
+    const ssiap = { titre: { slug: "ssiap-1", libelle_court: "SSIAP 1", libelle_long: "SSIAP 1", ordre: 1 } };
+    const questions = faqFiche({ ...base, offres: [ssiap] as Organisme["offres"] }).map((q) => q.question);
+    expect(questions).not.toContain("Centre Démo est-il agréé par le CNAPS ?");
+  });
 });

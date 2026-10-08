@@ -1,4 +1,5 @@
 import { FINANCEMENTS, FINANCEMENTS_FILTRE, monogramme } from "@/lib/organismes/libelles";
+import { soumisAutorisationCnaps } from "@/lib/organismes/cnaps";
 import type { Action } from "@/lib/organismes/relance";
 import type { LieuEspace, OffreEspace } from "@/lib/supabase/queries/espace";
 import type { Tables } from "@/lib/supabase/types";
@@ -67,16 +68,16 @@ export function ApercuCarte({
             )}
           </span>
           <span className="flex flex-wrap gap-1.5">
-            {o.numero_agrement_cnaps ? (
+            {!soumisAutorisationCnaps(offres.map((x) => x.titre.slug)) ? null : o.numero_agrement_cnaps ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-900 px-2.5 py-1 text-[11.5px] font-semibold text-white">
                 <span aria-hidden="true" className="block size-[5px] rounded-full bg-brique-400" />
-                Agréé CNAPS
+                Autorisé CNAPS
               </span>
             ) : (
               <span
                 className={`relative inline-flex items-center rounded-full border-[1.5px] border-dashed px-2.5 py-[3px] text-[11.5px] font-semibold text-ink-500 ${pointille("cnaps")}`}
               >
-                Agrément non renseigné
+                Autorisation d&apos;exercice non renseignée
                 <Pastille k="cnaps" />
               </span>
             )}

@@ -16,9 +16,9 @@ export const ETAPES: EtapeOnboarding[] = [
     sections: ["identite", "logo"],
   },
   {
-    titre: "Agrément et certifications",
+    titre: "Autorisation d'exercice et certifications",
     intro:
-      "L'agrément CNAPS est l'information la plus importante de votre fiche : c'est ce qui distingue un centre autorisé à former. Sans lui, votre fiche affiche « agrément non renseigné ».",
+      "L'autorisation d'exercice délivrée par le CNAPS est obligatoire pour former aux métiers de la sécurité privée. Indiquez son numéro : c'est ce qui permet aux candidats de vérifier que votre centre est autorisé à former.",
     sections: ["agrement"],
   },
   {

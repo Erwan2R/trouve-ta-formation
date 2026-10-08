@@ -321,7 +321,7 @@ export function Parametres({
         </div>
         <p className="-mt-1.5 max-w-[62ch] text-[14.5px] leading-[1.6] text-ink-500">
           Ces coordonnées nous servent à vous joindre directement si besoin, par exemple pour une vérification
-          d&apos;agrément. Elles ne remplacent pas celles de votre fiche.
+          d&apos;autorisation d&apos;exercice. Elles ne remplacent pas celles de votre fiche.
         </p>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-4">
           <label className="flex flex-col gap-[7px]">

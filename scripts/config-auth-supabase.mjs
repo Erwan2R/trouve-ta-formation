@@ -25,7 +25,7 @@ const EMAIL_CONTACT = readFileSync(new URL("../lib/config/contact.ts", import.me
 
 const lien = (type) => `{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=${type}`;
 const pied = (texte) =>
-  `<p style="font-size:13px;color:#7B746E">${texte}<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
+  `<p style="font-size:13px;color:#7B746E">${texte}<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — l'annuaire des organismes de formation en sécurité privée.</p>`;
 const gabarit = (titre, corps, bouton, type) =>
   `<div style="font-family:Arial,sans-serif;color:#0B0B0B;max-width:560px;line-height:1.6">
 <p style="font-weight:bold;font-size:18px">${titre}</p>${corps}
@@ -58,7 +58,7 @@ const emails = {
   mailer_subjects_confirmation: "Confirmez votre adresse email",
   mailer_templates_confirmation_content: gabarit(
     "Confirmez votre adresse email",
-    "<p>Votre espace organisme est créé. Confirmez votre adresse email : c'est la condition pour que votre fiche soit publiée dès que son minimum est rempli.</p>",
+    "<p>Votre espace organisme est créé. Confirmez votre adresse email : c'est l'une des deux conditions pour publier votre fiche, avec l'adresse du siège et un moyen de contact.</p>",
     "Confirmer mon adresse",
     "signup",
   ),

@@ -40,16 +40,19 @@ export const FORMATIONS = {
     enregistree: "Formation enregistrée.",
     retrait: (t: string, dernier: boolean) =>
       dernier ? `${t} retiré. Votre fiche n'apparaît plus dans les filtres par titre.` : `${t} retiré de votre fiche.`,
-    demande: "Demande envoyée. L'équipe de Trouve ta formation l'examinera.",
+    demande: "Demande envoyée. Nous vous répondrons par email.",
   },
-  // Titre archivé (décision Erwan 01/10/2026) : offre conservée, jamais servie publiquement. Texte à valider.
+  // Titre archivé (décision Erwan 01/10/2026) : offre conservée, jamais servie publiquement. Textes validés le 08/10/2026 (C1).
   archive:
     "Ce titre n'est plus délivré : cette formation n'apparaît plus sur votre fiche publique. Vous pouvez la retirer.",
+  remplace: (nouveau: string) =>
+    `Ce titre a été remplacé par le ${nouveau}. Ajoutez-le à vos formations pour continuer d'apparaître dans les recherches.`,
+  ajouterRemplacant: (nouveau: string) => `Ajouter le ${nouveau}`,
   demande: {
     lien: "Votre titre n'est pas dans la liste ?",
     cta: "Faire une demande →",
     libelle: "Intitulé du titre",
-    aide: "Notre équipe vérifie chaque demande avant d'ajouter un titre au référentiel.",
+    aide: "Nous vérifions chaque demande avant d'ajouter un titre au référentiel. Vous recevrez une réponse par email.",
     envoyer: "Envoyer la demande",
   },
 };

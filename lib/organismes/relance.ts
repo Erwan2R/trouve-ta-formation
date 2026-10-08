@@ -35,8 +35,10 @@ export function elementsOptimal(o: DonneesCompletude): Record<Action, boolean> {
   };
 }
 
-export function actionsRelance(o: DonneesCompletude, p: Palier): Action[] {
+export function actionsRelance(o: DonneesCompletude, p: Palier, soumisCnaps = true): Action[] {
   const fait = elementsOptimal(o);
+  // Organisme 100 % SSIAP : l’autorisation d’exercice CNAPS ne le concerne pas (décision Erwan du 08/10/2026).
+  if (!soumisCnaps) fait.cnaps = true;
   if (p === "basique") return (["formations", "financements", "presentation"] as Action[]).filter((k) => !fait[k]);
   if (p === "correct") return OPTIMAL.filter((k) => !fait[k]).slice(0, 3);
   return [];

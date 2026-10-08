@@ -31,6 +31,8 @@ export type DonneesMaFiche = {
   lieux: (Actions.LieuSaisi & { formations: string[] })[];
   pratique: { financements: string[]; accessibilite_pmr: boolean; langues: string[] };
   presentation: { presentation: string };
+  /** Faux si l'organisme ne déclare que des titres SSIAP : pas d'autorisation d'exercice CNAPS (décision Erwan du 08/10/2026). */
+  soumisCnaps: boolean;
 };
 
 type ActionsMaFiche = {
@@ -581,20 +583,22 @@ function Formulaire({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actio
         <Section
           id="agrement"
           num="03"
-          titre="Agrément et certifications"
+          titre={d.soumisCnaps ? "Autorisation d'exercice et certifications" : "Certifications"}
           pied={<Pied s={agrement} onSave={agrement.enregistrer} />}
         >
           <div className="flex flex-wrap items-stretch gap-4">
             <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-4">
-              <label className="flex flex-col gap-[7px]">
-                <span className={libelle}>Numéro d&apos;agrément CNAPS</span>
-                <input
-                  placeholder="FOR-093-2029-00-00-00000000000"
-                  className={`${champ} font-mono text-[14.5px] tracking-[0.02em]`}
-                  value={agrement.valeurs.numero_agrement_cnaps}
-                  onChange={(e) => agrement.maj({ ...agrement.valeurs, numero_agrement_cnaps: e.target.value })}
-                />
-              </label>
+              {d.soumisCnaps && (
+                <label className="flex flex-col gap-[7px]">
+                  <span className={libelle}>Numéro d&apos;autorisation d&apos;exercice CNAPS</span>
+                  <input
+                    placeholder="FOR-093-2029-00-00-00000000000"
+                    className={`${champ} font-mono text-[14.5px] tracking-[0.02em]`}
+                    value={agrement.valeurs.numero_agrement_cnaps}
+                    onChange={(e) => agrement.maj({ ...agrement.valeurs, numero_agrement_cnaps: e.target.value })}
+                  />
+                </label>
+              )}
               <div className="flex flex-col gap-[9px]">
                 <span className={libelle}>Qualiopi</span>
                 <Bascule
@@ -622,22 +626,26 @@ function Formulaire({ donnees: d, actions: a }: { donnees: DonneesMaFiche; actio
               <span className="font-mono text-[10.5px] tracking-[0.12em] text-brique-400 uppercase">
                 Sur votre fiche publique
               </span>
-              <span className="text-[16.5px] leading-[1.4] font-bold text-white">
-                L&apos;agrément CNAPS est le signal de confiance le plus fort de votre fiche.
-              </span>
-              <span className="text-sm leading-[1.6] text-on-dark">
-                Tant qu&apos;il n&apos;est pas renseigné, votre fiche affiche « agrément non renseigné ». Vous pouvez le
-                compléter ici à tout moment.
-              </span>
+              {d.soumisCnaps && (
+                <>
+                  <span className="text-[16.5px] leading-[1.4] font-bold text-white">
+                    L&apos;autorisation d&apos;exercice CNAPS est le signal de confiance le plus fort de votre fiche.
+                  </span>
+                  <span className="text-sm leading-[1.6] text-on-dark">
+                    Tant qu&apos;elle n&apos;est pas renseignée, votre fiche affiche « autorisation d&apos;exercice non
+                    renseignée ». Vous pouvez la compléter ici à tout moment.
+                  </span>
+                </>
+              )}
               <span className="mt-auto flex flex-wrap gap-1.5 border-t border-line-dark pt-3.5">
-                {agrement.valeurs.numero_agrement_cnaps.trim() ? (
+                {!d.soumisCnaps ? null : agrement.valeurs.numero_agrement_cnaps.trim() ? (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-white px-[11px] py-[5px] text-xs font-semibold text-ink-900">
                     <span aria-hidden="true" className="block size-[5px] rounded-full bg-brique-700" />
-                    Agréé CNAPS
+                    Autorisé CNAPS
                   </span>
                 ) : (
                   <span className="inline-flex items-center rounded-full border-[1.5px] border-dashed border-ink-300 px-[11px] py-1 text-xs font-semibold text-on-dark">
-                    Agrément non renseigné
+                    Autorisation d&apos;exercice non renseignée
                   </span>
                 )}
                 {agrement.valeurs.qualiopi && (

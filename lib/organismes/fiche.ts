@@ -1,4 +1,5 @@
 import type { Organisme } from "@/lib/supabase/queries/organismes";
+import { soumisAutorisationCnaps } from "./cnaps";
 
 /** « a », « a et b », « a, b et c ». */
 export function listeFr(elements: string[]): string {
@@ -37,12 +38,13 @@ export function faqFiche(o: Organisme): { question: string; reponse: string }[] 
       question: `Quelles formations ${o.nom} prépare-t-il ?`,
       reponse: `${o.nom} prépare ${listeFr(o.offres.map((x) => au(x.titre.libelle_court)))}. Retrouvez le détail de chaque formation, avec les tarifs et les rythmes proposés, dans la section ci-dessus.`,
     });
-  faq.push({
-    question: `${o.nom} est-il agréé par le CNAPS ?`,
-    reponse: o.numero_agrement_cnaps
-      ? `Oui. Son numéro d'agrément est le ${o.numero_agrement_cnaps}, vérifiable sur l'espace de consultation du CNAPS.`
-      : "Le numéro d'agrément de cet organisme n'est pas renseigné sur sa fiche. Demandez-le directement au centre et vérifiez-le sur l'espace de consultation du CNAPS avant de vous inscrire.",
-  });
+  if (soumisAutorisationCnaps(o.offres.map((x) => x.titre.slug)))
+    faq.push({
+      question: `${o.nom} est-il agréé par le CNAPS ?`,
+      reponse: o.numero_agrement_cnaps
+        ? `Oui. Son numéro d'agrément est le ${o.numero_agrement_cnaps}, vérifiable sur l'espace de consultation du CNAPS.`
+        : "Le numéro d'agrément de cet organisme n'est pas renseigné sur sa fiche. Demandez-le directement au centre et vérifiez-le sur l'espace de consultation du CNAPS avant de vous inscrire.",
+    });
   if (o.siege)
     faq.push({
       question: `Où se déroulent les formations de ${o.nom} ?`,

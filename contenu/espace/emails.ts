@@ -3,7 +3,7 @@ import { EMAIL_CONTACT } from "@/lib/config/contact";
 // Emails envoyés par l'application (validation d'adresse, changement d'email). Textes à valider par Erwan,
 // alignés sur ceux installés dans Supabase (scripts/config-auth-supabase.mjs).
 
-const pied = `<p style="font-size:13px;color:#7B746E">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — annuaire indépendant des organismes de formation.</p>`;
+const pied = `<p style="font-size:13px;color:#7B746E">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.<br>Pour nous écrire : ${EMAIL_CONTACT}<br>Trouve ta formation — l'annuaire des organismes de formation en sécurité privée.</p>`;
 const gabarit = (titre: string, corps: string, bouton: string, lien: string) =>
   `<div style="font-family:Arial,sans-serif;color:#0B0B0B;max-width:560px;line-height:1.6">
 <p style="font-weight:bold;font-size:18px">${titre}</p>${corps}
@@ -23,7 +23,7 @@ Ce lien est valable 24 heures et ne sert qu'une fois.
 Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.
 Pour nous écrire : ${EMAIL_CONTACT}
 --
-Trouve ta formation — annuaire indépendant des organismes de formation.
+Trouve ta formation — l'annuaire des organismes de formation en sécurité privée.
 `;
 
 export const EMAIL_VALIDATION = {
@@ -31,14 +31,14 @@ export const EMAIL_VALIDATION = {
   html: (lien: string) =>
     gabarit(
       "Confirmez votre adresse email",
-      "<p>Votre espace organisme est créé. Confirmez votre adresse email : c'est la condition pour que votre fiche soit publiée dès que son minimum est rempli.</p>",
+      "<p>Votre espace organisme est créé. Confirmez votre adresse email : c'est l'une des deux conditions pour publier votre fiche, avec l'adresse du siège et un moyen de contact.</p>",
       "Confirmer mon adresse",
       lien,
     ),
   texte: (lien: string) =>
     texte(
       "Confirmez votre adresse email",
-      "Votre espace organisme est créé. Confirmez votre adresse email : c'est la condition pour que votre fiche soit publiée dès que son minimum est rempli. Pour confirmer, ouvrez ce lien :",
+      "Votre espace organisme est créé. Confirmez votre adresse email : c'est l'une des deux conditions pour publier votre fiche, avec l'adresse du siège et un moyen de contact. Pour confirmer, ouvrez ce lien :",
       lien,
     ),
 };

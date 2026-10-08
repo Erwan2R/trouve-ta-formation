@@ -18,6 +18,7 @@ export async function donneesFormations(): Promise<{
     getTousLesTitres(),
   ]);
   const pages = new Map(tous.map((t) => [t.id, t]));
+  const declares = new Set(offres.map((o) => o.titre.id));
   const titre = (t: TitreBrut): TitreModale => ({
     id: t.id,
     slug: t.slug,
@@ -38,6 +39,7 @@ export async function donneesFormations(): Promise<{
       titre: {
         ...titre(o.titre),
         archive: o.titre.statut !== "actif",
+        remplacant: remplacant(pages, declares, o.titre.id),
         // Lien vers la page pilier seulement si elle est publiée (jamais vers une 404).
         lienPage: pages.get(o.titre.id)?.a_une_page ? absoluteUrl(`/securite-privee/${o.titre.slug}/`) : null,
       },
@@ -49,4 +51,15 @@ export async function donneesFormations(): Promise<{
       lieux: o.lieux,
     })),
   };
+}
+
+/** Titre de remplacement d'un titre archivé, s'il existe et n'est pas déjà déclaré par l'organisme. */
+function remplacant(
+  pages: Map<number, { remplace_par_id: number | null; libelle_court: string }>,
+  declares: Set<number>,
+  id: number,
+): { id: number; court: string } | null {
+  const r = pages.get(id)?.remplace_par_id;
+  const t = r == null || declares.has(r) ? undefined : pages.get(r);
+  return t && r != null ? { id: r, court: t.libelle_court } : null;
 }
