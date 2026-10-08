@@ -11,6 +11,7 @@ export const essonne: ContenuDepartement = {
       h3: "Le bassin d'emploi",
       paragraphes: [
         "Au nord, la zone d'Orly concentre les métiers de la sûreté aéroportuaire, qui demandent un TFP ASA et une certification par typologie de missions. Plus au sud, les employeurs de la sécurité interviennent sur des sites d'entreprise, des zones commerciales et des établissements recevant du public. L'aéroport d'Orly étant partagé avec le Val-de-Marne, ses employeurs recrutent des deux côtés de la limite départementale.",
+        "Le plateau de Saclay réunit universités, grandes écoles et centres de recherche, dont le CEA : des sites étendus, où le contrôle des accès et les rondes structurent les postes. À Évry-Courcouronnes, le Genopole et le centre commercial Évry 2 forment un autre pôle d'emploi, tout comme les zones d'activité de Massy et de Courtabœuf, aux Ulis.",
       ],
     },
     {
@@ -23,6 +24,7 @@ export const essonne: ContenuDepartement = {
       h3: "Ce qui distingue l'Essonne",
       paragraphes: [
         "La structure en branches de RER. Deux centres distants de quelques kilomètres peuvent être sur deux branches différentes, et donc à des temps de trajet très différents de chez vous. Avant de choisir, repérez sur quelle ligne se trouve chaque centre et si votre trajet passe par Massy ou Juvisy.",
+        "Le plateau de Saclay illustre bien cette difficulté : le RER le longe par la vallée, et l'accès aux campus depuis Massy ou Orsay passe souvent par le bus. Un centre ou un futur employeur situé sur le plateau se juge au temps de trajet réel, pas à la distance affichée.",
       ],
     },
   ],

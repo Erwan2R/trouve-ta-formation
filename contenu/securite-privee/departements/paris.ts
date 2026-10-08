@@ -13,6 +13,7 @@ export const paris: ContenuDepartement = {
       paragraphes: [
         "Les employeurs parisiens de la sécurité se répartissent entre les entreprises de sécurité privée, qui placent leurs agents chez des clients, et les établissements qui gèrent leur propre service. Les postes couvrent l'accueil et le contrôle d'accès des immeubles de bureaux, la surveillance des commerces, la sécurité des événements et le service de sécurité incendie des établissements recevant du public.",
         "Ce dernier service répond à une obligation réglementaire : selon leur catégorie, les établissements recevant du public doivent disposer d'agents qualifiés SSIAP, encadrés par des chefs d'équipe et, dans les plus grands, par un chef de service. À Paris, les deux filières, surveillance avec le TFP APS et incendie avec le SSIAP, se côtoient donc au quotidien.",
+        "Paris a aussi ses immeubles de grande hauteur, du quartier du Front de Seine à la tour Montparnasse, et de grands parcs d'exposition comme Paris Expo Porte de Versailles, dont les salons mobilisent des équipes de contrôle d'accès à chaque ouverture. Les grandes gares, les hôpitaux et les grands magasins complètent l'un des tissus d'établissements recevant du public les plus denses du pays.",
       ],
     },
     {

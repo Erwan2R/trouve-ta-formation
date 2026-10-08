@@ -12,6 +12,7 @@ export const valDOise: ContenuDepartement = {
       paragraphes: [
         "Roissy-Charles de Gaulle s'étend sur trois départements, dont le Val-d'Oise, où résident 16 % de ses 94 600 salariés selon l'Insee (décembre 2025). Les entreprises de sûreté aéroportuaire y recrutent des agents d'exploitation et des opérateurs de sûreté, certifiés par typologie de missions : inspection-filtrage des passagers, des bagages, du fret, contrôle des accès côté piste.",
         "Hors de la zone aéroportuaire, le département offre des postes de surveillance plus classiques, sur des sites d'entreprise, des commerces ou des établissements recevant du public.",
+        "À l'ouest, Cergy-Pontoise, préfecture du département, concentre administrations, campus universitaires et le centre commercial des 3 Fontaines. Argenteuil, la ville la plus peuplée du Val-d'Oise, a ses propres zones commerciales. Ces établissements recrutent pour la surveillance comme pour la sécurité incendie, sans le cadre réglementaire propre à l'aéroport.",
       ],
     },
     {
@@ -25,6 +26,7 @@ export const valDOise: ContenuDepartement = {
       lienTitre: "tfp-asa",
       paragraphes: [
         "La proximité de Roissy rend le TFP ASA cohérent comme projet local, mais il ne se prépare pas comme les autres titres : le projet se construit d'abord avec un employeur de la sûreté aérienne, puis avec un centre. Les conditions d'entrée sont détaillées sur la page du TFP ASA.",
+        "Pour un candidat de l'ouest du département, Roissy reste loin. Le bassin de Cergy-Pontoise mérite donc d'être regardé pour lui-même, avec ses propres employeurs, plutôt que comme une annexe de la plateforme aéroportuaire.",
       ],
     },
   ],
