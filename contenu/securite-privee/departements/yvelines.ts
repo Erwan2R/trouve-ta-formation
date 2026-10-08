@@ -30,6 +30,6 @@ export const yvelines: ContenuDepartement = {
     },
   ],
   acces:
-    "Les Yvelines sont desservies par le RER A (Saint-Germain-en-Laye, Poissy), le RER C (Versailles, Saint-Quentin-en-Yvelines) et des lignes Transilien qui convergent vers Paris et La Défense. Entre deux villes du département, le trajet en transports en commun peut être long : vérifiez-le avant de choisir.",
+    "Les Yvelines sont desservies par le RER A (Saint-Germain-en-Laye, Poissy), le RER C (Versailles, Saint-Quentin-en-Yvelines), les lignes Transilien N (Saint-Quentin-en-Yvelines, Rambouillet) et J (Poissy, Mantes-la-Jolie), et par le tram T13 entre Saint-Germain-en-Laye et Saint-Cyr-l'École. La plupart de ces lignes convergent vers Paris : entre deux villes du département, le trajet en transports en commun peut être long, vérifiez-le avant de choisir.",
   ancreSeFormer: "Se former dans le 78",
 };

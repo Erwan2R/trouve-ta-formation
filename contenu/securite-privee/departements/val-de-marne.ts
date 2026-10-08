@@ -32,6 +32,6 @@ export const valDeMarne: ContenuDepartement = {
     },
   ],
   acces:
-    "Le Val-de-Marne est desservi par les RER A, B, C, D et E et par les lignes de métro 1, 7, 8 et 14, prolongée jusqu'à l'aéroport d'Orly en juin 2024. Ces lignes rejoignent Paris directement ; vérifiez si le centre qui vous intéresse se trouve sur l'une d'elles.",
+    "Le Val-de-Marne est desservi par les RER A, B, C, D et E, les lignes de métro 1, 7, 8 et 14, et les trams T7 (Villejuif–aéroport d'Orly) et T9 (porte de Choisy–Orly-Ville). Depuis juin 2024, la ligne 14 rejoint directement l'aéroport d'Orly. Vérifiez si le centre qui vous intéresse se trouve sur l'une de ces lignes.",
   ancreSeFormer: "Se former dans le 94",
 };

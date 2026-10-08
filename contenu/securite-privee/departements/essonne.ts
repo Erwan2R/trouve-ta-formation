@@ -30,6 +30,6 @@ export const essonne: ContenuDepartement = {
     },
   ],
   acces:
-    "L'Essonne est desservie par les RER B, C et D, avec des correspondances à Massy et Juvisy, et par la ligne 14 jusqu'à l'aéroport d'Orly depuis juin 2024. Hors de ces axes, le bus ou la voiture sont souvent nécessaires.",
+    "L'Essonne est desservie par les RER B, C et D, avec des correspondances à Massy et Juvisy, par le tram T12 entre Massy et Évry-Courcouronnes et, depuis juin 2024, par la ligne 14 jusqu'à l'aéroport d'Orly. Hors de ces axes, le bus ou la voiture sont souvent nécessaires.",
   ancreSeFormer: "Se former dans le 91",
 };
