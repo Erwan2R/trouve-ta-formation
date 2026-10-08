@@ -505,6 +505,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
    - `20261105_departements_bloc7_valide` — validation du bloc 7 des pages départements (aucun coché par défaut).
    Pages départements : en production, publiées si seuil d’organismes atteint ET bloc 7 validé par Erwan
    (Admin → Paramètres → « Pages départements » ; le compteur de mots y est indicatif).
+   Les 8 blocs 7 ont été validés sur dev le 8 octobre 2026 à la demande d’Erwan : les cocher aussi en production.
    Publier les 13 pages titres en production (publiées sur dev le 7 octobre 2026 à la demande d'Erwan) : Admin →
    Référentiel → Modifier → « Publier la page », ou `update titres_referentiel set page_publiee = true where statut = 'actif'`.
    Publier aussi les 3 démarches CNAPS (publiées sur dev le 7 octobre 2026) : `update demarches set page_publiee = true`
