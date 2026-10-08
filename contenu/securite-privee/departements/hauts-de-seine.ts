@@ -11,7 +11,7 @@ export const hautsDeSeine: ContenuDepartement = {
     {
       h3: "Le bassin d'emploi",
       paragraphes: [
-        "Un immeuble de grande hauteur doit disposer d'un service de sécurité incendie permanent. À La Défense, qui compte 75 tours, les postes ne se limitent pas aux agents SSIAP 1 : ces services emploient aussi des chefs d'équipe SSIAP 2, qui dirigent le poste de sécurité, et des chefs de service SSIAP 3, qui conseillent l'exploitant et suivent les contrôles réglementaires.",
+        "Un immeuble de grande hauteur doit disposer d'un service de sécurité incendie permanent. À La Défense, qui compte 75 immeubles de grande hauteur, les postes ne se limitent pas aux agents SSIAP 1 : ces services emploient aussi des chefs d'équipe SSIAP 2, qui dirigent le poste de sécurité, et des chefs de service SSIAP 3, qui conseillent l'exploitant et suivent les contrôles réglementaires.",
         "Les sièges sociaux et les immeubles de bureaux du département emploient aussi des agents d'accueil et de contrôle d'accès, titulaires de la carte de surveillance obtenue avec le TFP APS.",
       ],
     },
