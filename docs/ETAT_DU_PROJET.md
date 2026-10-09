@@ -464,7 +464,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 
 **Fait le 9 octobre 2026** : les 22 migrations du point 6 sont appliquées en production (pg_cron activé, tâche
 `purge-quotidienne` planifiée) ; `preprod` est alignée sur `dev`. Base vidée et contenus publiés (13 titres, 3 démarches, 8 blocs 7) et authentification réglée (point 3) par Erwan le même jour. Restent :
-Compte admin de production créé (contact.trouvetaformation@gmail.com, 2FA à configurer à la première connexion). Restent : le deploy hook, et ce qui dépend de l'immatriculation (points 1, 5, 9).
+Compte admin de production créé (contact.trouvetaformation@gmail.com, 2FA à configurer à la première connexion). Deploy hook `archivage-titre-prod` (main) et `VERCEL_DEPLOY_HOOK_URL` de production créés. Restent : ce qui dépend de l'immatriculation (points 1, 5, 9).
 
 1. **Pages légales** : à finaliser au Sprint 11 avec la **société d'Erwan** (en cours de création). Décision du
    1er octobre 2026 : informations de la société en `[à compléter]` → **le build de production reste bloqué** tant
