@@ -463,7 +463,7 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 À faire **avec l'accord d'Erwan** (production), dans cet ordre :
 
 **Fait le 9 octobre 2026** : les 22 migrations du point 6 sont appliquées en production (pg_cron activé, tâche
-`purge-quotidienne` planifiée) ; `preprod` est alignée sur `dev`. Base vidée et contenus publiés (13 titres, 3 démarches, 8 blocs 7) par Erwan le même jour. Restent : point 3, la
+`purge-quotidienne` planifiée) ; `preprod` est alignée sur `dev`. Base vidée et contenus publiés (13 titres, 3 démarches, 8 blocs 7) et authentification réglée (point 3) par Erwan le même jour. Restent :
 le compte admin, le deploy hook, et ce qui dépend de l'immatriculation (points 1, 5, 9).
 
 1. **Pages légales** : à finaliser au Sprint 11 avec la **société d'Erwan** (en cours de création). Décision du
