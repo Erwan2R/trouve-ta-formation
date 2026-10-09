@@ -462,11 +462,15 @@ Tous les seuils réglables vivent dans la table **`parametres`** (l'admin du Spr
 
 À faire **avec l'accord d'Erwan** (production), dans cet ordre :
 
+**Fait le 9 octobre 2026** : les 22 migrations du point 6 sont appliquées en production (pg_cron activé, tâche
+`purge-quotidienne` planifiée) ; `preprod` est alignée sur `dev`. Restent, en attente d'autorisation : points 2, 3, la
+publication des contenus (point 6), puis le compte admin, et ce qui dépend de l'immatriculation (points 1, 5, 9).
+
 1. **Pages légales** : à finaliser au Sprint 11 avec la **société d'Erwan** (en cours de création). Décision du
    1er octobre 2026 : informations de la société en `[à compléter]` → **le build de production reste bloqué** tant
    qu'elles manquent (`next.config.ts`). Version provisoire actuelle : entreprise individuelle (SIREN 882 911 399,
    Bois-Colombes, sans téléphone ni TVA). Relecture juridique conseillée.
-2. **Vider la base de production** : compte `espace-test@trouve-ta-formation.fr`, 7 organismes `est_test`, contenus
+2. **Vider la base de production** : compte `espace-test@trouve-ta-formation.fr`, 8 organismes `est_test`, contenus
    des tables `liens_email`, `formulaire_statistiques`, `recherches_sans_resultat`. Appliquer d'abord les migrations
    éventuellement créées depuis.
 3. **Réglages d'authentification de production** : `config-auth-supabase.mjs --projet=prod --smtp --emails`
