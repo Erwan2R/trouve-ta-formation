@@ -8,7 +8,7 @@ export const EDITEUR = {
   capital: "1 000",
   rcs: "Versailles",
   siren: "131 300 204",
-  siege: "au 21 rue de la Justice, 78300 Poissy",
+  siege: "à Poissy (Yvelines)",
   directeur: "Erwan de Rotalier, président",
   dateMaj: "12 octobre 2026",
 };
