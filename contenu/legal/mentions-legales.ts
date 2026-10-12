@@ -4,7 +4,7 @@ import { EDITEUR } from "./editeur";
 import type { PageLegale } from "./types";
 
 // Rédaction Claude (audit RGPD du 01/10/2026, accord d'Erwan), relecture juridique conseillée. Informations de la
-// société en cours de création : contenu/legal/editeur.ts.
+// société : contenu/legal/editeur.ts.
 export const MENTIONS_LEGALES: PageLegale = {
   title: "Mentions légales",
   description: "Mentions légales du site Trouve ta formation : éditeur, directeur de la publication, hébergement.",
@@ -15,7 +15,6 @@ export const MENTIONS_LEGALES: PageLegale = {
       h2: "Éditeur du site",
       paragraphes: [
         `Le site trouve-ta-formation.fr est édité par ${EDITEUR.denomination}, ${EDITEUR.forme} au capital de ${EDITEUR.capital} euros, immatriculée au registre du commerce et des sociétés de ${EDITEUR.rcs} sous le numéro ${EDITEUR.siren}, dont le siège est situé ${EDITEUR.siege}.`,
-        `Numéro de TVA intracommunautaire : ${EDITEUR.tva}.`,
         `Contact : ${EMAIL_CONTACT}.`,
       ],
     },
