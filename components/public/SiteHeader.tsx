@@ -4,12 +4,13 @@ import { URL_ESPACE_ORGANISME } from "@/lib/espace";
 import { getDemarches } from "@/lib/supabase/queries/demarches";
 import { getTitresParCategorie } from "@/lib/supabase/queries/referentiel";
 import { Logo } from "./Logo";
-import { MenuMobile } from "./MenuMobile";
+import { MenuDeroulant } from "./MenuDeroulant";
 
 const navLink =
   "whitespace-nowrap rounded-full px-4 py-[9px] text-sm font-medium text-ink-600 transition-colors hover:bg-cream-200 hover:text-ink-900";
 
-// Méga-menu en <details> natif : tous les liens sont dans le HTML serveur, aucun JS (UX accueil §1).
+// Méga-menu en <details> natif : tous les liens sont dans le HTML serveur (UX accueil §1) ; MenuDeroulant ajoute
+// seulement la fermeture au clic en dehors, sur Échap et au changement de page.
 export async function SiteHeader({ verticale }: { verticale: Verticale }) {
   const [groupes, { listeVisible }] = await Promise.all([getTitresParCategorie(), getDemarches(verticale)]);
   const base = `/${verticale.slug}/`;
@@ -29,7 +30,7 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
           aria-label="Navigation principale"
           className="mx-auto hidden items-center gap-1 rounded-full border border-line bg-white p-[5px] xl:flex"
         >
-          <details className="group">
+          <MenuDeroulant className="group">
             <summary className="flex cursor-pointer items-center gap-1.5 rounded-full bg-cream-200 px-4 py-[9px] text-sm font-semibold whitespace-nowrap text-ink-900">
               Les formations <span className="text-[10px] text-ink-400">▾</span>
             </summary>
@@ -57,7 +58,7 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
                 </div>
               ))}
             </div>
-          </details>
+          </MenuDeroulant>
           <Link href={`${base}organismes/`} className={navLink}>
             Organismes
           </Link>
@@ -79,7 +80,7 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
         </a>
 
         {/* Mobile et tablette (< 1280 px) : la barre de navigation ne tient pas, elle passe dans un menu burger. */}
-        <MenuMobile>
+        <MenuDeroulant className="group ml-auto xl:hidden">
           <summary
             aria-label="Menu"
             className="flex size-11 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-full border border-line bg-white [&::-webkit-details-marker]:hidden"
@@ -90,11 +91,20 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
           </summary>
           <nav
             aria-label="Navigation principale (mobile)"
-            className="absolute inset-x-4 top-full z-50 mt-2 flex max-h-[calc(100dvh-96px)] flex-col gap-6 overflow-y-auto rounded-[20px] border border-line bg-white p-6 shadow-menu"
+            className="absolute inset-x-4 top-full z-50 mt-2 flex max-h-[calc(100dvh-96px)] flex-col overflow-y-auto rounded-[20px] border border-line bg-white p-6 shadow-menu"
           >
-            <div className="flex flex-col gap-4">
-              <span className="text-[15px] font-bold text-ink-900">Les formations</span>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-5">
+            {/* Formations repliées par défaut (demande d'Erwan) : liens toujours présents dans le HTML serveur. */}
+            <details className="group/formations border-b border-line">
+              <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-[15px] font-semibold text-ink-900 [&::-webkit-details-marker]:hidden">
+                Les formations
+                <span
+                  aria-hidden="true"
+                  className="text-[11px] text-ink-400 transition-transform group-open/formations:rotate-180"
+                >
+                  ▾
+                </span>
+              </summary>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-5 pt-2 pb-5">
                 {groupes.map((g) => (
                   <div key={g.categorie} className="flex flex-col gap-2">
                     <span className="font-mono text-[10.5px] tracking-[0.14em] text-ink-400 uppercase">
@@ -114,8 +124,8 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="flex flex-col border-t border-line pt-2">
+            </details>
+            <div className="flex flex-col">
               <Link href={`${base}organismes/`} className="py-3 text-[15px] font-semibold text-ink-900">
                 Organismes
               </Link>
@@ -130,12 +140,12 @@ export async function SiteHeader({ verticale }: { verticale: Verticale }) {
             </div>
             <a
               href={`${URL_ESPACE_ORGANISME}/`}
-              className="rounded-full bg-ink-900 px-5 py-3.5 text-center text-sm font-semibold text-white hover:bg-brique-700 hover:text-white"
+              className="mt-4 rounded-full bg-ink-900 px-5 py-3.5 text-center text-sm font-semibold text-white hover:bg-brique-700 hover:text-white"
             >
               Espace organisme
             </a>
           </nav>
-        </MenuMobile>
+        </MenuDeroulant>
       </div>
     </header>
   );
