@@ -5,7 +5,7 @@ import type { ContenuPilier } from "./types";
 // arrêté du 27 février 2017 modifié (art. 7, renouvellement de la carte).
 export const tfpAsa: ContenuPilier = {
   gabarit: "A",
-  titleSeo: "Formation agent de sûreté aéroportuaire (TFP ASA) : programme et organismes",
+  titleSeo: "Formation agent de sûreté aéroportuaire (TFP ASA) : programme",
   definition:
     "Le TFP ASA est le titre d'agent de sûreté aéroportuaire. Il prépare aux contrôles de sûreté des aéroports, comme l'inspection-filtrage des passagers, des bagages, du fret et des véhicules, et à la certification exigée par la réglementation européenne de l'aviation civile.",
   faits: {

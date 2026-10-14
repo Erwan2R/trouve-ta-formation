@@ -37,7 +37,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: absoluteUrl("/securite-privee/referencer-mon-organisme/") },
     ...piliers.map((t) => ({ url: absoluteUrl(`/securite-privee/${t.slug}/`) })),
     ...(listeVisible ? [{ url: absoluteUrl("/securite-privee/demarches/") }] : []),
-    ...publiees.map((d) => ({ url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`) })),
+    // Date de dernière vérification de la procédure : signal de fraîcheur pour les moteurs.
+    ...publiees.map((d) => ({
+      url: absoluteUrl(`/securite-privee/demarches/${d.slug}/`),
+      lastModified: d.verifie_le ?? undefined,
+    })),
     // Pages département : seulement au-dessus du seuil et avec leur contenu (sinon 404).
     ...departements.filter((d) => d.a_une_page).map((d) => ({ url: absoluteUrl(`/securite-privee/${d.slug}/`) })),
     // Catalogue : hors sitemap tant qu'il est vide (noindex).

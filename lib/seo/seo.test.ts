@@ -16,8 +16,12 @@ describe("seo", () => {
     expect(m.robots).toEqual({ index: false, follow: true });
   });
 
-  it("page indexable : pas de directive robots", () => {
-    expect(buildMetadata({ title: "t", description: "d", path: "/" }).robots).toBeUndefined();
+  it("page indexable : index, follow, grande image et extrait complet pour Google", () => {
+    expect(buildMetadata({ title: "t", description: "d", path: "/" }).robots).toEqual({
+      index: true,
+      follow: true,
+      googleBot: { "max-image-preview": "large", "max-snippet": -1 },
+    });
   });
 
   it("fil d'Ariane numéroté à partir de 1 avec URLs absolues", () => {

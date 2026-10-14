@@ -4,7 +4,7 @@ import { conditionsCommunes } from "@/contenu/securite-privee/piliers/communs";
 import { releveDuCnaps } from "@/lib/formulaire/parcours";
 import type { ContenuPilier } from "@/contenu/securite-privee/piliers/types";
 import { Grille } from "@/components/public/catalogue/ListingCatalogue";
-import { JsonLd, faqJsonLd } from "@/lib/seo/json-ld";
+import { JsonLd, courseJsonLd, faqJsonLd } from "@/lib/seo/json-ld";
 import { absoluteUrl } from "@/lib/seo/metadata";
 import type { Organisme } from "@/lib/supabase/queries/organismes";
 import type { Departement, Titre } from "@/lib/supabase/queries/referentiel";
@@ -262,7 +262,17 @@ export function CorpsPilier({
       )}
 
       <div className="flex flex-col gap-[18px]">
-        <JsonLd data={faqJsonLd(contenu.faq)} />
+        <JsonLd
+          data={[
+            faqJsonLd(contenu.faq),
+            courseJsonLd({
+              nom: titre.libelle_long,
+              court,
+              description: titre.accroche ?? titre.libelle_long,
+              path: `${base}${titre.slug}/`,
+            }),
+          ]}
+        />
         <h2 id="faq" className={h2Petit}>
           Questions fréquentes sur le {court}
         </h2>

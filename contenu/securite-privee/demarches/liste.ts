@@ -2,7 +2,7 @@
 export const LISTE_DEMARCHES = {
   title: "Démarches CNAPS : autorisation, carte professionnelle, renouvellement",
   description:
-    "Les trois démarches CNAPS de la sécurité privée expliquées pas à pas : autorisation préalable avant la formation, carte professionnelle, renouvellement. Procédures à jour de Dracar Ultimate.",
+    "Les démarches CNAPS de la sécurité privée pas à pas : autorisation préalable, carte professionnelle, renouvellement. À jour de Dracar Ultimate.",
   h1: "Les démarches CNAPS de la sécurité privée",
   chapo:
     "Exercer un métier de la sécurité privée suppose trois démarches auprès du CNAPS, qui s'enchaînent dans un ordre précis. Elles se déposent toutes sur le même portail, mais elles n'interviennent pas au même moment et n'exigent pas les mêmes pièces.",

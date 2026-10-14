@@ -5,7 +5,7 @@ import type { ContenuPilier } from "./types";
 // arrêté du 27 février 2017 modifié (art. 5, immatriculation des chiens sur la carte).
 export const tfpAsc: ContenuPilier = {
   gabarit: "A",
-  titleSeo: "Formation agent de sécurité cynophile (TFP ASC) : programme et organismes",
+  titleSeo: "Formation agent de sécurité cynophile (TFP ASC) : programme",
   definition:
     "Le TFP ASC est le titre d'agent de sécurité cynophile, le maître-chien de la sécurité privée. Il permet d'exercer la surveillance et le gardiennage avec un chien, une activité qui a sa propre carte professionnelle.",
   faits: {

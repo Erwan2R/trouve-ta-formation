@@ -1,3 +1,5 @@
+import { EDITEUR } from "@/contenu/legal/editeur";
+import { EMAIL_CONTACT } from "@/lib/config/contact";
 import { SITE_NAME, SITE_URL, absoluteUrl } from "./metadata";
 
 type JsonLdObject = { "@type": string; [key: string]: unknown };
@@ -15,8 +17,21 @@ export function JsonLd({ data }: { data: JsonLdObject | JsonLdObject[] }) {
   );
 }
 
+// Identité lue par Google (panneau, logo) et par les LLM : qui édite l'annuaire, comment le joindre.
 export function organizationJsonLd(): JsonLdObject {
-  return { "@type": "Organization", "@id": `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/` };
+  return {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    legalName: EDITEUR.denomination,
+    url: `${SITE_URL}/`,
+    logo: { "@type": "ImageObject", url: absoluteUrl("/icon.png"), width: 512, height: 512 },
+    image: absoluteUrl("/og.png"),
+    description:
+      "Annuaire indépendant des organismes de formation professionnelle, sans commission ni classement payant.",
+    email: EMAIL_CONTACT,
+    address: { "@type": "PostalAddress", addressLocality: "Poissy", addressCountry: "FR" },
+  };
 }
 
 export function websiteJsonLd(): JsonLdObject {
@@ -24,8 +39,24 @@ export function websiteJsonLd(): JsonLdObject {
     "@type": "WebSite",
     "@id": `${SITE_URL}/#website`,
     name: SITE_NAME,
+    // Nom de site affiché par Google au-dessus du résultat.
+    alternateName: "trouve-ta-formation.fr",
     url: `${SITE_URL}/`,
     inLanguage: "fr-FR",
+    publisher: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+/** Page pilier : le titre décrit comme une formation (lu par Bing et les LLM ; plus de résultat enrichi Google). */
+export function courseJsonLd(t: { nom: string; court: string; description: string; path: string }): JsonLdObject {
+  return {
+    "@type": "Course",
+    name: t.nom,
+    alternateName: t.court,
+    description: t.description,
+    url: absoluteUrl(t.path),
+    inLanguage: "fr-FR",
+    educationalCredentialAwarded: t.nom,
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }

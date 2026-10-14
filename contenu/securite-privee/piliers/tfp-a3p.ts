@@ -4,7 +4,7 @@ import type { ContenuPilier } from "./types";
 // (annexes II, XI et XII), fiche France compétences RNCP38002 (qui remplace la fiche RNCP35098, inactive).
 export const tfpA3p: ContenuPilier = {
   gabarit: "A",
-  titleSeo: "Formation agent de protection physique des personnes (TFP A3P) : programme et organismes",
+  titleSeo: "Formation agent de protection physique des personnes (TFP A3P)",
   definition:
     "Le TFP A3P est le titre d'agent de protection physique des personnes, le métier appelé couramment garde du corps ou protection rapprochée. Il permet d'obtenir la carte professionnelle qui autorise à protéger l'intégrité physique d'une personne.",
   faits: {

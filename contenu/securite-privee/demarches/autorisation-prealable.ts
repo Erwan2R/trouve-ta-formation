@@ -6,7 +6,7 @@ export const autorisationPrealable: ContenuDemarche = {
   etape: 1,
   title: "Autorisation préalable CNAPS : conditions, pièces et démarche 2026",
   description:
-    "L'autorisation préalable du CNAPS est obligatoire avant d'entrer en formation à la sécurité privée. Conditions, casier judiciaire, pièces à fournir et dépôt sur Dracar Ultimate.",
+    "L'autorisation préalable du CNAPS, obligatoire avant la formation : conditions, casier judiciaire, pièces à fournir et dépôt sur Dracar Ultimate.",
   h1: "Autorisation préalable du CNAPS : la démarche avant d'entrer en formation",
   definition:
     "L'autorisation préalable est le feu vert du CNAPS pour commencer une formation à la sécurité privée. Sans elle, aucun organisme ne peut vous accueillir en formation, et un centre qui accepterait de le faire vous exposerait à ne jamais obtenir votre carte.",

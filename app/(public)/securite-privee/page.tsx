@@ -22,7 +22,7 @@ const base = `/${verticale.slug}/`;
 export const metadata = buildMetadata({
   title: "Formation sécurité privée en Île-de-France : organismes et titres",
   description:
-    "Tous les organismes de formation à la sécurité privée d'Île-de-France, titre par titre et département par département. TFP APS, SSIAP, cynophile, sûreté aéroportuaire : identifiez la formation qui correspond à votre situation.",
+    "Les organismes de formation à la sécurité privée en Île-de-France, titre par titre : TFP APS, SSIAP, cynophile, sûreté aéroportuaire. Trouvez votre formation.",
   path: base,
   og: {
     title: "Formation sécurité privée en Île-de-France",

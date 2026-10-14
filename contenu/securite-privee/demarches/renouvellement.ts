@@ -7,7 +7,7 @@ export const renouvellement: ContenuDemarche = {
   etape: 4,
   title: "Renouvellement carte professionnelle CNAPS : délais et MAC",
   description:
-    "Renouveler sa carte professionnelle CNAPS : quand déposer sa demande, quel MAC suivre selon ses activités, quelles pièces fournir. Procédure à jour de Dracar Ultimate.",
+    "Renouveler sa carte professionnelle CNAPS : quand déposer la demande, quel MAC suivre, quelles pièces fournir. Procédure à jour de Dracar Ultimate.",
   h1: "Renouveler sa carte professionnelle CNAPS",
   definition:
     "Votre carte professionnelle est valable cinq ans. Son renouvellement suppose d'avoir suivi un stage de maintien et d'actualisation des compétences correspondant à vos activités, et de déposer votre demande dans une fenêtre précise avant l'échéance.",

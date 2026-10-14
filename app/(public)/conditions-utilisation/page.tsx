@@ -1,9 +1,9 @@
 import { PageLegale } from "@/components/public/legal/PageLegale";
 import { CONDITIONS } from "@/contenu/legal/conditions";
-import { buildMetadata } from "@/lib/seo/metadata";
+import { buildMetadata, SITE_NAME } from "@/lib/seo/metadata";
 
 export const metadata = buildMetadata({
-  title: CONDITIONS.title,
+  title: `${CONDITIONS.title} — ${SITE_NAME}`,
   description: CONDITIONS.description,
   path: "/conditions-utilisation/",
 });

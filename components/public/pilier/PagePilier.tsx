@@ -21,6 +21,17 @@ const verticale: Verticale = VERTICALES["securite-privee"];
 const base = `/${verticale.slug}/`;
 
 /** Métadonnées d'une page pilier (Copy piliers §3 : gabarit A mène avec le programme, B avec le calendrier). */
+/**
+ * Description du gabarit A, raccourcie sous les ~155 caractères affichés par Google (audit SEO du 14/10/2026 ; le
+ * gabarit de la copy dépassait 170) : sigle, métier en clair, intentions de recherche. Le libellé long seul répétait
+ * « Titre à finalité professionnelle » ou le sigle avant le métier.
+ */
+export function descriptionGabaritA(titre: Pick<Titre, "libelle_court" | "libelle_long">): string {
+  const metier = titre.libelle_long.replace(/^Titre à finalité professionnelle\s+/i, "").replace(/^.+?\s+—\s+/, "");
+  const nom = metier && metier !== titre.libelle_court ? `${titre.libelle_court} (${metier})` : titre.libelle_court;
+  return `${nom} : programme, durée, prérequis, prix et organismes en Île-de-France.`;
+}
+
 export function metadataPilier(titre: Titre): Metadata {
   const contenu = PILIERS[titre.slug];
   const court = titre.libelle_court;
@@ -28,14 +39,14 @@ export function metadataPilier(titre: Titre): Metadata {
     contenu.gabarit === "A"
       ? {
           title: contenu.titleSeo ?? `Formation ${court} : programme, conditions et organismes`,
-          description: `Le ${titre.libelle_long} : programme, durée, conditions d'accès et financements. Les organismes qui le préparent en Île-de-France.`,
+          description: descriptionGabaritA(titre),
           path: `${base}${titre.slug}/`,
         }
       : {
           title: contenu.titleSeo ?? `${court} : quand le faire, durée et organismes`,
           description: releveDuCnaps(titre.slug)
-            ? `Le ${court} est obligatoire pour renouveler votre carte professionnelle. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`
-            : `Le ${court} est obligatoire tous les trois ans pour continuer d'exercer. Quand le suivre, combien de temps, quels organismes le proposent en Île-de-France.`,
+            ? `Le ${court} est obligatoire pour renouveler votre carte professionnelle : quand le suivre, durée et organismes en Île-de-France.`
+            : `Le ${court} est obligatoire tous les trois ans pour continuer d'exercer : quand le suivre, durée et organismes en Île-de-France.`,
           path: `${base}${titre.slug}/`,
         },
   );
