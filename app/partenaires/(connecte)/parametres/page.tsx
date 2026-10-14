@@ -27,6 +27,7 @@ export default async function PageParametres() {
         reinitialisation={magasin.get("reinitialisation")?.value === "1"}
         infos={{ contact_nom: compte.contact_nom ?? "", contact_telephone: compte.contact_telephone ?? "" }}
         nomOrganisme={organisme.nom}
+        slugFiche={organisme.slug}
         nbFormations={offresActives.length}
       />
     </>

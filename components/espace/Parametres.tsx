@@ -32,6 +32,7 @@ export function Parametres({
   reinitialisation,
   infos,
   nomOrganisme,
+  slugFiche,
   nbFormations,
   actions: a,
 }: {
@@ -40,6 +41,7 @@ export function Parametres({
   reinitialisation: boolean;
   infos: { contact_nom: string; contact_telephone: string };
   nomOrganisme: string;
+  slugFiche: string;
   nbFormations: number;
   actions: Actions;
 }) {
@@ -432,7 +434,7 @@ export function Parametres({
           onClick={() =>
             lancer(
               () => a.supprimerCompte(saisieSuppr),
-              () => window.location.assign("/auth/suppression/"),
+              () => window.location.assign(`/auth/suppression/?fiche=${encodeURIComponent(slugFiche)}`),
               setErreurSuppr,
             )
           }

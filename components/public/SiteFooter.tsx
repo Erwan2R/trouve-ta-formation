@@ -92,12 +92,8 @@ export async function SiteFooter({ verticale }: { verticale: Verticale }) {
           </Colonne>
 
           <Colonne titre="Trouve ta formation">
-            <Link href="/a-propos/" className={lien}>
-              À propos
-            </Link>
-            <Link href="/methode-de-referencement/" className={lien}>
-              Notre méthode de référencement
-            </Link>
+            {/* « À propos » et « Notre méthode de référencement » (copy accueil, pied de page) : liens rétablis quand
+                les pages existeront — sans copy à ce jour, elles renvoyaient en 404 sur tout le site (audit 14/10/2026). */}
             <Link href={`${base}blog/`} className={lien}>
               Blog
             </Link>

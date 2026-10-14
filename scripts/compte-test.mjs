@@ -1,6 +1,14 @@
 // Compte organisme de TEST pour le développement et Playwright (email déjà confirmé, organisme est_test).
-// Usage : node --env-file=.env.local scripts/compte-test.mjs   (idempotent : recrée le compte à neuf)
+// Usage : node scripts/compte-test.mjs   (idempotent : recrée le compte à neuf)
 import { createClient } from "@supabase/supabase-js";
+
+// Base de dev d'abord (une variable déjà lue garde sa valeur), puis .env.local pour le compte. Verrou : jamais la prod.
+for (const fichier of [".env.development.local", ".env.local"])
+  try {
+    process.loadEnvFile(fichier);
+  } catch {}
+if (process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") !== "https://livkbehsovponxhbctac.supabase.co")
+  throw new Error("Refusé : NEXT_PUBLIC_SUPABASE_URL n'est pas la base de dev.");
 
 const email = process.env.E2E_ORGANISME_EMAIL ?? "espace-test@trouve-ta-formation.fr";
 const password = process.env.E2E_ORGANISME_MOT_DE_PASSE;

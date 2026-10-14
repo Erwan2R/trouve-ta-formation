@@ -124,21 +124,25 @@ export function ApercuFicheAnnotee({ annotations, mention }: { annotations: Anno
             const n = i + 1;
             const on = actif === n;
             return (
-              <li
-                key={a.titre}
-                onMouseEnter={() => setActif(n)}
-                onClick={() => setActif(n)}
-                className={`flex cursor-pointer items-start gap-3.5 rounded-2xl px-4 py-3.5 ${on ? "bg-cream-100" : ""}`}
-              >
-                <span
-                  className={`flex size-7 flex-none items-center justify-center rounded-full border border-line-strong font-mono text-xs ${on ? "bg-brique-700 text-white" : "bg-white text-brique-700"}`}
+              <li key={a.titre}>
+                <button
+                  type="button"
+                  aria-pressed={on}
+                  onMouseEnter={() => setActif(n)}
+                  onFocus={() => setActif(n)}
+                  onClick={() => setActif(n)}
+                  className={`flex w-full cursor-pointer items-start gap-3.5 rounded-2xl px-4 py-3.5 text-left ${on ? "bg-cream-100" : ""}`}
                 >
-                  {n}
-                </span>
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-base font-bold">{a.titre}</span>
-                  <span className="text-[14.5px] leading-[1.6] text-ink-500">{a.texte}</span>
-                </span>
+                  <span
+                    className={`flex size-7 flex-none items-center justify-center rounded-full border border-line-strong font-mono text-xs ${on ? "bg-brique-700 text-white" : "bg-white text-brique-700"}`}
+                  >
+                    {n}
+                  </span>
+                  <span className="flex flex-col gap-0.5">
+                    <span className="text-base font-bold">{a.titre}</span>
+                    <span className="text-[14.5px] leading-[1.6] text-ink-500">{a.texte}</span>
+                  </span>
+                </button>
               </li>
             );
           })}

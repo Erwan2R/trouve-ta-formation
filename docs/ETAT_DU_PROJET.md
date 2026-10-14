@@ -95,8 +95,8 @@ npm run db:types        # types depuis le projet lié (prod ; schéma identique 
 npx supabase db push -p <mot de passe prod>                        # migrations → PROD (avec accord)
 npx supabase db push --db-url "postgresql://postgres.livkbehsovponxhbctac:<mdp encodé>@aws-1-eu-west-3.pooler.supabase.com:5432/postgres" --include-all   # → DEV
 node --env-file=… scripts/config-auth-supabase.mjs --projet=dev|prod --smtp --emails   # réglages d'authentification
-node --env-file=… scripts/seed-organismes-test.mjs     # 7 organismes fictifs (est_test)
-node --env-file=… scripts/compte-test.mjs              # compte organisme de test (recréé à neuf)
+node scripts/seed-organismes-test.mjs                  # 7 organismes fictifs (est_test, base de dev seulement)
+node scripts/compte-test.mjs                           # compte organisme de test (recréé à neuf, base de dev seulement)
 node --env-file=.env.local scripts/creer-admin.mjs --projet=dev|prod --email=…   # compte admin unique
 ```
 

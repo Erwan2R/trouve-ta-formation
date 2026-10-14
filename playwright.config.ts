@@ -17,9 +17,12 @@ if (process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") !== BASE_DE_DEV)
 export default defineConfig({
   testDir: "e2e",
   use: { baseURL: "http://localhost:3000" },
+  // Serveur toujours lancé ici, jamais réutilisé : un « npm run start » lancé à la main lit .env.local (base de PROD)
+  // et le verrou ci-dessus ne le verrait pas (incident du 14/10/2026). Lancé d'ici, il hérite des variables de dev.
   webServer: {
     command: "npm run build && npm run start",
     url: "http://localhost:3000",
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
+    timeout: 300_000,
   },
 });

@@ -1,7 +1,15 @@
 // Organismes FICTIFS de développement (est_test = true) : jamais servis en production.
 // Décision Erwan 01/10/2026 : aucune donnée scrapée dans le catalogue ; fiches publiques = inscriptions volontaires.
-// Usage : node --env-file=.env.local scripts/seed-organismes-test.mjs   (idempotent : remplace les organismes de test)
+// Usage : node scripts/seed-organismes-test.mjs   (idempotent : remplace les organismes de test)
 import { createClient } from "@supabase/supabase-js";
+
+// Base de dev uniquement (.env.local seul pointe vers la prod).
+for (const fichier of [".env.development.local", ".env.local"])
+  try {
+    process.loadEnvFile(fichier);
+  } catch {}
+if (process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") !== "https://livkbehsovponxhbctac.supabase.co")
+  throw new Error("Refusé : NEXT_PUBLIC_SUPABASE_URL n'est pas la base de dev.");
 
 const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
   auth: { persistSession: false },
