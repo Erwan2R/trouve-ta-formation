@@ -12,6 +12,9 @@ export function PiedMinimal({ conteneur = "container-public" }: { conteneur?: st
       >
         <span className="flex flex-wrap items-center gap-x-[18px] gap-y-3 text-[13.5px]">
           <Logo height={24} inverse />
+          <Link href="/a-propos/" className="text-on-dark hover:text-white">
+            À propos
+          </Link>
           <Link href="/mentions-legales/" className="text-on-dark hover:text-white">
             {PIED_MINIMAL[0]}
           </Link>

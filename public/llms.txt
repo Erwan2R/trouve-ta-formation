@@ -22,6 +22,11 @@
 
 - `https://partenaires.trouve-ta-formation.fr/` : espace privé où chaque organisme s'inscrit, crée et met à jour sa fiche et ses formations. Non indexé ; une fiche publique n'existe qu'après inscription volontaire de l'organisme.
 
+## À propos
+
+- [À propos](https://trouve-ta-formation.fr/a-propos/) : ce que fait l'annuaire, ses règles d'indépendance (gratuit, sans commission, sans classement payant), la société éditrice.
+- [Notre méthode de référencement](https://trouve-ta-formation.fr/methode-de-referencement/) : qui peut figurer, d'où viennent les informations, classement, signalement.
+
 ## Politique de contenu
 
 - Les fiches sont créées et mises à jour par les organismes eux-mêmes, sur déclaration. L'éditeur ne vérifie pas les agréments : le numéro d'agrément CNAPS déclaré est affiché sur la fiche, à vérifier sur l'espace de consultation du CNAPS.

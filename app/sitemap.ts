@@ -33,6 +33,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           url: absoluteUrl(p),
         }))
       : []),
+    // Qui édite l'annuaire et comment il référence : pages de confiance (moteurs et LLM).
+    { url: absoluteUrl("/a-propos/") },
+    { url: absoluteUrl("/methode-de-referencement/") },
     // Landing organismes : indexable, dans le sitemap (décision Erwan 30/09/2026).
     { url: absoluteUrl("/securite-privee/referencer-mon-organisme/") },
     ...piliers.map((t) => ({ url: absoluteUrl(`/securite-privee/${t.slug}/`) })),

@@ -78,6 +78,25 @@ export function PageLegale({ contenu: c, chemin }: { contenu: Contenu; chemin: s
                   </table>
                 </div>
               )}
+              {s.liens && (
+                <ul className="flex flex-col gap-2 text-base leading-[1.7]">
+                  {s.liens.map((l) =>
+                    l.href.startsWith("/") ? (
+                      <li key={l.href}>
+                        <Link href={l.href} className="font-semibold text-brique-700">
+                          {l.texte} <span aria-hidden="true">→</span>
+                        </Link>
+                      </li>
+                    ) : (
+                      <li key={l.href}>
+                        <a href={l.href} target="_blank" rel="noopener" className="font-semibold text-brique-700">
+                          {l.texte} <span aria-hidden="true">↗</span>
+                        </a>
+                      </li>
+                    ),
+                  )}
+                </ul>
+              )}
               {s.preferences && <BoutonPreferences />}
             </section>
           ))}

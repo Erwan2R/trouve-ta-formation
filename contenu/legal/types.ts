@@ -6,6 +6,8 @@ export type SectionLegale = {
   puces?: string[];
   /** Tableau affiché après les paragraphes (inventaire des cookies, durées de conservation). */
   tableau?: { entetes: string[]; lignes: string[][] };
+  /** Liens affichés en fin de section (pages internes, sources officielles). */
+  liens?: { texte: string; href: string }[];
   /** Bouton « Modifier mes choix » (page Cookies). */
   preferences?: boolean;
 };
