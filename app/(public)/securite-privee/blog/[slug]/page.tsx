@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CarteArticle, minutesDeLecture } from "@/components/public/blog/CarteArticle";
@@ -134,6 +135,25 @@ export default async function PageArticle({ params }: Props) {
               </p>
             )}
           </div>
+          {/* Couverture : premier écran, chargée en priorité (LCP) ; cadre 16:9 réservé (pas de décalage de mise en page). */}
+          {a.couverture_url && (
+            <figure className="mt-4 flex max-w-[700px] flex-col gap-2.5">
+              <Image
+                src={a.couverture_url}
+                alt={a.couverture_alt ?? ""}
+                width={1600}
+                height={900}
+                priority
+                sizes="(min-width: 900px) 700px, 100vw"
+                className="aspect-[16/9] h-auto w-full rounded-[22px] border border-line object-cover"
+              />
+              {a.couverture_legende && (
+                <figcaption className="text-[13.5px] leading-[1.55] text-ink-400">
+                  {fr(a.couverture_legende)}
+                </figcaption>
+              )}
+            </figure>
+          )}
         </div>
       </section>
 
