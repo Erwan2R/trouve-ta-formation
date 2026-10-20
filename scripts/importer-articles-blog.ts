@@ -150,16 +150,18 @@ async function main() {
     });
     if (error) throw error;
   }
-  // « À lire aussi » : résolu une fois tous les articles présents.
+  // « À lire aussi » : résolu une fois tous les articles présents. Mis à jour aussi pour les articles jamais
+  // publiés (brouillons importés), afin qu'ils recommandent les nouveaux ; un article déjà paru n'est jamais touché.
   const { data: ids } = await db
     .from("articles_blog")
-    .select("id, slug")
+    .select("id, slug, publie_le")
     .in(
       "slug",
       ARTICLES.map((a) => a.slug),
     );
   const id = new Map(ids?.map((x) => [x.slug, x.id]));
-  for (const a of ARTICLES.filter((x) => !deja.has(x.slug)))
+  const jamaisParus = new Set(ids?.filter((x) => !x.publie_le).map((x) => x.slug));
+  for (const a of ARTICLES.filter((x) => !deja.has(x.slug) || jamaisParus.has(x.slug)))
     await db
       .from("articles_blog")
       .update({ lies: a.lies.map((s) => id.get(s)).filter((x): x is string => !!x) })

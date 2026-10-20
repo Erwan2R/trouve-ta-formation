@@ -87,9 +87,9 @@ export const ARTICLES: ArticleSource[] = [
       cible: "/securite-privee/ssiap-1/",
     },
     lies: [
+      "formation-ssiap-1-gratuite-financement",
       "agent-securite-incendie-missions-quotidien",
       "qcm-ssiap-2-3-questions-corrigees",
-      "ssiap-definition-niveaux",
     ],
   },
   {
@@ -180,7 +180,11 @@ export const ARTICLES: ArticleSource[] = [
       lien: "Consulter la formation SSIAP 1",
       cible: "/securite-privee/ssiap-1/",
     },
-    lies: ["qcm-ssiap-1-gratuit-correction", "ssiap-definition-niveaux", "qcm-ssiap-2-3-questions-corrigees"],
+    lies: [
+      "securite-incendie-prevention-metiers",
+      "formation-ssiap-1-gratuite-financement",
+      "qcm-ssiap-1-gratuit-correction",
+    ],
   },
   {
     slug: "formation-securite-privee-distance",
@@ -217,8 +221,8 @@ export const ARTICLES: ArticleSource[] = [
     },
     lies: [
       "garde-du-corps-metier-missions-protection-rapprochee",
+      "formation-ssiap-1-gratuite-financement",
       "agent-securite-incendie-missions-quotidien",
-      "qcm-ssiap-1-gratuit-correction",
     ],
   },
   {
@@ -254,9 +258,87 @@ export const ARTICLES: ArticleSource[] = [
       cible: "/securite-privee/ssiap-1/",
     },
     lies: [
+      "securite-incendie-prevention-metiers",
       "agent-securite-incendie-missions-quotidien",
       "qcm-ssiap-1-gratuit-correction",
-      "qcm-ssiap-2-3-questions-corrigees",
+    ],
+  },
+  {
+    slug: "formation-ssiap-1-gratuite-financement",
+    titre: "Formation SSIAP 1 gratuite : CPF, France Travail et autres financements",
+    titre_seo: "Formation SSIAP 1 gratuite : CPF, France Travail et aides",
+    meta_description:
+      "CPF, France Travail, aides régionales : comment financer une formation SSIAP 1 et vérifier si une prise en charge totale est possible avant de s’inscrire.",
+    extrait:
+      "CPF, France Travail, Région : les financements possibles et les démarches à effectuer avant de vous inscrire à une formation SSIAP 1.",
+    categorie: "se-former",
+    verifie_le: "2026-10-20",
+    couverture: {
+      fichier: "Gemini_Generated_Image_3zdz2w3zdz2w3zdz.jpg",
+      nom: "formation-ssiap-1-gratuite-financement",
+      alt: "Poste de sécurité incendie avec centrale de détection, écrans de contrôle et plan d’évacuation",
+    },
+    essentiel: [
+      "Une prise en charge intégrale est possible, mais dépend de votre situation, du projet professionnel et des places financées disponibles.",
+      "France Travail peut financer une formation via une place collective ou étudier une aide individuelle, parfois en complément du CPF.",
+      "Depuis le 1er avril 2026, un achat CPF entraîne en général une participation de 150 €, dont les demandeurs d’emploi sont exonérés.",
+      "Au 20 octobre 2026, la fiche SSIAP 1 RS5641 de France compétences affiche une échéance au 31 décembre 2026 : vérifiez l’éligibilité de l’offre à l’inscription.",
+    ],
+    a_retenir: [
+      "Une formation gratuite existe surtout lorsqu’une place ou une aide couvre l’ensemble des frais pédagogiques : confirmez le financement pour la session visée.",
+      "Le CPF, l’AIF, les places PRF/AFC et les aides régionales ou professionnelles ont des règles différentes et peuvent parfois se compléter après accord.",
+      "Avant l’inscription, faites confirmer par écrit le financeur, le reste à charge et les éventuels frais annexes.",
+    ],
+    accroche: {
+      question: "Vous avez identifié le financement ?",
+      phrase:
+        "Repérez maintenant une session adaptée : la page SSIAP 1 présente la formation et les organismes qui la proposent en Île-de-France.",
+      lien: "Voir la formation SSIAP 1",
+      cible: "/securite-privee/ssiap-1/",
+    },
+    lies: [
+      "qcm-ssiap-1-gratuit-correction",
+      "agent-securite-incendie-missions-quotidien",
+      "securite-incendie-prevention-metiers",
+    ],
+  },
+  {
+    slug: "securite-incendie-prevention-metiers",
+    titre: "Sécurité incendie : définition, prévention et métiers du secteur",
+    titre_seo: "Sécurité incendie : définition, prévention et métiers",
+    meta_description:
+      "Définition de la sécurité incendie, prévention des risques, protection des bâtiments et métiers du secteur : repères pratiques et sources officielles.",
+    extrait:
+      "Prévention, équipements, évacuation et métiers : les repères essentiels pour comprendre la sécurité incendie dans les bâtiments.",
+    categorie: "le-metier",
+    verifie_le: "2026-10-20",
+    couverture: {
+      fichier: "Gemini_Generated_Image_ddhb8xddhb8xddhb.jpg",
+      nom: "securite-incendie-definition-prevention",
+      alt: "Couloir d’un bâtiment équipé d’une centrale de détection incendie, d’un déclencheur manuel, d’un plan d’évacuation et d’une issue de secours",
+    },
+    essentiel: [
+      "La sécurité incendie réunit les mesures qui évitent un départ de feu, en limitent les effets et organisent la mise en sécurité des personnes.",
+      "La prévention agit avant l’incendie ; la protection et les moyens d’intervention réduisent les conséquences si un feu se déclare.",
+      "La responsabilité est partagée entre l’employeur ou l’exploitant, les personnes formées, les professionnels spécialisés et les services de secours.",
+      "Les règles applicables dépendent notamment de l’usage du bâtiment, de ses risques et de son classement réglementaire.",
+    ],
+    a_retenir: [
+      "La prévention incendie commence par l’identification des combustibles, des sources d’inflammation et des situations à risque propres au site.",
+      "La protection incendie repose sur des équipements adaptés, des contrôles réguliers, des consignes comprises et des cheminements d’évacuation accessibles.",
+      "Le service de sécurité incendie s’inscrit dans une organisation collective ; son rôle ne dispense pas l’employeur ou l’exploitant de ses responsabilités.",
+    ],
+    accroche: {
+      question: "Vous souhaitez travailler dans la sécurité incendie ?",
+      phrase:
+        "Le métier d’agent de service de sécurité incendie est une porte d’entrée du secteur. La page SSIAP 1 présente le parcours de formation correspondant.",
+      lien: "Voir la formation SSIAP 1",
+      cible: "/securite-privee/ssiap-1/",
+    },
+    lies: [
+      "agent-securite-incendie-missions-quotidien",
+      "ssiap-definition-niveaux",
+      "formation-ssiap-1-gratuite-financement",
     ],
   },
 ];
