@@ -4,6 +4,15 @@ import type { Database } from "@/lib/supabase/types";
 import { lireSessionAdmin, redirectionAdmin } from "@/lib/admin-acces";
 import { estHoteAdmin, estHoteEspace, PAGES_PUBLIQUES_ESPACE, PREFIXE_ADMIN, PREFIXE_ESPACE } from "@/lib/espace";
 
+// Projet en pause (décision Erwan 05/11/2026) : en production, tout répond 410 sauf l'admin, pour vider l'index des
+// moteurs. robots.txt reste ouvert : un robot bloqué ne verrait jamais le 410. Pour rouvrir : annuler ce commit.
+const SITE_EN_PAUSE = process.env.VERCEL_ENV === "production";
+// Vérification de propriété Bing et IndexNow, nécessaires pour demander le retrait des pages.
+const OUVERTS_EN_PAUSE = ["/robots.txt", "/BingSiteAuth.xml", "/48837719b6c399f80f9e23f6d7ce2964.txt"];
+const PAGE_PAUSE = `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="robots" content="noindex, nofollow, noarchive"><title>Site indisponible</title><p>Ce site est actuellement indisponible.</p></html>`;
+// Fichiers et images optimisées : ils ne dépendent pas de l'hôte.
+const FICHIER = /^\/(?:_next\/image|favicon\.ico)|\.(?:png|jpg|jpeg|webp|svg|ico|txt|xml)$/;
+
 /**
  * Sous-domaines partenaires. et admin. → pages de app/partenaires/ et app/admin/, avec rafraîchissement de la
  * session Supabase et accès réservé. Sur le site public, /partenaires/ et /admin/ n'existent pas.
@@ -12,6 +21,16 @@ export async function middleware(requete: NextRequest) {
   const { pathname } = requete.nextUrl;
   const hote = requete.headers.get("host");
   const admin = estHoteAdmin(hote);
+  if (SITE_EN_PAUSE && !admin && !OUVERTS_EN_PAUSE.includes(pathname))
+    return new NextResponse(PAGE_PAUSE, {
+      status: 410,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Robots-Tag": "noindex, nofollow, noarchive",
+      },
+    });
+  if (FICHIER.test(pathname)) return NextResponse.next();
   if (!admin && !estHoteEspace(hote)) {
     if ([PREFIXE_ESPACE, PREFIXE_ADMIN].some((p) => pathname === p || pathname.startsWith(`${p}/`)))
       return NextResponse.rewrite(new URL("/introuvable/", requete.url));
@@ -86,6 +105,6 @@ async function resoudreArticle(slug: string, requete: NextRequest): Promise<Next
 }
 
 export const config = {
-  // Ni les fichiers statiques ni les images optimisées : ils ne dépendent pas de l'hôte.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|svg|ico|txt|xml)$).*)"],
+  // Tout sauf les fichiers de build : la pause doit aussi couvrir le sitemap, llms.txt et les images.
+  matcher: ["/((?!_next/static).*)"],
 };
